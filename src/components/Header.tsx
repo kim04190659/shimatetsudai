@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PARTNER_NAME } from "@/lib/partner";
 
 const navItems = [
   { href: "/", label: "ホーム" },
@@ -15,7 +16,7 @@ export default function Header() {
           <span className="text-xl sm:text-2xl">🌾</span>
           <span className="leading-tight">
             <span className="block text-[10px] font-semibold text-accent-green sm:text-xs">
-              離島経済新聞社
+              {PARTNER_NAME}
             </span>
             <span className="block whitespace-nowrap text-sm font-bold tracking-wide text-brand-dark sm:text-lg">
               しまてつだい分室

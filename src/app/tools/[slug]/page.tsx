@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { tools, getToolBySlug } from "@/lib/tools";
+import { PARTNER_NAME } from "@/lib/partner";
 
 export function generateStaticParams() {
   return tools.map((tool) => ({ slug: tool.slug }));
@@ -12,7 +13,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { slug } = await props.params;
   const tool = getToolBySlug(slug);
-  return { title: tool ? `${tool.name} | 離島経済新聞社 しまてつだい分室` : "ツール" };
+  return { title: tool ? `${tool.name} | ${PARTNER_NAME} しまてつだい分室` : "ツール" };
 }
 
 export default async function ToolDetailPage(props: PageProps<"/tools/[slug]">) {

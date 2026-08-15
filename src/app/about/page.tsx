@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PARTNER_NAME } from "@/lib/partner";
 
 export const metadata: Metadata = {
-  title: "会社概要 | 離島経済新聞社 しまてつだい分室",
+  title: `会社概要 | ${PARTNER_NAME} しまてつだい分室`,
 };
 
 const facts: { label: string; value: string }[] = [
-  { label: "名称", value: "離島経済新聞社 しまてつだい分室(仮)" },
-  { label: "運営", value: "離島経済新聞社" },
-  { label: "位置づけ", value: "離島経済新聞社の分室" },
+  { label: "名称", value: `${PARTNER_NAME} しまてつだい分室(仮)` },
+  { label: "運営", value: PARTNER_NAME },
+  { label: "位置づけ", value: `${PARTNER_NAME}の分室` },
   { label: "活動内容", value: "支援ツール・意思決定支援ツール・教育向けカードゲームの企画開発" },
   { label: "メンバー", value: "20代〜40代の女性を中心となって活動" },
   { label: "働き方", value: "自治体ごとの拠点スタッフを中心に、リモートワークで活動" },
@@ -22,7 +23,7 @@ export default function AboutPage() {
       <p className="text-sm font-semibold text-brand-dark">ABOUT US</p>
       <h1 className="mt-2 text-3xl font-bold text-foreground">会社概要</h1>
       <p className="mt-6 leading-relaxed text-foreground/80">
-        「しまてつだい分室」は、離島経済新聞社の分室として、地域に寄り添うツールを開発しています。
+        「しまてつだい分室」は、{PARTNER_NAME}の分室として、地域に寄り添うツールを開発しています。
         20代から40代の女性が中心となって活動し、それぞれの視点を活かしながら、
         「聞こえにくさ」「意思決定」「学び」という3つのテーマでツールを届けています。
       </p>

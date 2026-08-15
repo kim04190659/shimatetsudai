@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { tools } from "@/lib/tools";
 import ToolCard from "@/components/ToolCard";
+import { PARTNER_NAME } from "@/lib/partner";
 
 export const metadata: Metadata = {
-  title: "事業紹介 | 離島経済新聞社 しまてつだい分室",
+  title: `事業紹介 | ${PARTNER_NAME} しまてつだい分室`,
 };
 
 export default function ToolsPage() {

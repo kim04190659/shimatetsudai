@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { tools } from "@/lib/tools";
 import ToolCard from "@/components/ToolCard";
+import { PARTNER_NAME } from "@/lib/partner";
 
 export default function Home() {
   return (
@@ -9,7 +10,7 @@ export default function Home() {
       <section className="bg-gradient-to-b from-brand-soft/70 to-background">
         <div className="mx-auto max-w-5xl px-5 py-16 text-center sm:py-24">
           <p className="text-sm font-semibold tracking-wide text-brand-dark">
-            離島経済新聞社 しまてつだい分室
+            {PARTNER_NAME} しまてつだい分室
           </p>
           <h1 className="mt-4 text-3xl font-bold leading-snug text-foreground sm:text-4xl">
             島の暮らしと、人と人との
@@ -17,7 +18,7 @@ export default function Home() {
             「あいだ」を、そっとてつだう。
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-foreground/80">
-            しまてつだい分室は、離島経済新聞社の分室として、20〜40代の女性が中心となって活動しています。
+            しまてつだい分室は、{PARTNER_NAME}の分室として、20〜40代の女性が中心となって活動しています。
             聞こえにくさを支えるツール、地域の意思決定を支えるツール、学びを支えるツールを通じて、
             離島や地方の暮らしにそっと寄り添っています。
           </p>
@@ -125,7 +126,7 @@ export default function Home() {
         <div className="mx-auto max-w-3xl px-5 py-16 text-center">
           <h2 className="text-2xl font-bold text-foreground">わたしたちについて</h2>
           <p className="mt-4 leading-relaxed text-foreground/80">
-            しまてつだい分室は、離島経済新聞社の分室として、20代から40代の女性が中心となって活動しています。
+            しまてつだい分室は、{PARTNER_NAME}の分室として、20代から40代の女性が中心となって活動しています。
             島や地方に暮らす方々の声に耳を傾け、日々の生活や地域の意思決定、教育の現場に、
             小さくても確かな「てつだい」を届けることを大切にしています。
           </p>

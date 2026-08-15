@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { PARTNER_NAME } from "@/lib/partner";
 
 export const metadata: Metadata = {
-  title: "お問い合わせ | 離島経済新聞社 しまてつだい分室",
+  title: `お問い合わせ | ${PARTNER_NAME} しまてつだい分室`,
 };
 
 export default function ContactPage() {
