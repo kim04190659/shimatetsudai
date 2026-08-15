@@ -1,3 +1,20 @@
+export type ProcessStep = {
+  icon: string;
+  title: string;
+  description: string;
+};
+
+export type CaseStudyStep = {
+  title: string;
+  description: string;
+};
+
+export type CaseStudy = {
+  place: string;
+  intro: string;
+  steps: CaseStudyStep[];
+};
+
 export type Tool = {
   slug: string;
   name: string;
@@ -9,6 +26,10 @@ export type Tool = {
   /** 現行版が別ドメインで先行稼働している場合の外部リンク(例: てつだって) */
   externalUrl?: string;
   externalLabel?: string;
+  /** AIと一緒に進める、循環型のサイクル(意思決定支援など) */
+  process?: ProcessStep[];
+  /** 具体的な自治体・地域での実例 */
+  caseStudy?: CaseStudy;
 };
 
 export const tools: Tool[] = [
@@ -41,6 +62,68 @@ export const tools: Tool[] = [
       "論点や賛成・反対の立場を整理し、対立点を見える化",
       "会議にそのまま持ち込める「A3意思決定支援シート」にまとめる",
     ],
+    process: [
+      {
+        icon: "🎯",
+        title: "ゴールを決める",
+        description:
+          "議論したいテーマについて、関係者と一緒に「何を目指すのか」というゴールを言葉にします。",
+      },
+      {
+        icon: "🧭",
+        title: "ステークホルダーを整理する",
+        description:
+          "テーマに関わる人たちを洗い出し、賛成・反対・保留といった立場や意見のズレをAIと一緒に整理します。",
+      },
+      {
+        icon: "📊",
+        title: "データを整える",
+        description:
+          "議論に必要な統計データや現地取材で集めた声を、AIと一緒に集めて整理します。",
+      },
+      {
+        icon: "📄",
+        title: "議論用ペーパーを作る",
+        description:
+          "ここまでの内容をもとに、会議にそのまま持ち込める意思決定議論用ペーパー(HTML)をAIが作成します。",
+      },
+      {
+        icon: "🔁",
+        title: "議論して、また整える",
+        description:
+          "実際の議論に参加し、出てきた意見や新しいデータをその場で追加。ペーパーもすぐに更新され、次の議論に活かされます。",
+      },
+    ],
+    caseStudy: {
+      place: "屋久島町",
+      intro:
+        "離島経済新聞社の現地取材・ヒアリングと、データ分析基盤を組み合わせ、屋久島町で実証を進めています。",
+      steps: [
+        {
+          title: "ゴール",
+          description: "「地域経済の発展」を、町の関係者と一緒に設定",
+        },
+        {
+          title: "ステークホルダー",
+          description:
+            "町の担当者・議員・住民・事業者など、それぞれの立場や意見を整理",
+        },
+        {
+          title: "データ",
+          description: "人口推計や現地ヒアリングで集めた住民の声を収集・整理",
+        },
+        {
+          title: "議論用ペーパー",
+          description:
+            "論点や推奨アクションをまとめた「A3意思決定支援シート」を作成",
+        },
+        {
+          title: "議論",
+          description:
+            "会議で出た意見をその場でシートに反映し、次の議論につなげる",
+        },
+      ],
+    },
   },
   {
     slug: "cardgame",
