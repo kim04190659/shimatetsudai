@@ -13,6 +13,9 @@ export type CaseStudy = {
   place: string;
   intro: string;
   steps: CaseStudyStep[];
+  /** 実際の成果物(A3意思決定支援シートなど)を埋め込み表示するための、publicディレクトリ配下のパス */
+  embedUrl?: string;
+  embedLabel?: string;
 };
 
 export type Tool = {
@@ -123,6 +126,8 @@ export const tools: Tool[] = [
             "会議で出た意見をその場でシートに反映し、次の議論につなげる",
         },
       ],
+      embedUrl: "/case-studies/yakushima-a3.html",
+      embedLabel: "屋久島町 意思決定支援シート(実物)",
     },
   },
   {

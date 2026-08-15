@@ -94,6 +94,33 @@ export default async function ToolDetailPage(props: PageProps<"/tools/[slug]">) 
               </div>
             ))}
           </div>
+
+          {tool.caseStudy.embedUrl && (
+            <div className="mt-6">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-sm font-semibold text-foreground">{tool.caseStudy.embedLabel ?? "実際の成果物"}</p>
+                <a
+                  href={tool.caseStudy.embedUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 text-xs font-semibold text-brand-dark hover:underline"
+                >
+                  新しいタブで全画面表示 ↗
+                </a>
+              </div>
+              <div className="mt-3 overflow-hidden rounded-xl border border-brand-soft bg-white shadow-sm">
+                <iframe
+                  src={tool.caseStudy.embedUrl}
+                  title={tool.caseStudy.embedLabel ?? "実際の成果物"}
+                  loading="lazy"
+                  className="h-[640px] w-full"
+                />
+              </div>
+              <p className="mt-2 text-xs text-foreground/50">
+                実際に会議で使われている意思決定支援シートです。タブを切り替えて中身を確認できます。
+              </p>
+            </div>
+          )}
         </div>
       )}
 
