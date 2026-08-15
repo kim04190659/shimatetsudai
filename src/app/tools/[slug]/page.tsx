@@ -140,6 +140,17 @@ export default async function ToolDetailPage(props: PageProps<"/tools/[slug]">) 
             {tool.externalLabel ?? "アプリを使ってみる"}
           </a>
         )}
+        {tool.additionalLinks?.map((link) => (
+          <a
+            key={link.url}
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center rounded-full border border-brand bg-white px-6 py-3 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40"
+          >
+            {link.label}
+          </a>
+        ))}
         <Link
           href="/contact"
           className="inline-flex items-center rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark"
