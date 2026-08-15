@@ -81,47 +81,44 @@ export default async function ToolDetailPage(props: PageProps<"/tools/[slug]">) 
         </div>
       )}
 
-      {tool.caseStudy && (
-        <div className="mt-10 rounded-2xl border border-brand-soft bg-card p-6">
-          <h2 className="text-lg font-bold text-foreground">
-            実例:{tool.caseStudy.place}
-          </h2>
-          <p className="mt-2 text-sm leading-relaxed text-foreground/70">{tool.caseStudy.intro}</p>
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            {tool.caseStudy.steps.map((step, index) => (
-              <div key={step.title} className="rounded-xl bg-brand-soft/30 p-4">
-                <p className="text-xs font-semibold text-accent-green">STEP {index + 1}・{step.title}</p>
-                <p className="mt-1 text-sm leading-relaxed text-foreground/80">{step.description}</p>
+      {tool.caseStudies && tool.caseStudies.length > 0 && (
+        <div className="mt-10">
+          <h2 className="text-lg font-bold text-foreground">実例</h2>
+          <div className={`mt-4 grid gap-5 ${tool.caseStudies.length > 1 ? "sm:grid-cols-2" : ""}`}>
+            {tool.caseStudies.map((caseStudy) => (
+              <div
+                key={caseStudy.place}
+                className="flex flex-col rounded-2xl border border-brand-soft bg-card p-6"
+              >
+                <h3 className="text-base font-bold text-foreground">{caseStudy.place}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/70">{caseStudy.intro}</p>
+                <div className="mt-4 grid gap-2">
+                  {caseStudy.steps.map((step, index) => (
+                    <div key={step.title} className="rounded-xl bg-brand-soft/30 p-3">
+                      <p className="text-xs font-semibold text-accent-green">
+                        STEP {index + 1}・{step.title}
+                      </p>
+                      <p className="mt-1 text-sm leading-relaxed text-foreground/80">
+                        {step.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                {caseStudy.embedUrl && (
+                  // 実際のページ(HTML)は別タブで開く。ページ内には埋め込まない。
+                  <a
+                    href={caseStudy.embedUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-5 inline-flex items-center justify-center gap-1 rounded-full border border-brand bg-white px-5 py-3 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40"
+                  >
+                    {caseStudy.embedLabel ?? `${caseStudy.place}の事例をみる`} ↗
+                  </a>
+                )}
               </div>
             ))}
           </div>
-
-          {tool.caseStudy.embedUrl && (
-            <div className="mt-6">
-              <div className="flex items-center justify-between gap-3">
-                <p className="text-sm font-semibold text-foreground">{tool.caseStudy.embedLabel ?? "実際の成果物"}</p>
-                <a
-                  href={tool.caseStudy.embedUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="shrink-0 text-xs font-semibold text-brand-dark hover:underline"
-                >
-                  新しいタブで全画面表示 ↗
-                </a>
-              </div>
-              <div className="mt-3 overflow-hidden rounded-xl border border-brand-soft bg-white shadow-sm">
-                <iframe
-                  src={tool.caseStudy.embedUrl}
-                  title={tool.caseStudy.embedLabel ?? "実際の成果物"}
-                  loading="lazy"
-                  className="h-[640px] w-full"
-                />
-              </div>
-              <p className="mt-2 text-xs text-foreground/50">
-                実際に会議で使われている意思決定支援シートです。タブを切り替えて中身を確認できます。
-              </p>
-            </div>
-          )}
         </div>
       )}
 

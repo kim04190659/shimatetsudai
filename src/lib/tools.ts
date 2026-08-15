@@ -15,7 +15,7 @@ export type CaseStudy = {
   place: string;
   intro: string;
   steps: CaseStudyStep[];
-  /** 実際の成果物(A3意思決定支援シートなど)を埋め込み表示するための、publicディレクトリ配下のパス */
+  /** 実際の成果物(A3意思決定支援シートなど)。押すとpublicディレクトリ配下のページが別タブで開く */
   embedUrl?: string;
   embedLabel?: string;
 };
@@ -35,8 +35,8 @@ export type Tool = {
   additionalLinks?: { url: string; label: string }[];
   /** AIと一緒に進める、循環型のサイクル(意思決定支援など) */
   process?: ProcessStep[];
-  /** 具体的な自治体・地域での実例 */
-  caseStudy?: CaseStudy;
+  /** 具体的な自治体・地域での実例(複数可。2件以上あるときは横に並べて表示) */
+  caseStudies?: CaseStudy[];
 };
 
 export const tools: Tool[] = [
@@ -106,38 +106,69 @@ export const tools: Tool[] = [
           "実際の議論に参加し、出てきた意見や新しいデータをその場で追加。ペーパーもすぐに更新され、次の議論に活かされます。",
       },
     ],
-    caseStudy: {
-      place: "屋久島町",
-      intro:
-        `${PARTNER_NAME}の現地取材・ヒアリングと、データ分析基盤を組み合わせ、屋久島町で実証を進めています。`,
-      steps: [
-        {
-          title: "ゴール",
-          description: "「地域経済の発展」を、町の関係者と一緒に設定",
-        },
-        {
-          title: "ステークホルダー",
-          description:
-            "町の担当者・議員・住民・事業者など、それぞれの立場や意見を整理",
-        },
-        {
-          title: "データ",
-          description: "人口推計や現地ヒアリングで集めた住民の声を収集・整理",
-        },
-        {
-          title: "議論用ペーパー",
-          description:
-            "論点や推奨アクションをまとめた「A3意思決定支援シート」を作成",
-        },
-        {
-          title: "議論",
-          description:
-            "会議で出た意見をその場でシートに反映し、次の議論につなげる",
-        },
-      ],
-      embedUrl: "/case-studies/yakushima-a3.html",
-      embedLabel: "屋久島町 意思決定支援シート(実物)",
-    },
+    caseStudies: [
+      {
+        place: "屋久島町(空港滑走路延伸)",
+        intro:
+          `${PARTNER_NAME}の現地取材・ヒアリングと、データ分析基盤を組み合わせ、屋久島町で実証を進めています。`,
+        steps: [
+          {
+            title: "ゴール",
+            description: "「地域経済の発展」を、町の関係者と一緒に設定",
+          },
+          {
+            title: "ステークホルダー",
+            description:
+              "町の担当者・議員・住民・事業者など、それぞれの立場や意見を整理",
+          },
+          {
+            title: "データ",
+            description: "人口推計や現地ヒアリングで集めた住民の声を収集・整理",
+          },
+          {
+            title: "議論用ペーパー",
+            description:
+              "論点や推奨アクションをまとめた「A3意思決定支援シート」を作成",
+          },
+          {
+            title: "議論",
+            description:
+              "会議で出た意見をその場でシートに反映し、次の議論につなげる",
+          },
+        ],
+        embedUrl: "/case-studies/yakushima-a3.html",
+        embedLabel: "屋久島町(空港滑走路延伸)の事例をみる",
+      },
+      {
+        place: "屋久島町(航路の持続可能性)",
+        intro:
+          "屋久島航路の維持を巡る意思決定支援のダッシュボード事例です。経営指標・住民意見・AIによる施策提案までを1つの画面で確認できます。",
+        steps: [
+          {
+            title: "経営指標・意見",
+            description:
+              "営業収支比率や資金不足比率などの経営指標と、住民・観光関係者・物流事業者など立場ごとの意見を集約",
+          },
+          {
+            title: "AI分析",
+            description:
+              "収集したデータから課題を分解し、生活影響や合意形成のしやすさなどをスコア化",
+          },
+          {
+            title: "施策候補",
+            description:
+              "分析結果をもとに、短期・中期・長期の見込みつきで複数の施策候補を提示",
+          },
+          {
+            title: "意思決定シミュレーション",
+            description:
+              "論点ごとに、施策への賛成・反対・少数意見を比較しながら合意形成を検討",
+          },
+        ],
+        embedUrl: "/case-studies/yakushima-route-dss.html",
+        embedLabel: "屋久島町(航路の持続可能性)の事例をみる",
+      },
+    ],
   },
   {
     slug: "cardgame",
@@ -176,29 +207,31 @@ export const tools: Tool[] = [
           "まとめた意見は、匿名のまま「意思決定支援」プラットフォームに送られ、地域の話し合いの材料になります。",
       },
     ],
-    caseStudy: {
-      place: "屋久島町",
-      intro:
-        "屋久島空港の滑走路延伸事業をテーマに、住民の方がいろいろな立場からカードを選んで意見を書けるようにしています。",
-      steps: [
-        {
-          title: "あなたの視点",
-          description: "観光事業者・子育て世代・高齢の住民など、13種類の立場から選択",
-        },
-        {
-          title: "大事にしたい価値観",
-          description: "地域経済の発展、自然環境の保全、暮らしの静けさなど",
-        },
-        {
-          title: "気になる懸念",
-          description: "騒音、財政負担、生態系への影響、進め方の拙速さなど",
-        },
-        {
-          title: "あなたの結論",
-          description: "賛成・条件付き賛成・反対・保留など、今の時点での考え",
-        },
-      ],
-    },
+    caseStudies: [
+      {
+        place: "屋久島町",
+        intro:
+          "屋久島空港の滑走路延伸事業をテーマに、住民の方がいろいろな立場からカードを選んで意見を書けるようにしています。",
+        steps: [
+          {
+            title: "あなたの視点",
+            description: "観光事業者・子育て世代・高齢の住民など、13種類の立場から選択",
+          },
+          {
+            title: "大事にしたい価値観",
+            description: "地域経済の発展、自然環境の保全、暮らしの静けさなど",
+          },
+          {
+            title: "気になる懸念",
+            description: "騒音、財政負担、生態系への影響、進め方の拙速さなど",
+          },
+          {
+            title: "あなたの結論",
+            description: "賛成・条件付き賛成・反対・保留など、今の時点での考え",
+          },
+        ],
+      },
+    ],
     externalUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-yakushima-airport/cards",
     externalLabel: "体験してみる(屋久島町の事例)",
   },
