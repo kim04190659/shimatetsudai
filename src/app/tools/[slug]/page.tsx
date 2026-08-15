@@ -124,10 +124,6 @@ export default async function ToolDetailPage(props: PageProps<"/tools/[slug]">) 
         </div>
       )}
 
-      <div className="mt-10 rounded-2xl bg-brand-soft/40 p-6 text-sm text-foreground/70">
-        現在このページは準備中です。今後、実際に操作できるツールをこちらに追加していく予定です。
-      </div>
-
       <div className="mt-10 flex flex-wrap gap-4">
         {tool.externalUrl && (
           // 別ドメインで稼働中のアプリへのリンクのため、next/linkではなく通常のaタグを使用

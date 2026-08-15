@@ -52,12 +52,10 @@ export const tools: Tool[] = [
       "難しい操作なしで、誰でも使えるシンプルさ",
       "(拡張版)島の話し合いに、自分の声を届けられる",
     ],
-    externalUrl: "https://tetsudatte.vercel.app",
-    externalLabel: "「てつだって」を使ってみる(現行版)",
     additionalLinks: [
       {
         url: "https://shimatetsudai-tetsudatte.vercel.app",
-        label: "「てつだって拡張版」を使ってみる(開発中β版)",
+        label: "「てつだって拡張版」を使ってみる",
       },
     ],
   },
