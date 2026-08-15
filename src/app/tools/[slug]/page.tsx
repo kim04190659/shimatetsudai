@@ -56,7 +56,18 @@ export default async function ToolDetailPage(props: PageProps<"/tools/[slug]">) 
         現在このページは準備中です。今後、実際に操作できるツールをこちらに追加していく予定です。
       </div>
 
-      <div className="mt-10">
+      <div className="mt-10 flex flex-wrap gap-4">
+        {tool.externalUrl && (
+          // 別ドメインで稼働中のアプリへのリンクのため、next/linkではなく通常のaタグを使用
+          <a
+            href={tool.externalUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center rounded-full border border-brand bg-white px-6 py-3 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40"
+          >
+            {tool.externalLabel ?? "アプリを使ってみる"}
+          </a>
+        )}
         <Link
           href="/contact"
           className="inline-flex items-center rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark"
