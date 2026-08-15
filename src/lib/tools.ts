@@ -190,8 +190,8 @@ export const tools: Tool[] = [
         },
       ],
     },
-    externalUrl: "https://shimatetsudai-issue-cardgame.vercel.app",
-    externalLabel: "体験してみる(体験版・要アクセスキー)",
+    externalUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-yakushima-airport/cards",
+    externalLabel: "体験してみる(屋久島町の事例)",
   },
 ];
 
