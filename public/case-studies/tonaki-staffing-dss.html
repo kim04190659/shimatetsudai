@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>渡名喜村 意思決定支援 | 役場職員不足による行政サービス維持</title>
+<style>
+:root{--ink:#2C2C2B;--muted:#7D7A75;--line:#E6E5E3;--soft:#F9F8F7;--blue:#2783DE;--blueSoft:#E5F2FC;--green:#46A171;--greenSoft:#E8F1EC;--orange:#D5803B;--orangeSoft:#FBEBDE;--red:#E56458;--redSoft:#FCE9E7;--purple:#7A5CCF;--purpleSoft:#EEE9FB}
+*{box-sizing:border-box}
+body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.5}
+.app{max-width:1200px;margin:0 auto;background:#fff;min-height:100vh}
+.hero{padding:24px 28px 14px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:800}
+.title{font-size:26px;font-weight:900;margin:6px 0 4px}
+.subtitle{color:var(--muted);font-size:13px}
+.decision{border:2px solid #9ac9ef;border-radius:14px;background:#fbfdff;padding:14px;margin-top:14px}
+.badge{display:inline-block;background:var(--blueSoft);color:#165c9d;border-radius:8px;padding:6px 10px;font-weight:900;font-size:12px}
+.decision p{margin:8px 0 0;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px}
+.kpi b{font-size:20px;display:block}
+.kpi span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.tabs{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 28px;z-index:5;display:flex;gap:8px;overflow:auto}
+.tabs button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;white-space:nowrap;font-size:13px}
+.tabs button.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.panel{display:none;padding:20px 28px 36px}
+.panel.active{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px}
+.card h3{margin:0 0 10px;font-size:16px}
+.callout{border-left:5px solid var(--blue);background:var(--blueSoft);border-radius:10px;padding:10px;margin:8px 0;font-size:13px}
+.ok{border-left-color:var(--green);background:var(--greenSoft)}
+.warn{border-left-color:var(--orange);background:var(--orangeSoft)}
+.risk{border-left-color:var(--red);background:var(--redSoft)}
+.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top;text-align:left}
+th{background:var(--soft);font-weight:900}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;border-radius:999px;padding:3px 8px;font-size:10.5px;font-weight:800}
+.pblue{background:var(--blueSoft);color:#165c9d}
+.pgreen{background:var(--greenSoft);color:#1f6b46}
+.porange{background:var(--orangeSoft);color:#93501a}
+.pred{background:var(--redSoft);color:#a13327}
+.ppurple{background:var(--purpleSoft);color:#4b3494}
+.measureCard{border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.measureCard b{font-size:14.5px}
+.outlookRow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;font-size:12px}
+.outlookRow div{border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--soft)}
+.outlookRow div em{display:block;font-style:normal;color:var(--muted);font-size:10.5px;margin-bottom:2px}
+.stakeGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stakeCard{border:1px solid var(--line);border-radius:12px;padding:12px}
+.stakeCard b{font-size:13.5px}
+.stakeCard p{font-size:12.5px;color:#4a453f;margin:6px 0 0}
+.bar{height:8px;border-radius:5px;background:var(--line);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--blue)}
+.footNote{font-size:11.5px;color:var(--muted);margin-top:18px}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hero">
+  <span class="eyebrow">意思決定支援PoC ｜ 沖縄県島尻郡 渡名喜村</span>
+  <div class="title">役場職員不足による行政サービス維持</div>
+  <div class="subtitle">職員定数27人に対し現員21人、退職により今後14人程度まで減少が見込まれる中で、村の行政サービスをどう維持するかを検討する事例です。</div>
+  <div class="decision">
+    <span class="badge">論点</span>
+    <p>限られた人員で、住民サービスの質を落とさずに行政運営を続けるには、どの業務を「効率化・共同化」し、どの業務を「人にしかできない業務」として残すべきか。</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><b>21人</b><span>現員(定数27人)</span></div>
+    <div class="kpi"><b>14人</b><span>今後の見込み(退職後)</span></div>
+    <div class="kpi"><b>44.1%</b><span>高齢化率(2019年)</span></div>
+    <div class="kpi"><b>85%</b><span>地方創生交付金 未消化率</span></div>
+  </div>
+</div>
+
+<nav class="tabs">
+  <button class="tabBtn active" data-tab="dashboard">ダッシュボード</button>
+  <button class="tabBtn" data-tab="stake">住民・関係者の意見</button>
+  <button class="tabBtn" data-tab="measures">施策候補</button>
+  <button class="tabBtn" data-tab="decision">意思決定シミュレーション</button>
+</nav>
+
+<section class="panel active" id="panel-dashboard">
+  <div class="grid2">
+    <div class="card">
+      <h3>現状データ</h3>
+      <div class="tableWrap">
+        <table>
+          <tbody>
+            <tr><th>人口</th><td>約300人台(2023年1月時点 317人)</td></tr>
+            <tr><th>高齢化率</th><td>44.1%(2019年)。このままの傾向だと2035年頃に50%を超える見込み</td></tr>
+            <tr><th>役場職員</th><td>定数27人 → 現員21人 → 退職により14人程度まで減少見込み</td></tr>
+            <tr><th>地方創生交付金</th><td>年間約2億円の枠に対し、2022・2023年度は85%程度が未消化(県内で最も高い割合)</td></tr>
+            <tr><th>交通</th><td>本島とを結ぶのは定期船のみ</td></tr>
+            <tr><th>産業</th><td>農業・漁業の後継者不足が課題</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout warn">職員数の減少は、行政サービスの「量」だけでなく、企画・実行できる「施策の幅」そのものを狭めるリスクがあります。</div>
+    </div>
+    <div class="card">
+      <h3>AI分析(たたき台)</h3>
+      <p style="font-size:13px">現状データと住民・職員の声から、AIが課題を3つに分解しました。</p>
+      <div class="callout">
+        <b>① 定型業務の負荷</b><br>
+        窓口対応・書類作成など、人数が減っても必ず発生する定型業務が職員の時間の多くを占めている。
+      </div>
+      <div class="callout">
+        <b>② 企画・申請業務の停滞</b><br>
+        交付金の未消化率の高さは、申請書類の作成や事業設計にあてる人手・時間が不足していることの表れと考えられる。
+      </div>
+      <div class="callout">
+        <b>③ 属人化のリスク</b><br>
+        少人数ゆえに、特定の職員しか分からない業務が多く、休職・退職時のサービス停止リスクが高い。
+      </div>
+    </div>
+  </div>
+  <p class="footNote">※ 本ページはPoC(概念実証)のたたき台であり、実データではなく公開情報・報道をもとにした概算・仮の分析です。実際の施策検討には村役場の一次データをご利用ください。</p>
+</section>
+
+<section class="panel" id="panel-stake">
+  <div class="stakeGrid">
+    <div class="stakeCard">
+      <b>住民</b>
+      <p>窓口対応の待ち時間や、担当者不在時の対応の遅れを心配する声。一方で「顔が見える役場」への信頼も強い。</p>
+      <div class="bar"><i style="width:55%"></i></div>
+    </div>
+    <div class="stakeCard">
+      <b>村役場職員</b>
+      <p>1人あたりの担当業務範囲が年々広がっている。デジタル化で定型業務を減らし、企画業務に時間を割きたいという意見。</p>
+      <div class="bar"><i style="width:75%"></i></div>
+    </div>
+    <div class="stakeCard">
+      <b>移住検討者・地域おこし協力隊</b>
+      <p>行政手続きの相談窓口が分かりやすいと定住のハードルが下がる、という声。ITに強い若手人材の受け皿としての期待もある。</p>
+      <div class="bar"><i style="width:40%"></i></div>
+    </div>
+    <div class="stakeCard">
+      <b>農業・漁業事業者</b>
+      <p>補助金申請の手続きが複雑で、忙しい時期は申請自体を諦めることがある。相談できる担当者が固定されていると助かる。</p>
+      <div class="bar"><i style="width:35%"></i></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-measures">
+  <div class="measureCard">
+    <b>施策① 定型業務のデジタル化・共通基盤の活用</b>
+    <p style="font-size:13px;margin:6px 0 0">問い合わせ対応や記録業務を、生成AIを使ったチャット・音声記録ツール(てつだって拡張版の仕組みを応用)で一部自動化し、職員は判断が必要な業務に集中できるようにする。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>定型的な問い合わせ対応の負荷を軽減</div>
+      <div><em>中期</em>職員が企画・申請業務に割ける時間が増加</div>
+      <div><em>長期</em>少人数でもサービス水準を維持</div>
+    </div>
+  </div>
+  <div class="measureCard">
+    <b>施策② 広域連携・応援職員制度の活用</b>
+    <p style="font-size:13px;margin:6px 0 0">近隣自治体や県からの応援職員制度、外部専門人材の活用により、交付金申請など専門性の高い業務を補う。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>交付金の消化率改善</div>
+      <div><em>中期</em>属人化していた業務の引き継ぎが進む</div>
+      <div><em>長期</em>制度への恒常的な依存を避けつつ知見が残る</div>
+    </div>
+  </div>
+  <div class="measureCard">
+    <b>施策③ 移住・定住支援と若手職員確保の連動</b>
+    <p style="font-size:13px;margin:6px 0 0">既存の移住・子育て支援住宅施策と職員採用を連動させ、ITに強い若手層の定住・採用を後押しする。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>採用候補者の裾野が広がる</div>
+      <div><em>中期</em>職員の年齢構成・スキルの多様化</div>
+      <div><em>長期</em>担い手不足の緩和</div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-decision">
+  <div class="card">
+    <h3>反対・少数意見への向き合い方</h3>
+    <div class="callout risk">
+      <b>🔴 「デジタル化で、かえって相談しづらくなるのでは」</b>
+      <p style="margin:6px 0 0">高齢の住民ほど、対面での相談を重視する傾向がある。</p>
+    </div>
+    <p style="font-size:13px"><b>対応の方向性：</b>デジタル化はあくまで職員の負荷軽減が目的で、対面窓口自体は残すことを明確に説明する。てつだって拡張版のような「声で伝えられる」仕組みを間に置くことで、対面に近い体験を保ちながら記録・引き継ぎを効率化する案も検討する。</p>
+    <ol style="font-size:13px">
+      <li>現状の窓口対応時間・件数のデータを開示</li>
+      <li>高齢住民向けの相談窓口は維持する方針を明示</li>
+      <li>試行導入し、住民の声を継続的に集める</li>
+      <li>しまのみんな会議で定期的に意見を確認しながら調整</li>
+    </ol>
+  </div>
+</section>
+
+</div>
+<script>
+document.querySelectorAll('.tabBtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.tabBtn').forEach(function(b){ b.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
