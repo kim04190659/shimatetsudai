@@ -60,12 +60,20 @@ export default function AboutPage() {
           地元をよく知る女性たちが、自分の暮らすまちで、まちの人のために働く。
           そんな小さな拠点が全国に広がることで、離島や地方の暮らしをより丁寧に支えられると考えています。
         </p>
-        <Link
-          href="/contact"
-          className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-accent-green hover:underline"
-        >
-          拠点スタッフについて問い合わせる →
-        </Link>
+        <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+          <Link
+            href="/branches"
+            className="inline-flex items-center gap-1 text-sm font-semibold text-accent-green hover:underline"
+          >
+            分室一覧を見る →
+          </Link>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-1 text-sm font-semibold text-accent-green hover:underline"
+          >
+            拠点スタッフについて問い合わせる →
+          </Link>
+        </div>
       </div>
     </div>
   );
