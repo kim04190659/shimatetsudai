@@ -17,12 +17,20 @@ export type BranchIssue = {
 
 export type BranchStat = { label: string; value: string };
 
+/** この分室の住民が日常的に使える入口ツール(てつだって拡張版など) */
+export type BranchTool = {
+  name: string;
+  description: string;
+  url: string;
+};
+
 export type Branch = {
   slug: string;
   name: string;
   tagline: string;
   description: string;
   stats: BranchStat[];
+  tools: BranchTool[];
   issues: BranchIssue[];
 };
 
@@ -38,6 +46,14 @@ export const branches: Branch[] = [
       { label: "高齢化率", value: "44.1%(2019年)。2035年頃に50%超え見込み" },
       { label: "役場職員", value: "定数27人 → 現員21人 → 退職後14人程度まで減少見込み" },
       { label: "交通", value: "本島とを結ぶのは定期船のみ" },
+    ],
+    tools: [
+      {
+        name: "てつだって拡張版",
+        description:
+          "声の聞き取りや写真での一言日記に加え、村で意見が欲しい論点があるときはホーム画面にお知らせが届きます。",
+        url: "https://shimatetsudai-tetsudatte.vercel.app",
+      },
     ],
     issues: [
       {

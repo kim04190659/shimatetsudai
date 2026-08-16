@@ -51,6 +51,29 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
         ))}
       </div>
 
+      {branch.tools.length > 0 && (
+        <div className="mt-12">
+          <h2 className="text-lg font-bold text-foreground">住民のみなさんが使えるツール</h2>
+          <div className="mt-4 space-y-3">
+            {branch.tools.map((tool) => (
+              <a
+                key={tool.name}
+                href={tool.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col gap-1 rounded-2xl border border-brand-soft bg-card p-5 transition hover:bg-brand-soft/30 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div>
+                  <h3 className="text-base font-bold text-foreground">{tool.name}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-foreground/70">{tool.description}</p>
+                </div>
+                <span className="shrink-0 text-sm font-semibold text-brand-dark">開く ↗</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="mt-12">
         <h2 className="text-lg font-bold text-foreground">論点(Issue)</h2>
         <p className="mt-2 text-sm leading-relaxed text-foreground/70">
