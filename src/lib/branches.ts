@@ -36,6 +36,47 @@ export type Branch = {
 
 export const branches: Branch[] = [
   {
+    slug: "yakushima",
+    name: "屋久島町分室",
+    tagline: "鹿児島県熊毛郡屋久島町",
+    description:
+      "人口約1万700人(2025年国勢調査速報値)、高齢化率38.4%(2025年)と、人口減少・少子高齢化が続く屋久島町の分室です。空港滑走路延伸や航路の持続可能性など、観光と暮らしの両立に関わる論点について、住民・事業者・議会など、いろいろな立場の声を集めながら意思決定を後押ししています。",
+    stats: [
+      { label: "人口", value: "約10,707人(2025年国勢調査速報値)" },
+      { label: "高齢化率", value: "38.4%(2025年)。2024年時点は37.8%" },
+      { label: "人口推移", value: "2020年比 約1,151人減。年間200〜250人規模で減少中" },
+      { label: "産業", value: "世界自然遺産・屋久杉を軸にした観光業が基幹産業" },
+    ],
+    tools: [
+      {
+        name: "てつだって拡張版",
+        description:
+          "声の聞き取りや写真での一言日記に加え、町で意見が欲しい論点があるときはホーム画面にお知らせが届きます。",
+        url: "https://shimatetsudai-tetsudatte.vercel.app",
+      },
+    ],
+    issues: [
+      {
+        title: "空港滑走路延伸",
+        status: "議論中",
+        summary:
+          "地域経済の発展という目標に向けて、観光事業者・子育て世代・高齢の住民など、さまざまな立場の意見を整理しながら議論を進めています。",
+        dashboardUrl: "/case-studies/yakushima-a3.html",
+        dashboardLabel: "意思決定支援ダッシュボードを見る",
+        cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-yakushima-airport/cards",
+        cardGameLabel: "しまのみんな会議で意見を出す",
+      },
+      {
+        title: "航路の持続可能性",
+        status: "議論中",
+        summary:
+          "屋久島航路の営業収支比率や資金不足比率などの経営指標と、住民・観光関係者・物流事業者の意見を組み合わせ、短期・中期・長期の施策候補を検討しています。",
+        dashboardUrl: "/case-studies/yakushima-route-dss.html",
+        dashboardLabel: "意思決定支援ダッシュボードを見る",
+      },
+    ],
+  },
+  {
     slug: "tonaki",
     name: "渡名喜村分室",
     tagline: "沖縄県島尻郡渡名喜村",
