@@ -71,16 +71,28 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
                 <h3 className="text-base font-bold text-foreground">{issue.title}</h3>
               </div>
               <p className="mt-3 text-sm leading-relaxed text-foreground/80">{issue.summary}</p>
-              {issue.dashboardUrl && (
-                <a
-                  href={issue.dashboardUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 inline-flex items-center gap-1 rounded-full border border-brand bg-white px-5 py-2.5 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40"
-                >
-                  {issue.dashboardLabel ?? "詳細を見る"} ↗
-                </a>
-              )}
+              <div className="mt-4 flex flex-wrap gap-3">
+                {issue.dashboardUrl && (
+                  <a
+                    href={issue.dashboardUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 rounded-full border border-brand bg-white px-5 py-2.5 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40"
+                  >
+                    {issue.dashboardLabel ?? "詳細を見る"} ↗
+                  </a>
+                )}
+                {issue.cardGameUrl && (
+                  <a
+                    href={issue.cardGameUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 rounded-full bg-accent-green px-5 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
+                  >
+                    {issue.cardGameLabel ?? "しまのみんな会議で意見を出す"} ↗
+                  </a>
+                )}
+              </div>
             </div>
           ))}
         </div>
