@@ -61,8 +61,8 @@ export const branches: Branch[] = [
         status: "議論中",
         summary:
           "寄せられる取材・支援の依頼すべてには対応しきれない中で、どの業務を効率化・共同化し、どの業務を人にしかできない業務として残すべきかを検討しています。",
-        dashboardUrl: "/case-studies/ritokei-resource-dss.html",
-        dashboardLabel: "意思決定支援ダッシュボードを見る",
+        dashboardUrl: "/case-studies/ritokei-resource-dss-v6.html",
+        dashboardLabel: "意思決定支援ダッシュボードを見る(最新版)",
         cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-ritokei-resource/cards",
         cardGameLabel: "しまのみんな会議で意見を出す",
       },
