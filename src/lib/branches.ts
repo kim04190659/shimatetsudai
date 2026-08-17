@@ -47,7 +47,14 @@ export const branches: Branch[] = [
       { label: "活動エリア", value: "東西南北約3,000kmの海洋エリア" },
       { label: "主な事業", value: "メディア運営・連携交流・魅力化促進・災害復興の4事業" },
     ],
-    tools: [],
+    tools: [
+      {
+        name: "てつだって拡張版",
+        description:
+          "NPOスタッフ・会員のみなさんも、しまのみんな会議で意見が欲しい論点があるときはホーム画面にお知らせが届きます。",
+        url: "https://shimatetsudai-tetsudatte.vercel.app",
+      },
+    ],
     issues: [
       {
         title: "420島への限られた取材・支援リソース配分",
