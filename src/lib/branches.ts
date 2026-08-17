@@ -36,6 +36,32 @@ export type Branch = {
 
 export const branches: Branch[] = [
   {
+    slug: "ritokei",
+    name: "りとけい分室",
+    tagline: "認定NPO法人 離島経済新聞社(リトケイ)",
+    description:
+      "国内約420の有人離島(人口約100万人)を対象に、ウェブマガジン『離島経済新聞』とタブロイド紙『季刊リトケイ』を運営する認定NPO法人の分室です。この分室は、屋久島町や渡名喜村など個別の島ではなく、それらの島々を取材・発信で支える「もう一つの島」として見立てています。限られた人員・予算の中で、どの取材・支援を優先するかを一緒に考えています。",
+    stats: [
+      { label: "対象範囲", value: "国内約420の有人離島、人口約100万人" },
+      { label: "団体形態", value: "認定NPO法人(2025年2月認定)" },
+      { label: "活動エリア", value: "東西南北約3,000kmの海洋エリア" },
+      { label: "主な事業", value: "メディア運営・連携交流・魅力化促進・災害復興の4事業" },
+    ],
+    tools: [],
+    issues: [
+      {
+        title: "420島への限られた取材・支援リソース配分",
+        status: "議論中",
+        summary:
+          "寄せられる取材・支援の依頼すべてには対応しきれない中で、どの業務を効率化・共同化し、どの業務を人にしかできない業務として残すべきかを検討しています。",
+        dashboardUrl: "/case-studies/ritokei-resource-dss.html",
+        dashboardLabel: "意思決定支援ダッシュボードを見る",
+        cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-ritokei-resource/cards",
+        cardGameLabel: "しまのみんな会議で意見を出す",
+      },
+    ],
+  },
+  {
     slug: "yakushima",
     name: "屋久島町分室",
     tagline: "鹿児島県熊毛郡屋久島町",

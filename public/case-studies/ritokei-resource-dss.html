@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>りとけい 意思決定支援 | 420島への限られた取材・支援リソース配分</title>
+<style>
+:root{--ink:#2C2C2B;--muted:#7D7A75;--line:#E6E5E3;--soft:#F9F8F7;--blue:#2783DE;--blueSoft:#E5F2FC;--green:#46A171;--greenSoft:#E8F1EC;--orange:#D97706;--orangeSoft:#FDECD2;--red:#E56458;--redSoft:#FCE9E7;--purple:#7A5CCF;--purpleSoft:#EEE9FB}
+*{box-sizing:border-box}
+body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.5}
+.app{max-width:1200px;margin:0 auto;background:#fff;min-height:100vh}
+.hero{padding:24px 28px 14px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:800}
+.title{font-size:26px;font-weight:900;margin:6px 0 4px}
+.subtitle{color:var(--muted);font-size:13px}
+.decision{border:2px solid #f3cd9a;border-radius:14px;background:#fffaf3;padding:14px;margin-top:14px}
+.badge{display:inline-block;background:var(--orangeSoft);color:#93501a;border-radius:8px;padding:6px 10px;font-weight:900;font-size:12px}
+.decision p{margin:8px 0 0;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px}
+.kpi b{font-size:20px;display:block}
+.kpi span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.tabs{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 28px;z-index:5;display:flex;gap:8px;overflow:auto}
+.tabs button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;white-space:nowrap;font-size:13px}
+.tabs button.active{background:var(--orange);border-color:var(--orange);color:#fff}
+.panel{display:none;padding:20px 28px 36px}
+.panel.active{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px}
+.card h3{margin:0 0 10px;font-size:16px}
+.callout{border-left:5px solid var(--orange);background:var(--orangeSoft);border-radius:10px;padding:10px;margin:8px 0;font-size:13px}
+.ok{border-left-color:var(--green);background:var(--greenSoft)}
+.warn{border-left-color:var(--orange);background:var(--orangeSoft)}
+.risk{border-left-color:var(--red);background:var(--redSoft)}
+.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top;text-align:left}
+th{background:var(--soft);font-weight:900}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;border-radius:999px;padding:3px 8px;font-size:10.5px;font-weight:800}
+.pblue{background:var(--blueSoft);color:#165c9d}
+.pgreen{background:var(--greenSoft);color:#1f6b46}
+.porange{background:var(--orangeSoft);color:#93501a}
+.pred{background:var(--redSoft);color:#a13327}
+.ppurple{background:var(--purpleSoft);color:#4b3494}
+.measureCard{border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.measureCard b{font-size:14.5px}
+.outlookRow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;font-size:12px}
+.outlookRow div{border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--soft)}
+.outlookRow div em{display:block;font-style:normal;color:var(--muted);font-size:10.5px;margin-bottom:2px}
+.stakeGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stakeCard{border:1px solid var(--line);border-radius:12px;padding:12px}
+.stakeCard b{font-size:13.5px}
+.stakeCard p{font-size:12.5px;color:#4a453f;margin:6px 0 0}
+.bar{height:8px;border-radius:5px;background:var(--line);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--orange)}
+.footNote{font-size:11.5px;color:var(--muted);margin-top:18px}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hero">
+  <span class="eyebrow">意思決定支援PoC ｜ 認定NPO法人 離島経済新聞社（リトケイ）</span>
+  <div class="title">420島への限られた取材・支援リソース配分</div>
+  <div class="subtitle">国内約420の有人離島(人口約100万人)を対象に情報発信を行うりとけいが、限られた人員・予算の中で、取材・支援の優先順位をどう決めるかを検討する事例です。</div>
+  <div class="decision">
+    <span class="badge">論点</span>
+    <p>限られた人員・予算の中で、420島への取材・支援依頼にどう応えるか。どの業務を「効率化・共同化」し、どの業務を「人にしかできない業務」として残すべきか。</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><b>約420島</b><span>対象の有人離島数</span></div>
+    <div class="kpi"><b>約100万人</b><span>対象地域の人口</span></div>
+    <div class="kpi"><b>3,000km</b><span>活動エリア(東西南北)</span></div>
+    <div class="kpi"><b>2025年2月</b><span>認定NPO法人化</span></div>
+  </div>
+</div>
+
+<nav class="tabs">
+  <button class="tabBtn active" data-tab="dashboard">ダッシュボード</button>
+  <button class="tabBtn" data-tab="stake">関係者の意見</button>
+  <button class="tabBtn" data-tab="measures">施策候補</button>
+  <button class="tabBtn" data-tab="decision">意思決定シミュレーション</button>
+</nav>
+
+<section class="panel active" id="panel-dashboard">
+  <div class="grid2">
+    <div class="card">
+      <h3>現状データ</h3>
+      <div class="tableWrap">
+        <table>
+          <tbody>
+            <tr><th>団体形態</th><td>認定NPO法人(2025年2月認定。税控除できる寄付が可能に)</td></tr>
+            <tr><th>設立</th><td>2010年発足、2014年NPO法人化</td></tr>
+            <tr><th>対象範囲</th><td>国内約420の有人離島、人口約100万人</td></tr>
+            <tr><th>主な事業</th><td>ウェブマガジン『離島経済新聞』・タブロイド紙『季刊リトケイ』の運営、連携交流・魅力化促進・災害復興の4事業</td></tr>
+            <tr><th>活動上の制約</th><td>寄せられる情報・取材依頼のすべてには対応しきれないと公式に明言</td></tr>
+            <tr><th>経営課題</th><td>東西南北3,000kmに及ぶ活動エリアでの交通費が経営を圧迫。コロナ禍で事業継続が危機的状況になった経験もあり</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout warn">対象範囲の広さそのものが、人員・予算をどこに配分するかという恒常的な意思決定を必要としています。</div>
+    </div>
+    <div class="card">
+      <h3>AI分析(たたき台)</h3>
+      <p style="font-size:13px">公開情報と現地ヒアリングをもとに、AIが課題を3つに分解しました。</p>
+      <div class="callout">
+        <b>① 取材依頼への対応力の限界</b><br>
+        420島という対象範囲に対し、限られたスタッフ数では寄せられる依頼のすべてに応えられない。
+      </div>
+      <div class="callout">
+        <b>② 広域移動コストによる経営圧迫</b><br>
+        海洋エリアでの取材活動は交通費だけでも高額になり、取材先を絞らざるを得ない経営上の制約がある。
+      </div>
+      <div class="callout">
+        <b>③ 収益基盤(寄付・会費)の不安定さ</b><br>
+        コロナ禍で事業継続が危機的状況になった経験があり、寄付・サポーター会費への依存度が高い。
+      </div>
+    </div>
+  </div>
+  <p class="footNote">※ 本ページはPoC(概念実証)のたたき台であり、実データではなく公開情報(団体概要・プレスリリース・よくあるご質問)をもとにした概算・仮の分析です。実際の施策検討には団体の一次データをご利用ください。</p>
+</section>
+
+<section class="panel" id="panel-stake">
+  <div class="stakeGrid">
+    <div class="stakeCard">
+      <b>NPOスタッフ(取材・編集)</b>
+      <p>1人あたりが担当する島の数が年々増えている。すべての依頼に応えられないもどかしさがある一方、AI活用による効率化には現地取材の質が落ちないか慎重な意見も。</p>
+      <div class="bar"><i style="width:70%"></i></div>
+    </div>
+    <div class="stakeCard">
+      <b>会員・サポーター</b>
+      <p>会費・寄付がどう使われているか、応援している島の記事が増えるかに関心。配分基準が見えると納得感が高まるという声。</p>
+      <div class="bar"><i style="width:50%"></i></div>
+    </div>
+    <div class="stakeCard">
+      <b>取材先の島の自治体担当者・住民</b>
+      <p>取材してもらえるかどうかで、外部からの支援の広がり方が変わると感じている。まだ取材されたことのない島からは機会を望む声。</p>
+      <div class="bar"><i style="width:60%"></i></div>
+    </div>
+    <div class="stakeCard">
+      <b>行政・助成団体の担当者</b>
+      <p>メディア活動が離島振興にどう貢献しているかを見ており、支援の効果を数字や事例で示してほしいという意見。</p>
+      <div class="bar"><i style="width:35%"></i></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-measures">
+  <div class="measureCard">
+    <b>施策① AI・デジタル活用による取材メモ・情報整理の効率化</b>
+    <p style="font-size:13px;margin:6px 0 0">現地取材そのものは人が行い、取材メモの整理・過去記事とのひも付け・記事草稿の下書きといった定型的な作業をAIで効率化し、スタッフが現地取材そのものに使える時間を増やす。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>編集作業の負荷を軽減</div>
+      <div><em>中期</em>スタッフが取材・現地関係構築に割ける時間が増加</div>
+      <div><em>長期</em>限られた人員でも取材範囲を維持</div>
+    </div>
+  </div>
+  <div class="measureCard">
+    <b>施策② 他団体・地域メディアとの連携ネットワーク化</b>
+    <p style="font-size:13px;margin:6px 0 0">似た課題を抱える他の地域メディアや、現地の自治体・地域おこし協力隊と連携し、一次情報の収集を分担する。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>手が回らない島の情報を補完</div>
+      <div><em>中期</em>取材ネットワークの広がり</div>
+      <div><em>長期</em>特定の島への偏りが緩和</div>
+    </div>
+  </div>
+  <div class="measureCard">
+    <b>施策③ 配分基準の明文化と会員への説明</b>
+    <p style="font-size:13px;margin:6px 0 0">緊急性・社会的意義・継続可能な取材体制といった優先順位の基準を明文化し、会員・読者に定期的に共有する。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>配分への納得感が向上</div>
+      <div><em>中期</em>会員離れの防止</div>
+      <div><em>長期</em>寄付・会費収入の安定化</div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-decision">
+  <div class="card">
+    <h3>反対・少数意見への向き合い方</h3>
+    <div class="callout risk">
+      <b>🔴 「AI・効率化で、現地取材の温かさが失われるのでは」</b>
+      <p style="margin:6px 0 0">現地に足を運んで人と話す、りとけいらしい取材スタイルが薄まることを懸念する声。</p>
+    </div>
+    <p style="font-size:13px"><b>対応の方向性：</b>効率化の対象はあくまで「取材メモの整理」「過去記事の検索」など裏方の作業であり、現地取材・対話そのものは人が担う方針を明確に説明する。実際、今回の意思決定支援プラットフォームの構築でも、データベースの複製作業で他島のデータが混ざるミスが発生し、最終確認は人の目で行う必要があった。効率化してよい作業と、人が確認すべき作業の線引きを、常に具体例をもって示していく。</p>
+    <ol style="font-size:13px">
+      <li>現状の取材依頼件数・対応できた割合のデータを開示</li>
+      <li>現地取材そのものは人が担う方針を明示</li>
+      <li>試行導入し、スタッフ・会員の声を継続的に集める</li>
+      <li>しまのみんな会議で定期的に意見を確認しながら調整</li>
+    </ol>
+  </div>
+</section>
+
+</div>
+<script>
+document.querySelectorAll('.tabBtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.tabBtn').forEach(function(b){ b.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
