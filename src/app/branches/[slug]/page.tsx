@@ -116,6 +116,22 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
                   </a>
                 )}
               </div>
+              {issue.pastDashboards && issue.pastDashboards.length > 0 && (
+                <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <span className="text-xs text-foreground/50">過去のバージョン:</span>
+                  {issue.pastDashboards.map((past) => (
+                    <a
+                      key={past.url}
+                      href={past.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-semibold text-brand-dark underline underline-offset-2 hover:opacity-80"
+                    >
+                      {past.label} ↗
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>

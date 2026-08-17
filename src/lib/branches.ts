@@ -13,6 +13,8 @@ export type BranchIssue = {
   /** しまのみんな会議(カードゲーム)で、この論点について意見を出し合えるページ */
   cardGameUrl?: string;
   cardGameLabel?: string;
+  /** 過去バージョンの意思決定支援ダッシュボードなど、参考として残しておきたいリンク */
+  pastDashboards?: { url: string; label: string }[];
 };
 
 export type BranchStat = { label: string; value: string };
@@ -63,6 +65,9 @@ export const branches: Branch[] = [
           "寄せられる取材・支援の依頼すべてには対応しきれない中で、どの業務を効率化・共同化し、どの業務を人にしかできない業務として残すべきかを検討しています。",
         dashboardUrl: "/case-studies/ritokei-resource-dss-v6.html",
         dashboardLabel: "意思決定支援ダッシュボードを見る(最新版)",
+        pastDashboards: [
+          { url: "/case-studies/ritokei-resource-dss.html", label: "初期版を見る" },
+        ],
         cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-ritokei-resource/cards",
         cardGameLabel: "しまのみんな会議で意見を出す",
       },
