@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>渡名喜村 意思決定支援 | 保育・幼児教育インフラの空洞化</title>
+<style>
+:root{--ink:#2C2C2B;--muted:#7D7A75;--line:#E6E5E3;--soft:#F9F8F7;--blue:#2783DE;--blueSoft:#E5F2FC;--green:#46A171;--greenSoft:#E8F1EC;--orange:#D5803B;--orangeSoft:#FBEBDE;--red:#E56458;--redSoft:#FCE9E7;--purple:#7A5CCF;--purpleSoft:#EEE9FB}
+*{box-sizing:border-box}
+body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.5}
+.app{max-width:1200px;margin:0 auto;background:#fff;min-height:100vh}
+.hero{padding:24px 28px 14px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:800}
+.title{font-size:26px;font-weight:900;margin:6px 0 4px}
+.subtitle{color:var(--muted);font-size:13px}
+.decision{border:2px solid #9ac9ef;border-radius:14px;background:#fbfdff;padding:14px;margin-top:14px}
+.badge{display:inline-block;background:var(--blueSoft);color:#165c9d;border-radius:8px;padding:6px 10px;font-weight:900;font-size:12px}
+.decision p{margin:8px 0 0;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px}
+.kpi b{font-size:20px;display:block}
+.kpi span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.tabs{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 28px;z-index:5;display:flex;gap:8px;overflow:auto}
+.tabs button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;white-space:nowrap;font-size:13px}
+.tabs button.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.panel{display:none;padding:20px 28px 36px}
+.panel.active{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px}
+.card h3{margin:0 0 10px;font-size:16px}
+.callout{border-left:5px solid var(--blue);background:var(--blueSoft);border-radius:10px;padding:10px;margin:8px 0;font-size:13px}
+.ok{border-left-color:var(--green);background:var(--greenSoft)}
+.warn{border-left-color:var(--orange);background:var(--orangeSoft)}
+.risk{border-left-color:var(--red);background:var(--redSoft)}
+.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top;text-align:left}
+th{background:var(--soft);font-weight:900}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;border-radius:999px;padding:3px 8px;font-size:10.5px;font-weight:800}
+.pblue{background:var(--blueSoft);color:#165c9d}
+.pgreen{background:var(--greenSoft);color:#1f6b46}
+.porange{background:var(--orangeSoft);color:#93501a}
+.pred{background:var(--redSoft);color:#a13327}
+.ppurple{background:var(--purpleSoft);color:#4b3494}
+.measureCard{border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.measureCard b{font-size:14.5px}
+.outlookRow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;font-size:12px}
+.outlookRow div{border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--soft)}
+.outlookRow div em{display:block;font-style:normal;color:var(--muted);font-size:10.5px;margin-bottom:2px}
+.stakeGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stakeCard{border:1px solid var(--line);border-radius:12px;padding:12px}
+.stakeCard b{font-size:13.5px}
+.stakeCard p{font-size:12.5px;color:#4a453f;margin:6px 0 0}
+.bar{height:8px;border-radius:5px;background:var(--line);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--blue)}
+.footNote{font-size:11.5px;color:var(--muted);margin-top:18px}
+.a3Grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.mini{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.mini h4{margin:0 0 8px;font-size:13px}
+.mini ul{margin:0;padding-left:16px;font-size:12px;line-height:1.55}
+.mini li{margin:3px 0}
+.mini ol{margin:0;padding-left:16px;font-size:12px;line-height:1.55}
+@media(max-width:900px){.grid2,.stakeGrid,.a3Grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hero">
+  <span class="eyebrow">意思決定支援PoC ｜ 沖縄県島尻郡 渡名喜村</span>
+  <div class="title">保育・幼児教育インフラの空洞化</div>
+  <div class="subtitle">2019年度、約8.5億円(ハード交付金)を投じて保育スペース付きの多目的活動拠点施設を整備したものの、6年以上にわたり利用児童ゼロ。村立幼稚園も在籍園児ゼロで実質休園状態が続く中、施設整備だけでは解決しない「人材・運営モデル」の課題をどう乗り越えるかを検討する事例です。</div>
+  <div class="decision">
+    <span class="badge">論点</span>
+    <p>施設(ハコ)は整備済みでありながら保育・幼児教育機能が空白化している状況で、対象児童数が少ない小規模離島に合った運営モデル(管理者・保育士・補助員・給食体制)と、幼稚園休園後の受け皿(認定こども園化等)をどう設計するか。</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><b>8.5億円</b><span>施設整備費(ハード交付金活用・2019年度)</span></div>
+    <div class="kpi"><b>6年+</b><span>保育スペースの利用児童ゼロ期間</span></div>
+    <div class="kpi"><b>0人</b><span>村立幼稚園 在籍園児数(今春卒園で実質休園)</span></div>
+    <div class="kpi"><b>週3回</b><span>併設の高齢者デイサービス稼働(対照)</span></div>
+  </div>
+  <div class="callout ok" style="margin-top:14px">
+    <b>📎 類似事例・活用できる交付金からの示唆</b>
+    <p style="margin-top:6px">同じく沖縄の小規模離島である渡嘉敷村など、先行して離島型の保育運営を行っている自治体の実務知見(視察・ヒアリング)が、渡名喜村の運営モデル設計に直接役立つ可能性があります。また、地域女性活躍推進交付金や沖縄振興特別推進交付金(ソフト交付金)は使途が比較的柔軟で、保育士確保・運営体制構築のソフト事業にも充当できる余地があります。一方で、対象児童数が少ないまま単独施設として常勤体制を維持しようとすると、コストが便益を上回るリスクも過去の類似事例から示唆されています。詳細は「国内外の類似事例」「活用できる補助金・交付金」タブへ。</p>
+  </div>
+</div>
+
+<nav class="tabs">
+  <button class="tabBtn active" data-tab="summary">議論まとめ</button>
+  <button class="tabBtn" data-tab="premise">自治体目標（前提条件）</button>
+  <button class="tabBtn" data-tab="proposal">提案内容・詳細</button>
+  <button class="tabBtn" data-tab="cases">国内外の類似事例</button>
+  <button class="tabBtn" data-tab="funding">活用できる補助金・交付金</button>
+  <button class="tabBtn" data-tab="raw">生データ（補足）</button>
+</nav>
+
+<section class="panel active" id="panel-summary">
+  <div class="card">
+    <h3>推奨する方向性</h3>
+    <p style="font-size:13px">既存施設を活かしつつ、小規模離島に適した運営方式(小規模保育・家庭的保育・離島特例の比較検討)を先に設計し、管理者・保育士・補助員・給食体制という「人」の確保を県外保育士誘致支援やしまほいく等の外部パートナーと連動させ、村立幼稚園休園後の受け皿として認定こども園等への移行可能性も並行して検討する、という3段階の対応を推奨します。</p>
+  </div>
+
+  <h3 style="margin-top:18px;font-size:15px">この論点の全体像(A3サマリー)</h3>
+  <div class="a3Grid">
+    <div class="mini">
+      <h4>📊 判断材料ハイライト</h4>
+      <ul>
+        <li>施設整備費 約8.5億円(ハード交付金)、2019年度完成</li>
+        <li>保育スペース、開所から6年以上利用児童ゼロ・保育士応募ゼロ</li>
+        <li>村立幼稚園、唯一の在籍園児が卒園し在籍者ゼロ(約3年実質休園)</li>
+        <li>併設の高齢者デイサービスは週3回稼働、機能間で利用実態に差</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>💡 提案内容ハイライト</h4>
+      <ul>
+        <li><b>施策①</b> 小規模離島に適した保育運営方式の設計(小規模保育・家庭的保育・離島特例の比較)</li>
+        <li><b>施策②</b> 管理者・保育士・補助員・給食体制の確保(外部パートナー連携)</li>
+        <li><b>施策③</b> 村立幼稚園休園後の認定こども園等への移行可能性の検討</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>🗣️ 住民・関係者の声</h4>
+      <ul>
+        <li>未就学児の保護者・移住検討世帯：預け先不在は定住の大きな障壁(賛成・整備推進)</li>
+        <li>村役場 民生課：保育所開設は必要だが人材と運営基準の両立が難しい(条件付き賛成)</li>
+        <li>反対・慎重意見：対象児童数が極めて少なく、固定費の大きい単独運営には慎重な検討が必要</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>🌍 類似事例ハイライト</h4>
+      <ul>
+        <li><span class="pill pblue">国内先行例</span> 渡嘉敷村など離島の保育運営先行自治体の実務知見</li>
+        <li><span class="pill pgreen">成功</span> フェロー諸島：複数財源の組み合わせで専任職員を確保</li>
+        <li><span class="pill pred">失敗</span> 豪州：単独の新組織運営でコストが便益を上回った例(運営モデル検討時の反面教師)</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>💰 補助金・交付金ハイライト</h4>
+      <ul>
+        <li><span class="pill pblue">高</span> 沖縄振興特別推進交付金(ソフト)：教育・福祉分野も対象、県主体で使いやすい</li>
+        <li><span class="pill pblue">高</span> 地域女性活躍推進交付金：保育士等の人材育成・確保メニューと接続可能</li>
+        <li><span class="pill porange">要確認</span> 保育・幼児教育に特化した専用の補助金は未登録。今後の重点調査対象</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>✅ 反対意見への向き合い方</h4>
+      <ul>
+        <li>🔴「対象児童数が少なく、固定費の大きい単独運営は非効率では」</li>
+        <li>小規模保育・家庭的保育・広域連携型など、規模に応じた運営方式を比較提示</li>
+        <li>外部パートナー(県・しまほいく等)と連携し、人材確保コストの一部を外部化</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <h3>反対・少数意見への向き合い方(詳細)</h3>
+    <div class="callout risk">
+      <b>🔴 「対象児童数が極めて少なく、常勤体制の固定費が大きい」</b>
+      <p style="margin:6px 0 0">村役場・関係者の暫定合意案でも、単独施設としての常勤管理者・給食・補助員確保など固定費の大きさへの懸念が明記されている。</p>
+    </div>
+    <p style="font-size:13px"><b>対応の方向性：</b>認可保育所を前提にせず、定員6〜19人の小規模保育事業や、保育者1人あたり乳幼児3人以下(補助者ありで5人以下)を目安とする家庭的保育、離島特例の適用可能性を比較したうえで、対象児童数に見合った運営規模を選択する。人材面は県外保育士誘致支援事業や「しまほいく」等の外部パートナーと連携し、単独の村財源・村人材だけに依存しない体制を目指す。</p>
+    <ol style="font-size:13px">
+      <li>小規模保育・家庭的保育・離島特例それぞれの制度要件と対象児童数の照合</li>
+      <li>管理者・保育士・補助員・給食提供の体制案を複数パターンで試算</li>
+      <li>県外保育士誘致支援事業・しまほいく等との連携で採用導線を整理</li>
+      <li>渡嘉敷村等の先行自治体への視察・ヒアリングで実務知見を反映</li>
+      <li>村立幼稚園休園後の受け皿として認定こども園等への移行可能性を並行検討</li>
+    </ol>
+  </div>
+</section>
+
+<section class="panel" id="panel-premise">
+  <div class="card">
+    <h3>現状データ</h3>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>施設整備</th><td>2019年度、老朽化した高齢者福祉施設を改修し、3歳未満児向け保育スペースを併設した多目的活動拠点施設を約8.5億円(ハード交付金活用)で整備</td></tr>
+          <tr><th>保育スペースの利用実績</th><td>開所以降6年以上、利用児童ゼロ。保育士の求人募集を出しても応募ゼロが継続</td></tr>
+          <tr><th>村立幼稚園</th><td>唯一在籍していた園児が今春卒園し在籍者ゼロに。ここ約3年、実質的な休園状態(2026年3月の村公式noteでも、次年度対象児童ゼロによる休園予定が説明されている)</td></tr>
+          <tr><th>併設施設の対照</th><td>同じ施設内で運営される高齢者デイサービスは週3回稼働しており、高齢者福祉機能とは対照的に幼児教育・保育インフラの利用が停止</td></tr>
+          <tr><th>保育所対象児</th><td>民生課長インタビューによれば、保育所対象となる児童は1人にとどまり、預け先がないことが定住・移住の大きなハードルになっているとの認識</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn">多額の交付金を投じて整備した「ハコ」があっても、需要(対象年齢人口)と担い手(保育士・管理者等)が揃わなければ機能しないことを示す事例です。施設整備だけでなく、運営モデルと人材確保策のセットでの検討が必要です。</div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>暫定合意の方向性</h3>
+    <p style="font-size:13px">村役場・関係者の間では、以下を軸とした暫定合意案が整理されています。</p>
+    <div class="callout">
+      <b>合意概要</b><br>
+      人口・年少人口・学校基本調査・公共施設計画を根拠に、①小規模離島に適した保育運営モデル、②保育士・管理者・補助員・給食体制の確保、③村立幼稚園休園後の認定こども園等への移行可能性、を検討する。
+    </div>
+    <div class="callout risk">
+      <b>反対意見要約</b><br>
+      対象児童数が極めて少なく、常勤管理者・給食・補助員確保など固定費が大きいため、単独施設としての継続運営には慎重な検討が必要。
+    </div>
+    <p class="footNote">※ 本ページはPoC(概念実証)のたたき台であり、実データではなく公開情報・報道・関係者ヒアリングをもとにした概算・仮の分析です。実際の施策検討には村役場の一次データをご利用ください。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-proposal">
+  <div class="measureCard">
+    <b>施策① 小規模離島に適した保育運営方式の設計</b>
+    <p style="font-size:13px;margin:6px 0 0">国の保育運営基準と、対象児が少ない小規模離島の現実をつなぎ、小規模保育事業(定員6〜19人)、家庭的保育(保育者1人で乳幼児3人以下・補助者ありで5人以下が目安)、離島特例のいずれが渡名喜村の実情に合うかを比較・設計する。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>制度要件と対象児童数の照合、運営方式の絞り込み</div>
+      <div><em>中期</em>管理者・保育士・補助員・給食体制の試算</div>
+      <div><em>長期</em>固定費に見合った持続可能な運営規模の実現</div>
+    </div>
+  </div>
+  <div class="measureCard">
+    <b>施策② 保育士・管理者・補助員・給食体制の確保(外部パートナー連携)</b>
+    <p style="font-size:13px;margin:6px 0 0">沖縄県保育士・保育所総合支援センター、県外保育士誘致支援事業、しまほいく(離島保育士支援サイト)といった外部パートナーと連携し、村単独では難しい採用広報・移住費用支援・人材マッチングを外部化する。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>求人票・勤務条件・移住支援の整理と外部パートナーへの共有</div>
+      <div><em>中期</em>県外保育士の採用導線の構築</div>
+      <div><em>長期</em>人材確保コストの一部を外部リソースで補完</div>
+    </div>
+  </div>
+  <div class="measureCard">
+    <b>施策③ 村立幼稚園休園後の受け皿の検討(認定こども園等への移行)</b>
+    <p style="font-size:13px;margin:6px 0 0">村立幼稚園が実質休園状態にある中、保育所機能と一体化した認定こども園等への移行可能性を検討し、幼児教育・保育インフラの空白を一体的に解消する。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>移行可能性の制度整理(所管・基準の確認)</div>
+      <div><em>中期</em>施設・人員体制の一体設計</div>
+      <div><em>長期</em>移住・定住の前提条件となる子育てインフラの回復</div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-cases">
+  <div class="card">
+    <h3>国内外の類似事例</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">意思決定支援プラットフォーム上の「政策事例ライブラリ」および「地域外パートナー」DBから、渡名喜村の保育・幼児教育インフラの課題に関連する事例・先行知見です。保育運営に特化した政策事例はまだライブラリに未登録のため、外部パートナーとして把握している国内先行自治体の情報もあわせて掲載しています。</p>
+    <div class="measureCard">
+      <span class="pill pblue">国内先行例</span>
+      <b>小規模離島の保育運営先行自治体(例：渡嘉敷村)</b>
+      <p style="font-size:13px;margin:6px 0 0">渡名喜村と同様の小規模離島で、保育所の運営・給食・人員配置・管理者確保に関する実務知見を持つ先行自治体。地域外パートナーDBに登録し、視察・ヒアリングの受け入れを想定した連携候補としている。</p>
+      <div class="callout" style="margin-top:8px"><b>活用の方向性：</b>運営基準と離島の実情をどうつないでいるか、具体的な設計情報の共有を依頼する。</div>
+    </div>
+    <div class="measureCard">
+      <span class="pill pgreen">成功</span>
+      <b>フェロー諸島 ヴァーグル(Vágur)の専任職員確保・定住化</b>
+      <p style="font-size:13px;margin:6px 0 0">自治体予算・民間資金・住民の労力提供など複数の財源を組み合わせて専任職員を確保。単一財源に依存しなかった点がポイントで、保育士等の専門人材確保にも応用できる考え方。</p>
+      <div class="callout" style="margin-top:8px"><b>日本への転用時の注意点：</b>クラウドファンディング等をそのまま輸入するより、「複数資金源・複数パートナーを組み合わせる発想」を参考にすべき。</div>
+    </div>
+    <div class="measureCard">
+      <span class="pill pred">失敗</span>
+      <b>小規模自治体の共同サービス体で運営コストが削減効果を上回った例</b>
+      <p style="font-size:13px;margin:6px 0 0">オーストラリアの地方自治体で、共同サービスのための別組織を新設した結果、その運営・設立コスト自体が期待したコスト削減効果を上回ったケースが報告されている。</p>
+      <div class="callout warn" style="margin-top:8px"><b>日本への転用時の注意点：</b>渡名喜村が単独で新たな運営組織・常勤体制を作る場合も、対象児童数に見合わない固定費とならないか、この失敗例を反面教師として事前に試算すべき。</div>
+    </div>
+    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。保育・幼児教育分野に特化した政策事例の追加登録を今後の重点調査対象とします。実際の政策検討には一次情報での確認をお願いします。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-funding">
+  <div class="card">
+    <h3>村の課題に合いそうな補助金・交付金(候補)</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">意思決定支援プラットフォーム上の「補助金・交付金マッチングDB」から、渡名喜村向けに登録済みの候補です。保育・幼児教育に特化した専用の補助金はまだ未登録のため、使途が比較的柔軟で教育・福祉分野もカバーできる既存の候補を掲載しています。金額・締切等の詳細は必ず一次情報でご確認ください。</p>
+    <div class="tableWrap">
+      <table>
+        <thead>
+          <tr><th>制度名</th><th>所管</th><th>概要</th><th>マッチ理由</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>沖縄振興特別推進交付金(ソフト交付金)</b><br><span class="pill pblue">自治体向け</span></td>
+            <td>内閣府沖縄振興局／沖縄県</td>
+            <td>離島振興・人材育成・交通コスト対策・医療・教育・福祉等、県独自の幅広い分野を対象とする県主体の交付金。</td>
+            <td>教育・福祉分野を対象に含むため、保育士確保・運営体制構築などのソフト事業に充当できる可能性がある。渡名喜村は沖縄県内の離島であり、県から直接活用できる立場にある。</td>
+          </tr>
+          <tr>
+            <td><b>地域女性活躍推進交付金(令和8年度)</b><br><span class="pill pblue">自治体向け</span></td>
+            <td>内閣府男女共同参画局</td>
+            <td>女性防災リーダー・役員育成研修、デジタル人材・起業家育成支援、寄り添い支援など。令和8年度予算案3.0億円。</td>
+            <td>保育士確保・人材育成支援メニューとの接続可能性がある。過去に交付税を使い切れなかった村にとって、申請ハードルが比較的低い候補。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn">保育所・幼稚園の運営費や人材確保に特化した国・県の専用補助金(例：へき地保育所運営費、保育士確保対策事業等)はまだマッチングDBに未登録です。次回のNotionデータ収集で重点的に調査・登録することを推奨します。</div>
+    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。申請にあたっては村役場・県・国の一次情報を必ずご確認ください。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-raw">
+  <div class="card">
+    <h3>住民・関係者の意見(生データ)</h3>
+    <div class="stakeGrid">
+      <div class="stakeCard">
+        <b>未就学児の保護者・移住検討世帯(住民)</b>
+        <p>未就学児の預け先がない状態は、共働き・移住・定住を考える世帯にとって大きなハードルであり、保育・幼児教育インフラの回復が必要。【賛成】</p>
+        <div class="bar"><i style="width:70%"></i></div>
+      </div>
+      <div class="stakeCard">
+        <b>渡名喜村 民生課(保育所開設担当・自治体職員)</b>
+        <p>保育所開設は必要だが、保育士だけでなく常勤管理者・保育補助員・給食提供などの運営基準を満たす必要があり、島内人材だけでは実装が難しい。【条件付き賛成】</p>
+        <div class="bar"><i style="width:60%"></i></div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>ゴール整合(StakeholderGoal)</h3>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>ゴール</th><th>種別</th><th>優先度</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>小規模離島に適した運営方式を設計する</td><td><span class="pill pblue">seek</span></td><td><span class="pill pred">高</span></td><td>国の保育運営基準と、対象児が少ない小規模離島の現実をつなぎ、管理者・保育士・補助員・給食提供を含む実装可能な運営方式を設計する。</td></tr>
+          <tr><td>保育・幼児教育の最低限アクセスを回復する</td><td><span class="pill porange">need</span></td><td><span class="pill pred">高</span></td><td>0〜5歳児の預け先・幼児教育機会を島内で確保し、定住・移住の前提条件となる子育てインフラの空白を解消する。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>地域外パートナー(ExternalPartner)</h3>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>パートナー</th><th>提供資源</th><th>求めるもの</th></tr></thead>
+        <tbody>
+          <tr><td>沖縄県 保育士・保育所総合支援センター</td><td>保育士確保・求人広報・移住費用補助情報の周知、保育人材マッチング支援</td><td>渡名喜村側の受入条件、勤務条件、住居・移住支援、開設時期の明確化</td></tr>
+          <tr><td>小規模離島の保育運営先行自治体(例：渡嘉敷村)</td><td>小規模離島での保育所運営・給食・人員配置・管理者確保に関する実務知見</td><td>視察・ヒアリングの受入、運営基準と島の実情をつなぐ具体的な設計情報の共有</td></tr>
+          <tr><td>しまほいく(沖縄県離島の保育士支援サイト)</td><td>離島保育士求人の広報、移住・暮らし情報の発信、保育士候補者との接点形成</td><td>渡名喜村の求人票、勤務条件、移住支援、島での暮らし情報、開設予定時期の整理</td></tr>
+          <tr><td>沖縄県 県外保育士誘致支援事業</td><td>県外在住保育士の県内就労に係る渡航費・引っ越し費用等の移住費用支援</td><td>渡名喜村側の認可保育施設としての受入条件、勤務条件、住居確保、採用広報との接続</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footNote">出典：沖縄タイムス（https://www.okinawatimes.co.jp/articles/-/1502040 、https://www.okinawatimes.co.jp/articles/-/1794689）、渡名喜村公式note（2026年3月5日）</p>
+  </div>
+</section>
+
+</div>
+<script>
+document.querySelectorAll('.tabBtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.tabBtn').forEach(function(b){ b.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
