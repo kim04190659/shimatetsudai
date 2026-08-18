@@ -105,17 +105,28 @@ export default async function ToolDetailPage(props: PageProps<"/tools/[slug]">) 
                   ))}
                 </div>
 
-                {caseStudy.embedUrl && (
-                  // 実際のページ(HTML)は別タブで開く。ページ内には埋め込まない。
-                  <a
-                    href={caseStudy.embedUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-5 inline-flex items-center justify-center gap-1 rounded-full border border-brand bg-white px-5 py-3 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40"
-                  >
-                    {caseStudy.embedLabel ?? `${caseStudy.place}の事例をみる`} ↗
-                  </a>
-                )}
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {caseStudy.embedUrl && (
+                    // 実際のページ(HTML)は別タブで開く。ページ内には埋め込まない。
+                    <a
+                      href={caseStudy.embedUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-1 rounded-full border border-brand bg-white px-5 py-3 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40"
+                    >
+                      {caseStudy.embedLabel ?? `${caseStudy.place}の事例をみる`} ↗
+                    </a>
+                  )}
+                  {caseStudy.branchUrl && (
+                    // 分室ページは実際の運用状況(論点一覧)が更新され続けるページのため、内部リンクとして遷移する。
+                    <Link
+                      href={caseStudy.branchUrl}
+                      className="inline-flex items-center justify-center gap-1 rounded-full bg-brand-soft/40 px-5 py-3 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/60"
+                    >
+                      {caseStudy.branchLabel ?? "分室ページを見る"}
+                    </Link>
+                  )}
+                </div>
               </div>
             ))}
           </div>

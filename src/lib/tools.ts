@@ -18,6 +18,9 @@ export type CaseStudy = {
   /** 実際の成果物(A3意思決定支援シートなど)。押すとpublicディレクトリ配下のページが別タブで開く */
   embedUrl?: string;
   embedLabel?: string;
+  /** この島の「分室」ページ(実際の運用状況・論点一覧)へのリンク */
+  branchUrl?: string;
+  branchLabel?: string;
 };
 
 export type Tool = {
@@ -140,6 +143,8 @@ export const tools: Tool[] = [
         ],
         embedUrl: "/case-studies/yakushima-a3.html",
         embedLabel: "屋久島町(空港滑走路延伸)の事例をみる",
+        branchUrl: "/branches/yakushima",
+        branchLabel: "屋久島町分室ページを見る",
       },
       {
         place: "屋久島町(航路の持続可能性)",
@@ -169,6 +174,8 @@ export const tools: Tool[] = [
         ],
         embedUrl: "/case-studies/yakushima-route-dss.html",
         embedLabel: "屋久島町(航路の持続可能性)の事例をみる",
+        branchUrl: "/branches/yakushima",
+        branchLabel: "屋久島町分室ページを見る",
       },
       {
         place: "渡名喜村(役場職員不足による行政サービス維持)",
@@ -198,35 +205,8 @@ export const tools: Tool[] = [
         ],
         embedUrl: "/case-studies/tonaki-staffing-dss.html",
         embedLabel: "渡名喜村(役場職員不足による行政サービス維持)の事例をみる",
-      },
-      {
-        place: "渡名喜村(保育・幼児教育インフラの空洞化)",
-        intro:
-          "2019年度に約8.5億円(ハード交付金)で整備した保育スペース付き施設が6年以上利用ゼロ、村立幼稚園も在籍園児ゼロで実質休園状態にある中、施設整備だけでは解決しない運営モデル・人材確保をどう検討するかの事例です。",
-        steps: [
-          {
-            title: "現状データ・意見",
-            description:
-              "施設整備費や利用実績などの現状データと、保護者・移住検討世帯、村役場民生課など立場ごとの意見を集約",
-          },
-          {
-            title: "AI分析",
-            description:
-              "施設(ハコ)はあっても需要・担い手が揃わなければ機能しないという構造的な課題を整理",
-          },
-          {
-            title: "施策候補",
-            description:
-              "小規模離島に適した保育運営方式の設計、外部パートナー連携による人材確保、認定こども園等への移行検討を、短期・中期・長期の見込みつきで提示",
-          },
-          {
-            title: "意思決定シミュレーション",
-            description:
-              "「対象児童数が少なく、固定費の大きい単独運営は非効率では」といった少数意見への向き合い方を含めて合意形成を検討",
-          },
-        ],
-        embedUrl: "/case-studies/tonaki-childcare-dss.html",
-        embedLabel: "渡名喜村(保育・幼児教育インフラの空洞化)の事例をみる",
+        branchUrl: "/branches/tonaki",
+        branchLabel: "渡名喜村分室ページを見る",
       },
       {
         place: "りとけい(420島への限られた取材・支援リソース配分・最新版)",
@@ -256,6 +236,8 @@ export const tools: Tool[] = [
         ],
         embedUrl: "/case-studies/ritokei-resource-dss-v6.html",
         embedLabel: "りとけい(最新版)の事例をみる",
+        branchUrl: "/branches/ritokei",
+        branchLabel: "りとけい分室ページを見る",
       },
       {
         place: "りとけい(420島への限られた取材・支援リソース配分・初期版)",

@@ -145,6 +145,14 @@ export const branches: Branch[] = [
         cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-tonaki-staffing/cards",
         cardGameLabel: "しまのみんな会議で意見を出す",
       },
+      {
+        title: "保育・幼児教育インフラの空洞化",
+        status: "提起",
+        summary:
+          "2019年度に約8.5億円(ハード交付金)で整備した保育スペース付き施設が6年以上利用ゼロ、村立幼稚園も在籍園児ゼロで実質休園状態にある中、施設整備だけでは解決しない運営モデル・人材確保をどう検討するかを整理しています。",
+        dashboardUrl: "/case-studies/tonaki-childcare-dss.html",
+        dashboardLabel: "意思決定支援ダッシュボードを見る",
+      },
     ],
   },
 ];
