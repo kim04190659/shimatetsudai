@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { tools, getToolBySlug } from "@/lib/tools";
+import { branches } from "@/lib/branches";
 import { PARTNER_NAME } from "@/lib/partner";
 
 export function generateStaticParams() {
@@ -105,29 +106,42 @@ export default async function ToolDetailPage(props: PageProps<"/tools/[slug]">) 
                   ))}
                 </div>
 
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {caseStudy.embedUrl && (
-                    // 実際のページ(HTML)は別タブで開く。ページ内には埋め込まない。
-                    <a
-                      href={caseStudy.embedUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-1 rounded-full border border-brand bg-white px-5 py-3 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40"
-                    >
-                      {caseStudy.embedLabel ?? `${caseStudy.place}の事例をみる`} ↗
-                    </a>
-                  )}
-                  {caseStudy.branchUrl && (
-                    // 分室ページは実際の運用状況(論点一覧)が更新され続けるページのため、内部リンクとして遷移する。
-                    <Link
-                      href={caseStudy.branchUrl}
-                      className="inline-flex items-center justify-center gap-1 rounded-full bg-brand-soft/40 px-5 py-3 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/60"
-                    >
-                      {caseStudy.branchLabel ?? "分室ページを見る"}
-                    </Link>
-                  )}
-                </div>
+                {caseStudy.embedUrl && (
+                  // 実際のページ(HTML)は別タブで開く。ページ内には埋め込まない。
+                  <a
+                    href={caseStudy.embedUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-5 inline-flex items-center justify-center gap-1 rounded-full border border-brand bg-white px-5 py-3 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40"
+                  >
+                    {caseStudy.embedLabel ?? `${caseStudy.place}の事例をみる`} ↗
+                  </a>
+                )}
               </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {tool.showBranches && (
+        <div className="mt-10">
+          <h2 className="text-lg font-bold text-foreground">実際の運用は「分室」ページで</h2>
+          <p className="mt-2 text-sm leading-relaxed text-foreground/70">
+            論点(Issue)は島ごとに増えたり、合意に近づいたりと常に動いています。最新の状況は、個別の実例紹介ではなく、各分室ページでご確認いただけます。
+          </p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-3">
+            {branches.map((branch) => (
+              <Link
+                key={branch.slug}
+                href={`/branches/${branch.slug}`}
+                className="flex flex-col rounded-2xl border border-brand-soft bg-card p-5 transition hover:bg-brand-soft/30"
+              >
+                <h3 className="text-base font-bold text-foreground">{branch.name}</h3>
+                <p className="mt-1 text-xs font-semibold text-accent-green">{branch.tagline}</p>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/70">
+                  論点 {branch.issues.length}件を掲載中
+                </p>
+              </Link>
             ))}
           </div>
         </div>
