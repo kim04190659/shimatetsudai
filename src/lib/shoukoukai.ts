@@ -58,7 +58,16 @@ export const shoukoukaiBranches: ShoukoukaiBranch[] = [
       { label: "連携状況", value: "検討段階(2026年8月時点。商工会側との正式な合意はまだ)" },
     ],
     tools: [],
-    issues: [],
+    issues: [
+      {
+        title: "自然災害（台風等）への事業継続力（BCP）強化",
+        status: "提起",
+        summary:
+          "屋久島町商工会と屋久島町が共同で策定した「事業継続力強化支援計画」(令和6〜9年度)と、令和8年(2026年)台風6号の実際の対応事例にもとづく論点です。しまてつだいとして直接ヒアリングして確認した内容ではなく、Notion上のステータスは「提起」のままです。",
+        dashboardUrl: "/case-studies/yakushima-shokokai-bcp-dss.html",
+        dashboardLabel: "意思決定支援ダッシュボードを見る",
+      },
+    ],
   },
 ];
 

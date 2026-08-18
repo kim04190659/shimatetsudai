@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>屋久島町商工会 意思決定支援ダッシュボード ｜ 自然災害（台風等）への事業継続力（BCP）強化</title>
+<style>
+:root{--ink:#2C2C2B;--muted:#7D7A75;--line:#E6E5E3;--soft:#F9F8F7;--blue:#2783DE;--blueSoft:#E5F2FC;--green:#46A171;--greenSoft:#E8F1EC;--orange:#D5803B;--orangeSoft:#FBEBDE;--red:#E56458;--redSoft:#FCE9E7;--purple:#7A5CCF;--purpleSoft:#EEE9FB}
+*{box-sizing:border-box}
+body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.5}
+.app{max-width:1200px;margin:0 auto;background:#fff;min-height:100vh}
+.hero{padding:24px 28px 14px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:800}
+.title{font-size:26px;font-weight:900;margin:6px 0 4px}
+.subtitle{color:var(--muted);font-size:13px}
+.decision{border:2px solid #9ac9ef;border-radius:14px;background:#fbfdff;padding:14px;margin-top:14px}
+.badge{display:inline-block;background:var(--blueSoft);color:#165c9d;border-radius:8px;padding:6px 10px;font-weight:900;font-size:12px}
+.decision p{margin:8px 0 0;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px}
+.kpi b{font-size:20px;display:block}
+.kpi span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.tabs{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 28px;z-index:5;display:flex;gap:8px;overflow:auto}
+.tabs button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;white-space:nowrap;font-size:13px}
+.tabs button.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.panel{display:none;padding:20px 28px 36px}
+.panel.active{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.card{border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px}
+.card h3{margin:0 0 10px;font-size:16px}
+.callout{border-left:5px solid var(--blue);background:var(--blueSoft);border-radius:10px;padding:10px;margin:8px 0;font-size:13px}
+.ok{border-left-color:var(--green);background:var(--greenSoft)}
+.warn{border-left-color:var(--orange);background:var(--orangeSoft)}
+.risk{border-left-color:var(--red);background:var(--redSoft)}
+.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top;text-align:left}
+th{background:var(--soft);font-weight:900}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;border-radius:999px;padding:3px 8px;font-size:10.5px;font-weight:800}
+.pblue{background:var(--blueSoft);color:#165c9d}
+.pgreen{background:var(--greenSoft);color:#1f6b46}
+.porange{background:var(--orangeSoft);color:#93501a}
+.pred{background:var(--redSoft);color:#a13327}
+.ppurple{background:var(--purpleSoft);color:#4b3494}
+.measureCard{border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.measureCard b{font-size:14.5px}
+.coefGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.coefCard .label{font-weight:800;font-size:12.5px}
+.coefCard .num{font-size:21px;font-weight:900;display:block;margin:4px 0}
+.coefCard .sub{font-size:11px;color:var(--muted);margin:0 0 8px}
+.coefBar{height:7px;border-radius:999px;background:var(--soft);overflow:hidden;margin-bottom:8px}
+.coefBar i{display:block;height:100%}
+.footNote{font-size:11.5px;color:var(--muted);margin-top:18px}
+.a3Grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.mini{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.mini h4{margin:0 0 8px;font-size:13px}
+.mini ul{margin:0;padding-left:16px;font-size:12px;line-height:1.55}
+.mini li{margin:3px 0}
+@media(max-width:900px){.grid2,.grid3,.coefGrid,.a3Grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hero">
+  <span class="eyebrow">意思決定支援PoC ｜ 屋久島町商工会</span>
+  <div class="title">自然災害（台風等）への事業継続力（BCP）強化</div>
+  <div class="subtitle">屋久島町商工会と屋久島町が共同で策定した「事業継続力強化支援計画」(令和6年4月〜令和9年3月)を土台に、実際に発生した令和8年(2026年)台風6号への対応も踏まえながら、会員事業者のBCP強化をどう進めるかを検討する事例です。</div>
+  <div class="decision">
+    <span class="badge">今日の意思決定</span>
+    <p>①台風6号対応の振り返り(計画通り機能した点・課題が出た点の洗い出し)、②BCP策定支援の重点事業者選定、③事業継続力強化計画認定の周知、のどれから着手するか。推奨は、直近の実災害対応をまだ記憶が新しいうちに検証する①を起点にし、そこで見えた課題をもとに②③に展開すること。</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><b>490社</b><span>屋久島町商工会 会員事業者数(令和3年度)</span></div>
+    <div class="kpi"><b>704社</b><span>管内小規模事業者数(令和3年度)</span></div>
+    <div class="kpi"><b>令和8年台風6号</b><span>2026年6月、直近の実災害リスク</span></div>
+    <div class="kpi"><b>未確認</b><span>会員のBCP策定率・保険加入状況</span></div>
+  </div>
+  <div class="callout ok" style="margin-top:14px">
+    <b>📎 類似事例・補助金からの示唆</b>
+    <p style="margin-top:6px">全国商工会連合会が過去の大規模災害(東日本大震災・熊本地震・西日本豪雨)対応を振り返った資料によれば、商工会が直面した課題は「職員のマンパワー不足」「行政への報告フォーマットの不統一」「事業者の災害リスク認識不足」「復興支援の長期化」の4点に整理されている。屋久島町商工会(法定経営指導員2名を含む職員8名体制)も同様の構造的な制約を抱えている可能性が高く、台風6号対応の実態確認が優先度の高い一手になる。事業継続力強化計画の認定を受けると税制優遇・低利融資などの実利があるため、BCP策定支援と認定取得をセットで進める設計が合理的。詳細は「国内外の類似事例」「活用できる補助金・交付金」タブへ。</p>
+  </div>
+</div>
+
+<nav class="tabs">
+  <button class="tabBtn active" data-tab="summary">議論まとめ</button>
+  <button class="tabBtn" data-tab="premise">商工会目標（前提条件）</button>
+  <button class="tabBtn" data-tab="proposal">提案内容・詳細</button>
+  <button class="tabBtn" data-tab="cases">国内外の類似事例</button>
+  <button class="tabBtn" data-tab="funding">活用できる補助金・交付金</button>
+  <button class="tabBtn" data-tab="raw">生データ（補足）</button>
+</nav>
+
+<section class="panel active" id="panel-summary">
+  <div class="callout warn">
+    <b>⚠️ この論点の位置づけ</b>
+    <p style="margin-top:6px">この論点は、屋久島町商工会・屋久島町が公表している「事業継続力強化支援計画」の記述と、実際に発生した令和8年台風6号への対応(2026年6月、臨時休館の公式告知)にもとづく仮説です。しまてつだいとして会員事業者・商工会職員へ直接ヒアリングして確認した内容ではありません。Notion上のIssueステータスは「提起」です。</p>
+  </div>
+  <div class="measureCard">
+    <b>1. 情報共有ルートの実地検証</b>
+    <p style="font-size:13px;margin:6px 0 0">計画で定めた「発災後2時間以内の安否・被害状況共有」が、台風6号の際に実際どう機能したかを商工会・町の双方で振り返る。</p>
+  </div>
+  <div class="measureCard">
+    <b>2. BCP策定支援の重点化</b>
+    <p style="font-size:13px;margin:6px 0 0">管内704社のうち、観光関連・宿泊業・飲食サービス業など被害を受けやすい業種から優先的にBCP策定を働きかける。</p>
+  </div>
+  <div class="measureCard">
+    <b>3. 事業継続力強化計画認定の周知</b>
+    <p style="font-size:13px;margin:6px 0 0">認定を受けると税制優遇・低利融資などの実利があることを、経営指導員の巡回指導時に案内する。</p>
+  </div>
+
+  <h3 style="margin-top:18px;font-size:15px">この論点の全体像(A3サマリー)</h3>
+  <div class="a3Grid">
+    <div class="mini">
+      <h4>📊 判断材料ハイライト</h4>
+      <ul>
+        <li>会員490社・管内小規模事業者704社(令和3年度、商工会独自調査)</li>
+        <li>令和8年台風6号が2026年6月に接近、商工会が臨時休館を告知した実例あり</li>
+        <li>計画上は発災後2時間以内の情報共有を目標に設定</li>
+        <li>会員のBCP策定率・保険/共済加入状況は未確認</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>💡 提案内容ハイライト</h4>
+      <ul>
+        <li>台風6号対応の振り返りを起点に、計画の実効性を検証</li>
+        <li>宿泊業・飲食サービス業など被災リスクの高い業種を優先支援</li>
+        <li>事業継続力強化計画の認定取得を巡回指導時に案内</li>
+        <li>共済・保険の加入状況チェックシートを活用した見える化</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>🗣️ 課題の背景</h4>
+      <ul>
+        <li>法定経営指導員2名を含む職員8名体制で、発災時のマンパワーが限られる</li>
+        <li>離島のため、被害情報の把握・応援職員の派遣に時間がかかりやすい</li>
+        <li>小規模事業者は災害リスクへの理解が十分でないとの指摘が全国的にある</li>
+        <li>復興支援は単年度で終わらず、複数年の息の長い対応が必要になりやすい</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>🌍 類似事例ハイライト</h4>
+      <ul>
+        <li><span class="pill pblue">実績あり</span> 全国の商工会組織：東日本大震災・熊本地震・西日本豪雨で職員派遣・ノウハウ伝承の実績</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>💰 補助金・交付金ハイライト</h4>
+      <ul>
+        <li><span class="pill pblue">高</span> 事業継続力強化計画の認定：特別償却16%・低利融資(基準金利-0.9%)</li>
+        <li><span class="pill porange">要確認</span> 過去の災害で商工会が活用した支援策(グループ補助金等)の適用可否</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>✅ 結論・次の一手</h4>
+      <ul>
+        <li>まず台風6号対応の振り返りヒアリングを商工会職員に対して実施</li>
+        <li>そのうえで優先業種のBCP策定支援・認定取得の周知に展開</li>
+        <li>Notion上のStatusを「提起」→「議論中」に更新し、実際の声を記録していく</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-premise">
+  <div class="card">
+    <h3>屋久島町商工会の目標(経営発達支援計画より)</h3>
+    <p style="font-size:13px">①観光関連事業から派生する経済効果を島の経済循環につなげ、小規模事業者の経営力を強化する。②事業創業・事業継続・承継支援・DX推進により地域経済の持続的発展を図る。③「経営力再構築伴走支援モデル」による伴走支援を実施する。</p>
+  </div>
+  <div class="tableWrap" style="margin-top:14px">
+    <table>
+      <tbody>
+        <tr><th>事業継続力強化の目標</th><td>災害リスクの周知、商工会・町の間の被害情報共有ルート構築、発災後の組織内・関係機関との連携体制構築、共済・保険相談の実施。</td></tr>
+        <tr><th>実施期間</th><td>令和6年4月1日〜令和9年3月31日(現在進行中)。</td></tr>
+        <tr><th>評価体制</th><td>毎年度「屋久島町事業継続力強化支援協議会」を開催し、状況確認・改善点の協議・評価検証を行う。</td></tr>
+        <tr><th>判断基準</th><td>会員事業者の経営継続・記帳指導・経営相談という商工会の本来業務を止めずに、災害時の対応力をどう積み増せるか。</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="grid3" style="margin-top:14px">
+    <div class="card"><h3>管内事業者数</h3><p style="font-size:13px">商工業者782名、小規模事業者704名、うち490名が商工会員(令和3年度、商工会独自調査)。宿泊業・飲食サービス業が211名と最多。</p></div>
+    <div class="card"><h3>組織体制</h3><p style="font-size:13px">役員18名(会長1・副会長2・理事15)、職員8名(法定経営指導員2名を含む)。宮之浦本所と安房支所の2拠点。</p></div>
+    <div class="card"><h3>全国の商工会との比較</h3><p style="font-size:13px">全国の商工会は1商工会平均で職員6.2人体制(全国商工会連合会調査)。屋久島町商工会の8名はやや手厚いが、離島特有の移動制約がある。</p></div>
+  </div>
+  <h3 style="margin-top:20px;font-size:15px">事業継続力強化に必要な係数</h3>
+  <div class="coefGrid">
+    <div class="card coefCard"><div class="label">会員事業者数</div><b class="num">490社</b><div class="sub">管内小規模事業者704社のうち会員は約7割。</div><div class="coefBar"><i style="width:60%;background:var(--blue)"></i></div><span class="pill pblue">組織率は中程度</span></div>
+    <div class="card coefCard"><div class="label">被災リスク業種の比率</div><b class="num">約37%</b><div class="sub">観光関連業者の割合(経営発達支援計画より)。台風時の営業停止影響が大きい。</div><div class="coefBar"><i style="width:37%;background:var(--orange)"></i></div><span class="pill porange">要重点支援</span></div>
+    <div class="card coefCard"><div class="label">職員体制</div><b class="num">8名</b><div class="sub">法定経営指導員2名を含む。発災時は状況把握と経営相談が同時発生しやすい。</div><div class="coefBar"><i style="width:40%;background:var(--red)"></i></div><span class="pill pred">マンパワー制約</span></div>
+    <div class="card coefCard"><div class="label">情報共有目標</div><b class="num">発災後2時間</b><div class="sub">商工会・町間の安否・被害状況共有の目標時間。実効性は未検証。</div><div class="coefBar"><i style="width:50%;background:var(--orange)"></i></div><span class="pill porange">検証必要</span></div>
+    <div class="card coefCard"><div class="label">BCP策定支援</div><b class="num">計画に明記</b><div class="sub">セミナー・説明を通じ小規模事業者へのBCP普及を推進中。</div><div class="coefBar"><i style="width:45%;background:var(--blue)"></i></div><span class="pill pblue">推進中</span></div>
+    <div class="card coefCard"><div class="label">保険・共済の見える化</div><b class="num">未確認</b><div class="sub">チェックシートでの確認活動は計画に位置づけあり、実施状況は要確認。</div><div class="coefBar"><i style="width:30%;background:var(--red)"></i></div><span class="pill pred">データなし</span></div>
+    <div class="card coefCard"><div class="label">直近の実災害</div><b class="num">台風6号</b><div class="sub">令和8年(2026年)6月、屋久島地方へ接近・通過。臨時休館を公式告知。</div><div class="coefBar"><i style="width:80%;background:var(--red)"></i></div><span class="pill pred">検証の好機</span></div>
+    <div class="card coefCard"><div class="label">評価体制</div><b class="num">年1回</b><div class="sub">屋久島町事業継続力強化支援協議会での進捗検証。</div><div class="coefBar"><i style="width:55%;background:var(--green)"></i></div><span class="pill pgreen">制度化済み</span></div>
+  </div>
+  <div class="grid2" style="margin-top:14px">
+    <div class="callout risk"><b>マンパワー不足</b><p style="margin:6px 0 0">発災直後は状況把握と経営相談対応が同時に発生し、少人数の職員体制では両立が難しい(全国商工会連合会の一般的な指摘とも合致)。</p></div>
+    <div class="callout risk"><b>離島特有の制約</b><p style="margin:6px 0 0">県連・全国連からの応援職員派遣にも移動時間がかかり、本土の商工会より初動が遅れやすい可能性がある。</p></div>
+    <div class="callout warn"><b>リスク認識のばらつき</b><p style="margin:6px 0 0">会員のBCP策定率・保険加入状況は未確認。まず現状把握から着手する必要がある。</p></div>
+    <div class="callout warn"><b>復興支援の長期化</b><p style="margin:6px 0 0">被災後の販路回復・売上回復には複数年かかることが多く、単発の支援で終わらせない設計が必要。</p></div>
+  </div>
+</section>
+
+<section class="panel" id="panel-proposal">
+  <div class="card">
+    <h3>対策詳細</h3>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>振り返りヒアリング</th><td>台風6号対応で、計画通りに機能した点・機能しなかった点を商工会職員・被災の可能性があった事業者から聞き取る。</td></tr>
+          <tr><th>重点業種の選定</th><td>宿泊業・飲食サービス業など観光関連業種(管内の約37%)を対象に、BCP策定セミナーを優先開催する。</td></tr>
+          <tr><th>認定取得の周知</th><td>巡回指導・窓口相談の際に、事業継続力強化計画の認定制度と税制・融資メリットを案内する。</td></tr>
+          <tr><th>保険・共済チェック</th><td>計画に位置づけられているチェックシートを実際に配布し、加入状況の見える化を進める。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>課題の優先順位と対策案</h3>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>優先</th><th>問題・課題</th><th>意思決定上の意味</th><th>対策案</th><th>備考</th></tr></thead>
+        <tbody>
+          <tr><td><b>1</b></td><td>台風6号対応の実効性が未検証</td><td>計画が「作っただけ」で終わっているか分からない</td><td><span class="pill pblue">振り返りヒアリング</span> <span class="pill pblue">協議会での報告</span></td><td>まずここから</td></tr>
+          <tr><td><b>2</b></td><td>観光関連業種の被災リスクが高い</td><td>島の基幹産業が止まると経済的影響が大きい</td><td><span class="pill porange">BCPセミナー重点開催</span> <span class="pill porange">宿泊・飲食業優先</span></td><td>対象約37%</td></tr>
+          <tr><td><b>3</b></td><td>職員体制(8名)で発災対応と通常業務を両立</td><td>マンパワー不足が支援の質を下げるリスク</td><td><span class="pill ppurple">県連・全国連との連携協定</span> <span class="pill ppurple">応援職員の受け入れ体制</span></td><td>既に全国的な枠組みあり</td></tr>
+          <tr><td><b>4</b></td><td>会員のBCP策定率・保険加入状況が不明</td><td>支援の優先順位を数字で説明できない</td><td><span class="pill pgreen">チェックシート配布</span> <span class="pill pgreen">現状把握の数値化</span></td><td>要新規実施</td></tr>
+          <tr><td><b>5</b></td><td>認定制度の認知度が低い可能性</td><td>使える支援策を使いこなせていない恐れ</td><td><span class="pill pblue">巡回指導での案内</span> <span class="pill pblue">認定取得の目標件数設定</span></td><td>税制・融資の実利あり</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-cases">
+  <div class="card">
+    <h3>国内外の類似事例</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">全国商工会連合会が中小企業政策審議会に提出した資料「商工会による災害対応と課題について」(平成30年11月)にもとづく、実在の取り組みです。</p>
+    <div class="measureCard">
+      <span class="pill pblue">実績あり</span>
+      <b>東日本大震災・熊本地震・西日本豪雨における商工会間の応援職員派遣</b>
+      <p style="font-size:13px;margin:6px 0 0">熊本地震では宮城県・福島県の職員が熊本県下へ延べ47名・291日派遣され、グループ補助金の支援ノウハウを伝授。西日本豪雨でも熊本県・宮城県・福島県の職員が岡山・広島・愛媛へ延べ31名・152日派遣された。県境を越えた商工会組織のネットワークが機能した実例。</p>
+      <div class="callout warn" style="margin-top:8px"><b>屋久島町商工会への転用時の注意点：</b>離島は本土の商工会より応援職員の到着に時間がかかりやすい。平時から県連・全国連との連携協定を確認し、初動の遅れを見込んだ計画にしておく必要がある。</div>
+    </div>
+    <div class="measureCard">
+      <span class="pill pgreen">実績あり</span>
+      <b>九州・沖縄ブロック商工会連合会と日本政策金融公庫・沖縄公庫の連携協定(平成29年6月締結)</b>
+      <p style="font-size:13px;margin:6px 0 0">災害時に中小・小規模事業者が事業を継続するための支援体制を確立する目的で締結。同年7月の九州北部豪雨災害では、この協定にもとづき日本公庫との速やかな連携、ボランティア活動、物資供給などの支援が実施された。</p>
+      <div class="callout ok" style="margin-top:8px"><b>屋久島町商工会への転用時の注意点：</b>鹿児島県も同様の枠組みの対象である可能性が高い。屋久島町商工会が現時点でこの協定の対象になっているか、鹿児島県商工会連合会に確認する価値がある。</div>
+    </div>
+    <div class="measureCard">
+      <span class="pill porange">課題として指摘</span>
+      <b>全国商工会連合会が整理した4つの構造的課題</b>
+      <p style="font-size:13px;margin:6px 0 0">①発災時のマンパワー不足(職員が少ない中で状況把握と経営相談が同時発生)、②行政への報告フォーマットが自治体・機関ごとに異なり交通整理が必要、③事業者の災害リスクへの理解が十分でない、④復興支援は単年度で終わらず息の長い対応が必要、の4点。</p>
+    </div>
+    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。実際の政策検討には一次情報での確認をお願いします。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-funding">
+  <div class="card">
+    <h3>活用できる補助金・支援制度(候補)</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">事業継続力強化(BCP)に関連が高いと判断した既存の国の制度です。金額・要件等の詳細は必ず一次情報でご確認ください。</p>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>制度名</th><th>所管</th><th>概要</th><th>マッチ理由</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>事業継続力強化計画の認定制度</b><br><span class="pill pblue">小規模事業者向け</span></td>
+            <td>中小企業庁(経済産業大臣認定)</td>
+            <td>防災・減災の事前対策に関する計画を認定。認定事業者は中小企業防災・減災投資促進税制(対象設備の特別償却16%)、日本政策金融公庫の低利融資(基準金利-0.9%、最大7.2億円)等の対象になる。</td>
+            <td>屋久島町商工会の事業継続力強化支援計画そのものが、会員事業者に個別の認定取得を促す土台になる。認定取得を巡回指導のKPIに組み込める。</td>
+          </tr>
+          <tr>
+            <td><b>グループ補助金・災害持続化補助金(過去の災害での活用実績)</b><br><span class="pill porange">被災事業者向け</span></td>
+            <td>経済産業省／全国商工会連合会経由</td>
+            <td>東日本大震災・熊本地震・西日本豪雨等の際に、被災した小規模事業者の施設・設備復旧を支援した実績のある補助金群。商工会が申請支援・実行支援を担った。</td>
+            <td>実際に自然災害が発生した場合の復旧フェーズで活用できる制度。平時のうちに商工会職員が申請支援のノウハウを確認しておく価値がある。</td>
+          </tr>
+          <tr>
+            <td><b>商工会災害助け合い基金(商工会独自の共済的な取り組み)</b><br><span class="pill pgreen">商工会員向け</span></td>
+            <td>全国商工会連合会(商工会独自制度)</td>
+            <td>会員が毎年度一定額を拠出・積み立て、災害発生時に被災会員へお見舞金を送金する相互扶助の仕組み。青年部・女性部では既に実施例あり。</td>
+            <td>離島は本土からの支援到着に時間がかかるため、会員間の相互扶助を早期に立ち上げておく意義が大きい。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。申請にあたっては中小企業庁・鹿児島県商工会連合会等の一次情報を必ずご確認ください。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-raw">
+  <div class="card">
+    <h3>Notionに登録されている根拠データ</h3>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>Issue</th><td>自然災害（台風等）への事業継続力（BCP）強化 / Status: 提起 / 対象商工会: 屋久島町商工会</td></tr>
+          <tr><th>EvidenceRecord</th><td>事業継続力強化支援計画と、実際の台風6号対応事例(SourceType: open_data)</td></tr>
+          <tr><th>OpenDataSource ①</th><td>屋久島町商工会 事業継続力強化支援計画(概要・令和6〜9年度) — 出典: 鹿児島県公表PDF</td></tr>
+          <tr><th>OpenDataSource ②</th><td>令和8年(2026年)台風6号で商工会が臨時休館を告知 — 出典: 国土交通省 災害・防災情報</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>生成AIとの業務分担</h3>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>AI</th><td>公開資料の整理、過去の災害対応事例の検索・要約、論点抽出、質問案作成、下書き、ファクトチェック項目の洗い出し。</td></tr>
+          <tr><th>人間(商工会職員・拠点スタッフ)</th><td>実際のヒアリング、現地文脈の確認、事業者との関係構築、支援策の適用可否判断、最終的な意思決定。</td></tr>
+          <tr><th>禁止事項</th><td>AI単独で「BCP策定率」等の実数値を推定・断定しない。会員への説明・報告前には必ず一次情報・実ヒアリングで確認する。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>次のアクション(たたき台)</h3>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>直近</th><td>商工会職員へのヒアリングで、台風6号対応時の情報共有体制の実効性を確認する。</td></tr>
+          <tr><th>中期</th><td>観光関連業種を対象にBCP策定セミナーを企画し、事業継続力強化計画の認定取得件数を目標として設定する。</td></tr>
+          <tr><th>継続</th><td>「屋久島町事業継続力強化支援協議会」での協議内容をNotionのAgreement DBに記録し、進捗を追跡する。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+</div>
+<script>
+document.querySelectorAll('.tabBtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.tabBtn').forEach(function(b){ b.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
