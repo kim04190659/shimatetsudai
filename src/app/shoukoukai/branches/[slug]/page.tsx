@@ -9,12 +9,12 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  props: PageProps<"/shoukoukai/[slug]">
+  props: PageProps<"/shoukoukai/branches/[slug]">
 ): Promise<Metadata> {
   const { slug } = await props.params;
   const branch = getShoukoukaiBySlug(slug);
   return {
-    title: branch ? `${branch.name} | ${PARTNER_NAME} しまてつだい 商工会支援` : "商工会",
+    title: branch ? `${branch.name} | ${PARTNER_NAME} しまてつだい 商工会支援` : "商工会分室",
   };
 }
 
@@ -31,8 +31,8 @@ const issueStatusStyle: Record<string, string> = {
   保留: "bg-gray-100 text-gray-600",
 };
 
-export default async function ShoukoukaiDetailPage(
-  props: PageProps<"/shoukoukai/[slug]">
+export default async function ShoukoukaiBranchDetailPage(
+  props: PageProps<"/shoukoukai/branches/[slug]">
 ) {
   const { slug } = await props.params;
   const branch = getShoukoukaiBySlug(slug);
@@ -43,8 +43,8 @@ export default async function ShoukoukaiDetailPage(
 
   return (
     <div className="mx-auto max-w-3xl px-5 py-16">
-      <Link href="/shoukoukai" className="text-sm font-semibold text-brand-dark hover:underline">
-        ← 商工会一覧に戻る
+      <Link href="/shoukoukai/branches" className="text-sm font-semibold text-brand-dark hover:underline">
+        ← 商工会分室一覧に戻る
       </Link>
 
       <div className="mt-6 flex flex-wrap items-center gap-3">

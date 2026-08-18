@@ -7,11 +7,6 @@ export const metadata: Metadata = {
   title: `商工会支援 | ${PARTNER_NAME} しまてつだい分室`,
 };
 
-const statusStyle: Record<string, string> = {
-  準備中: "bg-gray-100 text-gray-600",
-  活動中: "bg-accent-green/15 text-accent-green",
-};
-
 export default function ShoukoukaiPage() {
   return (
     <div>
@@ -36,14 +31,20 @@ export default function ShoukoukaiPage() {
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link
-              href="/contact"
+              href="/shoukoukai/branches"
               className="rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark"
+            >
+              商工会分室一覧を見る
+            </Link>
+            <Link
+              href="/contact"
+              className="rounded-full border border-brand-dark px-6 py-3 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/60"
             >
               連携について問い合わせる
             </Link>
             <Link
               href="/tools/ishikettei"
-              className="rounded-full border border-brand-dark px-6 py-3 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/60"
+              className="rounded-full border border-accent-green px-6 py-3 text-sm font-semibold text-accent-green transition hover:bg-accent-green/10"
             >
               自治体向け「意思決定支援」を見る
             </Link>
@@ -87,40 +88,21 @@ export default function ShoukoukaiPage() {
         </div>
       </section>
 
-      {/* Shoukoukai list */}
+      {/* Shoukoukai branches teaser */}
       <section className="bg-brand-soft/30">
-        <div className="mx-auto max-w-5xl px-5 py-16">
-          <p className="text-sm font-semibold text-brand-dark">対象商工会</p>
-          <h2 className="mt-2 text-2xl font-bold text-foreground">商工会一覧</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground/70">
-            現時点では検討・準備段階の商工会のみを掲載しています。実際に連携が始まった商工会から
-            「活動中」に更新していきます。
+        <div className="mx-auto max-w-3xl px-5 py-16 text-center">
+          <p className="text-sm font-semibold text-brand-dark">SHOUKOUKAI BRANCHES</p>
+          <h2 className="mt-2 text-2xl font-bold text-foreground">商工会分室一覧</h2>
+          <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-foreground/80">
+            商工会ごとに分室ページを作り、会員事業者の経営者・商工会職員と話しながら論点を1つずつ登録していきます。
+            現在は{shoukoukaiBranches.length}件の商工会を掲載しています。
           </p>
-
-          <div className="mt-8 grid gap-5 sm:grid-cols-2">
-            {shoukoukaiBranches.map((branch) => (
-              <Link
-                key={branch.slug}
-                href={`/shoukoukai/${branch.slug}`}
-                className="rounded-2xl border border-brand-soft bg-card p-6 transition hover:bg-brand-soft/50"
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <p className="text-xs font-semibold text-brand-dark">{branch.tagline}</p>
-                  <span
-                    className={`inline-flex shrink-0 items-center rounded-full px-3 py-1 text-xs font-semibold ${
-                      statusStyle[branch.status] ?? "bg-brand-soft/40 text-brand-dark"
-                    }`}
-                  >
-                    {branch.status}
-                  </span>
-                </div>
-                <h3 className="mt-2 text-lg font-bold text-foreground">{branch.name}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/70">
-                  {branch.description}
-                </p>
-              </Link>
-            ))}
-          </div>
+          <Link
+            href="/shoukoukai/branches"
+            className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-brand-dark hover:underline"
+          >
+            商工会分室一覧をもっと見る →
+          </Link>
         </div>
       </section>
 
