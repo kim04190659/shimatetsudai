@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>屋久島観光協会 意思決定支援ダッシュボード ｜ 外資・新規事業者の無秩序な参入への対応力強化</title>
+<style>
+:root{--ink:#2C2C2B;--muted:#7D7A75;--line:#E6E5E3;--soft:#F9F8F7;--blue:#2783DE;--blueSoft:#E5F2FC;--green:#46A171;--greenSoft:#E8F1EC;--orange:#D5803B;--orangeSoft:#FBEBDE;--red:#E56458;--redSoft:#FCE9E7;--purple:#7A5CCF;--purpleSoft:#EEE9FB}
+*{box-sizing:border-box}
+body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.5}
+.app{max-width:1200px;margin:0 auto;background:#fff;min-height:100vh}
+.hero{padding:24px 28px 14px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:800}
+.title{font-size:26px;font-weight:900;margin:6px 0 4px}
+.subtitle{color:var(--muted);font-size:13px}
+.decision{border:2px solid #9ac9ef;border-radius:14px;background:#fbfdff;padding:14px;margin-top:14px}
+.badge{display:inline-block;background:var(--blueSoft);color:#165c9d;border-radius:8px;padding:6px 10px;font-weight:900;font-size:12px}
+.decision p{margin:8px 0 0;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px}
+.kpi b{font-size:20px;display:block}
+.kpi span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.tabs{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 28px;z-index:5;display:flex;gap:8px;overflow:auto}
+.tabs button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;white-space:nowrap;font-size:13px}
+.tabs button.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.panel{display:none;padding:20px 28px 36px}
+.panel.active{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.card{border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px}
+.card h3{margin:0 0 10px;font-size:16px}
+.callout{border-left:5px solid var(--blue);background:var(--blueSoft);border-radius:10px;padding:10px;margin:8px 0;font-size:13px}
+.ok{border-left-color:var(--green);background:var(--greenSoft)}
+.warn{border-left-color:var(--orange);background:var(--orangeSoft)}
+.risk{border-left-color:var(--red);background:var(--redSoft)}
+.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top;text-align:left}
+th{background:var(--soft);font-weight:900}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;border-radius:999px;padding:3px 8px;font-size:10.5px;font-weight:800}
+.pblue{background:var(--blueSoft);color:#165c9d}
+.pgreen{background:var(--greenSoft);color:#1f6b46}
+.porange{background:var(--orangeSoft);color:#93501a}
+.pred{background:var(--redSoft);color:#a13327}
+.ppurple{background:var(--purpleSoft);color:#4b3494}
+.measureCard{border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.measureCard b{font-size:14.5px}
+.coefGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.coefCard .label{font-weight:800;font-size:12.5px}
+.coefCard .num{font-size:21px;font-weight:900;display:block;margin:4px 0}
+.coefCard .sub{font-size:11px;color:var(--muted);margin:0 0 8px}
+.coefBar{height:7px;border-radius:999px;background:var(--soft);overflow:hidden;margin-bottom:8px}
+.coefBar i{display:block;height:100%}
+.footNote{font-size:11.5px;color:var(--muted);margin-top:18px}
+.a3Grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.mini{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.mini h4{margin:0 0 8px;font-size:13px}
+.mini ul{margin:0;padding-left:16px;font-size:12px;line-height:1.55}
+.mini li{margin:3px 0}
+@media(max-width:900px){.grid2,.grid3,.coefGrid,.a3Grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hero">
+  <span class="eyebrow">意思決定支援PoC ｜ 屋久島観光協会</span>
+  <div class="title">外資・新規事業者の無秩序な参入への対応力強化</div>
+  <div class="subtitle">屋久島観光協会が自ら公開している「30年ビジョン策定文章」(2025年7月公開)で明記した課題意識と、Notionに登録された関係者(自治体・観光協会事務局・会員事業者)の立場表明・ゴール・初期合意案にもとづく事例です。</div>
+  <div class="decision">
+    <span class="badge">今日の意思決定</span>
+    <p>①新規・外資系事業者の会員化条件の明文化、②水源・森林・重要インフラ周辺の土地取引モニタリング体制の立ち上げ、③国境離島・世界自然遺産・水源地としての政策提言、のどれから着手するか。推奨は、既存会員の公平感にも直結し、かつ最も合意形成が進んでいる①から着手し、並行して②のモニタリング設計を進めること。</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><b>4件</b><span>Stakeholder登録数(自治体1・観光協会事務局1・会員事業者2)</span></div>
+    <div class="kpi"><b>8件</b><span>PositionRecord(立場表明ログ)登録数</span></div>
+    <div class="kpi"><b>278件/2,376ha</b><span>全国の外国資本による森林取得(2006〜2020年、林野庁調査)</span></div>
+    <div class="kpi"><b>未確認</b><span>屋久島町内での外資による土地取得の実件数</span></div>
+  </div>
+  <div class="callout ok" style="margin-top:14px">
+    <b>📎 類似事例・補助金からの示唆</b>
+    <p style="margin-top:6px">北海道ニセコ町・倶知安町では外国資本による無届森林伐採・無許可開発が実際に発覚しており(林野庁公表・報道)、北海道は2012年に「水資源の保全に関する条例」を制定し水源地域の土地取引を事前届出制にしている。屋久島は水源涵養林・世界自然遺産という希少資源を抱える点でニセコと共通する構造的リスクがあり、排除ではなく「届出・透明化・会員化条件」という穏当な制度設計から始める余地が大きい。観光庁の観光振興事業費補助金(地域資源を活用した観光まちづくり推進事業)や、林野庁の森林整備地域活動支援交付金など、体制整備に使える可能性のある制度も存在する。詳細は「国内外の類似事例」「活用できる補助金・交付金」タブへ。</p>
+  </div>
+</div>
+
+<nav class="tabs">
+  <button class="tabBtn active" data-tab="summary">議論まとめ</button>
+  <button class="tabBtn" data-tab="premise">観光協会目標（前提条件）</button>
+  <button class="tabBtn" data-tab="proposal">提案内容・詳細</button>
+  <button class="tabBtn" data-tab="cases">国内外の類似事例</button>
+  <button class="tabBtn" data-tab="funding">活用できる補助金・交付金</button>
+  <button class="tabBtn" data-tab="raw">生データ（補足）</button>
+</nav>
+
+<section class="panel active" id="panel-summary">
+  <div class="callout warn">
+    <b>⚠️ この論点の位置づけ</b>
+    <p style="margin-top:6px">この論点は、屋久島観光協会が自ら公開している「30年ビジョン策定文章」(2025年7月公開)の「外資や新規事業者の無秩序な参入に対して一定のルール付けや指導、勧告などを行える団体となる資質を高める」という記述を出発点に、Notion上で関係者4名分の立場表明・ゴールを登録して整理したものです。しまてつだいとして直接ヒアリングして最終確認した内容ではなく、Notion上のIssueステータスは「提起」のままです。</p>
+  </div>
+  <div class="measureCard">
+    <b>1. 新規・外資系事業者の会員化条件を明文化する</b>
+    <p style="font-size:13px;margin:6px 0 0">観光協会への登録・会費・地域説明・自然環境ルール遵守・災害時協力・地域雇用/仕入れへの貢献を会員化条件として明文化し、排除ではなく「同じ土俵での競争」を実現する。</p>
+  </div>
+  <div class="measureCard">
+    <b>2. 水源・森林・重要インフラ周辺の土地取引モニタリング</b>
+    <p style="font-size:13px;margin:6px 0 0">水源涵養林、登山口、港湾・空港、主要観光動線周辺について、所有者変更・開発計画・無届伐採・水利用計画を継続的に把握できる仕組みを置く。</p>
+  </div>
+  <div class="measureCard">
+    <b>3. 政策提言(重要エリアの所有実態調査・届出制度強化)</b>
+    <p style="font-size:13px;margin:6px 0 0">町・県・国に対し、世界自然遺産・水源地を含む重要エリアの所有実態調査と届出制度強化を、観光協会として政策提言していく。</p>
+  </div>
+
+  <h3 style="margin-top:18px;font-size:15px">この論点の全体像(A3サマリー)</h3>
+  <div class="a3Grid">
+    <div class="mini">
+      <h4>📊 判断材料ハイライト</h4>
+      <ul>
+        <li>観光協会自身が「30年ビジョン策定文章」で外資・新規参入への対応力強化を明記</li>
+        <li>Stakeholder4名(自治体1・観光協会事務局1・会員事業者2)がPositionRecord8件を登録</li>
+        <li>StakeholderGoal8件のうち6件が優先度「高」</li>
+        <li>屋久島町内での外資による土地取得の実件数は未確認</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>💡 提案内容ハイライト</h4>
+      <ul>
+        <li>新規・外資系事業者の会員化条件を明文化(登録・地域貢献・災害協力)</li>
+        <li>水源・森林・重要インフラ周辺の土地取引モニタリング体制を置く</li>
+        <li>国境離島・世界自然遺産・水源地としての政策提言化</li>
+        <li>初期合意案として、観光統計等のオープンデータを根拠に対応方針を整理する方向性が出ている</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>🗣️ 意見の背景(賛否)</h4>
+      <ul>
+        <li>会員宿泊・ガイド事業者：条件付き賛成(公平な競争条件を求める)</li>
+        <li>観光協会事務局：条件付き賛成〜賛成(データにもとづく政策提言を志向)</li>
+        <li>自治体(観光まちづくり課)：賛成寄り(水利用事前相談ルールに賛成)、海外規制比較の直接適用には保留の声も</li>
+        <li>反対意見要約(Agreement)：新規参入の制限が過度になると地域経済の機会を狭める懸念</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>🌍 類似事例ハイライト</h4>
+      <ul>
+        <li><span class="pill pred">実際に発生</span> ニセコ町・倶知安町：外国資本による無届森林伐採・無許可開発</li>
+        <li><span class="pill pblue">制度あり</span> 北海道：水資源の保全に関する条例(2012年制定、事前届出制)</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>💰 補助金・交付金ハイライト</h4>
+      <ul>
+        <li><span class="pill pblue">要確認</span> 観光庁 観光振興事業費補助金(地域資源を活用した観光まちづくり推進事業、補助率1/2・上限2億円)</li>
+        <li><span class="pill porange">要確認</span> 林野庁 森林整備地域活動支援交付金(境界画定・所有者情報整備等)</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>✅ 結論・次の一手</h4>
+      <ul>
+        <li>まず会員化条件の明文化(案)を理事会・会員向けにたたき台として共有</li>
+        <li>水源・森林・重要エリアの土地取引モニタリングは、町・県の既存データ窓口と接続できるか確認</li>
+        <li>Notion上のStatusを「提起」→「議論中」に更新し、理事会・会員の反応を記録していく</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-premise">
+  <div class="card">
+    <h3>屋久島観光協会の目標(30年ビジョン策定文章より)</h3>
+    <p style="font-size:13px">世界自然遺産の自然と伝統文化を守り継承しながら観光事業を推進し、地域の経済・文化の発展と福祉向上に寄与することを目的とする。30年ビジョン「Living as Nature」のミッション1「事務局機能の強化と会員拡大」、ミッション4「政策提言」が、この論点と直接関連する。</p>
+  </div>
+  <div class="tableWrap" style="margin-top:14px">
+    <table>
+      <tbody>
+        <tr><th>参入ルールと会員拡大の両立(Goal・優先度高)</th><td>外資・新規事業者を一律に排除せず、地域ルール・会員制度・情報共有に接続して、観光協会の調整力と会員基盤を強化する。</td></tr>
+        <tr><th>既存会員事業者保護(Goal・優先度高)</th><td>価格競争・顧客流出・ルール未遵守による既存会員事業者への影響を可視化し、公平な競争条件を確保する。</td></tr>
+        <tr><th>水源・森林・重要エリアの所有実態把握(Goal・優先度高)</th><td>水源涵養林、森林、登山口、港湾・空港、主要観光動線周辺の土地所有者変更・開発計画・無届伐採・水利用計画を継続的に把握し、リスクを早期に検知できる状態にする。</td></tr>
+        <tr><th>初期合意案(Agreement)</th><td>観光入込・宿泊・外国人宿泊・交通利用・会員事業者情報を基礎データとして収集し、外資・新規事業者への対応方針、会員制度、政策提言テーマを整理する。反対意見要約：新規参入の制限が過度になると地域経済の機会を狭める懸念があるため、排除ではなく透明なルール形成を前提とする。</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="grid3" style="margin-top:14px">
+    <div class="card"><h3>関係者構成(Stakeholder)</h3><p style="font-size:13px">自治体(屋久島町 観光まちづくり課)1、観光協会事務局1、会員事業者2(登山・自然体験ガイド、宿泊・民宿・ホテル)の計4件をNotionに登録済み。</p></div>
+    <div class="card"><h3>外部パートナー(ExternalPartner)</h3><p style="font-size:13px">鹿児島県 観光統計・観光動向調査担当、観光庁・e-Stat 宿泊旅行統計データ提供元の2件。観光協会が求める情報は「現場実感・事業者ヒアリング結果・政策提言テーマの共有」。</p></div>
+    <div class="card"><h3>全国の外資森林取得の推移</h3><p style="font-size:13px">2006〜2020年で全国278件・約2,376haを外国資本が取得(林野庁調査)。北海道が突出して多く、2024年単年でも36件・162haの取得が確認されている。</p></div>
+  </div>
+  <h3 style="margin-top:20px;font-size:15px">対応力強化に関わる係数</h3>
+  <div class="coefGrid">
+    <div class="card coefCard"><div class="label">Stakeholder登録数</div><b class="num">4件</b><div class="sub">自治体1・観光協会事務局1・会員事業者2。ヒアリング範囲はまだ限定的。</div><div class="coefBar"><i style="width:35%;background:var(--orange)"></i></div><span class="pill porange">範囲拡大の余地あり</span></div>
+    <div class="card coefCard"><div class="label">PositionRecord登録数</div><b class="num">8件</b><div class="sub">賛成4・条件付き賛成3・保留1。明確な反対はまだ登録されていない。</div><div class="coefBar"><i style="width:70%;background:var(--blue)"></i></div><span class="pill pblue">おおむね前向き</span></div>
+    <div class="card coefCard"><div class="label">StakeholderGoal(優先度高)</div><b class="num">6/8件</b><div class="sub">8件のGoalのうち6件が優先度「高」に設定されている。</div><div class="coefBar"><i style="width:75%;background:var(--red)"></i></div><span class="pill pred">優先度が高い論点</span></div>
+    <div class="card coefCard"><div class="label">全国の外資森林取得</div><b class="num">278件/2,376ha</b><div class="sub">2006〜2020年累計(林野庁)。屋久島町分の内訳は未公表・未確認。</div><div class="coefBar"><i style="width:60%;background:var(--orange)"></i></div><span class="pill porange">全国動向は明確</span></div>
+    <div class="card coefCard"><div class="label">北海道条例の経過年数</div><b class="num">13年</b><div class="sub">「水資源の保全に関する条例」2012年制定からの経過年数(2025年時点)。罰則は軽微との指摘あり。</div><div class="coefBar"><i style="width:55%;background:var(--blue)"></i></div><span class="pill pblue">先行事例として参照可</span></div>
+    <div class="card coefCard"><div class="label">屋久島町内の実件数</div><b class="num">未確認</b><div class="sub">外資・新規事業者による土地取得の実件数・規模は、しまてつだいとして未確認。</div><div class="coefBar"><i style="width:15%;background:var(--red)"></i></div><span class="pill pred">要現状把握</span></div>
+    <div class="card coefCard"><div class="label">会員化条件の明文化</div><b class="num">案あり(未決定)</b><div class="sub">PositionRecordで具体案(登録・会費・地域説明・災害協力等)が提案されている。</div><div class="coefBar"><i style="width:50%;background:var(--green)"></i></div><span class="pill pgreen">たたき台段階</span></div>
+    <div class="card coefCard"><div class="label">重要土地等調査法の適用</div><b class="num">要確認</b><div class="sub">国境離島等を対象とする国の法律。屋久島が法的な「国境離島」に該当するかは要確認。</div><div class="coefBar"><i style="width:20%;background:var(--red)"></i></div><span class="pill pred">法的位置づけ要確認</span></div>
+  </div>
+  <div class="grid2" style="margin-top:14px">
+    <div class="callout risk"><b>実件数の未把握</b><p style="margin:6px 0 0">屋久島町内で実際に外資・新規事業者による土地取得がどの程度起きているか、しまてつだいとして未確認。まず現状把握から着手する必要がある。</p></div>
+    <div class="callout risk"><b>排外的な規制との誤解リスク</b><p style="margin:6px 0 0">PositionRecordでも「排外性を避けた透明な合意形成にする」ことが目標に掲げられており、属性(国籍・資本)ではなく行動(届出・地域貢献)を評価軸にする設計が必要。</p></div>
+    <div class="callout warn"><b>法的位置づけの整理不足</b><p style="margin:6px 0 0">重要土地等調査法など国の制度が屋久島にそのまま適用できるかは未確認。観光協会単独で規制を作れる範囲にも限界がある。</p></div>
+    <div class="callout warn"><b>ヒアリング範囲の狭さ</b><p style="margin:6px 0 0">現時点のStakeholderは4件のみ。理事会メンバー・他業種(飲食・小売等)の会員へのヒアリング拡大が今後の課題。</p></div>
+  </div>
+</section>
+
+<section class="panel" id="panel-proposal">
+  <div class="card">
+    <h3>対策詳細</h3>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>会員化条件の明文化</th><td>観光協会への登録・会費・地域説明・自然環境ルール遵守・災害時協力・地域雇用/仕入れへの貢献を、新規・外資系事業者の会員化条件として明文化する。</td></tr>
+          <tr><th>水利用・地下水利用の事前相談ルール</th><td>一定規模以上の井戸掘削、取水、排水、森林伐採、宿泊施設開発を、町・観光協会・地域住民への事前相談対象にする。生活用水・農業・景観・世界自然遺産ブランドへの影響を確認する。</td></tr>
+          <tr><th>土地取引モニタリング</th><td>水源涵養林、登山口、港湾・空港、主要観光動線周辺について、所有者変更・開発計画・無届伐採を定期確認する仕組みを置く(排他的な規制ではなく透明化が目的)。</td></tr>
+          <tr><th>政策提言化</th><td>国境離島・世界自然遺産・水源地を含む重要エリアの所有実態調査と届出制度強化を、町・県・国に対して政策提言として出す。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>課題の優先順位と対策案</h3>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>優先</th><th>問題・課題</th><th>意思決定上の意味</th><th>対策案</th><th>備考</th></tr></thead>
+        <tbody>
+          <tr><td><b>1</b></td><td>新規・外資系事業者の会員化条件が未整備</td><td>既存会員との公平感に直結し、最も合意形成が進んでいる論点</td><td><span class="pill pblue">会員化条件の明文化</span> <span class="pill pblue">理事会でのたたき台共有</span></td><td>まずここから</td></tr>
+          <tr><td><b>2</b></td><td>水源・森林等重要エリアの所有実態が未把握</td><td>リスクの早期発見ができない状態が続く</td><td><span class="pill porange">土地取引モニタリング体制</span> <span class="pill porange">水利用事前相談ルール</span></td><td>町・県との連携が前提</td></tr>
+          <tr><td><b>3</b></td><td>観光協会単独では規制できる範囲に限界</td><td>実効性を持たせるには行政・県・国への働きかけが必要</td><td><span class="pill ppurple">政策提言化</span> <span class="pill ppurple">県・国への所有実態調査要望</span></td><td>中長期の取り組み</td></tr>
+          <tr><td><b>4</b></td><td>屋久島町内の実件数・規模が未確認</td><td>危機感の大小を数字で説明できない</td><td><span class="pill pgreen">観光統計・宿泊統計の整理</span> <span class="pill pgreen">町・観光協会での現状把握</span></td><td>ExternalPartnerと連携</td></tr>
+          <tr><td><b>5</b></td><td>排外的な規制との誤解リスク</td><td>会員拡大や地域経済の機会を狭める懸念</td><td><span class="pill pblue">属性でなく行動を評価軸に</span> <span class="pill pblue">透明な合意形成の場を提供</span></td><td>Agreement反対意見要約と整合</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-cases">
+  <div class="card">
+    <h3>国内外の類似事例</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">公開報道・行政公表資料にもとづく、実在の取り組み・事案です。屋久島への適用可能性は個別に確認が必要です。</p>
+    <div class="measureCard">
+      <span class="pill pred">実際に発生</span>
+      <b>北海道ニセコ町・倶知安町における外国資本の無届森林伐採・無許可開発</b>
+      <p style="font-size:13px;margin:6px 0 0">倶知安町の巽地区で、中国人が代表を務める札幌市の不動産会社等が約3.9haの森林を無許可で伐採し、約2.9haの土地を開発許可を得ないまま造成していたことが発覚。「住宅2棟の建設」名目だったが、実態は大規模な別荘・リゾート開発だったと報じられている(coki.jp、林野庁公表資料等)。森林法上の無届伐採の過料は最大10万円で、抑止力として不十分との指摘もある。</p>
+      <div class="callout warn" style="margin-top:8px"><b>屋久島観光協会への転用時の注意点：</b>過料の水準だけでは抑止力になりにくい。届出・透明化を「会員化条件」や「観光協会としての合意形成の場」に組み込む設計のほうが、離島の限られた行政リソースに合っている可能性がある。</div>
+    </div>
+    <div class="measureCard">
+      <span class="pill pblue">制度あり</span>
+      <b>北海道「水資源の保全に関する条例」(2012年制定)</b>
+      <p style="font-size:13px;margin:6px 0 0">水源地域での大規模な土地取引を事前届出制とする条例。海外資本による水源地周辺の森林取得を背景に制定された。林野庁・北海道の公表データによれば、2024年単年でも外国資本または関連法人による森林取得が49件・約295ha確認されている。</p>
+      <div class="callout ok" style="margin-top:8px"><b>屋久島観光協会への転用時の注意点：</b>条例制定は自治体(屋久島町・鹿児島県)の権限であり、観光協会単独では作れない。観光協会としては、まず事前相談ルール・会員化条件で先行し、並行して町・県への政策提言に育てるのが現実的。</div>
+    </div>
+    <div class="measureCard">
+      <span class="pill porange">法制度(適用範囲は要確認)</span>
+      <b>重要施設周辺及び国境離島等における土地等の利用状況の調査及び利用の規制等に関する法律(重要土地等調査法、2021年制定・2022年9月施行)</b>
+      <p style="font-size:13px;margin:6px 0 0">重要施設周辺・国境離島等で、機能を阻害する土地利用を防ぐための調査・規制を可能にする国の法律。</p>
+      <div class="callout warn" style="margin-top:8px"><b>屋久島観光協会への転用時の注意点：</b>この法律の「国境離島」は制度上厳密に定義されており、屋久島がこれに法的に該当するかどうかは未確認。直接の適用を前提にせず、政策提言の際の参考制度の一つとして扱うのが安全。</div>
+    </div>
+    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。実際の政策検討には一次情報での確認をお願いします。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-funding">
+  <div class="card">
+    <h3>活用できる補助金・支援制度(候補)</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">対応力強化(会員化条件整備・モニタリング体制構築)に関連しうる既存の国の制度です。金額・要件・観光協会が主体者になれるかは必ず一次情報でご確認ください。</p>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>制度名</th><th>所管</th><th>概要</th><th>マッチ理由</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>観光振興事業費補助金(地域資源を活用した観光まちづくり推進事業)</b><br><span class="pill pblue">DMO・観光地域づくり法人向け</span></td>
+            <td>観光庁</td>
+            <td>地域資源を活用した観光地の面的整備・体制構築を支援。補助率1/2以内、上限2億円(公募情報にもとづく)。</td>
+            <td>会員化条件の整備や、観光情報基盤・モニタリング体制の構築に伴う事務局体制強化に活用できる可能性がある。</td>
+          </tr>
+          <tr>
+            <td><b>森林整備地域活動支援交付金</b><br><span class="pill pgreen">森林所有者・地域向け</span></td>
+            <td>林野庁</td>
+            <td>森林境界の明確化、施業の集約化に向けた地域活動(境界確認・話し合い等)を支援する交付金。</td>
+            <td>水源涵養林・重要エリアの土地所有実態把握・境界確認に関連する活動の一部として活用できる可能性がある。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。申請にあたっては観光庁・林野庁・鹿児島県等の一次情報を必ずご確認ください。観光協会が直接の申請主体になれるかどうかも要確認です。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-raw">
+  <div class="card">
+    <h3>Notionに登録されている根拠データ</h3>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>Issue</th><td>外資・新規事業者の無秩序な参入への対応力強化 / Status: 提起 / Domain: ガバナンス / 対象観光協会: 屋久島観光協会</td></tr>
+          <tr><th>Stakeholder(4件)</th><td>屋久島町 観光まちづくり課(自治体職員)、屋久島観光協会 事務局(観光協会職員)、屋久島観光協会 ガイド事業者・会員宿泊事業者(会員事業者)</td></tr>
+          <tr><th>PositionRecord(8件)</th><td>会員化条件の明文化、水利用事前相談ルール、土地取引モニタリング、公平な競争条件、政策提言化など。Stance内訳：賛成4・条件付き賛成3・保留1</td></tr>
+          <tr><th>StakeholderGoal(8件)</th><td>参入ルールと会員拡大の両立、既存事業者保護、水源・森林の所有実態把握など。優先度「高」6件・「中」2件</td></tr>
+          <tr><th>Agreement(1件)</th><td>初期合意案：オープンデータを根拠に参入対応方針を整理。反対意見要約：新規参入の制限が過度になると地域経済の機会を狭める懸念</td></tr>
+          <tr><th>ExternalPartner(2件)</th><td>鹿児島県 観光統計・観光動向調査担当、観光庁・e-Stat 宿泊旅行統計データ提供元</td></tr>
+          <tr><th>EvidenceRecord・OpenDataSource(各7件)</th><td>30年ビジョン策定文章(yakukan.jp)、鹿児島県・屋久島町 観光動向調査、e-Stat宿泊旅行統計調査、観光庁 宿泊旅行統計調査、日本観光振興協会デジタル観光統計、屋久島町・観光協会の公式情報ページ</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>生成AIとの業務分担</h3>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>AI</th><td>公開資料の整理、類似事例の検索・要約、論点抽出、優先順位のたたき台作成、ファクトチェック項目の洗い出し。</td></tr>
+          <tr><th>人間(観光協会理事会・事務局・会員事業者)</th><td>実際の会員説明・合意形成、行政(町・県)との交渉、会員化条件の最終決定、政策提言の是非判断。</td></tr>
+          <tr><th>禁止事項</th><td>AI単独で「屋久島町内の実件数」等の実数値を推定・断定しない。会員への説明・政策提言前には必ず一次情報・実ヒアリングで確認する。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>次のアクション(たたき台)</h3>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>直近</th><td>会員化条件(案)を理事会に共有し、既存会員(ガイド・宿泊等)からの反応をPositionRecordに追記していく。</td></tr>
+          <tr><th>中期</th><td>町・県の観光統計担当(ExternalPartner)と接続し、屋久島町内の土地取引・宿泊事業者の動向を定点観測できる体制を検討する。</td></tr>
+          <tr><th>継続</th><td>政策提言化の議論をAgreement DBに記録し、Notion上のIssue Statusを「提起」→「議論中」へ更新しながら進捗を追跡する。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+</div>
+<script>
+document.querySelectorAll('.tabBtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.tabBtn').forEach(function(b){ b.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
