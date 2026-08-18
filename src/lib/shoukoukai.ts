@@ -66,6 +66,8 @@ export const shoukoukaiBranches: ShoukoukaiBranch[] = [
           "屋久島町商工会と屋久島町が共同で策定した「事業継続力強化支援計画」(令和6〜9年度)と、令和8年(2026年)台風6号の実際の対応事例にもとづく論点です。しまてつだいとして直接ヒアリングして確認した内容ではなく、Notion上のステータスは「提起」のままです。",
         dashboardUrl: "/case-studies/yakushima-shokokai-bcp-dss.html",
         dashboardLabel: "意思決定支援ダッシュボードを見る",
+        cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-yakushima-shokokai-bcp/cards",
+        cardGameLabel: "しまのみんな会議で意見を出す",
       },
     ],
   },

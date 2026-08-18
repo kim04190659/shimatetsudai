@@ -66,6 +66,8 @@ export const kankoukyoukaiBranches: KankoukyoukaiBranch[] = [
           "屋久島観光協会が自ら公開している「30年ビジョン策定文章」(2025年7月公開)に明記されている論点です。「外資や新規事業者の無秩序な参入に対して一定のルール付けや指導、勧告などを行える団体となる資質を高める」とあり、観光協会自身が課題として掲げています。Notion上には自治体・観光協会事務局・会員事業者4名分の立場表明とゴールを登録済みですが、しまてつだいとして直接ヒアリングして最終確認した内容ではないため、Notion上のステータスは「提起」のままです。",
         dashboardUrl: "/case-studies/yakushima-kankoukyoukai-gaishi-dss.html",
         dashboardLabel: "意思決定支援ダッシュボードを見る",
+        cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-yakushima-kankoukyoukai-gaishi/cards",
+        cardGameLabel: "しまのみんな会議で意見を出す",
       },
     ],
   },
