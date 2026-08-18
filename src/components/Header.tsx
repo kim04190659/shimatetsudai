@@ -7,6 +7,7 @@ const navItems = [
   { href: "/tools", label: "事業紹介" },
   { href: "/branches", label: "分室" },
   { href: "/shoukoukai", label: "商工会支援" },
+  { href: "/kankoukyoukai", label: "観光協会支援" },
   { href: "/contact", label: "お問い合わせ" },
 ];
 
