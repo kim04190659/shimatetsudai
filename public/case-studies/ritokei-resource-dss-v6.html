@@ -45,7 +45,6 @@ tr:last-child td{border-bottom:0}
 .ppurple{background:var(--purpleSoft);color:#4b3494}
 .measureCard{border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
 .measureCard b{font-size:14.5px}
-.stakeGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .coefGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .coefCard .label{font-weight:800;font-size:12.5px}
 .coefCard .num{font-size:21px;font-weight:900;display:block;margin:4px 0}
@@ -53,7 +52,7 @@ tr:last-child td{border-bottom:0}
 .coefBar{height:7px;border-radius:999px;background:var(--soft);overflow:hidden;margin-bottom:8px}
 .coefBar i{display:block;height:100%}
 .footNote{font-size:11.5px;color:var(--muted);margin-top:18px}
-@media(max-width:900px){.grid2,.grid3,.coefGrid,.stakeGrid{grid-template-columns:1fr}}
+@media(max-width:900px){.grid2,.grid3,.coefGrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -79,33 +78,15 @@ tr:last-child td{border-bottom:0}
 </div>
 
 <nav class="tabs">
-  <button class="tabBtn active" data-tab="mission">ミッション根拠</button>
-  <button class="tabBtn" data-tab="data">係数データ</button>
-  <button class="tabBtn" data-tab="issues">課題根拠</button>
-  <button class="tabBtn" data-tab="measures">対策詳細</button>
-  <button class="tabBtn" data-tab="funding">財源設計</button>
-  <button class="tabBtn" data-tab="ai">AI分担</button>
-  <button class="tabBtn" data-tab="ops">実行計画</button>
+  <button class="tabBtn active" data-tab="summary">議論まとめ</button>
+  <button class="tabBtn" data-tab="premise">自治体目標（前提条件）</button>
+  <button class="tabBtn" data-tab="proposal">提案内容・詳細</button>
   <button class="tabBtn" data-tab="cases">国内外の類似事例</button>
-  <button class="tabBtn" data-tab="grants">活用できる補助金・交付金</button>
+  <button class="tabBtn" data-tab="funding">活用できる補助金・交付金</button>
+  <button class="tabBtn" data-tab="raw">生データ（補足）</button>
 </nav>
 
-<section class="panel active" id="panel-mission">
-  <div class="card">
-    <h3>離島経済新聞社のミッション</h3>
-    <p style="font-size:13px">島の宝を未来につなぐ。島の可能性を普及啓発し、島と人をつなげ、島の魅力を育み、もしもに備える災害復興を支える。</p>
-  </div>
-  <div class="tableWrap" style="margin-top:14px">
-    <table>
-      <tbody>
-        <tr><th>目的</th><td>「島の宝を未来につなぐ」。島の可能性を社会に届け、島と島国の未来を支える。</td></tr>
-        <tr><th>4事業</th><td>島の可能性普及啓発、島と人をつなぐ連携交流、島の魅力化促進、もしもに備える災害復興。</td></tr>
-        <tr><th>上位目標</th><td>「島に愛のある関係人口」を100万人増やす。取材配分はこの目標に接続する必要がある。</td></tr>
-        <tr><th>判断基準</th><td>記事本数ではなく、島の営み・関係人口・支援循環・災害時レジリエンスにどれだけ寄与するか。</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <h3 style="margin-top:20px;font-size:15px">推奨する意思決定</h3>
+<section class="panel active" id="panel-summary">
   <div class="measureCard">
     <b>1. 配分モデル</b>
     <p style="font-size:13px;margin:6px 0 0">重点取材40%・最低接点25%・地域ライター20%・AI編集基盤15%の三層ハイブリッドを採用。</p>
@@ -120,8 +101,22 @@ tr:last-child td{border-bottom:0}
   </div>
 </section>
 
-<section class="panel" id="panel-data">
-  <div class="grid3">
+<section class="panel" id="panel-premise">
+  <div class="card">
+    <h3>離島経済新聞社のミッション</h3>
+    <p style="font-size:13px">島の宝を未来につなぐ。島の可能性を普及啓発し、島と人をつなげ、島の魅力を育み、もしもに備える災害復興を支える。</p>
+  </div>
+  <div class="tableWrap" style="margin-top:14px">
+    <table>
+      <tbody>
+        <tr><th>目的</th><td>「島の宝を未来につなぐ」。島の可能性を社会に届け、島と島国の未来を支える。</td></tr>
+        <tr><th>4事業</th><td>島の可能性普及啓発、島と人をつなぐ連携交流、島の魅力化促進、もしもに備える災害復興。</td></tr>
+        <tr><th>上位目標</th><td>「島に愛のある関係人口」を100万人増やす。取材配分はこの目標に接続する必要がある。</td></tr>
+        <tr><th>判断基準</th><td>記事本数ではなく、島の営み・関係人口・支援循環・災害時レジリエンスにどれだけ寄与するか。</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="grid3" style="margin-top:14px">
     <div class="card"><h3>対象島数</h3><p style="font-size:13px">国内有人離島は約417島。約170市町村規模で、単独メディアが全島を同一密度で扱うには限界がある。</p></div>
     <div class="card"><h3>配布・読者基盤</h3><p style="font-size:13px">季刊紙は約170離島を含む全国配布、ウェブは島で生きる人・関わりたい人を読者に持つ。</p></div>
     <div class="card"><h3>移動距離</h3><p style="font-size:13px">東西南北3,000kmの海洋エリアでの取材は交通費が高く、取材対象の選定基準が不可欠。</p></div>
@@ -137,78 +132,42 @@ tr:last-child td{border-bottom:0}
     <div class="card coefCard"><div class="label">説明責任</div><b class="num">KPI化</b><div class="sub">寄付者・自治体・助成団体へ配分根拠を提示。</div><div class="coefBar"><i style="width:48%;background:var(--orange)"></i></div><span class="pill porange">制度化前</span></div>
     <div class="card coefCard"><div class="label">災害時発信網</div><b class="num">平時から</b><div class="sub">取材網を災害時の確認・復興発信にも活用。</div><div class="coefBar"><i style="width:52%;background:var(--blue)"></i></div><span class="pill pblue">設計必要</span></div>
   </div>
-</section>
-
-<section class="panel" id="panel-issues">
-  <div class="stakeGrid">
+  <div class="grid2" style="margin-top:14px">
     <div class="callout risk"><b>財政基盤</b><p style="margin:6px 0 0">効率化できない工程が多く、財政基盤の弱さによる活動の限界が表面化。活動資金の確保が急務。</p></div>
     <div class="callout risk"><b>情報空白</b><p style="margin:6px 0 0">島は小さく分散しているため知られにくい。小規模・未取材島ほど外部支援につながりにくい。</p></div>
     <div class="callout risk"><b>人材不足</b><p style="margin:6px 0 0">専任編集部だけで全島の現場性を維持するのは困難。地域内外の担い手を増やす必要がある。</p></div>
     <div class="callout risk"><b>災害対応</b><p style="margin:6px 0 0">離島は災害時に取り残されやすい。平時の関係人口と情報網を災害時にも活かす設計が必要。</p></div>
   </div>
-  <h3 style="margin-top:20px;font-size:15px">課題の優先順位と対策案</h3>
-  <div class="tableWrap">
-    <table>
-      <thead><tr><th>優先</th><th>問題・課題</th><th>意思決定上の意味</th><th>対策案</th><th>推奨比率</th></tr></thead>
-      <tbody>
-        <tr><td><b>1</b></td><td>財政基盤が弱く、活動資金が不足</td><td>リソース配分以前に事業が継続しない</td><td><span class="pill ppurple">自治体委託</span> <span class="pill ppurple">国費連動</span> <span class="pill porange">企業版ふるさと納税</span></td><td>財源の70%</td></tr>
-        <tr><td><b>2</b></td><td>全島を同一密度で取材できない</td><td>基準なしでは不公平感と説明不足が出る</td><td><span class="pill pblue">島カルテ</span> <span class="pill pblue">優先順位スコア</span> <span class="pill pgreen">四半期説明</span></td><td>重点40%</td></tr>
-        <tr><td><b>3</b></td><td>小規模・未取材島の情報空白が固定化</td><td>りとけいの公共性とミッションに反する</td><td><span class="pill pgreen">最低接点保障</span> <span class="pill pgreen">島だより投稿枠</span> <span class="pill pblue">オンライン確認</span></td><td>25%</td></tr>
-        <tr><td><b>4</b></td><td>移動コストと編集工程が重い</td><td>現地取材の質を守りつつ効率化が必要</td><td><span class="pill ppurple">AI取材デスク</span> <span class="pill pblue">資料整理</span> <span class="pill pblue">ファクトチェック支援</span></td><td>15%</td></tr>
-        <tr><td><b>5</b></td><td>専任スタッフだけでは担い手不足</td><td>関係人口目標を達成できない</td><td><span class="pill pgreen">地域ライター育成</span> <span class="pill pgreen">インターン</span> <span class="pill pgreen">協力隊連携</span></td><td>20%</td></tr>
-      </tbody>
-    </table>
-  </div>
 </section>
 
-<section class="panel" id="panel-measures">
-  <div class="tableWrap">
-    <table>
-      <tbody>
-        <tr><th>島カルテ</th><td>人口、産業、交通、医療、教育、災害リスク、情報空白、関係人口導線を島ごとに整理。</td></tr>
-        <tr><th>最低接点保障</th><td>重点取材外の島にもオンライン確認・投稿枠・年次アンケートを設定。</td></tr>
-        <tr><th>地域ライター育成</th><td>協力隊、島キャン、大学、島ファンを対象に、AIテンプレート付き取材メモ運用を行う。</td></tr>
-        <tr><th>四半期説明</th><td>どの島・テーマにリソースを使ったかを会員、寄付者、自治体へ公開。</td></tr>
-      </tbody>
-    </table>
+<section class="panel" id="panel-proposal">
+  <div class="card">
+    <h3>対策詳細</h3>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>島カルテ</th><td>人口、産業、交通、医療、教育、災害リスク、情報空白、関係人口導線を島ごとに整理。</td></tr>
+          <tr><th>最低接点保障</th><td>重点取材外の島にもオンライン確認・投稿枠・年次アンケートを設定。</td></tr>
+          <tr><th>地域ライター育成</th><td>協力隊、島キャン、大学、島ファンを対象に、AIテンプレート付き取材メモ運用を行う。</td></tr>
+          <tr><th>四半期説明</th><td>どの島・テーマにリソースを使ったかを会員、寄付者、自治体へ公開。</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-</section>
-
-<section class="panel" id="panel-funding">
-  <div class="tableWrap">
-    <table>
-      <thead><tr><th>財源</th><th>使途・狙い</th><th>目標比率</th></tr></thead>
-      <tbody>
-        <tr><td><b>自治体委託</b></td><td>政策広報、関係人口、移住定住、観光、防災広報をパッケージ化。</td><td>40%</td></tr>
-        <tr><td><b>国費・交付金</b></td><td>離島活性化、地方創生、過疎地域、地域DX等の事業パートナーになる。</td><td>30%</td></tr>
-        <tr><td><b>企業版ふるさと納税/協賛</b></td><td>海洋、離島、防災、関係人口、SDGs文脈で企業を巻き込む。</td><td>15%</td></tr>
-        <tr><td><b>寄付・会員</b></td><td>未取材島、公共枠、緊急災害枠など共感支援へ集中。</td><td>15%</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<section class="panel" id="panel-ai">
-  <div class="tableWrap">
-    <table>
-      <tbody>
-        <tr><th>AI</th><td>公開資料整理、過去記事検索、取材メモ要約、論点抽出、質問案、下書き、ファクトチェック項目作成。</td></tr>
-        <tr><th>人間</th><td>取材判断、現地文脈確認、関係構築、引用可否、最終編集、公開責任、配分の例外判断。</td></tr>
-        <tr><th>禁止事項</th><td>AI単独で取材対象や掲載可否を決定しない。公開前レビューと出典確認を必須にする。</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<section class="panel" id="panel-ops">
-  <div class="tableWrap">
-    <table>
-      <tbody>
-        <tr><th>30日</th><td>島カルテ項目定義、既存取材・未取材島棚卸し、自治体候補20件選定。</td></tr>
-        <tr><th>60日</th><td>3自治体にヒアリング、重点10島・最低接点30島で試行設計、AI取材デスク運用開始。</td></tr>
-        <tr><th>90日</th><td>自治体実証契約300〜500万円、企業版ふるさと納税候補10社提案、四半期説明レポート試作。</td></tr>
-      </tbody>
-    </table>
+  <div class="card" style="margin-top:14px">
+    <h3>課題の優先順位と対策案</h3>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>優先</th><th>問題・課題</th><th>意思決定上の意味</th><th>対策案</th><th>推奨比率</th></tr></thead>
+        <tbody>
+          <tr><td><b>1</b></td><td>財政基盤が弱く、活動資金が不足</td><td>リソース配分以前に事業が継続しない</td><td><span class="pill ppurple">自治体委託</span> <span class="pill ppurple">国費連動</span> <span class="pill porange">企業版ふるさと納税</span></td><td>財源の70%</td></tr>
+          <tr><td><b>2</b></td><td>全島を同一密度で取材できない</td><td>基準なしでは不公平感と説明不足が出る</td><td><span class="pill pblue">島カルテ</span> <span class="pill pblue">優先順位スコア</span> <span class="pill pgreen">四半期説明</span></td><td>重点40%</td></tr>
+          <tr><td><b>3</b></td><td>小規模・未取材島の情報空白が固定化</td><td>りとけいの公共性とミッションに反する</td><td><span class="pill pgreen">最低接点保障</span> <span class="pill pgreen">島だより投稿枠</span> <span class="pill pblue">オンライン確認</span></td><td>25%</td></tr>
+          <tr><td><b>4</b></td><td>移動コストと編集工程が重い</td><td>現地取材の質を守りつつ効率化が必要</td><td><span class="pill ppurple">AI取材デスク</span> <span class="pill pblue">資料整理</span> <span class="pill pblue">ファクトチェック支援</span></td><td>15%</td></tr>
+          <tr><td><b>5</b></td><td>専任スタッフだけでは担い手不足</td><td>関係人口目標を達成できない</td><td><span class="pill pgreen">地域ライター育成</span> <span class="pill pgreen">インターン</span> <span class="pill pgreen">協力隊連携</span></td><td>20%</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
 
@@ -226,7 +185,7 @@ tr:last-child td{border-bottom:0}
   </div>
 </section>
 
-<section class="panel" id="panel-grants">
+<section class="panel" id="panel-funding">
   <div class="card">
     <h3>活用できる補助金・交付金(候補)</h3>
     <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">意思決定支援プラットフォーム上の「補助金・交付金マッチングDB」から、420島への取材・支援リソース配分に関連が高いと判断した候補です。金額・締切等の詳細は必ず一次情報でご確認ください。</p>
@@ -259,7 +218,46 @@ tr:last-child td{border-bottom:0}
   </div>
 </section>
 
-<p class="footNote" style="padding:0 28px 24px">参照：離島経済新聞社公式情報、認定NPO化資料、活動レポート、CANPAN団体情報、国交省・内閣府・総務省の制度情報。</p>
+<section class="panel" id="panel-raw">
+  <div class="card">
+    <h3>財源設計</h3>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>財源</th><th>使途・狙い</th><th>目標比率</th></tr></thead>
+        <tbody>
+          <tr><td><b>自治体委託</b></td><td>政策広報、関係人口、移住定住、観光、防災広報をパッケージ化。</td><td>40%</td></tr>
+          <tr><td><b>国費・交付金</b></td><td>離島活性化、地方創生、過疎地域、地域DX等の事業パートナーになる。</td><td>30%</td></tr>
+          <tr><td><b>企業版ふるさと納税/協賛</b></td><td>海洋、離島、防災、関係人口、SDGs文脈で企業を巻き込む。</td><td>15%</td></tr>
+          <tr><td><b>寄付・会員</b></td><td>未取材島、公共枠、緊急災害枠など共感支援へ集中。</td><td>15%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>生成AIとの業務分担</h3>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>AI</th><td>公開資料整理、過去記事検索、取材メモ要約、論点抽出、質問案、下書き、ファクトチェック項目作成。</td></tr>
+          <tr><th>人間</th><td>取材判断、現地文脈確認、関係構築、引用可否、最終編集、公開責任、配分の例外判断。</td></tr>
+          <tr><th>禁止事項</th><td>AI単独で取材対象や掲載可否を決定しない。公開前レビューと出典確認を必須にする。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>実行計画</h3>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>30日</th><td>島カルテ項目定義、既存取材・未取材島棚卸し、自治体候補20件選定。</td></tr>
+          <tr><th>60日</th><td>3自治体にヒアリング、重点10島・最低接点30島で試行設計、AI取材デスク運用開始。</td></tr>
+          <tr><th>90日</th><td>自治体実証契約300〜500万円、企業版ふるさと納税候補10社提案、四半期説明レポート試作。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
 
 </div>
 <script>

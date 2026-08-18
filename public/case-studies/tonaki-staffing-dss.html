@@ -55,6 +55,7 @@ tr:last-child td{border-bottom:0}
 .bar{height:8px;border-radius:5px;background:var(--line);overflow:hidden;margin-top:6px}
 .bar i{display:block;height:100%;background:var(--blue)}
 .footNote{font-size:11.5px;color:var(--muted);margin-top:18px}
+@media(max-width:900px){.grid2,.stakeGrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -80,78 +81,72 @@ tr:last-child td{border-bottom:0}
 </div>
 
 <nav class="tabs">
-  <button class="tabBtn active" data-tab="dashboard">ダッシュボード</button>
-  <button class="tabBtn" data-tab="stake">住民・関係者の意見</button>
-  <button class="tabBtn" data-tab="measures">施策候補</button>
-  <button class="tabBtn" data-tab="decision">意思決定シミュレーション</button>
+  <button class="tabBtn active" data-tab="summary">議論まとめ</button>
+  <button class="tabBtn" data-tab="premise">自治体目標（前提条件）</button>
+  <button class="tabBtn" data-tab="proposal">提案内容・詳細</button>
   <button class="tabBtn" data-tab="cases">国内外の類似事例</button>
   <button class="tabBtn" data-tab="funding">活用できる補助金・交付金</button>
+  <button class="tabBtn" data-tab="raw">生データ（補足）</button>
 </nav>
 
-<section class="panel active" id="panel-dashboard">
-  <div class="grid2">
-    <div class="card">
-      <h3>現状データ</h3>
-      <div class="tableWrap">
-        <table>
-          <tbody>
-            <tr><th>人口</th><td>約300人台(2023年1月時点 317人)</td></tr>
-            <tr><th>高齢化率</th><td>44.1%(2019年)。このままの傾向だと2035年頃に50%を超える見込み</td></tr>
-            <tr><th>役場職員</th><td>定数27人 → 現員21人 → 退職により14人程度まで減少見込み</td></tr>
-            <tr><th>地方創生交付金</th><td>年間約2億円の枠に対し、2022・2023年度は85%程度が未消化(県内で最も高い割合)</td></tr>
-            <tr><th>交通</th><td>本島とを結ぶのは定期船のみ</td></tr>
-            <tr><th>産業</th><td>農業・漁業の後継者不足が課題</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="callout warn">職員数の減少は、行政サービスの「量」だけでなく、企画・実行できる「施策の幅」そのものを狭めるリスクがあります。</div>
-    </div>
-    <div class="card">
-      <h3>AI分析(たたき台)</h3>
-      <p style="font-size:13px">現状データと住民・職員の声から、AIが課題を3つに分解しました。</p>
-      <div class="callout">
-        <b>① 定型業務の負荷</b><br>
-        窓口対応・書類作成など、人数が減っても必ず発生する定型業務が職員の時間の多くを占めている。
-      </div>
-      <div class="callout">
-        <b>② 企画・申請業務の停滞</b><br>
-        交付金の未消化率の高さは、申請書類の作成や事業設計にあてる人手・時間が不足していることの表れと考えられる。
-      </div>
-      <div class="callout">
-        <b>③ 属人化のリスク</b><br>
-        少人数ゆえに、特定の職員しか分からない業務が多く、休職・退職時のサービス停止リスクが高い。
-      </div>
-    </div>
+<section class="panel active" id="panel-summary">
+  <div class="card">
+    <h3>推奨する方向性</h3>
+    <p style="font-size:13px">定型業務のデジタル化を土台に、広域連携・応援職員制度で専門性の高い業務を補い、中長期では移住・採用と連動して若手職員を確保する、という3段階の対応を推奨します。単独の施策ではなく、短期・中期・長期で役割を分けて組み合わせることがポイントです。</p>
   </div>
-  <p class="footNote">※ 本ページはPoC(概念実証)のたたき台であり、実データではなく公開情報・報道をもとにした概算・仮の分析です。実際の施策検討には村役場の一次データをご利用ください。</p>
-</section>
-
-<section class="panel" id="panel-stake">
-  <div class="stakeGrid">
-    <div class="stakeCard">
-      <b>住民</b>
-      <p>窓口対応の待ち時間や、担当者不在時の対応の遅れを心配する声。一方で「顔が見える役場」への信頼も強い。</p>
-      <div class="bar"><i style="width:55%"></i></div>
+  <div class="card" style="margin-top:14px">
+    <h3>反対・少数意見への向き合い方</h3>
+    <div class="callout risk">
+      <b>🔴 「デジタル化で、かえって相談しづらくなるのでは」</b>
+      <p style="margin:6px 0 0">高齢の住民ほど、対面での相談を重視する傾向がある。</p>
     </div>
-    <div class="stakeCard">
-      <b>村役場職員</b>
-      <p>1人あたりの担当業務範囲が年々広がっている。デジタル化で定型業務を減らし、企画業務に時間を割きたいという意見。</p>
-      <div class="bar"><i style="width:75%"></i></div>
-    </div>
-    <div class="stakeCard">
-      <b>移住検討者・地域おこし協力隊</b>
-      <p>行政手続きの相談窓口が分かりやすいと定住のハードルが下がる、という声。ITに強い若手人材の受け皿としての期待もある。</p>
-      <div class="bar"><i style="width:40%"></i></div>
-    </div>
-    <div class="stakeCard">
-      <b>農業・漁業事業者</b>
-      <p>補助金申請の手続きが複雑で、忙しい時期は申請自体を諦めることがある。相談できる担当者が固定されていると助かる。</p>
-      <div class="bar"><i style="width:35%"></i></div>
-    </div>
+    <p style="font-size:13px"><b>対応の方向性：</b>デジタル化はあくまで職員の負荷軽減が目的で、対面窓口自体は残すことを明確に説明する。てつだって拡張版のような「声で伝えられる」仕組みを間に置くことで、対面に近い体験を保ちながら記録・引き継ぎを効率化する案も検討する。</p>
+    <ol style="font-size:13px">
+      <li>現状の窓口対応時間・件数のデータを開示</li>
+      <li>高齢住民向けの相談窓口は維持する方針を明示</li>
+      <li>試行導入し、住民の声を継続的に集める</li>
+      <li>しまのみんな会議で定期的に意見を確認しながら調整</li>
+    </ol>
   </div>
 </section>
 
-<section class="panel" id="panel-measures">
+<section class="panel" id="panel-premise">
+  <div class="card">
+    <h3>現状データ</h3>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>人口</th><td>約300人台(2023年1月時点 317人)</td></tr>
+          <tr><th>高齢化率</th><td>44.1%(2019年)。このままの傾向だと2035年頃に50%を超える見込み</td></tr>
+          <tr><th>役場職員</th><td>定数27人 → 現員21人 → 退職により14人程度まで減少見込み</td></tr>
+          <tr><th>地方創生交付金</th><td>年間約2億円の枠に対し、2022・2023年度は85%程度が未消化(県内で最も高い割合)</td></tr>
+          <tr><th>交通</th><td>本島とを結ぶのは定期船のみ</td></tr>
+          <tr><th>産業</th><td>農業・漁業の後継者不足が課題</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn">職員数の減少は、行政サービスの「量」だけでなく、企画・実行できる「施策の幅」そのものを狭めるリスクがあります。</div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>AI分析(たたき台)：課題の分解</h3>
+    <p style="font-size:13px">現状データと住民・職員の声から、AIが課題を3つに分解しました。</p>
+    <div class="callout">
+      <b>① 定型業務の負荷</b><br>
+      窓口対応・書類作成など、人数が減っても必ず発生する定型業務が職員の時間の多くを占めている。
+    </div>
+    <div class="callout">
+      <b>② 企画・申請業務の停滞</b><br>
+      交付金の未消化率の高さは、申請書類の作成や事業設計にあてる人手・時間が不足していることの表れと考えられる。
+    </div>
+    <div class="callout">
+      <b>③ 属人化のリスク</b><br>
+      少人数ゆえに、特定の職員しか分からない業務が多く、休職・退職時のサービス停止リスクが高い。
+    </div>
+    <p class="footNote">※ 本ページはPoC(概念実証)のたたき台であり、実データではなく公開情報・報道をもとにした概算・仮の分析です。実際の施策検討には村役場の一次データをご利用ください。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-proposal">
   <div class="measureCard">
     <b>施策① 定型業務のデジタル化・共通基盤の活用</b>
     <p style="font-size:13px;margin:6px 0 0">問い合わせ対応や記録業務を、生成AIを使ったチャット・音声記録ツール(てつだって拡張版の仕組みを応用)で一部自動化し、職員は判断が必要な業務に集中できるようにする。</p>
@@ -178,23 +173,6 @@ tr:last-child td{border-bottom:0}
       <div><em>中期</em>職員の年齢構成・スキルの多様化</div>
       <div><em>長期</em>担い手不足の緩和</div>
     </div>
-  </div>
-</section>
-
-<section class="panel" id="panel-decision">
-  <div class="card">
-    <h3>反対・少数意見への向き合い方</h3>
-    <div class="callout risk">
-      <b>🔴 「デジタル化で、かえって相談しづらくなるのでは」</b>
-      <p style="margin:6px 0 0">高齢の住民ほど、対面での相談を重視する傾向がある。</p>
-    </div>
-    <p style="font-size:13px"><b>対応の方向性：</b>デジタル化はあくまで職員の負荷軽減が目的で、対面窓口自体は残すことを明確に説明する。てつだって拡張版のような「声で伝えられる」仕組みを間に置くことで、対面に近い体験を保ちながら記録・引き継ぎを効率化する案も検討する。</p>
-    <ol style="font-size:13px">
-      <li>現状の窓口対応時間・件数のデータを開示</li>
-      <li>高齢住民向けの相談窓口は維持する方針を明示</li>
-      <li>試行導入し、住民の声を継続的に集める</li>
-      <li>しまのみんな会議で定期的に意見を確認しながら調整</li>
-    </ol>
   </div>
 </section>
 
@@ -256,6 +234,34 @@ tr:last-child td{border-bottom:0}
       </table>
     </div>
     <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。申請にあたっては村役場・県・国の一次情報を必ずご確認ください。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-raw">
+  <div class="card">
+    <h3>住民・関係者の意見(生データ)</h3>
+    <div class="stakeGrid">
+      <div class="stakeCard">
+        <b>住民</b>
+        <p>窓口対応の待ち時間や、担当者不在時の対応の遅れを心配する声。一方で「顔が見える役場」への信頼も強い。</p>
+        <div class="bar"><i style="width:55%"></i></div>
+      </div>
+      <div class="stakeCard">
+        <b>村役場職員</b>
+        <p>1人あたりの担当業務範囲が年々広がっている。デジタル化で定型業務を減らし、企画業務に時間を割きたいという意見。</p>
+        <div class="bar"><i style="width:75%"></i></div>
+      </div>
+      <div class="stakeCard">
+        <b>移住検討者・地域おこし協力隊</b>
+        <p>行政手続きの相談窓口が分かりやすいと定住のハードルが下がる、という声。ITに強い若手人材の受け皿としての期待もある。</p>
+        <div class="bar"><i style="width:40%"></i></div>
+      </div>
+      <div class="stakeCard">
+        <b>農業・漁業事業者</b>
+        <p>補助金申請の手続きが複雑で、忙しい時期は申請自体を諦めることがある。相談できる担当者が固定されていると助かる。</p>
+        <div class="bar"><i style="width:35%"></i></div>
+      </div>
+    </div>
   </div>
 </section>
 
