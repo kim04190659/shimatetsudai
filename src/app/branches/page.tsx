@@ -13,7 +13,10 @@ export default function BranchesPage() {
       <p className="text-sm font-semibold text-brand-dark">BRANCHES</p>
       <h1 className="mt-2 text-3xl font-bold text-foreground">分室一覧</h1>
       <p className="mt-4 leading-relaxed text-foreground/80">
-        自治体ごとに置かれた拠点スタッフが、それぞれの地域の論点を登録し、住民・役場・議会との話し合いを支えています。
+        今、それぞれの島でどんな話し合いが進んでいるかを見られるページです。あなたの島を選んで、状況を見てみてください。
+      </p>
+      <p className="mt-2 text-sm leading-relaxed text-foreground/70">
+        気になる話し合いがあれば、「しまのみんな会議」からあなたの意見を届けることもできます。
       </p>
 
       <div className="mt-10 grid gap-5 sm:grid-cols-2">
@@ -26,7 +29,9 @@ export default function BranchesPage() {
             <p className="text-xs font-semibold text-brand-dark">{branch.tagline}</p>
             <h2 className="mt-2 text-lg font-bold text-foreground">{branch.name}</h2>
             <p className="mt-2 text-sm leading-relaxed text-foreground/70">{branch.description}</p>
-            <p className="mt-3 text-xs font-semibold text-accent-green">論点{branch.issues.length}件 →</p>
+            <p className="mt-3 text-xs font-semibold text-accent-green">
+              今、話し合っていること{branch.issues.length}件 →
+            </p>
           </Link>
         ))}
       </div>

@@ -34,13 +34,22 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
 
   return (
     <div className="mx-auto max-w-3xl px-5 py-16">
-      <Link href="/about" className="text-sm font-semibold text-brand-dark hover:underline">
-        ← 会社概要に戻る
+      <Link href="/branches" className="text-sm font-semibold text-brand-dark hover:underline">
+        ← 分室一覧に戻る
       </Link>
 
       <p className="mt-6 text-sm font-semibold text-brand-dark">{branch.tagline}</p>
       <h1 className="mt-2 text-3xl font-bold text-foreground">{branch.name}</h1>
       <p className="mt-4 leading-relaxed text-foreground/80">{branch.description}</p>
+
+      {branch.issues.some((issue) => issue.cardGameUrl) && (
+        <div className="mt-6 rounded-2xl border border-accent-green/40 bg-accent-green/5 p-5">
+          <p className="text-sm font-bold text-foreground">💬 あなたも意見を聞かせてください</p>
+          <p className="mt-1 text-sm leading-relaxed text-foreground/70">
+            下の「いま、話し合っていること」から、カードを選ぶだけで意見を届けられます。
+          </p>
+        </div>
+      )}
 
       <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {branch.stats.map((stat) => (
@@ -75,9 +84,9 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
       )}
 
       <div className="mt-12">
-        <h2 className="text-lg font-bold text-foreground">論点(Issue)</h2>
+        <h2 className="text-lg font-bold text-foreground">いま、話し合っていること</h2>
         <p className="mt-2 text-sm leading-relaxed text-foreground/70">
-          拠点スタッフが住民・役場・議会と話しながら、1つずつ論点を登録していきます。
+          拠点スタッフが住民・役場・議会と話しながら、困りごとを1つずつ、話し合いのテーブルに乗せていきます。
         </p>
 
         <div className="mt-6 space-y-4">
@@ -102,7 +111,7 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 rounded-full border border-brand bg-white px-5 py-2.5 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40"
                   >
-                    {issue.dashboardLabel ?? "詳細を見る"} ↗
+                    {issue.dashboardLabel ?? "詳しい資料を見る"} ↗
                   </a>
                 )}
                 {issue.cardGameUrl && (
@@ -139,7 +148,7 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
 
       <div className="mt-12 rounded-2xl border border-accent-green/30 bg-accent-green/5 p-6">
         <p className="text-sm leading-relaxed text-foreground/80">
-          この分室の活動は、意思決定支援・しまのみんな会議・てつだって拡張版の3つのツールを組み合わせて進めています。
+          声を聞き、意見にまとめ、みんなで決める。この3つを組み合わせて、{branch.name}の暮らしに還るところまで伴走しています。
         </p>
         <Link
           href="/contact"

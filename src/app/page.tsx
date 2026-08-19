@@ -18,32 +18,95 @@ export default function Home() {
             「あいだ」を、そっとてつだう。
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-foreground/80">
-            しまてつだい分室は、{PARTNER_NAME}の分室として、20〜40代の女性が中心となって活動しています。
-            聞こえにくさを支えるツール、地域の意思決定を支えるツール、学びを支えるツールを通じて、
-            離島や地方の暮らしにそっと寄り添っています。
+            聞こえにくさに寄り添うツール、みんなの意見を聞くツール、島の未来をみんなで決めるツール。
+            あなたの島の暮らしに、そっと寄り添う3つの道具を、{PARTNER_NAME}の分室として届けています。
           </p>
           <p className="mx-auto mt-3 max-w-2xl text-sm font-medium text-accent-green">
-            自治体ごとに、地元に住む女性が拠点スタッフとして活躍する仕組みを広げています。
+            各地の島や自治体に、地元に住む女性が拠点スタッフとして関わっています。
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
+        </div>
+      </section>
+
+      {/* はじめての方へ(読者別の入口) */}
+      <section className="mx-auto max-w-5xl px-5 py-14">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-foreground">はじめての方へ</h2>
+          <p className="mt-2 text-sm text-foreground/70">
+            あなたの立場に合わせて、見ていただきたいページをご案内します
+          </p>
+        </div>
+        <div className="mt-8 grid gap-5 sm:grid-cols-3">
+          <div className="flex flex-col rounded-2xl border border-brand-soft bg-card p-6 text-center">
+            <span className="text-3xl">🏝️</span>
+            <h3 className="mt-3 font-bold text-foreground">島にお住まいの方へ</h3>
+            <p className="mt-2 text-sm leading-relaxed text-foreground/70">
+              今、あなたの島でどんな話し合いが進んでいるかを見て、あなたの声を届けられます。
+            </p>
             <Link
-              href="/tools"
-              className="rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark"
+              href="/branches"
+              className="mt-4 inline-flex items-center justify-center gap-1 rounded-full bg-accent-green px-5 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
             >
-              事業紹介を見る
+              あなたの島の話し合いを見る
             </Link>
+          </div>
+          <div className="flex flex-col rounded-2xl border border-brand-soft bg-card p-6 text-center">
+            <span className="text-3xl">🏛️</span>
+            <h3 className="mt-3 font-bold text-foreground">自治体・議会の方へ</h3>
+            <p className="mt-2 text-sm leading-relaxed text-foreground/70">
+              住民の声とデータをあわせて、意思決定を後押しする仕組みをご紹介します。
+            </p>
             <Link
-              href="/about"
-              className="rounded-full border border-brand-dark px-6 py-3 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/60"
+              href="/tools/ishikettei"
+              className="mt-4 inline-flex items-center justify-center gap-1 rounded-full border border-brand bg-white px-5 py-2.5 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40"
             >
-              会社概要を見る
+              意思決定支援を見る
             </Link>
+          </div>
+          <div className="flex flex-col rounded-2xl border border-brand-soft bg-card p-6 text-center">
+            <span className="text-3xl">🙋</span>
+            <h3 className="mt-3 font-bold text-foreground">一緒に働きたい方へ</h3>
+            <p className="mt-2 text-sm leading-relaxed text-foreground/70">
+              自分の暮らす地域のために働く、拠点スタッフという選択肢があります。
+            </p>
             <Link
               href="/contact"
-              className="rounded-full border border-accent-green px-6 py-3 text-sm font-semibold text-accent-green transition hover:bg-accent-green/10"
+              className="mt-4 inline-flex items-center justify-center gap-1 rounded-full border border-accent-green px-5 py-2.5 text-sm font-semibold text-accent-green transition hover:bg-accent-green/10"
             >
               拠点スタッフに興味がある方はこちら
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 循環の説明(声を聞く→意見にする→決める→暮らしに還る) */}
+      <section className="bg-brand-soft/30 py-14">
+        <div className="mx-auto max-w-5xl px-5">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-foreground">3つのツールが、ひとつの輪になっています</h2>
+            <p className="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-foreground/70">
+              声を聞き、意見としてまとめ、みんなで決め、また暮らしに還っていく。この輪を、島ごとに小さく回しています。
+            </p>
+          </div>
+          <div className="mt-10 grid gap-4 sm:grid-cols-4">
+            {[
+              { icon: "👂", title: "聞く", body: "「てつだって」で、日々の声を集めます" },
+              { icon: "✍️", title: "意見にする", body: "「しまのみんな会議」で、考えを言葉にします" },
+              { icon: "🗳️", title: "決める", body: "「意思決定支援」で、みんなで話し合います" },
+              { icon: "🏠", title: "暮らしに還る", body: "決まったことが、また日々の暮らしに活かされます" },
+            ].map((step, index, arr) => (
+              <div key={step.title} className="relative flex flex-col items-center text-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-3xl shadow-sm">
+                  {step.icon}
+                </div>
+                <h3 className="mt-3 font-bold text-foreground">{step.title}</h3>
+                <p className="mt-1 text-xs leading-relaxed text-foreground/70">{step.body}</p>
+                {index < arr.length - 1 && (
+                  <span className="mt-2 hidden text-xl text-brand-dark/40 sm:block sm:absolute sm:top-6 sm:-right-4">
+                    →
+                  </span>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </section>
