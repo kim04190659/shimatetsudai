@@ -43,10 +43,10 @@ export default function KankoukyoukaiPage() {
               連携について問い合わせる
             </Link>
             <Link
-              href="/tools/ishikettei"
+              href="/jichitai"
               className="rounded-full border border-accent-green px-6 py-3 text-sm font-semibold text-accent-green transition hover:bg-accent-green/10"
             >
-              自治体向け「意思決定支援」を見る
+              自治体支援を見る
             </Link>
           </div>
         </div>

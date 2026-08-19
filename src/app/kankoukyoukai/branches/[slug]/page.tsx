@@ -59,6 +59,12 @@ export default async function KankoukyoukaiBranchDetailPage(
       </div>
       <h1 className="mt-2 text-3xl font-bold text-foreground">{branch.name}</h1>
       <p className="mt-4 leading-relaxed text-foreground/80">{branch.description}</p>
+      <Link
+        href={`/branches/${branch.slug}`}
+        className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand-dark hover:underline"
+      >
+        この島の分室ページ(自治体・商工会もまとめて見る)→
+      </Link>
 
       <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {branch.stats.map((stat) => (
