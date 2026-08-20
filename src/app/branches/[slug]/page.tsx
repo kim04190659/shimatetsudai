@@ -160,9 +160,9 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
             </a>
           )}
 
-          <h3 className="mt-6 text-sm font-bold text-foreground">目標達成のための指標(案)</h3>
+          <h3 className="mt-6 text-sm font-bold text-foreground">目標達成のための指標</h3>
           <p className="mt-1 text-xs leading-relaxed text-foreground/60">
-            「なんとなく良さそう」ではなく、実際の数字で追いかけられる形にしています。データがまだ揃っていないものは「未計測・未確認」と正直に書いています。
+            特定の論点のために作った数字ではなく、屋久島町自身が公式戦略の中で何十年も追い続けている、論点が増減しても変わらない指標を選んでいます。新しい論点が増えても、この指標自体は増えません。
           </p>
           <div className="mt-3 space-y-3">
             {regionalGoal.goalIndicators.map((indicator) => (
