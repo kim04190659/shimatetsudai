@@ -5,6 +5,7 @@ import { branches, getBranchBySlug, type BranchIssue } from "@/lib/branches";
 import { getShoukoukaiBySlug } from "@/lib/shoukoukai";
 import { getKankoukyoukaiBySlug } from "@/lib/kankoukyoukai";
 import { getCrossInsightsBySlug } from "@/lib/crossInsights";
+import { getRegionalGoalBySlug } from "@/lib/regionalGoal";
 import { PARTNER_NAME } from "@/lib/partner";
 
 export function generateStaticParams() {
@@ -93,6 +94,7 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
   const shoukoukai = getShoukoukaiBySlug(slug);
   const kankoukyoukai = getKankoukyoukaiBySlug(slug);
   const crossInsights = getCrossInsightsBySlug(slug);
+  const regionalGoal = getRegionalGoalBySlug(slug);
 
   if (!branch) {
     notFound();
@@ -136,6 +138,72 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
           </div>
         ))}
       </div>
+
+      {regionalGoal && (
+        <div className="mt-12 rounded-2xl border-2 border-accent-green/40 bg-accent-green/5 p-6">
+          <div className="flex flex-wrap items-center gap-2">
+            <h2 className="text-lg font-bold text-foreground">🧭 この島が目指す姿</h2>
+            <span className="inline-flex items-center rounded-full bg-white px-3 py-1 text-xs font-semibold text-accent-green">
+              AIによる仮案・要検証
+            </span>
+          </div>
+          <p className="mt-4 text-lg font-bold leading-relaxed text-foreground">
+            {regionalGoal.statement}
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-foreground/70">{regionalGoal.note}</p>
+          {regionalGoal.sourceUrl && (
+            <a
+              href={regionalGoal.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-brand-dark underline underline-offset-2 hover:opacity-80"
+            >
+              出典: {regionalGoal.sourceLabel ?? regionalGoal.sourceUrl} ↗
+            </a>
+          )}
+
+          <h3 className="mt-6 text-sm font-bold text-foreground">この目標を追いかけるための代理指標(案)</h3>
+          <ul className="mt-2 space-y-1">
+            {regionalGoal.proxyIndicators.map((indicator) => (
+              <li key={indicator} className="flex gap-2 text-sm leading-relaxed text-foreground/80">
+                <span className="text-accent-green">・</span>
+                <span>{indicator}</span>
+              </li>
+            ))}
+          </ul>
+
+          <h3 className="mt-6 text-sm font-bold text-foreground">
+            今の論点は、この目標にどう関係しているか
+          </h3>
+          <div className="mt-3 space-y-3">
+            {regionalGoal.issueAlignments.map((alignment) => (
+              <div
+                key={alignment.issueTitle}
+                className="rounded-2xl border border-brand-soft bg-white p-4"
+              >
+                <p className="text-sm font-semibold text-foreground">
+                  {alignment.orgIcon} {alignment.issueTitle}
+                  <span className="ml-2 text-xs font-normal text-foreground/50">({alignment.org})</span>
+                </p>
+                <p className="mt-2 flex gap-2 text-sm leading-relaxed text-foreground/80">
+                  <span className="shrink-0 rounded-full bg-accent-green/15 px-2 py-0.5 text-xs font-semibold text-accent-green">
+                    追い風
+                  </span>
+                  <span>{alignment.contribution}</span>
+                </p>
+                {alignment.risk && (
+                  <p className="mt-2 flex gap-2 text-sm leading-relaxed text-foreground/80">
+                    <span className="shrink-0 rounded-full bg-orange-100 px-2 py-0.5 text-xs font-semibold text-orange-700">
+                      リスク
+                    </span>
+                    <span>{alignment.risk}</span>
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {crossInsights && (
         <div className="mt-12 rounded-2xl border-2 border-brand-soft bg-brand-soft/20 p-6">
