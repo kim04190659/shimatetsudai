@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { branches, getBranchBySlug, type BranchIssue } from "@/lib/branches";
 import { getShoukoukaiBySlug } from "@/lib/shoukoukai";
 import { getKankoukyoukaiBySlug } from "@/lib/kankoukyoukai";
-import { getCrossInsightsBySlug } from "@/lib/crossInsights";
 import { getRegionalGoalBySlug } from "@/lib/regionalGoal";
 import { PARTNER_NAME } from "@/lib/partner";
 
@@ -93,7 +92,6 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
   const branch = getBranchBySlug(slug);
   const shoukoukai = getShoukoukaiBySlug(slug);
   const kankoukyoukai = getKankoukyoukaiBySlug(slug);
-  const crossInsights = getCrossInsightsBySlug(slug);
   const regionalGoal = getRegionalGoalBySlug(slug);
 
   if (!branch) {
@@ -202,35 +200,6 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
               </div>
             ))}
           </div>
-        </div>
-      )}
-
-      {crossInsights && (
-        <div className="mt-12 rounded-2xl border-2 border-brand-soft bg-brand-soft/20 p-6">
-          <h2 className="text-lg font-bold text-foreground">🔗 3つの機関の論点は、こうつながっています</h2>
-          <p className="mt-2 text-sm leading-relaxed text-foreground/70">{crossInsights.intro}</p>
-          <div className="mt-6 space-y-4">
-            {crossInsights.insights.map((insight) => (
-              <div
-                key={`${insight.from.label}-${insight.to.label}`}
-                className="rounded-2xl border border-brand-soft bg-white p-5"
-              >
-                <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-foreground">
-                  <span>
-                    {insight.from.icon} {insight.from.label}
-                  </span>
-                  <span className="text-brand-dark/50">→</span>
-                  <span>
-                    {insight.to.icon} {insight.to.label}
-                  </span>
-                </div>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/80">{insight.note}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-4 text-xs leading-relaxed text-foreground/50">
-            ※ それぞれのダッシュボードの内容をもとに、機関をまたいで整理した気づきです。論点が増えるたびに見直します。
-          </p>
         </div>
       )}
 
