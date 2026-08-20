@@ -160,15 +160,40 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
             </a>
           )}
 
-          <h3 className="mt-6 text-sm font-bold text-foreground">この目標を追いかけるための代理指標(案)</h3>
-          <ul className="mt-2 space-y-1">
-            {regionalGoal.proxyIndicators.map((indicator) => (
-              <li key={indicator} className="flex gap-2 text-sm leading-relaxed text-foreground/80">
-                <span className="text-accent-green">・</span>
-                <span>{indicator}</span>
-              </li>
+          <h3 className="mt-6 text-sm font-bold text-foreground">目標達成のための指標(案)</h3>
+          <p className="mt-1 text-xs leading-relaxed text-foreground/60">
+            「なんとなく良さそう」ではなく、実際の数字で追いかけられる形にしています。データがまだ揃っていないものは「未計測・未確認」と正直に書いています。
+          </p>
+          <div className="mt-3 space-y-3">
+            {regionalGoal.goalIndicators.map((indicator) => (
+              <div key={indicator.name} className="rounded-2xl border border-brand-soft bg-white p-4">
+                <p className="text-sm font-bold text-foreground">{indicator.name}</p>
+                <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                  <p className="text-xs leading-relaxed text-foreground/70">
+                    <span className="font-semibold text-foreground/50">現状値: </span>
+                    {indicator.current}
+                  </p>
+                  <p className="text-xs leading-relaxed text-foreground/70">
+                    <span className="font-semibold text-accent-green">目標値: </span>
+                    {indicator.target}
+                  </p>
+                </div>
+                <p className="mt-2 text-[11px] text-foreground/40">出典: {indicator.dataSource}</p>
+                {indicator.relatedIssueTitles.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {indicator.relatedIssueTitles.map((title) => (
+                      <span
+                        key={title}
+                        className="inline-flex items-center rounded-full bg-brand-soft/40 px-2 py-0.5 text-[11px] font-semibold text-brand-dark"
+                      >
+                        {title}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
-          </ul>
+          </div>
 
           <h3 className="mt-6 text-sm font-bold text-foreground">
             今の論点は、この目標にどう関係しているか
@@ -196,6 +221,19 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
                     </span>
                     <span>{alignment.risk}</span>
                   </p>
+                )}
+                {alignment.relatedIndicators && alignment.relatedIndicators.length > 0 && (
+                  <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                    <span className="text-[11px] text-foreground/40">動かす指標:</span>
+                    {alignment.relatedIndicators.map((name) => (
+                      <span
+                        key={name}
+                        className="inline-flex items-center rounded-full bg-accent-green/10 px-2 py-0.5 text-[11px] font-semibold text-accent-green"
+                      >
+                        {name}
+                      </span>
+                    ))}
+                  </div>
                 )}
               </div>
             ))}
