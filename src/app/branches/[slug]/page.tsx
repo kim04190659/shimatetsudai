@@ -159,6 +159,12 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
               出典: {regionalGoal.sourceLabel ?? regionalGoal.sourceUrl} ↗
             </a>
           )}
+          <Link
+            href="/approach"
+            className="mt-2 flex items-center gap-1 text-xs font-semibold text-accent-green hover:underline"
+          >
+            この仕組みの考え方(1枚の図)を見る →
+          </Link>
 
           <h3 className="mt-6 text-sm font-bold text-foreground">目標達成のための指標</h3>
           <p className="mt-1 text-xs leading-relaxed text-foreground/60">

@@ -126,6 +126,29 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 私たちの考え方(生成AIが複数機関を横断的に支える仕組み) */}
+      <section className="mx-auto max-w-5xl px-5 py-16">
+        <div className="overflow-hidden rounded-3xl border-2 border-accent-green/30 bg-accent-green/5 px-6 py-12 sm:px-12">
+          <div className="text-center">
+            <p className="text-sm font-semibold tracking-wide text-accent-green">OUR APPROACH</p>
+            <h2 className="mt-2 text-2xl font-bold text-foreground">
+              それぞれの機関が、それぞれの利害で決める。それでも、地域全体が良くなる。
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-foreground/80">
+              自治体・商工会・観光協会など、地域には複数の意思決定機関があります。それぞれが独立した目的で判断するのは自然なことですが、縦割りのままだと、地域全体の最適にはつながらないことがあります。私たちは、地域全体で共有する指標と、それぞれの論点との関わりを生成AIで横断的に見える化することで、各機関の意思決定を支える仕組みに取り組んでいます。
+            </p>
+          </div>
+          <div className="mt-8 text-center">
+            <Link
+              href="/approach"
+              className="inline-flex items-center rounded-full bg-accent-green px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
+            >
+              私たちの考え方を詳しく見る
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Recruit */}
       <section className="mx-auto max-w-5xl px-5 py-16">
         <div className="overflow-hidden rounded-3xl bg-accent-green/10 px-6 py-12 sm:px-12">
