@@ -63,9 +63,11 @@ export const branches: Branch[] = [
         status: "議論中",
         summary:
           "寄せられる取材・支援の依頼すべてには対応しきれない中で、どの業務を効率化・共同化し、どの業務を人にしかできない業務として残すべきかを検討しています。",
-        dashboardUrl: "/case-studies/ritokei-resource-dss-v6.html",
-        dashboardLabel: "意思決定支援ダッシュボードを見る(最新版)",
+        dashboardUrl: "/case-studies/ritokei-resource-dss",
+        dashboardLabel: "意思決定支援ダッシュボードを見る(ライブ版・国産LLM)",
         pastDashboards: [
+          { url: "/case-studies/ritokei-resource-dss-v7.html", label: "v7(静的版・国産LLM実証)を見る" },
+          { url: "/case-studies/ritokei-resource-dss-v6.html", label: "v6(静的版)を見る" },
           { url: "/case-studies/ritokei-resource-dss.html", label: "初期版を見る" },
         ],
         cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-ritokei-resource/cards",
