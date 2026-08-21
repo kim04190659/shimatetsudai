@@ -111,6 +111,11 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
 
       <p className="mt-6 text-sm font-semibold text-brand-dark">{branch.tagline}</p>
       <h1 className="mt-2 text-3xl font-bold text-foreground">{branch.name}</h1>
+
+      <div className="mt-4 rounded-xl border border-dashed border-foreground/20 bg-foreground/[0.03] p-4 text-xs leading-relaxed text-foreground/60">
+        ⚠️ このページは、公開情報をもとに作成した実証用のデモです。{branch.name}は、当該自治体・団体から正式な許諾・監修を得て制作したものではありません。掲載する論点・立場表明は生成AIによる仮の整理案であり、実際の見解や意思決定を示すものではない点にご留意ください。
+      </div>
+
       <p className="mt-4 leading-relaxed text-foreground/80">{branch.description}</p>
       <p className="mt-2 text-sm leading-relaxed text-foreground/70">
         この島では、自治体

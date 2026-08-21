@@ -58,6 +58,11 @@ export default async function KankoukyoukaiBranchDetailPage(
         </span>
       </div>
       <h1 className="mt-2 text-3xl font-bold text-foreground">{branch.name}</h1>
+
+      <div className="mt-4 rounded-xl border border-dashed border-foreground/20 bg-foreground/[0.03] p-4 text-xs leading-relaxed text-foreground/60">
+        ⚠️ このページは、公開情報をもとに作成した実証用のデモです。{branch.name}から正式な許諾・監修を得て制作したものではありません。掲載する論点は生成AIによる仮の整理案であり、実際の見解を示すものではない点にご留意ください。
+      </div>
+
       <p className="mt-4 leading-relaxed text-foreground/80">{branch.description}</p>
       <Link
         href={`/branches/${branch.slug}`}
