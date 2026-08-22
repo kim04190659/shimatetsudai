@@ -175,6 +175,36 @@ export function renderTenantDashboardHtml(
 
   const eyebrow = meta.displayLabel ? meta.displayLabel : "意思決定支援ダッシュボード(試用版)";
 
+  const hasEvidence = data.evidenceRecords.length > 0;
+  const hasFunding = data.fundingMatches.length > 0;
+
+  const evidenceHtml = hasEvidence
+    ? data.evidenceRecords
+        .map(
+          (e) => `
+    <div class="card">
+      <p style="font-size:14px;font-weight:700;margin:0 0 4px">${e.title}</p>
+      <p style="font-size:13px;margin:0;color:#4b5563">${e.summary}</p>
+    </div>`
+        )
+        .join("\n")
+    : "";
+
+  const fundingHtml = hasFunding
+    ? data.fundingMatches
+        .map(
+          (f) => `
+    <div class="card">
+      <p style="font-size:14px;font-weight:700;margin:0 0 4px">${f.name}</p>
+      <p style="font-size:12px;color:var(--muted);margin:0 0 6px">${f.agency}</p>
+      <p style="font-size:13px;margin:0 0 6px;color:#4b5563">${f.summary}</p>
+      <p style="font-size:12.5px;margin:0 0 6px"><b>補助率・上限額:</b> ${f.amount}</p>
+      <p style="font-size:12px;color:var(--muted);margin:0">${f.matchReason}</p>
+    </div>`
+        )
+        .join("\n")
+    : "";
+
   return `<!doctype html>
 <html lang="ja">
 <head>
@@ -200,6 +230,8 @@ export function renderTenantDashboardHtml(
 <div class="tabs">
   <button class="active" data-tab="draft">生成AI下書き(ライブ)</button>
   <button data-tab="voices">現場の声(ライブ)</button>
+  ${hasEvidence ? `<button data-tab="evidence">根拠データ</button>` : ""}
+  ${hasFunding ? `<button data-tab="funding">活用できる補助金</button>` : ""}
 </div>
 
 <div class="panel active" id="panel-draft">
@@ -209,6 +241,22 @@ export function renderTenantDashboardHtml(
 <div class="panel" id="panel-voices">
   ${positionRecordsHtml}
 </div>
+
+${
+  hasEvidence
+    ? `<div class="panel" id="panel-evidence">
+  ${evidenceHtml}
+</div>`
+    : ""
+}
+
+${
+  hasFunding
+    ? `<div class="panel" id="panel-funding">
+  ${fundingHtml}
+</div>`
+    : ""
+}
 
 </div>
 <script>

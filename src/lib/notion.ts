@@ -170,3 +170,73 @@ export async function getIssueDashboardData(
 
   return { issueTitle, positionRecords, sourceNotesText };
 }
+
+// ------------------------------------------------------------------
+// テナント(団体)向けダッシュボードの追加タブ用データ取得。
+// EvidenceRecordはIssue単位(その論点専用のDB)、補助金・交付金マッチングDBは
+// 全団体共通のDBを「対象自治体」タグで絞り込んで取得する。
+// どちらも省略可能(データソースIDが渡されなければ空配列を返す)にしているのは、
+// まだ8DBを個別に持たない試用段階のテナントでもエラーにしないため。
+// ------------------------------------------------------------------
+
+export type EvidenceRecord = {
+  title: string;
+  summary: string;
+};
+
+export async function getIssueEvidenceRecords(
+  issuePageId: string,
+  evidenceDataSourceId: string
+): Promise<EvidenceRecord[]> {
+  const notion = getClient();
+  const res = await notion.dataSources.query({
+    data_source_id: evidenceDataSourceId,
+    filter: {
+      property: "Issue",
+      relation: { contains: issuePageId },
+    },
+  });
+
+  return res.results.filter(isFullPage).map((page) => ({
+    title: plainTextFromProperty(page.properties["Title"]),
+    summary: plainTextFromProperty(page.properties["要約"]),
+  }));
+}
+
+export type FundingMatch = {
+  name: string;
+  agency: string;
+  summary: string;
+  amount: string;
+  matchReason: string;
+  sourceUrl: string;
+};
+
+function urlFromProperty(prop: PageObjectResponse["properties"][string] | undefined): string {
+  if (!prop || prop.type !== "url") return "";
+  return prop.url ?? "";
+}
+
+/** 補助金・交付金マッチングDB(全団体共通)を、「対象自治体」タグで絞り込んで取得する */
+export async function getFundingMatches(
+  fundingDataSourceId: string,
+  targetAreaTag: string
+): Promise<FundingMatch[]> {
+  const notion = getClient();
+  const res = await notion.dataSources.query({
+    data_source_id: fundingDataSourceId,
+    filter: {
+      property: "対象自治体",
+      multi_select: { contains: targetAreaTag },
+    },
+  });
+
+  return res.results.filter(isFullPage).map((page) => ({
+    name: plainTextFromProperty(page.properties["制度名"]),
+    agency: plainTextFromProperty(page.properties["所管機関"]),
+    summary: plainTextFromProperty(page.properties["概要"]),
+    amount: plainTextFromProperty(page.properties["補助率・上限額"]),
+    matchReason: plainTextFromProperty(page.properties["マッチ理由"]),
+    sourceUrl: urlFromProperty(page.properties["出典URL"]),
+  }));
+}

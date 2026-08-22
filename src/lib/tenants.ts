@@ -10,7 +10,9 @@
 //     "issuePageId": "NotionのIssueページID",
 //     "positionRecordDataSourceId": "NotionのPositionRecordデータソースID",
 //     "passwordHash": "bcryptでハッシュ化したパスワード",
-//     "status": "active"
+//     "status": "active",
+//     "evidenceDataSourceId": "(任意)その団体のEvidenceRecord DBのID",
+//     "fundingAreaTag": "(任意)補助金DBを絞り込む対象自治体タグ(例: 屋久島町)"
 //   }
 // ]
 //
@@ -26,6 +28,10 @@ export type TenantConfig = {
   positionRecordDataSourceId: string;
   passwordHash: string;
   status: TenantStatus;
+  /** その団体のEvidenceRecord(根拠データ)DBのID。8DBを持たない試用テナントは省略可 */
+  evidenceDataSourceId?: string;
+  /** 補助金・交付金マッチングDB(全団体共通)を絞り込むための「対象自治体」タグ名。省略可 */
+  fundingAreaTag?: string;
 };
 
 let cachedTenants: TenantConfig[] | null = null;
