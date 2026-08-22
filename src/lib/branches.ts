@@ -15,6 +15,11 @@ export type BranchIssue = {
   cardGameLabel?: string;
   /** 過去バージョンの意思決定支援ダッシュボードなど、参考として残しておきたいリンク */
   pastDashboards?: { url: string; label: string }[];
+  /**
+   * カードゲームの代わりに、このページ内蔵の簡易フォームで意見を集める場合のテナントslug。
+   * /api/tenant/[slug]/opinion にPOSTする。cardGameUrlと共存可(両方出す)。
+   */
+  opinionTenantSlug?: string;
 };
 
 export type BranchStat = { label: string; value: string };
@@ -159,4 +164,52 @@ export const branches: Branch[] = [
   },
 ];
 
-export const getBranchBySlug = (slug: string) => branches.find((b) => b.slug === slug);
+import { getActiveTenants, type TenantConfig } from "./tenants";
+
+/**
+ * TENANTS_CONFIGのテナントを、分室ページ用の簡易Branchに変換する。
+ * publicNameが設定されているテナントだけを対象にする(未設定=まだ公開の許諾が取れていない試用段階、という運用)。
+ * コード変更・再デプロイなしで、env変数(TENANTS_CONFIG)にpublicNameを足すだけで
+ * /branches/[slug] が自動的に表示されるようにするための仕組み。
+ */
+function synthesizeBranchFromTenant(tenant: TenantConfig): Branch | null {
+  if (!tenant.publicName) return null;
+
+  return {
+    slug: tenant.slug,
+    name: tenant.publicName,
+    tagline: tenant.publicTagline ?? "",
+    description: tenant.publicDescription ?? "",
+    stats: [],
+    tools: [],
+    issues: [
+      {
+        title: tenant.issueTitle ?? "意思決定支援",
+        status: tenant.issueStatus ?? "議論中",
+        summary: tenant.issueSummary ?? "",
+        dashboardUrl: `/dashboard/${tenant.slug}`,
+        dashboardLabel: "意思決定支援ダッシュボードを見る(要パスワード)",
+        opinionTenantSlug: tenant.positionRecordDataSourceId ? tenant.slug : undefined,
+      },
+    ],
+  };
+}
+
+/** ハードコードされたbranches配列 + TENANTS_CONFIG由来の簡易分室、を合わせた一覧を返す */
+export function getAllBranches(): Branch[] {
+  const tenantBranches = getActiveTenants()
+    .filter((t) => !branches.some((b) => b.slug === t.slug)) // 既存の手作り分室があれば、そちらを優先
+    .map(synthesizeBranchFromTenant)
+    .filter((b): b is Branch => b !== null);
+
+  return [...branches, ...tenantBranches];
+}
+
+export const getBranchBySlug = (slug: string): Branch | undefined => {
+  const hardcoded = branches.find((b) => b.slug === slug);
+  if (hardcoded) return hardcoded;
+
+  const tenant = getActiveTenants().find((t) => t.slug === slug);
+  if (!tenant) return undefined;
+  return synthesizeBranchFromTenant(tenant) ?? undefined;
+};

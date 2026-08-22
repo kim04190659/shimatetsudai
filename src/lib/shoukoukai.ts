@@ -21,6 +21,8 @@ export type ShoukoukaiIssue = {
   /** しまのみんな会議(カードゲーム)で、この論点について意見を出し合えるページ */
   cardGameUrl?: string;
   cardGameLabel?: string;
+  /** カードゲームの代わりに、分室ページ内蔵の簡易フォームで意見を集める場合のテナントslug */
+  opinionTenantSlug?: string;
 };
 
 export type ShoukoukaiStat = { label: string; value: string };

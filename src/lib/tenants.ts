@@ -12,9 +12,18 @@
 //     "passwordHash": "bcryptでハッシュ化したパスワード",
 //     "status": "active",
 //     "evidenceDataSourceId": "(任意)その団体のEvidenceRecord DBのID",
-//     "fundingAreaTag": "(任意)補助金DBを絞り込む対象自治体タグ(例: 屋久島町)"
+//     "fundingAreaTag": "(任意)補助金DBを絞り込む対象自治体タグ(例: 屋久島町)",
+//     "publicName": "(任意)分室一覧・分室ページに出す正式名称。設定した団体だけ/branches/[slug]が自動生成される",
+//     "publicTagline": "(任意)分室ページの一行紹介",
+//     "publicDescription": "(任意)分室ページの説明文",
+//     "issueTitle": "(任意)分室ページに出す論点タイトル",
+//     "issueSummary": "(任意)分室ページに出す論点の説明文",
+//     "issueStatus": "(任意)議論中|合意形成中|合意済み|提起|保留。省略時は議論中"
 //   }
 // ]
+//
+// publicName を設定した団体だけ、/branches/[slug] 分室ページが自動生成される
+// (コード変更・再デプロイ不要)。省略した場合は、これまで通り試用中の非公開扱いのまま。
 //
 // passwordHashの作り方(ローカルのNode.jsで実行):
 //   node -e "require('bcryptjs').hash(process.argv[1], 10).then(h => console.log(h))" '実際のパスワード'
@@ -32,6 +41,18 @@ export type TenantConfig = {
   evidenceDataSourceId?: string;
   /** 補助金・交付金マッチングDB(全団体共通)を絞り込むための「対象自治体」タグ名。省略可 */
   fundingAreaTag?: string;
+  /** 分室ページ(/branches/[slug])に公開してよい場合のみ設定する正式名称。未設定なら分室ページは自動生成されない */
+  publicName?: string;
+  /** 分室ページの一行紹介。publicName未設定なら無視される */
+  publicTagline?: string;
+  /** 分室ページの説明文。publicName未設定なら無視される */
+  publicDescription?: string;
+  /** 分室ページに出す論点タイトル。省略時はissuePageIdのタイトルの代わりに汎用文言を使う */
+  issueTitle?: string;
+  /** 分室ページに出す論点の説明文 */
+  issueSummary?: string;
+  /** 分室ページに出す論点のステータス。省略時は"議論中" */
+  issueStatus?: "議論中" | "合意形成中" | "合意済み" | "提起" | "保留";
 };
 
 let cachedTenants: TenantConfig[] | null = null;
@@ -78,4 +99,9 @@ export function getTenantConfig(slug: string): TenantConfig | null {
   if (!tenant) return null;
   if (tenant.status && tenant.status !== "active") return null;
   return tenant;
+}
+
+/** status が "active" のテナント設定を全件返す。分室ページの一覧合成などに使う */
+export function getActiveTenants(): TenantConfig[] {
+  return getAllTenants().filter((t) => !t.status || t.status === "active");
 }

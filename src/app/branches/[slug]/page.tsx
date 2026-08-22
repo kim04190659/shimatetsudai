@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { branches, getBranchBySlug, type BranchIssue } from "@/lib/branches";
+import { getAllBranches, getBranchBySlug, type BranchIssue } from "@/lib/branches";
 import { getShoukoukaiBySlug } from "@/lib/shoukoukai";
 import { getKankoukyoukaiBySlug } from "@/lib/kankoukyoukai";
 import { getRegionalGoalBySlug } from "@/lib/regionalGoal";
 import { PARTNER_NAME } from "@/lib/partner";
+import OpinionForm from "@/components/OpinionForm";
 
 export function generateStaticParams() {
-  return branches.map((b) => ({ slug: b.slug }));
+  return getAllBranches().map((b) => ({ slug: b.slug }));
 }
+
+// TENANTS_CONFIGにpublicNameを持つテナントが追加されたときも、
+// 再デプロイ・再ビルドを待たずにオンデマンドで生成できるようにする
+// (generateStaticParamsに含まれないslugでも404にしない)。
+export const dynamicParams = true;
 
 export async function generateMetadata(
   props: PageProps<"/branches/[slug]">
@@ -65,6 +71,7 @@ function IssueList({ issues }: { issues: BranchIssue[] }) {
               </a>
             )}
           </div>
+          {issue.opinionTenantSlug && <OpinionForm tenantSlug={issue.opinionTenantSlug} />}
           {issue.pastDashboards && issue.pastDashboards.length > 0 && (
             <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
               <span className="text-xs text-foreground/50">過去のバージョン:</span>
@@ -99,9 +106,9 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
   }
 
   const hasCardGame =
-    branch.issues.some((issue) => issue.cardGameUrl) ||
-    (shoukoukai?.issues.some((issue) => issue.cardGameUrl) ?? false) ||
-    (kankoukyoukai?.issues.some((issue) => issue.cardGameUrl) ?? false);
+    branch.issues.some((issue) => issue.cardGameUrl || issue.opinionTenantSlug) ||
+    (shoukoukai?.issues.some((issue) => issue.cardGameUrl || issue.opinionTenantSlug) ?? false) ||
+    (kankoukyoukai?.issues.some((issue) => issue.cardGameUrl || issue.opinionTenantSlug) ?? false);
 
   return (
     <div className="mx-auto max-w-3xl px-5 py-16">

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { branches } from "@/lib/branches";
+import { getAllBranches } from "@/lib/branches";
 import { getShoukoukaiBySlug } from "@/lib/shoukoukai";
 import { getKankoukyoukaiBySlug } from "@/lib/kankoukyoukai";
 import { PARTNER_NAME } from "@/lib/partner";
@@ -23,7 +23,7 @@ export default function BranchesPage() {
       </p>
 
       <div className="mt-10 grid gap-5 sm:grid-cols-2">
-        {branches.map((branch) => {
+        {getAllBranches().map((branch) => {
           const shoukoukai = getShoukoukaiBySlug(branch.slug);
           const kankoukyoukai = getKankoukyoukaiBySlug(branch.slug);
           const totalIssues =

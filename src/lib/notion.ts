@@ -217,6 +217,42 @@ function urlFromProperty(prop: PageObjectResponse["properties"][string] | undefi
   return prop.url ?? "";
 }
 
+// ------------------------------------------------------------------
+// 分室ページから、パスワードなしで誰でも意見を届けられる投稿機能。
+// 「しまのみんな会議」カードゲーム(別リポジトリ)を持たない新規テナントでも、
+// 意見収集そのものはこの仕組みで最低限まかなえるようにする。
+// ------------------------------------------------------------------
+
+export type OpinionInput = {
+  stance: "賛成" | "反対" | "条件付き賛成" | "保留";
+  content: string;
+};
+
+/**
+ * 分室ページの意見投稿フォームから届いた内容を、そのテナントのPositionRecordに
+ * 匿名の1件として記録する。Stakeholderへの関係者登録は行わない(誰でも投稿できる導線のため)。
+ */
+export async function submitOpinion(
+  issuePageId: string,
+  positionRecordDataSourceId: string,
+  input: OpinionInput
+): Promise<void> {
+  const notion = getClient();
+  const title = `分室ページからの意見投稿(${new Date().toLocaleDateString("ja-JP", { timeZone: "Asia/Tokyo" })})`;
+
+  await notion.pages.create({
+    parent: { data_source_id: positionRecordDataSourceId, type: "data_source_id" },
+    properties: {
+      Title: { title: [{ text: { content: title } }] },
+      Stance: { select: { name: input.stance } },
+      Channel: { select: { name: "非同期投稿" } },
+      取材元: { select: { name: "RunWith直接入力" } },
+      内容: { rich_text: [{ text: { content: input.content.slice(0, 2000) } }] },
+      Issue: { relation: [{ id: issuePageId }] },
+    },
+  });
+}
+
 /** 補助金・交付金マッチングDB(全団体共通)を、「対象自治体」タグで絞り込んで取得する */
 export async function getFundingMatches(
   fundingDataSourceId: string,
