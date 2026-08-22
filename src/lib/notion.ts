@@ -77,6 +77,13 @@ export async function logContactInquiry(input: ContactInquiryInput): Promise<voi
 const RITOKEI_RESOURCE_ISSUE_PAGE_ID = "3bf960a9-1e23-819e-84f3-e19648bbb07a";
 const RITOKEI_POSITION_RECORD_DATA_SOURCE_ID = "56112aae-dcd8-4e73-8f73-d3094f9edf0b";
 
+// ------------------------------------------------------------------
+// 複数団体対応(マルチテナント化)用の汎用版。
+// りとけい専用だった上のgetRitokeiResourceDashboardData()と処理内容は同じだが、
+// IssuePageId・PositionRecordDataSourceIdを引数で受け取るため、
+// テナント(団体)ごとに異なるNotionページを指せる。
+// ------------------------------------------------------------------
+
 function plainTextFromProperty(prop: PageObjectResponse["properties"][string] | undefined): string {
   if (!prop) return "";
   switch (prop.type) {
@@ -113,18 +120,31 @@ export type RitokeiResourceDashboardData = {
  * Notionからライブ取得する。ダッシュボードの更新ボタンが押されたときに呼ばれる想定。
  */
 export async function getRitokeiResourceDashboardData(): Promise<RitokeiResourceDashboardData> {
+  return getIssueDashboardData(RITOKEI_RESOURCE_ISSUE_PAGE_ID, RITOKEI_POSITION_RECORD_DATA_SOURCE_ID);
+}
+
+/**
+ * 任意のIssuePageId・PositionRecordDataSourceIdについて、Issueの内容と
+ * それに紐づくPositionRecord(立場表明ログ = 議事録・意見)をNotionからライブ取得する。
+ * テナント(団体)ごとのダッシュボードから、このタイトル・データソースIDだけを
+ * 差し替えて呼び出すことで、同じ仕組みを複数団体に対応させられる。
+ */
+export async function getIssueDashboardData(
+  issuePageId: string,
+  positionRecordDataSourceId: string
+): Promise<RitokeiResourceDashboardData> {
   const notion = getClient();
 
-  const issuePage = await notion.pages.retrieve({ page_id: RITOKEI_RESOURCE_ISSUE_PAGE_ID });
+  const issuePage = await notion.pages.retrieve({ page_id: issuePageId });
   const issueTitle = isFullPage(issuePage)
     ? plainTextFromProperty(issuePage.properties["Title"])
-    : "420島への限られた取材・支援リソースを、どう配分するか";
+    : "意思決定支援の論点";
 
   const positionRes = await notion.dataSources.query({
-    data_source_id: RITOKEI_POSITION_RECORD_DATA_SOURCE_ID,
+    data_source_id: positionRecordDataSourceId,
     filter: {
       property: "Issue",
-      relation: { contains: RITOKEI_RESOURCE_ISSUE_PAGE_ID },
+      relation: { contains: issuePageId },
     },
     sorts: [{ property: "登録日時", direction: "descending" }],
   });
