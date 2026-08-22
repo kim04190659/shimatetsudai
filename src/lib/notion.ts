@@ -20,7 +20,12 @@ function getClient(): Client {
 
 export type ContactInquiryInput = {
   title: string;
-  inquiryType: "スタッフについて" | "サービスについて" | "取材・プレス" | "その他";
+  inquiryType:
+    | "スタッフについて"
+    | "サービスについて"
+    | "取材・プレス"
+    | "ダッシュボード試用申請"
+    | "その他";
   summary: string;
   canAnswer: boolean;
   escalationReason?: string;
