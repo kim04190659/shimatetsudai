@@ -175,11 +175,17 @@ export function renderTenantDashboardHtml(
 
   const eyebrow = meta.displayLabel ? meta.displayLabel : "意思決定支援ダッシュボード(試用版)";
 
-  const hasEvidence = data.evidenceRecords.length > 0;
-  const hasFunding = data.fundingMatches.length > 0;
+  // unstable_cacheには、この2フィールドを追加する前の古いデプロイ時点で
+  // 書き込まれたキャッシュがまだ残っている可能性がある(コードを変えても
+  // キャッシュタグが同じなら自動では消えない)。undefinedでも落ちないように防御する。
+  const evidenceRecords = data.evidenceRecords ?? [];
+  const fundingMatches = data.fundingMatches ?? [];
+
+  const hasEvidence = evidenceRecords.length > 0;
+  const hasFunding = fundingMatches.length > 0;
 
   const evidenceHtml = hasEvidence
-    ? data.evidenceRecords
+    ? evidenceRecords
         .map(
           (e) => `
     <div class="card">
@@ -191,7 +197,7 @@ export function renderTenantDashboardHtml(
     : "";
 
   const fundingHtml = hasFunding
-    ? data.fundingMatches
+    ? fundingMatches
         .map(
           (f) => `
     <div class="card">
