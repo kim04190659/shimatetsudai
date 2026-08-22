@@ -198,6 +198,7 @@ function synthesizeBranchFromTenant(tenant: TenantConfig): Branch | null {
 /** ハードコードされたbranches配列 + TENANTS_CONFIG由来の簡易分室、を合わせた一覧を返す */
 export function getAllBranches(): Branch[] {
   const tenantBranches = getActiveTenants()
+    .filter((t) => !t.publicKind || t.publicKind === "jichitai")
     .filter((t) => !branches.some((b) => b.slug === t.slug)) // 既存の手作り分室があれば、そちらを優先
     .map(synthesizeBranchFromTenant)
     .filter((b): b is Branch => b !== null);

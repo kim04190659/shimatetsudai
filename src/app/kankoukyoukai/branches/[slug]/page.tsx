@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { kankoukyoukaiBranches, getKankoukyoukaiBySlug } from "@/lib/kankoukyoukai";
+import { getAllKankoukyoukaiBranches, getKankoukyoukaiBySlug } from "@/lib/kankoukyoukai";
 import { PARTNER_NAME } from "@/lib/partner";
+import OpinionForm from "@/components/OpinionForm";
 
 export function generateStaticParams() {
-  return kankoukyoukaiBranches.map((b) => ({ slug: b.slug }));
+  return getAllKankoukyoukaiBranches().map((b) => ({ slug: b.slug }));
 }
+
+// TENANTS_CONFIGにpublicKind:"kankoukyoukai"のテナントが追加されたときも、
+// 再デプロイ・再ビルドを待たずにオンデマンドで生成できるようにする
+export const dynamicParams = true;
 
 export async function generateMetadata(
   props: PageProps<"/kankoukyoukai/branches/[slug]">
@@ -150,6 +155,7 @@ export default async function KankoukyoukaiBranchDetailPage(
                     </a>
                   )}
                 </div>
+                {issue.opinionTenantSlug && <OpinionForm tenantSlug={issue.opinionTenantSlug} />}
               </div>
             ))}
           </div>

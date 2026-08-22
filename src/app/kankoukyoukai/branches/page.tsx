@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { kankoukyoukaiBranches } from "@/lib/kankoukyoukai";
+import { getAllKankoukyoukaiBranches } from "@/lib/kankoukyoukai";
 import { PARTNER_NAME } from "@/lib/partner";
 
 export const metadata: Metadata = {
@@ -13,6 +13,7 @@ const statusStyle: Record<string, string> = {
 };
 
 export default function KankoukyoukaiBranchesPage() {
+  const allKankoukyoukaiBranches = getAllKankoukyoukaiBranches();
   return (
     <div className="mx-auto max-w-3xl px-5 py-16">
       <Link href="/kankoukyoukai" className="text-sm font-semibold text-brand-dark hover:underline">
@@ -26,13 +27,13 @@ export default function KankoukyoukaiBranchesPage() {
         しまてつだい分室(自治体向け・商工会向け)と同じ仕組みで、観光協会が増えるたびにこのページにも追加されていきます。
       </p>
 
-      {kankoukyoukaiBranches.length === 0 ? (
+      {allKankoukyoukaiBranches.length === 0 ? (
         <div className="mt-10 rounded-2xl border border-dashed border-brand-soft bg-card p-6 text-sm leading-relaxed text-foreground/60">
           現在、掲載している観光協会分室はまだありません。
         </div>
       ) : (
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
-          {kankoukyoukaiBranches.map((branch) => (
+          {allKankoukyoukaiBranches.map((branch) => (
             <Link
               key={branch.slug}
               href={`/kankoukyoukai/branches/${branch.slug}`}

@@ -71,9 +71,62 @@ export const shoukoukaiBranches: ShoukoukaiBranch[] = [
         cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-yakushima-shokokai-bcp/cards",
         cardGameLabel: "しまのみんな会議で意見を出す",
       },
+      {
+        title: "商工会加盟の商業施設の収益不足・閉鎖リスクに、どう対応するか",
+        status: "議論中",
+        summary:
+          "サイトのダッシュボード試用申請フォームから、商工会加盟の商業施設の経営者より「利益が足りず、閉鎖に追い込まれている」という問題提起が届いたことをきっかけに立ち上がった論点です。既存の公的支援制度(経営発達支援計画・小規模事業者持続化補助金等)の活用促進を軸に検討しています。",
+        dashboardUrl: "/dashboard/yakushima-shoukoukai",
+        dashboardLabel: "意思決定支援ダッシュボードを見る(要パスワード)",
+        opinionTenantSlug: "yakushima-shoukoukai",
+      },
     ],
   },
 ];
 
-export const getShoukoukaiBySlug = (slug: string) =>
-  shoukoukaiBranches.find((b) => b.slug === slug);
+import { getActiveTenants, type TenantConfig } from "./tenants";
+
+/** branches.tsのsynthesizeBranchFromTenant()と同じ考え方。publicKind==="shoukoukai"のテナントのみ対象 */
+function synthesizeShoukoukaiFromTenant(tenant: TenantConfig): ShoukoukaiBranch | null {
+  if (!tenant.publicName) return null;
+
+  return {
+    slug: tenant.slug,
+    name: tenant.publicName,
+    tagline: tenant.publicTagline ?? "",
+    description: tenant.publicDescription ?? "",
+    status: "活動中",
+    stats: [],
+    tools: [],
+    issues: [
+      {
+        title: tenant.issueTitle ?? "意思決定支援",
+        status: tenant.issueStatus ?? "議論中",
+        summary: tenant.issueSummary ?? "",
+        dashboardUrl: `/dashboard/${tenant.slug}`,
+        dashboardLabel: "意思決定支援ダッシュボードを見る(要パスワード)",
+        opinionTenantSlug: tenant.positionRecordDataSourceId ? tenant.slug : undefined,
+      },
+    ],
+  };
+}
+
+/** ハードコードされたshoukoukaiBranches配列 + TENANTS_CONFIG由来の簡易分室、を合わせた一覧を返す */
+export function getAllShoukoukaiBranches(): ShoukoukaiBranch[] {
+  const tenantBranches = getActiveTenants()
+    .filter((t) => t.publicKind === "shoukoukai")
+    .filter((t) => !shoukoukaiBranches.some((b) => b.slug === t.slug))
+    .map(synthesizeShoukoukaiFromTenant)
+    .filter((b): b is ShoukoukaiBranch => b !== null);
+
+  return [...shoukoukaiBranches, ...tenantBranches];
+}
+
+export const getShoukoukaiBySlug = (slug: string): ShoukoukaiBranch | undefined => {
+  const hardcoded = shoukoukaiBranches.find((b) => b.slug === slug);
+  if (hardcoded) return hardcoded;
+
+  const tenant = getActiveTenants().find((t) => t.slug === slug && t.publicKind === "shoukoukai");
+  if (!tenant) return undefined;
+  return synthesizeShoukoukaiFromTenant(tenant) ?? undefined;
+};

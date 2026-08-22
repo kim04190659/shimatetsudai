@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { shoukoukaiBranches, getShoukoukaiBySlug } from "@/lib/shoukoukai";
+import { getAllShoukoukaiBranches, getShoukoukaiBySlug } from "@/lib/shoukoukai";
 import { PARTNER_NAME } from "@/lib/partner";
+import OpinionForm from "@/components/OpinionForm";
 
 export function generateStaticParams() {
-  return shoukoukaiBranches.map((b) => ({ slug: b.slug }));
+  return getAllShoukoukaiBranches().map((b) => ({ slug: b.slug }));
 }
+
+// TENANTS_CONFIGにpublicKind:"shoukoukai"のテナントが追加されたときも、
+// 再デプロイ・再ビルドを待たずにオンデマンドで生成できるようにする
+export const dynamicParams = true;
 
 export async function generateMetadata(
   props: PageProps<"/shoukoukai/branches/[slug]">
@@ -150,6 +155,7 @@ export default async function ShoukoukaiBranchDetailPage(
                     </a>
                   )}
                 </div>
+                {issue.opinionTenantSlug && <OpinionForm tenantSlug={issue.opinionTenantSlug} />}
               </div>
             ))}
           </div>

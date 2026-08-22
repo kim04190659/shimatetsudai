@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { branches } from "@/lib/branches";
+import { getAllBranches } from "@/lib/branches";
 import { PARTNER_NAME } from "@/lib/partner";
 
 export const metadata: Metadata = {
@@ -93,7 +93,7 @@ export default function JichitaiPage() {
           <h2 className="mt-2 text-2xl font-bold text-foreground">分室一覧</h2>
           <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-foreground/80">
             島ごとに分室ページを作り、住民・役場・議会と話しながら論点を1つずつ登録していきます。
-            現在は{branches.length}島を掲載しています。
+            現在は{getAllBranches().length}島を掲載しています。
           </p>
           <Link
             href="/branches"

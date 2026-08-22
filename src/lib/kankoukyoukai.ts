@@ -75,5 +75,49 @@ export const kankoukyoukaiBranches: KankoukyoukaiBranch[] = [
   },
 ];
 
-export const getKankoukyoukaiBySlug = (slug: string) =>
-  kankoukyoukaiBranches.find((b) => b.slug === slug);
+import { getActiveTenants, type TenantConfig } from "./tenants";
+
+/** branches.tsのsynthesizeBranchFromTenant()と同じ考え方。publicKind==="kankoukyoukai"のテナントのみ対象 */
+function synthesizeKankoukyoukaiFromTenant(tenant: TenantConfig): KankoukyoukaiBranch | null {
+  if (!tenant.publicName) return null;
+
+  return {
+    slug: tenant.slug,
+    name: tenant.publicName,
+    tagline: tenant.publicTagline ?? "",
+    description: tenant.publicDescription ?? "",
+    status: "活動中",
+    stats: [],
+    tools: [],
+    issues: [
+      {
+        title: tenant.issueTitle ?? "意思決定支援",
+        status: tenant.issueStatus ?? "議論中",
+        summary: tenant.issueSummary ?? "",
+        dashboardUrl: `/dashboard/${tenant.slug}`,
+        dashboardLabel: "意思決定支援ダッシュボードを見る(要パスワード)",
+        opinionTenantSlug: tenant.positionRecordDataSourceId ? tenant.slug : undefined,
+      },
+    ],
+  };
+}
+
+/** ハードコードされたkankoukyoukaiBranches配列 + TENANTS_CONFIG由来の簡易分室、を合わせた一覧を返す */
+export function getAllKankoukyoukaiBranches(): KankoukyoukaiBranch[] {
+  const tenantBranches = getActiveTenants()
+    .filter((t) => t.publicKind === "kankoukyoukai")
+    .filter((t) => !kankoukyoukaiBranches.some((b) => b.slug === t.slug))
+    .map(synthesizeKankoukyoukaiFromTenant)
+    .filter((b): b is KankoukyoukaiBranch => b !== null);
+
+  return [...kankoukyoukaiBranches, ...tenantBranches];
+}
+
+export const getKankoukyoukaiBySlug = (slug: string): KankoukyoukaiBranch | undefined => {
+  const hardcoded = kankoukyoukaiBranches.find((b) => b.slug === slug);
+  if (hardcoded) return hardcoded;
+
+  const tenant = getActiveTenants().find((t) => t.slug === slug && t.publicKind === "kankoukyoukai");
+  if (!tenant) return undefined;
+  return synthesizeKankoukyoukaiFromTenant(tenant) ?? undefined;
+};

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { kankoukyoukaiBranches } from "@/lib/kankoukyoukai";
+import { getAllKankoukyoukaiBranches } from "@/lib/kankoukyoukai";
 import { PARTNER_NAME } from "@/lib/partner";
 
 export const metadata: Metadata = {
@@ -95,7 +95,7 @@ export default function KankoukyoukaiPage() {
           <h2 className="mt-2 text-2xl font-bold text-foreground">観光協会分室一覧</h2>
           <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-foreground/80">
             観光協会ごとに分室ページを作り、会員事業者・観光協会職員と話しながら論点を1つずつ登録していきます。
-            現在は{kankoukyoukaiBranches.length}件の観光協会を掲載しています。
+            現在は{getAllKankoukyoukaiBranches().length}件の観光協会を掲載しています。
           </p>
           <Link
             href="/kankoukyoukai/branches"

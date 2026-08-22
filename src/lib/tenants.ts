@@ -53,6 +53,14 @@ export type TenantConfig = {
   issueSummary?: string;
   /** 分室ページに出す論点のステータス。省略時は"議論中" */
   issueStatus?: "議論中" | "合意形成中" | "合意済み" | "提起" | "保留";
+  /**
+   * publicNameで自動生成される分室が、どの意思決定機関(自治体/商工会/観光協会)の
+   * トップページ配下に出るか。省略時は"jichitai"(自治体、/branches)扱い。
+   * 既存の島に商工会・観光協会をあとから重ねる場合は、branches.ts/shoukoukai.ts/
+   * kankoukyoukai.tsの該当する島のissuesに直接追記する方が自然(このフィールドは
+   * それらの分室にまだ登場していない「まったく新しい団体」向け)。
+   */
+  publicKind?: "jichitai" | "shoukoukai" | "kankoukyoukai";
 };
 
 let cachedTenants: TenantConfig[] | null = null;

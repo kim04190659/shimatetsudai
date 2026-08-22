@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { shoukoukaiBranches } from "@/lib/shoukoukai";
+import { getAllShoukoukaiBranches } from "@/lib/shoukoukai";
 import { PARTNER_NAME } from "@/lib/partner";
 
 export const metadata: Metadata = {
@@ -95,7 +95,7 @@ export default function ShoukoukaiPage() {
           <h2 className="mt-2 text-2xl font-bold text-foreground">商工会分室一覧</h2>
           <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-foreground/80">
             商工会ごとに分室ページを作り、会員事業者の経営者・商工会職員と話しながら論点を1つずつ登録していきます。
-            現在は{shoukoukaiBranches.length}件の商工会を掲載しています。
+            現在は{getAllShoukoukaiBranches().length}件の商工会を掲載しています。
           </p>
           <Link
             href="/shoukoukai/branches"
