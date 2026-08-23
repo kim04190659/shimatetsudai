@@ -4,6 +4,10 @@ import { notFound } from "next/navigation";
 import { getAllKankoukyoukaiBranches, getKankoukyoukaiBySlug } from "@/lib/kankoukyoukai";
 import { PARTNER_NAME } from "@/lib/partner";
 import OpinionForm from "@/components/OpinionForm";
+import BranchPasswordGate from "@/components/BranchPasswordGate";
+import { cookies } from "next/headers";
+import { getBranchPasswordHash } from "@/lib/tenants";
+import { verifySessionToken, tenantCookieName } from "@/lib/tenantAuth";
 
 export function generateStaticParams() {
   return getAllKankoukyoukaiBranches().map((b) => ({ slug: b.slug }));
@@ -44,6 +48,16 @@ export default async function KankoukyoukaiBranchDetailPage(
 
   if (!branch) {
     notFound();
+  }
+
+  const branchPasswordHash = getBranchPasswordHash(slug);
+  if (branchPasswordHash) {
+    const cookieStore = await cookies();
+    const sessionSlug = `branch:${slug}`;
+    const token = cookieStore.get(tenantCookieName(sessionSlug))?.value;
+    if (!verifySessionToken(sessionSlug, token)) {
+      return <BranchPasswordGate slug={slug} />;
+    }
   }
 
   return (

@@ -61,6 +61,13 @@ export type TenantConfig = {
    * それらの分室にまだ登場していない「まったく新しい団体」向け)。
    */
   publicKind?: "jichitai" | "shoukoukai" | "kankoukyoukai";
+  /**
+   * 設定すると、分室ページ自体(/branches/[slug], /shoukoukai/branches/[slug],
+   * /kankoukyoukai/branches/[slug] のうち、このslugに一致するもの)がパスワード保護される。
+   * ダッシュボードとは別に、公開ページそのものを守りたい試用テナント向け。
+   * 同じ島の複数テナントに同じ値を設定すれば、1回の入力で3ページとも入れる。
+   */
+  gatesBranchSlug?: string;
 };
 
 let cachedTenants: TenantConfig[] | null = null;
@@ -112,4 +119,13 @@ export function getTenantConfig(slug: string): TenantConfig | null {
 /** status が "active" のテナント設定を全件返す。分室ページの一覧合成などに使う */
 export function getActiveTenants(): TenantConfig[] {
   return getAllTenants().filter((t) => !t.status || t.status === "active");
+}
+
+/**
+ * 分室ページ(branchSlug)を保護しているテナントのpasswordHashを返す。
+ * 保護されていなければnull(=誰でも見られる、これまで通りの公開ページ)。
+ */
+export function getBranchPasswordHash(branchSlug: string): string | null {
+  const tenant = getActiveTenants().find((t) => t.gatesBranchSlug === branchSlug);
+  return tenant?.passwordHash ?? null;
 }
