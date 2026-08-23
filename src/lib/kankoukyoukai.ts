@@ -73,6 +73,30 @@ export const kankoukyoukaiBranches: KankoukyoukaiBranch[] = [
       },
     ],
   },
+  {
+    slug: "minamo",
+    name: "みなも島観光協会(テスト用の架空の団体)",
+    tagline: "実証用に作成した架空の観光協会 ｜ 実在する団体ではありません",
+    description:
+      "観光客増加に伴うオーバーツーリズム対策を検討している、テスト用の架空の観光協会です。この論点には「しまのみんな会議」形式の意見投稿フォームを設置しており、実際に意見を送信して体験できます。",
+    status: "活動中",
+    stats: [
+      { label: "位置づけ", value: "実証用の架空の団体(実在しません)" },
+      { label: "会員事業者数(設定)", value: "約40社(宿泊・ガイド・飲食等、テスト用の仮設定)" },
+    ],
+    tools: [],
+    issues: [
+      {
+        title: "観光客増加に伴うオーバーツーリズム対策",
+        status: "議論中",
+        summary:
+          "観光バスの増加で早朝・夜間の道路混雑が住民の生活に影響し始めています。自然環境と住民の暮らしを守りながら観光を続けるための、人数制限や時間帯・ルートの工夫を検討しています。ここから、あなた自身の意見も送ってみてください。",
+        dashboardUrl: "/dashboard/minamo-kankoukyoukai",
+        dashboardLabel: "意思決定支援ダッシュボードを見る(パスワード: minamo2026)",
+        opinionTenantSlug: "minamo-kankoukyoukai",
+      },
+    ],
+  },
 ];
 
 import { getActiveTenants, type TenantConfig } from "./tenants";

@@ -82,6 +82,29 @@ export const shoukoukaiBranches: ShoukoukaiBranch[] = [
       },
     ],
   },
+  {
+    slug: "minamo",
+    name: "みなも町商工会(テスト用の架空の団体)",
+    tagline: "実証用に作成した架空の商工会 ｜ 実在する団体ではありません",
+    description:
+      "観光客が増える一方で、その消費が地元の小規模事業者にまで循環していないという課題を検討している、テスト用の架空の商工会です。",
+    status: "活動中",
+    stats: [
+      { label: "位置づけ", value: "実証用の架空の団体(実在しません)" },
+      { label: "会員事業者数(設定)", value: "約90社(テスト用の仮設定)" },
+    ],
+    tools: [],
+    issues: [
+      {
+        title: "観光客増加に伴う地元事業者への経済循環",
+        status: "議論中",
+        summary:
+          "郷土菜を扱う一部の飲食店には行列ができる一方、地元の小さな商店には観光消費が流れていません。回遊ルートづくりや小規模店向けの支援策を検討しています。",
+        dashboardUrl: "/dashboard/minamo-shoukoukai",
+        dashboardLabel: "意思決定支援ダッシュボードを見る(パスワード: minamo2026)",
+      },
+    ],
+  },
 ];
 
 import { getActiveTenants, type TenantConfig } from "./tenants";
