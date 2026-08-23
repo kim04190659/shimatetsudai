@@ -93,7 +93,13 @@ export const shoukoukaiBranches: ShoukoukaiBranch[] = [
       { label: "位置づけ", value: "実証用の架空の団体(実在しません)" },
       { label: "会員事業者数(設定)", value: "約90社(テスト用の仮設定)" },
     ],
-    tools: [],
+    tools: [
+      {
+        name: "てつだって拡張版",
+        description: "会員事業者の経営者・商工会職員も、意見が欲しい論点があるときはホーム画面にお知らせが届きます。",
+        url: "https://shimatetsudai-tetsudatte.vercel.app",
+      },
+    ],
     issues: [
       {
         title: "観光客増加に伴う地元事業者への経済循環",

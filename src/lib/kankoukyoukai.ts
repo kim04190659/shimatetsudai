@@ -84,7 +84,13 @@ export const kankoukyoukaiBranches: KankoukyoukaiBranch[] = [
       { label: "位置づけ", value: "実証用の架空の団体(実在しません)" },
       { label: "会員事業者数(設定)", value: "約40社(宿泊・ガイド・飲食等、テスト用の仮設定)" },
     ],
-    tools: [],
+    tools: [
+      {
+        name: "てつだって拡張版",
+        description: "観光事業者・観光協会職員も、意見が欲しい論点があるときはホーム画面にお知らせが届きます。",
+        url: "https://shimatetsudai-tetsudatte.vercel.app",
+      },
+    ],
     issues: [
       {
         title: "観光客増加に伴うオーバーツーリズム対策",

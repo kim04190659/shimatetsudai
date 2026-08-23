@@ -4,10 +4,12 @@ import { notFound } from "next/navigation";
 import { getAllShoukoukaiBranches, getShoukoukaiBySlug } from "@/lib/shoukoukai";
 import { PARTNER_NAME } from "@/lib/partner";
 import OpinionForm from "@/components/OpinionForm";
+import OpinionCardGame from "@/components/OpinionCardGame";
 import BranchPasswordGate from "@/components/BranchPasswordGate";
 import { cookies } from "next/headers";
 import { getBranchPasswordHash } from "@/lib/tenants";
 import { verifySessionToken, tenantCookieName } from "@/lib/tenantAuth";
+import { getOpinionCards } from "@/lib/opinionCards";
 
 export function generateStaticParams() {
   return getAllShoukoukaiBranches().map((b) => ({ slug: b.slug }));
@@ -169,7 +171,15 @@ export default async function ShoukoukaiBranchDetailPage(
                     </a>
                   )}
                 </div>
-                {issue.opinionTenantSlug && <OpinionForm tenantSlug={issue.opinionTenantSlug} />}
+                {issue.opinionTenantSlug &&
+                  (() => {
+                    const cards = getOpinionCards(issue.opinionTenantSlug);
+                    return cards.length > 0 ? (
+                      <OpinionCardGame tenantSlug={issue.opinionTenantSlug} cards={cards} />
+                    ) : (
+                      <OpinionForm tenantSlug={issue.opinionTenantSlug} />
+                    );
+                  })()}
               </div>
             ))}
           </div>

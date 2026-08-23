@@ -7,10 +7,12 @@ import { getKankoukyoukaiBySlug } from "@/lib/kankoukyoukai";
 import { getRegionalGoalBySlug } from "@/lib/regionalGoal";
 import { PARTNER_NAME } from "@/lib/partner";
 import OpinionForm from "@/components/OpinionForm";
+import OpinionCardGame from "@/components/OpinionCardGame";
 import BranchPasswordGate from "@/components/BranchPasswordGate";
 import { cookies } from "next/headers";
 import { getBranchPasswordHash } from "@/lib/tenants";
 import { verifySessionToken, tenantCookieName } from "@/lib/tenantAuth";
+import { getOpinionCards } from "@/lib/opinionCards";
 
 export function generateStaticParams() {
   return getAllBranches().map((b) => ({ slug: b.slug }));
@@ -75,7 +77,15 @@ function IssueList({ issues }: { issues: BranchIssue[] }) {
               </a>
             )}
           </div>
-          {issue.opinionTenantSlug && <OpinionForm tenantSlug={issue.opinionTenantSlug} />}
+          {issue.opinionTenantSlug &&
+            (() => {
+              const cards = getOpinionCards(issue.opinionTenantSlug);
+              return cards.length > 0 ? (
+                <OpinionCardGame tenantSlug={issue.opinionTenantSlug} cards={cards} />
+              ) : (
+                <OpinionForm tenantSlug={issue.opinionTenantSlug} />
+              );
+            })()}
           {issue.pastDashboards && issue.pastDashboards.length > 0 && (
             <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
               <span className="text-xs text-foreground/50">過去のバージョン:</span>

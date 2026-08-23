@@ -174,7 +174,14 @@ export const branches: Branch[] = [
       { label: "産業(設定)", value: "観光業・農漁業(テスト用の仮設定)" },
       { label: "共通パスワード", value: "minamo2026(各ダッシュボードで入力して体験できます)" },
     ],
-    tools: [],
+    tools: [
+      {
+        name: "てつだって拡張版",
+        description:
+          "声の聞き取りや写真での一言日記に加え、島で意見が欲しい論点があるときはホーム画面にお知らせが届きます。テスト用の架空の島でも、実際にアプリを開いて動きを確認できます。",
+        url: "https://shimatetsudai-tetsudatte.vercel.app",
+      },
+    ],
     issues: [
       {
         title: "空き家を活用した移住・定住の受け入れ体制づくり",
