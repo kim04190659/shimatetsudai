@@ -69,6 +69,13 @@ tr:last-child td{border-bottom:0}
 .wizardBtn{border:1px solid var(--blue);background:#fff;color:#165c9d;border-radius:999px;padding:9px 14px;font-weight:800;font-size:13px;cursor:pointer}
 .wizardBtn:hover{background:var(--blueSoft)}
 .wizardSkip{display:block;margin:10px 0 0;border:none;background:none;color:var(--muted);font-size:11.5px;text-decoration:underline;cursor:pointer;padding:0}
+.tldr{border:2px solid #46A171;background:var(--greenSoft);border-radius:12px;padding:12px 14px;margin:0 0 14px}
+.tldr b{font-size:14px}
+.reasonBox{margin:10px 0 14px}
+.reasonBox summary{cursor:pointer;font-weight:800;font-size:12.5px;color:#165c9d}
+.reasonBox ul{margin:8px 0 0;padding-left:18px;font-size:12.5px}
+.reasonBox li{margin:4px 0}
+.nextStep{border-left:5px solid var(--purple);background:var(--purpleSoft);border-radius:10px;padding:10px 12px;margin-top:16px;font-size:13px}
 @media(max-width:900px){.grid2,.grid3,.stakeGrid,.outlookRow,.a3Grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -118,6 +125,17 @@ tr:last-child td{border-bottom:0}
 </nav>
 
 <section class="panel active" id="panel-summary">
+  <div class="tldr">
+    <b>✅ 要するに：まずは「やったろうde高島」の既存プログラムに、通年で来てもらえる仕組みを1本追加するところから動き出すのが現実的です。</b>
+  </div>
+  <details class="reasonBox">
+    <summary>▼ なぜそう言えるか(根拠)を見る</summary>
+    <ul>
+      <li>年間約2.4億円の航路赤字を公的支援だけで支え続けるのは、人口減少が続く中で限界がある</li>
+      <li>人口が年間約10%減少しており、「一度きりの来島」から「何度も来る関係人口」に変えないと来島者数自体が先細る</li>
+      <li>すでに年間5万人の来島実績と「やったろうde高島」16年の受け入れノウハウがあり、ゼロから作る必要がない</li>
+    </ul>
+  </details>
   <div class="card">
     <h3>論点の整理：なぜ「関係人口による航路支援」が必要か</h3>
     <div class="grid2">
@@ -214,6 +232,10 @@ tr:last-child td{border-bottom:0}
         <tr><td>離島の交通インフラの持続性を後押しする</td><td><span class="pill pgreen">追い風</span> 補助金だけに頼らない需要創出の考え方は横展開の可能性が高い</td></tr>
       </tbody>
     </table>
+  </div>
+  <div class="nextStep">
+    <b>🌱 厳しい前提の中でも、まず1つ試すなら：</b>
+    <p style="margin:6px 0 0">やったろうde高島の既存プログラムに「年4回来る会員制ツアー」を1つ追加してみることです。予算や合意形成を待たずに、今日から検討できる規模の一手です。</p>
   </div>
 </section>
 
@@ -333,6 +355,10 @@ tr:last-child td{border-bottom:0}
   <div class="card">
     <h3>元になった事実・出典(EvidenceRecord)</h3>
     <div class="stakeGrid">
+      <div class="stakeCard">
+        <b>📊 オープンデータ：長崎県の高齢化率</b>
+        <p>長崎県全体の高齢化率は33.1%(2020年国勢調査、全国28.7%を上回る)。高島単体の島別集計は市の小地域集計で別途確認が必要なため、県平均を参考値として使用。<a href="https://www.e-stat.go.jp/stat-search/files?toukei=00200521&tstat=000001136464" target="_blank" rel="noopener">出典：e-Stat 令和2年国勢調査</a></p>
+      </div>
       <div class="stakeCard">
         <b>人口減少の推移</b>
         <p>最盛期は1万人以上が暮らしていたが、2020年に約300人、2026年5月末時点で215人。年間約10%のペースで減少しており、2026年中にも200人を切る見通し。</p>

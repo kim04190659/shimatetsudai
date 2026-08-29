@@ -69,6 +69,13 @@ tr:last-child td{border-bottom:0}
 .wizardBtn{border:1px solid var(--blue);background:#fff;color:#165c9d;border-radius:999px;padding:9px 14px;font-weight:800;font-size:13px;cursor:pointer}
 .wizardBtn:hover{background:var(--blueSoft)}
 .wizardSkip{display:block;margin:10px 0 0;border:none;background:none;color:var(--muted);font-size:11.5px;text-decoration:underline;cursor:pointer;padding:0}
+.tldr{border:2px solid #46A171;background:var(--greenSoft);border-radius:12px;padding:12px 14px;margin:0 0 14px}
+.tldr b{font-size:14px}
+.reasonBox{margin:10px 0 14px}
+.reasonBox summary{cursor:pointer;font-weight:800;font-size:12.5px;color:#165c9d}
+.reasonBox ul{margin:8px 0 0;padding-left:18px;font-size:12.5px}
+.reasonBox li{margin:4px 0}
+.nextStep{border-left:5px solid var(--purple);background:var(--purpleSoft);border-radius:10px;padding:10px 12px;margin-top:16px;font-size:13px}
 @media(max-width:900px){.grid2,.grid3,.stakeGrid,.outlookRow,.a3Grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -118,6 +125,17 @@ tr:last-child td{border-bottom:0}
 </nav>
 
 <section class="panel active" id="panel-summary">
+  <div class="tldr">
+    <b>✅ 要するに：まずは案A(海洋部活)を、指導者を島外オンライン顧問で補う形で小さく試してみるのが現実的です。</b>
+  </div>
+  <details class="reasonBox">
+    <summary>▼ なぜそう言えるか(根拠)を見る</summary>
+    <ul>
+      <li>上関中学校の部活動選択肢は2つしかなく、帰りの船時間(16時20分)の制約もあり選べる余地が乏しい</li>
+      <li>スクールボート復活(案B)は町財政の悪化で財源確保のハードルが高い</li>
+      <li>島にはシーカヤックに向く海洋環境と、島民全員が顔見知りという強い自治の力がすでにある</li>
+    </ul>
+  </details>
   <div class="card">
     <h3>論点の整理：なぜ「部活動の自給」が必要か</h3>
     <div class="grid2">
@@ -214,6 +232,10 @@ tr:last-child td{border-bottom:0}
         <tr><td>離島の子育て・教育インフラの課題解決を後押しする</td><td><span class="pill pgreen">追い風</span> 教育流出という多くの離島が抱える課題への直接的なアプローチ</td></tr>
       </tbody>
     </table>
+  </div>
+  <div class="nextStep">
+    <b>🌱 厳しい前提の中でも、まず1つ試すなら：</b>
+    <p style="margin:6px 0 0">来年度入学予定の中学生と一緒に、休日だけのシーカヤック体験会を1回開いてみることです。指導者・安全管理の本格整備を待たずに、今の資源で試せる一手です。</p>
   </div>
 </section>
 
@@ -333,6 +355,10 @@ tr:last-child td{border-bottom:0}
   <div class="card">
     <h3>元になった事実・出典(EvidenceRecord)</h3>
     <div class="stakeGrid">
+      <div class="stakeCard">
+        <b>📊 オープンデータ：上関町の人口・高齢化率</b>
+        <p>上関町全体で人口2,269人・高齢化率58.7%(2024年1月)。祝島単体は人口500人前後・65歳以上69%(2010年時点、公開情報が古く要更新)。<a href="https://www.town.kaminoseki.lg.jp/wp-content/uploads/2020/04/kami_vision.pdf" target="_blank" rel="noopener">出典：上関町人口ビジョン</a></p>
+      </div>
       <div class="stakeCard">
         <b>祝島の人口・教育環境</b>
         <p>人口約250人。祝島小学校の児童数は8名、来年度10年ぶりに中学生が誕生する見込みだが、島に中学校はない。</p>
