@@ -127,6 +127,8 @@ export const branches: Branch[] = [
           "電源喪失によるフェリー漂流事故をきっかけに、老朽船更新(約100億円規模)への対応が急務に。屋久島観光協会 荒木会長が、りとけい「島会議2026」で「地域主体の運航モデル構築」を論点として提起しました。共創ワークショップ(9〜10月)を控えた論点整理の段階です。",
         dashboardUrl: "/case-studies/yakushima-route-model-dss.html",
         dashboardLabel: "意思決定支援ダッシュボードを見る",
+        cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-yakushima-route-model/cards",
+        cardGameLabel: "しまのみんな会議で意見を出す",
       },
     ],
   },
