@@ -71,6 +71,7 @@ export const branches: Branch[] = [
         dashboardUrl: "/case-studies/ritokei-resource-dss",
         dashboardLabel: "意思決定支援ダッシュボードを見る(ライブ版・国産LLM)",
         pastDashboards: [
+          { url: "/case-studies/ritokei-resource-simulator.html", label: "🧪 配分シミュレーター(試作版)を試す" },
           { url: "/case-studies/ritokei-resource-dss-v7.html", label: "v7(静的版・国産LLM実証)を見る" },
           { url: "/case-studies/ritokei-resource-dss-v6.html", label: "v6(静的版)を見る" },
           { url: "/case-studies/ritokei-resource-dss.html", label: "初期版を見る" },

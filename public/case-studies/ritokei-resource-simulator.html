@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>りとけい 配分シミュレーター(試作版) | 420島への取材・支援リソース配分</title>
+<style>
+:root{--ink:#2C2C2B;--muted:#7D7A75;--line:#E6E5E3;--soft:#F9F8F7;--blue:#2783DE;--blueSoft:#E5F2FC;--green:#46A171;--greenSoft:#E8F1EC;--orange:#D5803B;--orangeSoft:#FBEBDE;--red:#E56458;--redSoft:#FCE9E7;--purple:#7A5CCF;--purpleSoft:#EEE9FB}
+*{box-sizing:border-box}
+body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.5}
+.app{max-width:900px;margin:0 auto;background:#fff;min-height:100vh}
+.hero{padding:24px 28px 16px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:800}
+.title{font-size:24px;font-weight:900;margin:6px 0 4px}
+.subtitle{color:var(--muted);font-size:13px}
+.protoNote{border:2px solid #9ac9ef;border-radius:14px;background:#fbfdff;padding:12px 14px;margin-top:14px;font-size:12.5px}
+.main{padding:24px 28px 60px}
+.step{border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px;background:#fff}
+.step h2{margin:0 0 4px;font-size:15px}
+.step .stepHint{font-size:12px;color:var(--muted);margin:0 0 14px}
+.personaBtns{display:flex;flex-wrap:wrap;gap:8px}
+.personaBtn{border:1px solid var(--blue);background:#fff;color:#165c9d;border-radius:999px;padding:10px 16px;font-weight:800;font-size:13px;cursor:pointer}
+.personaBtn.active{background:var(--blue);color:#fff}
+.personaExplain{margin-top:10px;font-size:12.5px;color:#165c9d;background:var(--blueSoft);border-radius:10px;padding:8px 10px;display:none}
+.personaExplain.show{display:block}
+.sliderRow{margin:14px 0}
+.sliderRow label{display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px}
+.sliderRow input[type=range]{width:100%}
+.inputGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.inputGrid label{display:block;font-size:12.5px;font-weight:700;margin-bottom:4px}
+.inputGrid input,.inputGrid select{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;font-size:13px}
+.checkGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.checkItem{display:flex;align-items:flex-start;gap:6px;font-size:12.5px;border:1px solid var(--line);border-radius:8px;padding:8px}
+.barRow{margin:12px 0}
+.barLabel{display:flex;justify-content:space-between;font-size:13px;font-weight:800;margin-bottom:4px}
+.barTrack{height:14px;border-radius:8px;background:var(--soft);overflow:hidden}
+.barFill{height:100%;display:block}
+.resultBox{border:2px solid var(--green);background:var(--greenSoft);border-radius:14px;padding:16px;margin-top:10px}
+.resultSummary{font-size:15px;font-weight:900;color:#1f6b46;margin:0}
+.resultDetails{margin-top:10px;font-size:12.5px;line-height:1.7}
+.toggleBtn{border:none;background:none;color:#165c9d;font-size:12px;text-decoration:underline;cursor:pointer;padding:0;margin-top:8px}
+.reasonBox{display:none;margin-top:8px;font-size:12px;background:var(--soft);border-radius:8px;padding:10px}
+.reasonBox.show{display:block}
+.reasonBox ul{margin:0;padding-left:18px}
+.tryOne{margin-top:10px;border-left:5px solid var(--orange);background:var(--orangeSoft);border-radius:10px;padding:10px;font-size:13px}
+.finalBtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.finalBtn{border:1px solid var(--purple);background:#fff;color:#4b3494;border-radius:999px;padding:10px 16px;font-weight:800;font-size:13px;cursor:pointer}
+.finalBtn:hover{background:var(--purpleSoft)}
+.finalOutput{display:none;margin-top:12px;white-space:pre-wrap;font-size:12.5px;border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--soft)}
+.finalOutput.show{display:block}
+.footNote{font-size:11.5px;color:var(--muted);margin-top:24px}
+@media(max-width:640px){.inputGrid,.checkGrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hero">
+  <span class="eyebrow">意思決定支援 試作版 ｜ 認定NPO法人 離島経済新聞社</span>
+  <div class="title">420島への取材・支援リソース配分シミュレーター</div>
+  <div class="subtitle">限られた予算・人員をどう配分するか、条件を変えながら試すための試作ツールです。</div>
+  <div class="protoNote">
+    🧪 これは松原さんの3ペルソナUIレビュー(フェーズ1・5項目)を反映した試作版です。数字は既存の「意思決定支援ダッシュボード(ライブ版)」の基準配分(重点取材40%・最低接点25%・地域ライター20%・AI編集基盤15%)を出発点に、条件に応じてルールベースで調整する簡易モデルです。実際の予算配分の最終判断ではなく、話し合いのたたき台としてご利用ください。
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="step">
+    <h2>STEP 1・あなたの立場</h2>
+    <p class="stepHint">選んだ立場に応じて、見る画面の説明が少し変わります(I-2対応：島の言葉に変更)</p>
+    <div class="personaBtns" id="personaBtns">
+      <button type="button" class="personaBtn" data-persona="resident">島に住んでいる</button>
+      <button type="button" class="personaBtn" data-persona="office">役場や議会</button>
+      <button type="button" class="personaBtn" data-persona="supporter">島外から応援している</button>
+      <button type="button" class="personaBtn" data-persona="visitor">まず見てみたい</button>
+    </div>
+    <div class="personaExplain" id="personaExplain"></div>
+  </div>
+
+  <div class="step">
+    <h2>STEP 2・大事にしたいこと</h2>
+    <p class="stepHint">3つのつまみを動かして、何を重視するか教えてください</p>
+    <div class="sliderRow">
+      <label><span>公平性(全部の島に目を配りたい)</span><span id="fairnessVal">50</span></label>
+      <input type="range" id="fairness" min="0" max="100" value="50">
+    </div>
+    <div class="sliderRow">
+      <label><span>効率性(限られた人手を有効に使いたい)</span><span id="efficiencyVal">50</span></label>
+      <input type="range" id="efficiency" min="0" max="100" value="50">
+    </div>
+    <div class="sliderRow">
+      <label><span>人材育成(次の担い手を育てたい)</span><span id="growthVal">50</span></label>
+      <input type="range" id="growth" min="0" max="100" value="50">
+    </div>
+  </div>
+
+  <div class="step">
+    <h2>STEP 3・今の状況</h2>
+    <p class="stepHint">年間予算・人数と、外部条件を入力してください</p>
+    <div class="inputGrid">
+      <div>
+        <label>年間予算(目安・万円)</label>
+        <input type="number" id="budget" value="800" min="0">
+      </div>
+      <div>
+        <label>専任スタッフ人数</label>
+        <input type="number" id="staff" value="5" min="0">
+      </div>
+      <div>
+        <label>時間軸</label>
+        <select id="horizon">
+          <option value="short">短期(〜半年)</option>
+          <option value="mid" selected>中期(〜1年)</option>
+          <option value="long">長期(1年以上)</option>
+        </select>
+      </div>
+      <div>
+        <label>災害リスク</label>
+        <select id="disaster">
+          <option value="low" selected>低い</option>
+          <option value="high">高い</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <h2>STEP 4・使えそうな補助金・助成金</h2>
+    <p class="stepHint">現時点で申請予定・検討中のものにチェックしてください(結果には影響しません。次の一手の参考用です)</p>
+    <div class="checkGrid">
+      <label class="checkItem"><input type="checkbox" value="関係人口創出・拡大">関係人口創出・拡大の推進</label>
+      <label class="checkItem"><input type="checkbox" value="離島航路補助">地域公共交通確保維持改善事業(離島航路補助)</label>
+      <label class="checkItem"><input type="checkbox" value="地域未来交付金">地域未来交付金</label>
+      <label class="checkItem"><input type="checkbox" value="企業版ふるさと納税">企業版ふるさと納税</label>
+      <label class="checkItem"><input type="checkbox" value="災害復興関連">災害復興関連の助成</label>
+      <label class="checkItem"><input type="checkbox" value="地方創生交付金">地方創生関連交付金</label>
+      <label class="checkItem"><input type="checkbox" value="民間財団助成">民間財団の助成プログラム</label>
+    </div>
+  </div>
+
+  <div class="step">
+    <h2>STEP 5・配分の目安と、その理由</h2>
+    <p class="stepHint">条件を変えると自動で再計算されます</p>
+    <div id="bars"></div>
+
+    <div class="resultBox">
+      <p class="resultSummary" id="resultSummary">要するに：条件を入力すると、ここに1文でまとめが出ます</p>
+      <button type="button" class="toggleBtn" id="toggleDetails">▼ 理由を読む</button>
+      <div class="resultDetails reasonBox" id="resultDetails"></div>
+    </div>
+
+    <div class="tryOne" id="tryOne"></div>
+  </div>
+
+  <div class="step">
+    <h2>STEP 6・この結果をどうしますか？</h2>
+    <p class="stepHint">使い終わった後に、この結果を残すための3つの使い方です(I-5対応)</p>
+    <div class="finalBtns">
+      <button type="button" class="finalBtn" id="btnMeeting">📋 議会資料に使う文章を作る</button>
+      <button type="button" class="finalBtn" id="btnPrint">🖨️ 印刷してメモにする</button>
+      <button type="button" class="finalBtn" id="btnCopy">📤 担当者に送る文章をコピーする</button>
+    </div>
+    <div class="finalOutput" id="finalOutput"></div>
+  </div>
+
+  <p class="footNote">※ このシミュレーターは話し合いのたたき台を作るための試作版です。実際の予算配分は、拠点スタッフ・関係者による議論を経て決定してください。</p>
+</div>
+</div>
+
+<script>
+var personaExplainText = {
+  resident: 'あなたは「島に住んでいる」立場として見ています。日々の暮らしに直結する最低接点保障や地域ライター育成の動きが気になるかもしれません。',
+  office: 'あなたは「役場や議会」の立場として見ています。財源の使い道の説明責任や、自治体との連携がどう進むかが気になるかもしれません。',
+  supporter: 'あなたは「島外から応援している」立場として見ています。自分の応援がどの活動につながっているかが気になるかもしれません。',
+  visitor: 'あなたは「まず見てみたい」立場として見ています。難しい言葉を使わず、全体の雰囲気をつかんでいただければ十分です。'
+};
+
+var categories = [
+  { key: 'priority', label: '重点取材', color: 'var(--blue)' },
+  { key: 'baseline', label: '最低接点保障', color: 'var(--green)' },
+  { key: 'writer', label: '地域ライター育成', color: 'var(--orange)' },
+  { key: 'ai', label: 'AI編集基盤', color: 'var(--purple)' }
+];
+
+function computeAllocation(){
+  var fairness = Number(document.getElementById('fairness').value);
+  var efficiency = Number(document.getElementById('efficiency').value);
+  var growth = Number(document.getElementById('growth').value);
+  var horizon = document.getElementById('horizon').value;
+  var disaster = document.getElementById('disaster').value;
+
+  // 基準配分(既存ライブダッシュボードの推奨比率を出発点にする)
+  var alloc = { priority: 40, baseline: 25, writer: 20, ai: 15 };
+  var reasons = [];
+
+  // 公平性スライダー：高いほど最低接点保障を増やし、重点取材から振り替える
+  var fairnessShift = Math.round((fairness - 50) / 50 * 10);
+  alloc.priority -= fairnessShift;
+  alloc.baseline += fairnessShift;
+  if (fairnessShift !== 0) {
+    reasons.push('公平性を' + (fairnessShift > 0 ? '重視' : '控えめに') + 'したため、重点取材⇄最低接点保障を' + Math.abs(fairnessShift) + 'pt調整');
+  }
+
+  // 効率性スライダー：高いほどAI編集基盤を増やす
+  var efficiencyShift = Math.round((efficiency - 50) / 50 * 8);
+  alloc.ai += efficiencyShift;
+  alloc.priority -= efficiencyShift;
+  if (efficiencyShift !== 0) {
+    reasons.push('効率性を' + (efficiencyShift > 0 ? '重視' : '控えめに') + 'したため、AI編集基盤を' + Math.abs(efficiencyShift) + 'pt調整');
+  }
+
+  // 人材育成スライダー：高いほど地域ライター育成を増やす
+  var growthShift = Math.round((growth - 50) / 50 * 8);
+  alloc.writer += growthShift;
+  alloc.baseline -= growthShift;
+  if (growthShift !== 0) {
+    reasons.push('人材育成を' + (growthShift > 0 ? '重視' : '控えめに') + 'したため、地域ライター育成を' + Math.abs(growthShift) + 'pt調整');
+  }
+
+  // 時間軸
+  if (horizon === 'short') {
+    alloc.priority += 5; alloc.writer -= 5;
+    reasons.push('時間軸が短期のため、即効性のある重点取材を+5pt');
+  } else if (horizon === 'long') {
+    alloc.writer += 5; alloc.priority -= 5;
+    reasons.push('時間軸が長期のため、担い手育成につながる地域ライター育成を+5pt');
+  }
+
+  // 災害リスク
+  if (disaster === 'high') {
+    alloc.baseline += 10; alloc.ai -= 10;
+    reasons.push('災害リスクが高いため、全島との最低限のつながりを保つ最低接点保障を+10pt(AI編集基盤から振り替え)');
+  }
+
+  // 0未満にならないようクリップし、合計100に正規化
+  categories.forEach(function(c){ if (alloc[c.key] < 5) alloc[c.key] = 5; });
+  var total = categories.reduce(function(sum, c){ return sum + alloc[c.key]; }, 0);
+  categories.forEach(function(c){ alloc[c.key] = Math.round(alloc[c.key] / total * 100); });
+
+  return { alloc: alloc, reasons: reasons, fairness: fairness, efficiency: efficiency, growth: growth, horizon: horizon, disaster: disaster };
+}
+
+function render(){
+  var result = computeAllocation();
+  var alloc = result.alloc;
+
+  document.getElementById('fairnessVal').textContent = result.fairness;
+  document.getElementById('efficiencyVal').textContent = result.efficiency;
+  document.getElementById('growthVal').textContent = result.growth;
+
+  var barsHtml = categories.map(function(c){
+    return '<div class="barRow"><div class="barLabel"><span>' + c.label + '</span><span>' + alloc[c.key] + '%</span></div>' +
+      '<div class="barTrack"><span class="barFill" style="width:' + alloc[c.key] + '%;background:' + c.color + '"></span></div></div>';
+  }).join('');
+  document.getElementById('bars').innerHTML = barsHtml;
+
+  // I-3: 要するに1文を先出し
+  var top = categories.slice().sort(function(a,b){ return alloc[b.key] - alloc[a.key]; })[0];
+  var summary = '要するに：' + top.label + '(' + alloc[top.key] + '%)を最優先に配分するのが、今の条件に合っています。';
+  document.getElementById('resultSummary').textContent = summary;
+
+  // III-2: 配分ロジックの根拠(適用されたルールのみ)
+  var detailsEl = document.getElementById('resultDetails');
+  if (result.reasons.length) {
+    detailsEl.innerHTML = '<ul>' + result.reasons.map(function(r){ return '<li>' + r + '</li>'; }).join('') + '</ul>';
+  } else {
+    detailsEl.innerHTML = '<p>今のところ、基準配分(重点取材40%・最低接点25%・地域ライター20%・AI編集基盤15%)から変更する条件は選ばれていません。</p>';
+  }
+
+  // II-5: 厳しい条件でも「まず1つ試すなら」
+  var budget = Number(document.getElementById('budget').value) || 0;
+  var staff = Number(document.getElementById('staff').value) || 0;
+  var tight = budget < 500 || staff < 3;
+  var tryOneEl = document.getElementById('tryOne');
+  if (tight) {
+    tryOneEl.innerHTML = '<b>⚠️ 予算・人員ともに厳しい条件です。それでも、まず1つ試すなら：</b><br>最低接点保障(オンライン確認・投稿枠)から始めるのがおすすめです。専任スタッフが少なくても、島だより投稿枠のような「情報空白を作らない」取り組みは小さく始められます。';
+  } else {
+    tryOneEl.innerHTML = '<b>✅ まず1つ試すなら：</b>' + top.label + 'から着手し、90日で島カルテ設計・自治体候補選定など小さな一歩を踏み出すのがおすすめです。';
+  }
+}
+
+document.querySelectorAll('#fairness,#efficiency,#growth,#horizon,#disaster,#budget,#staff').forEach(function(el){
+  el.addEventListener('input', render);
+  el.addEventListener('change', render);
+});
+
+document.querySelectorAll('.personaBtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.personaBtn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    var explain = document.getElementById('personaExplain');
+    explain.textContent = personaExplainText[btn.dataset.persona];
+    explain.classList.add('show');
+  });
+});
+
+document.getElementById('toggleDetails').addEventListener('click', function(){
+  var box = document.getElementById('resultDetails');
+  var open = box.classList.toggle('show');
+  this.textContent = open ? '▲ 理由を閉じる' : '▼ 理由を読む';
+});
+
+function buildOutputText(){
+  var result = computeAllocation();
+  var alloc = result.alloc;
+  var lines = [];
+  lines.push('【420島への取材・支援リソース配分(試作シミュレーター結果)】');
+  lines.push('');
+  categories.forEach(function(c){ lines.push('・' + c.label + '：' + alloc[c.key] + '%'); });
+  lines.push('');
+  lines.push('前提条件：年間予算 約' + document.getElementById('budget').value + '万円 / 専任スタッフ ' + document.getElementById('staff').value + '名 / 時間軸 ' + document.getElementById('horizon').selectedOptions[0].text + ' / 災害リスク ' + document.getElementById('disaster').selectedOptions[0].text);
+  lines.push('');
+  lines.push('※ 話し合いのたたき台として作成した試作版の結果です。最終判断は拠点スタッフ・関係者の議論を経て決定してください。');
+  return lines.join('\n');
+}
+
+document.getElementById('btnMeeting').addEventListener('click', function(){
+  var out = document.getElementById('finalOutput');
+  out.textContent = buildOutputText();
+  out.classList.add('show');
+});
+document.getElementById('btnCopy').addEventListener('click', function(){
+  var text = buildOutputText();
+  var out = document.getElementById('finalOutput');
+  out.textContent = text;
+  out.classList.add('show');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function(){
+      out.textContent = '✅ コピーしました。担当者へのメッセージに貼り付けてください。\n\n' + text;
+    }).catch(function(){});
+  }
+});
+document.getElementById('btnPrint').addEventListener('click', function(){
+  window.print();
+});
+
+render();
+</script>
+</body>
+</html>
