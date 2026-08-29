@@ -69,6 +69,13 @@ tr:last-child td{border-bottom:0}
 .updateBar button:disabled{opacity:.5;cursor:default}
 .updateBar .msg{font-size:12px;color:#4b3494}
 .liveDraft{white-space:pre-wrap;font-size:13px;line-height:1.8;border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px}
+.wizard{margin:14px 0 0;padding:14px 16px;border:2px solid #9ac9ef;border-radius:14px;background:#fbfdff}
+.wizard.wizardDone{display:none}
+.wizardQ{margin:0 0 10px;font-size:13.5px;font-weight:800;color:var(--ink)}
+.wizardBtns{display:flex;flex-wrap:wrap;gap:8px}
+.wizardBtn{border:1px solid var(--blue);background:#fff;color:#165c9d;border-radius:999px;padding:9px 14px;font-weight:800;font-size:13px;cursor:pointer}
+.wizardBtn:hover{background:var(--blueSoft)}
+.wizardSkip{display:block;margin:10px 0 0;border:none;background:none;color:var(--muted);font-size:11.5px;text-decoration:underline;cursor:pointer;padding:0}
 @media(max-width:900px){.grid2,.grid3,.a3Grid{grid-template-columns:1fr}}
 `;
 
@@ -326,6 +333,15 @@ export function renderTenantDashboardHtml(
     <p>${decisionSummary}</p>
   </div>
   ${kpisHtml}
+  <div class="wizard" id="wizard">
+    <p class="wizardQ">今日、何について確認したいですか？</p>
+    <div class="wizardBtns">
+      <button type="button" class="wizardBtn" data-goto="summary">✅ 結論だけ知りたい</button>
+      <button type="button" class="wizardBtn" data-goto="proposal">💡 提案の中身を見たい</button>
+      <button type="button" class="wizardBtn" data-goto="voices">🗣️ みんなの声を見たい</button>
+    </div>
+    <button type="button" class="wizardSkip" id="wizardSkip">すべてのタブを自分で見る →</button>
+  </div>
 </div>
 
 <nav class="tabs">
@@ -401,14 +417,40 @@ export function renderTenantDashboardHtml(
 
 </div>
 <script>
+function switchTab(tabName){
+  document.querySelectorAll('.tabBtn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  var btn = document.querySelector('.tabBtn[data-tab="' + tabName + '"]');
+  var panel = document.getElementById('panel-' + tabName);
+  if (btn) btn.classList.add('active');
+  if (panel) panel.classList.add('active');
+}
+
 document.querySelectorAll('.tabBtn').forEach(function(btn){
   btn.addEventListener('click', function(){
-    document.querySelectorAll('.tabBtn').forEach(function(b){ b.classList.remove('active'); });
-    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
-    btn.classList.add('active');
-    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+    switchTab(btn.dataset.tab);
   });
 });
+
+// 「今日、何について確認したいですか？」の1問1答ガイド。
+// 選ぶと該当タブに切り替わり、ガイド自体は役目を終えて消える。
+// 迷わず知りたい情報にたどり着けることを優先し、意思決定者・島外の人などで
+// 入口そのものを分けることはしていない(誰でも同じ3択から始められるようにする)。
+(function(){
+  var wizard = document.getElementById('wizard');
+  var wizardSkip = document.getElementById('wizardSkip');
+  document.querySelectorAll('.wizardBtn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      switchTab(btn.dataset.goto);
+      wizard.classList.add('wizardDone');
+    });
+  });
+  if (wizardSkip) {
+    wizardSkip.addEventListener('click', function(){
+      wizard.classList.add('wizardDone');
+    });
+  }
+})();
 
 (function(){
   var refreshBtn = document.getElementById('refreshBtn');

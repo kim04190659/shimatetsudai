@@ -54,6 +54,7 @@ export default function Home() {
             <h3 className="mt-3 font-bold text-foreground">自治体・議会の方へ</h3>
             <p className="mt-2 text-sm leading-relaxed text-foreground/70">
               住民の声とデータをあわせて、意思決定を後押しする仕組みをご紹介します。
+              初めて開く画面でも迷わないよう、まず「今日、何を確認したいですか?」の1問から案内する作りにしています。
             </p>
             <Link
               href="/tools/ishikettei"
