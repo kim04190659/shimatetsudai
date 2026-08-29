@@ -16,8 +16,8 @@ export default function ShoukoukaiBranchesPage() {
   const allShoukoukaiBranches = getAllShoukoukaiBranches();
   return (
     <div className="mx-auto max-w-3xl px-5 py-16">
-      <Link href="/shoukoukai" className="text-sm font-semibold text-brand-dark hover:underline">
-        ← 商工会支援トップに戻る
+      <Link href="/dantai" className="text-sm font-semibold text-brand-dark hover:underline">
+        ← 団体支援トップに戻る
       </Link>
 
       <p className="mt-6 text-sm font-semibold text-brand-dark">SHOUKOUKAI BRANCHES</p>

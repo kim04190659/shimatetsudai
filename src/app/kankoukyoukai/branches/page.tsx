@@ -16,8 +16,8 @@ export default function KankoukyoukaiBranchesPage() {
   const allKankoukyoukaiBranches = getAllKankoukyoukaiBranches();
   return (
     <div className="mx-auto max-w-3xl px-5 py-16">
-      <Link href="/kankoukyoukai" className="text-sm font-semibold text-brand-dark hover:underline">
-        ← 観光協会支援トップに戻る
+      <Link href="/dantai" className="text-sm font-semibold text-brand-dark hover:underline">
+        ← 団体支援トップに戻る
       </Link>
 
       <p className="mt-6 text-sm font-semibold text-brand-dark">KANKOUKYOUKAI BRANCHES</p>

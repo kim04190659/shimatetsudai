@@ -5,8 +5,7 @@ const navItems = [
   { href: "/", label: "ホーム" },
   { href: "/about", label: "会社概要" },
   { href: "/jichitai", label: "自治体支援" },
-  { href: "/shoukoukai", label: "商工会支援" },
-  { href: "/kankoukyoukai", label: "観光協会支援" },
+  { href: "/dantai", label: "団体支援" },
   { href: "/branches", label: "分室" },
   { href: "/contact", label: "お問い合わせ" },
 ];

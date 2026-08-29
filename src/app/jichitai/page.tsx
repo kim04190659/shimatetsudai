@@ -67,6 +67,8 @@ export default function JichitaiPage() {
             <p className="mt-2 text-sm leading-relaxed text-foreground/70">
               住民・議会・役場職員から集めた声と、公開データを組み合わせ、論点を整理した資料にまとめます。
               類似事例や活用できる補助金・交付金もあわせて確認できます。
+              自治体全体でまとめて話すのが難しい論点は、字(行政区)ごとの小さな単位で話し合いを進めながら、
+              自治体全体の意思決定を後押しすることもできます。
             </p>
           </div>
           <div className="rounded-2xl border border-brand-soft bg-card p-6">
