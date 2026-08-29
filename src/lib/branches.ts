@@ -119,6 +119,14 @@ export const branches: Branch[] = [
         dashboardUrl: "/case-studies/yakushima-route-dss.html",
         dashboardLabel: "意思決定支援ダッシュボードを見る",
       },
+      {
+        title: "地域主体で航路を支える新モデル(屋久島観光協会 提起)",
+        status: "提起",
+        summary:
+          "電源喪失によるフェリー漂流事故をきっかけに、老朽船更新(約100億円規模)への対応が急務に。屋久島観光協会 荒木会長が、りとけい「島会議2026」で「地域主体の運航モデル構築」を論点として提起しました。共創ワークショップ(9〜10月)を控えた論点整理の段階です。",
+        dashboardUrl: "/case-studies/yakushima-route-model-dss.html",
+        dashboardLabel: "意思決定支援ダッシュボードを見る",
+      },
     ],
   },
   {
