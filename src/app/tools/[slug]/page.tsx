@@ -82,6 +82,28 @@ export default async function ToolDetailPage(props: PageProps<"/tools/[slug]">) 
         </div>
       )}
 
+      {tool.craftPoints && tool.craftPoints.length > 0 && (
+        <div className="mt-10 rounded-2xl border border-brand-soft bg-brand-soft/20 p-6">
+          <h2 className="text-lg font-bold text-foreground">ダッシュボードを作成するときの工夫</h2>
+          <p className="mt-2 text-sm leading-relaxed text-foreground/70">
+            現場のチームリーダーからのレビューや、AIへの指示(プロンプト)に込めているルールを、かみ砕いてご紹介します。
+          </p>
+          <div className="mt-6 grid gap-5 sm:grid-cols-2">
+            {tool.craftPoints.map((point) => (
+              <div key={point.title} className="flex gap-3 rounded-xl bg-card p-4">
+                <span className="text-2xl leading-none">{point.icon}</span>
+                <div>
+                  <h3 className="font-bold text-foreground">{point.title}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-foreground/70">
+                    {point.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {tool.caseStudies && tool.caseStudies.length > 0 && (
         <div className="mt-10">
           <h2 className="text-lg font-bold text-foreground">実例</h2>
