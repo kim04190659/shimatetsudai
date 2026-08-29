@@ -4,7 +4,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { tools } from "@/lib/tools";
 import { PARTNER_NAME } from "@/lib/partner";
-import { logContactInquiry } from "@/lib/notion";
+import {
+  logContactInquiry,
+  createChangeRequestFromInquiry,
+  markContactInquiryAutoLogged,
+  type ChangeRequestTargetArea,
+} from "@/lib/notion";
 
 export const runtime = "nodejs";
 
@@ -33,10 +38,11 @@ type ChatMessage = { role: "user" | "assistant"; content: string };
 type StructuredReply = {
   reply: string;
   canAnswer: boolean;
-  inquiryType: "スタッフについて" | "サービスについて" | "取材・プレス" | "その他";
+  inquiryType: "スタッフについて" | "サービスについて" | "取材・プレス" | "改造・機能要望" | "その他";
   escalationReason?: string;
   assigneeHint?: string;
   titleSummary: string;
+  targetAreaGuess?: ChangeRequestTargetArea;
 };
 
 const RESPONSE_TOOL = {
@@ -55,7 +61,7 @@ const RESPONSE_TOOL = {
       },
       inquiryType: {
         type: "string",
-        enum: ["スタッフについて", "サービスについて", "取材・プレス", "その他"],
+        enum: ["スタッフについて", "サービスについて", "取材・プレス", "改造・機能要望", "その他"],
       },
       escalationReason: {
         type: "string",
@@ -68,6 +74,12 @@ const RESPONSE_TOOL = {
       titleSummary: {
         type: "string",
         description: "この会話を一目で分かるようにした10〜20文字程度のタイトル。",
+      },
+      targetAreaGuess: {
+        type: "string",
+        enum: ["てつだって", "意思決定支援", "カードゲーム", "会社サイト"],
+        description:
+          "inquiryTypeが「改造・機能要望」のときのみ。要望がどの領域に関するものか推定する。不明な場合はフィールド自体を省略する(無理に埋めない)。",
       },
     },
     required: ["reply", "canAnswer", "inquiryType", "titleSummary"],
@@ -85,8 +97,22 @@ ${buildKnowledgeBase()}
   「担当者に確認して折り返します」という趣旨で丁寧に案内し、canAnswer: false とする
 - canAnswer: false のときは、返信の中で「担当者からご連絡します」ことを伝え、
   可能であれば返信用の連絡先(メールアドレスなど)を尋ねる
+- 訪問者が「こういう機能がほしい」「ここを直してほしい」「〜できるようにしてほしい」など、
+  既存のツール・サービスへの改造・機能追加を求めている場合は、inquiryType: "改造・機能要望" とする
+  (canAnswer は false のままでよい。実際の開発対応は人が行うため、その場で対応を約束しない)
 - 常に日本語・敬語で、専門用語を避けて話す
 - 必ずcontact_chat_responseツールを使って構造化された形式で応答すること`;
+
+// 改造・機能要望と判定された場合に、その場でAIが返す定型返信(設計書のステップ4に準拠)。
+// 「対応時期を約束しない」という方針を確実に守るため、AIの自由生成には任せずサーバー側で固定する。
+function buildFeatureRequestReply(hasContactEmail: boolean): string {
+  const base =
+    "ご要望をありがとうございます。開発チームに共有し、対応を検討させていただきます。";
+  const withEmailNote = hasContactEmail
+    ? "進捗があれば、いただいたご連絡先にお知らせします。"
+    : "進捗をお知らせできるよう、よろしければ返信用のご連絡先(メールアドレス)を教えていただけますでしょうか。";
+  return `${base}${withEmailNote}`;
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -135,9 +161,44 @@ export async function POST(req: NextRequest) {
     }
 
     const structured = toolUse.input as StructuredReply;
+    const isFeatureRequest = structured.inquiryType === "改造・機能要望";
+    let reply = structured.reply;
 
-    // 回答できなかった場合のみ、Notionに会話ログを記録する
-    if (!structured.canAnswer) {
+    // 改造・機能要望と判定された場合は、「利用者からの改造要求 自動処理フロー設計書」の通り、
+    // ContactInquiryへの記録とChangeRequestへの自動起票を同時に行い、その場で定型文を返す。
+    if (isFeatureRequest) {
+      const conversationText = [...messages, { role: "assistant" as const, content: structured.reply }]
+        .map((m) => `${m.role === "user" ? "訪問者" : "AI"}: ${m.content}`)
+        .join("\n");
+
+      reply = buildFeatureRequestReply(Boolean(contactEmail));
+
+      try {
+        const inquiry = await logContactInquiry({
+          title: structured.titleSummary,
+          inquiryType: "改造・機能要望",
+          summary: conversationText,
+          canAnswer: false,
+          contactEmail,
+        });
+
+        if (inquiry.pageId) {
+          await createChangeRequestFromInquiry({
+            title: structured.titleSummary,
+            description: conversationText,
+            targetArea: structured.targetAreaGuess,
+            requesterDetail: contactEmail,
+            relatedInquiryPageId: inquiry.pageId,
+          });
+          await markContactInquiryAutoLogged(inquiry.pageId);
+        }
+      } catch (err) {
+        // ChangeRequestへの自動起票に失敗しても、チャット応答自体はブロックしない
+        // (週末のトリアージで人が気づけるよう、ログにだけ残す)
+        console.error("ChangeRequest自動起票に失敗しました:", err);
+      }
+    } else if (!structured.canAnswer) {
+      // 改造要望以外で回答できなかった場合は、従来通りContactInquiryにのみ記録する
       const conversationText = [...messages, { role: "assistant" as const, content: structured.reply }]
         .map((m) => `${m.role === "user" ? "訪問者" : "AI"}: ${m.content}`)
         .join("\n");
@@ -157,8 +218,8 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({
-      reply: structured.reply,
-      canAnswer: structured.canAnswer,
+      reply,
+      canAnswer: isFeatureRequest ? false : structured.canAnswer,
     });
   } catch (err) {
     console.error("contact-chat error:", err);

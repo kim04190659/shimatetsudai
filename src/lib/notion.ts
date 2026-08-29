@@ -25,6 +25,7 @@ export type ContactInquiryInput = {
     | "サービスについて"
     | "取材・プレス"
     | "ダッシュボード試用申請"
+    | "改造・機能要望"
     | "その他";
   summary: string;
   canAnswer: boolean;
@@ -33,21 +34,28 @@ export type ContactInquiryInput = {
   contactEmail?: string;
 };
 
+export type ContactInquiryResult = {
+  pageId: string;
+  url: string;
+};
+
 /**
  * お問い合わせチャットの会話ログをNotionのContactInquiryデータソースに1件記録する。
  * canAnswer=false(AIが回答できなかった)のときだけ担当者エスカレーションの起点になる。
+ * 作成したページのid/urlを返す(改造・機能要望の場合、ChangeRequestからRelatedInquiryとして
+ * 逆参照するために必要)。
  */
-export async function logContactInquiry(input: ContactInquiryInput): Promise<void> {
+export async function logContactInquiry(input: ContactInquiryInput): Promise<ContactInquiryResult> {
   const dataSourceId = process.env.NOTION_CONTACT_DATA_SOURCE_ID;
   if (!dataSourceId) {
     // 環境変数が未設定の場合はNotion保存をスキップし、チャット自体は継続させる
     console.warn("NOTION_CONTACT_DATA_SOURCE_ID が未設定のため、Notionへの記録をスキップしました");
-    return;
+    return { pageId: "", url: "" };
   }
 
   const notion = getClient();
 
-  await notion.pages.create({
+  const page = await notion.pages.create({
     parent: { data_source_id: dataSourceId, type: "data_source_id" },
     properties: {
       Title: { title: [{ text: { content: input.title } }] },
@@ -61,6 +69,64 @@ export async function logContactInquiry(input: ContactInquiryInput): Promise<voi
         ? { AssigneeHint: { rich_text: [{ text: { content: input.assigneeHint.slice(0, 500) } }] } }
         : {}),
       ...(input.contactEmail ? { ContactEmail: { email: input.contactEmail } } : {}),
+    },
+  });
+
+  return { pageId: page.id, url: isFullPage(page) ? page.url : "" };
+}
+
+// 全体共通の「ChangeRequest（改造要求管理）」DBのデータソースID
+const CHANGE_REQUEST_DATA_SOURCE_ID = "78efaf0f-310d-4dc4-991f-ca5c3abf0d13";
+
+export type ChangeRequestTargetArea = "てつだって" | "意思決定支援" | "カードゲーム" | "会社サイト";
+
+export type AutoChangeRequestInput = {
+  title: string;
+  description: string;
+  targetArea?: ChangeRequestTargetArea;
+  requesterDetail?: string;
+  relatedInquiryPageId: string;
+};
+
+/**
+ * 「利用者からの改造要求 自動処理フロー設計書」の通り、お問い合わせAIチャットが
+ * 改造・機能要望を判定した際に、ChangeRequestへ自動起票する。
+ * Priority=中・Status=未着手・SourceChannel=お問い合わせフォーム・RequesterType=利用者からの要望で固定。
+ */
+export async function createChangeRequestFromInquiry(input: AutoChangeRequestInput): Promise<void> {
+  const notion = getClient();
+
+  await notion.pages.create({
+    parent: { data_source_id: CHANGE_REQUEST_DATA_SOURCE_ID, type: "data_source_id" },
+    properties: {
+      Title: { title: [{ text: { content: input.title.slice(0, 200) } }] },
+      Description: { rich_text: [{ text: { content: input.description.slice(0, 2000) } }] },
+      RequesterType: { select: { name: "利用者からの要望" } },
+      ...(input.requesterDetail
+        ? { RequesterDetail: { rich_text: [{ text: { content: input.requesterDetail.slice(0, 200) } }] } }
+        : {}),
+      SourceChannel: { select: { name: "お問い合わせフォーム" } },
+      ...(input.targetArea ? { TargetArea: { multi_select: [{ name: input.targetArea }] } } : {}),
+      Priority: { select: { name: "中" } },
+      Status: { select: { name: "未着手" } },
+      ...(input.relatedInquiryPageId
+        ? { RelatedInquiry: { relation: [{ id: input.relatedInquiryPageId }] } }
+        : {}),
+    },
+  });
+}
+
+/**
+ * ChangeRequest自動作成後、元のContactInquiryのAutoLoggedをtrueにする
+ * (分室スタッフが手動で二重登録しないようにするための目印)。
+ */
+export async function markContactInquiryAutoLogged(pageId: string): Promise<void> {
+  if (!pageId) return;
+  const notion = getClient();
+  await notion.pages.update({
+    page_id: pageId,
+    properties: {
+      AutoLogged: { checkbox: true },
     },
   });
 }
