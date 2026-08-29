@@ -4,7 +4,12 @@
 // 書き込み完了をトリガーにキャッシュを再生成する(=次回アクセス時に最新データが反映される)。
 import { NextRequest, NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
-import { writeStructuredMeetingResult, type StructuredMeetingResult, type IssueRelationTargets } from "@/lib/adminMeetingImport";
+import {
+  writeStructuredMeetingResult,
+  extractNotionPageId,
+  type StructuredMeetingResult,
+  type IssueRelationTargets,
+} from "@/lib/adminMeetingImport";
 import { assertAdminAccess } from "@/lib/adminAccess";
 import { getActiveTenants } from "@/lib/tenants";
 import { tenantCacheTag } from "@/lib/tenantDashboard";
@@ -29,15 +34,32 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // analyze時と同様、URLがそのまま渡されてきてもページIDだけを抽出する。
+    let issuePageId: string;
+    try {
+      issuePageId = extractNotionPageId(body.issuePageId);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "ページIDの解析に失敗しました";
+      return NextResponse.json({ error: message }, { status: 400 });
+    }
+
     const { writtenCount } = await writeStructuredMeetingResult({
-      issuePageId: body.issuePageId,
+      issuePageId,
       targets: body.targets,
       confirmed: body.confirmed,
     });
 
     // Issueの`Status`は自動更新しない(設計書の方針: 議論開始の確認は人が行う)
 
-    const matchedTenant = getActiveTenants().find((t) => t.issuePageId === body.issuePageId);
+    // TENANTS_CONFIG側のissuePageIdはハイフンあり/なしどちらの表記もありうるため、
+    // 同じ関数で正規化してから比較する(表記ゆれで一致しない事故を防ぐ)。
+    const matchedTenant = getActiveTenants().find((t) => {
+      try {
+        return extractNotionPageId(t.issuePageId) === issuePageId;
+      } catch {
+        return false;
+      }
+    });
     let dashboardRevalidated = false;
     if (matchedTenant) {
       revalidateTag(tenantCacheTag(matchedTenant.slug), "max");
