@@ -81,6 +81,23 @@ body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMa
 .finalOutput.show{display:block}
 .footNote{font-size:11.5px;color:var(--muted);margin-top:24px}
 
+/* III-3: 資源循環スコア */
+.scoreBox{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:14px;background:var(--soft)}
+.scoreBox .scoreHead{display:flex;justify-content:space-between;align-items:center}
+.scoreBox .stars{font-size:18px;letter-spacing:2px}
+.scoreBox .scoreNote{font-size:12px;color:var(--muted);margin-top:6px}
+
+/* II-2: 共有・比較 */
+.shareRow{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.shareBtn{border:1px solid var(--blue);background:#fff;color:#165c9d;border-radius:999px;padding:8px 14px;font-size:12.5px;font-weight:800;cursor:pointer}
+.shareBtn:hover{background:var(--blueSoft)}
+.shareMsg{font-size:12px;color:#165c9d;margin-top:6px}
+.compareBox{margin-top:14px;border-top:1px dashed var(--line);padding-top:12px}
+.compareBox input{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;font-size:12.5px;margin-top:6px}
+.compareTable{width:100%;border-collapse:collapse;margin-top:10px;font-size:12.5px}
+.compareTable th,.compareTable td{border-bottom:1px solid var(--line);padding:6px;text-align:left}
+.categoryPresetRow{font-size:12px;color:var(--muted);margin-top:8px}
+
 /* 軽量版(島外・関係人口向け) */
 .lightBtns{display:flex;flex-direction:column;gap:10px;margin-top:14px}
 .lightBtn{border:1px solid var(--line);background:#fff;border-radius:14px;padding:14px;text-align:left;font-size:13.5px;font-weight:700;cursor:pointer}
@@ -259,12 +276,21 @@ body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMa
     <div class="step">
       <h2>STEP 5・配分の目安と、その理由</h2>
       <p class="stepHint">条件を変えると自動で再計算されます</p>
+      <div class="categoryPresetRow" id="categoryPresetRow"></div>
       <div id="bars"></div>
 
       <div class="resultBox">
         <p class="resultSummary" id="resultSummary">要するに：条件を入力すると、ここに1文でまとめが出ます</p>
         <button type="button" class="toggleBtn" id="toggleDetails">▼ 理由を読む</button>
         <div class="resultDetails reasonBox" id="resultDetails"></div>
+      </div>
+
+      <div class="scoreBox">
+        <div class="scoreHead">
+          <b style="font-size:13px">🌱 持続性スコア(3年後見込み)</b>
+          <span class="stars" id="sustainStars"></span>
+        </div>
+        <p class="scoreNote" id="sustainNote"></p>
       </div>
 
       <div class="tryOne" id="tryOne"></div>
@@ -279,6 +305,19 @@ body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMa
         <button type="button" class="finalBtn" id="btnCopy">📤 担当者に送る文章をコピーする</button>
       </div>
       <div class="finalOutput" id="finalOutput"></div>
+
+      <div class="shareRow">
+        <button type="button" class="shareBtn" id="btnShare">🔗 この結果のリンクをシェアする</button>
+      </div>
+      <p class="shareMsg" id="shareMsg"></p>
+
+      <div class="compareBox">
+        <b style="font-size:13px">📊 前回の結果と比べる</b>
+        <p class="stepHint" style="margin:4px 0 0">誰かからシェアされたこのシミュレーターのリンクを貼り付けると、今の結果と横に並べて比較できます</p>
+        <input type="text" id="compareInput" placeholder="https://.../ritokei-resource-simulator.html?fairness=... を貼り付け">
+        <button type="button" class="finalBtn" id="btnCompare" style="margin-top:8px">比較する</button>
+        <div id="compareResult"></div>
+      </div>
     </div>
   </div>
 
@@ -408,13 +447,43 @@ function renderSubsidies(){
 }
 renderSubsidies();
 
-/* ============ 配分ロジック(III-2: 根拠を見える化) ============ */
-var categories = [
-  { key: 'priority', label: '重点取材', color: 'var(--blue)' },
-  { key: 'baseline', label: '最低接点保障', color: 'var(--green)' },
-  { key: 'writer', label: '地域ライター育成', color: 'var(--orange)' },
-  { key: 'ai', label: 'AI編集基盤', color: 'var(--purple)' }
-];
+/* ============ III-1: 配分カテゴリを島(団体)ごとに外部定義できる構造にする ============
+   本来はNotionの「カテゴリマスタ」DBと連動させる想定だが、この試作版は単体HTMLで
+   バックエンドAPIを持たないため、次の2通りの「外部定義」を用意する。
+   1) CATEGORY_PRESETS に島・団体ごとのプリセットを追加する(コードでの拡張)
+   2) URLに ?categories=[{"key":"a","label":"...","color":"...","base":40}, ...] を
+      JSONで渡す(Notion側や他ツールから動的に生成したURLを渡すことを想定)
+   現時点ではりとけい標準プリセットのみを収録している。 */
+var CATEGORY_PRESETS = {
+  ritokei: {
+    name: 'りとけい標準(420島・取材リソース配分)',
+    categories: [
+      { key: 'priority', label: '重点取材', color: 'var(--blue)', base: 40 },
+      { key: 'baseline', label: '最低接点保障', color: 'var(--green)', base: 25 },
+      { key: 'writer', label: '地域ライター育成', color: 'var(--orange)', base: 20 },
+      { key: 'ai', label: 'AI編集基盤', color: 'var(--purple)', base: 15 }
+    ]
+  }
+};
+
+function loadCategories(){
+  var params = new URLSearchParams(window.location.search);
+  var raw = params.get('categories');
+  if (raw) {
+    try {
+      var parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length) {
+        return { name: 'URLで指定されたカスタム設定', categories: parsed };
+      }
+    } catch (e) { /* JSONとして不正な場合は標準プリセットにフォールバック */ }
+  }
+  var presetKey = params.get('preset') && CATEGORY_PRESETS[params.get('preset')] ? params.get('preset') : 'ritokei';
+  return CATEGORY_PRESETS[presetKey];
+}
+
+var activePreset = loadCategories();
+var categories = activePreset.categories;
+document.getElementById('categoryPresetRow').textContent = '📁 配分カテゴリ設定：' + activePreset.name + '(他の島・団体向けにカテゴリを変えたい場合は、コード内のCATEGORY_PRESETSに追加するか、URLの?categories=にJSONを渡してください)';
 
 function computeAllocation(){
   var fairness = choiceState.fairness;
@@ -425,41 +494,57 @@ function computeAllocation(){
   var budgetBand = choiceState.budget;
   var staffBand = choiceState.staff;
 
-  var alloc = { priority: 40, baseline: 25, writer: 20, ai: 15 };
+  // III-1: 基準配分はカテゴリ設定(categories[].base)から組み立てる。
+  // 以下の調整ルールは「重点取材/最低接点保障/地域ライター育成/AI編集基盤」という
+  // りとけい標準カテゴリのキーを前提にしており、該当キーが存在する場合のみ適用する
+  // (別プリセットに切り替えても壊れないためのガード)。
+  var alloc = {};
+  categories.forEach(function(c){ alloc[c.key] = c.base; });
   var reasons = [];
+  var hasKey = function(k){ return Object.prototype.hasOwnProperty.call(alloc, k); };
 
-  var fairnessShift = Math.round((fairness - 50) / 50 * 10);
-  alloc.priority -= fairnessShift;
-  alloc.baseline += fairnessShift;
-  if (fairnessShift !== 0) {
-    reasons.push('公平性を' + (fairnessShift > 0 ? '重視' : '控えめに') + 'したため、重点取材⇄最低接点保障を' + Math.abs(fairnessShift) + 'pt調整');
+  if (hasKey('priority') && hasKey('baseline')) {
+    var fairnessShift = Math.round((fairness - 50) / 50 * 10);
+    alloc.priority -= fairnessShift;
+    alloc.baseline += fairnessShift;
+    if (fairnessShift !== 0) {
+      reasons.push('公平性を' + (fairnessShift > 0 ? '重視' : '控えめに') + 'したため、重点取材⇄最低接点保障を' + Math.abs(fairnessShift) + 'pt調整');
+    }
   }
 
-  var efficiencyShift = Math.round((efficiency - 50) / 50 * 8);
-  alloc.ai += efficiencyShift;
-  alloc.priority -= efficiencyShift;
-  if (efficiencyShift !== 0) {
-    reasons.push('効率性を' + (efficiencyShift > 0 ? '重視' : '控えめに') + 'したため、AI編集基盤を' + Math.abs(efficiencyShift) + 'pt調整');
+  if (hasKey('ai') && hasKey('priority')) {
+    var efficiencyShift = Math.round((efficiency - 50) / 50 * 8);
+    alloc.ai += efficiencyShift;
+    alloc.priority -= efficiencyShift;
+    if (efficiencyShift !== 0) {
+      reasons.push('効率性を' + (efficiencyShift > 0 ? '重視' : '控えめに') + 'したため、AI編集基盤を' + Math.abs(efficiencyShift) + 'pt調整');
+    }
   }
 
-  var growthShift = Math.round((growth - 50) / 50 * 8);
-  alloc.writer += growthShift;
-  alloc.baseline -= growthShift;
-  if (growthShift !== 0) {
-    reasons.push('人材育成を' + (growthShift > 0 ? '重視' : '控えめに') + 'したため、地域ライター育成を' + Math.abs(growthShift) + 'pt調整');
+  if (hasKey('writer') && hasKey('baseline')) {
+    var growthShift = Math.round((growth - 50) / 50 * 8);
+    alloc.writer += growthShift;
+    alloc.baseline -= growthShift;
+    if (growthShift !== 0) {
+      reasons.push('人材育成を' + (growthShift > 0 ? '重視' : '控えめに') + 'したため、地域ライター育成を' + Math.abs(growthShift) + 'pt調整');
+    }
   }
 
-  if (horizon === 'short') {
-    alloc.priority += 5; alloc.writer -= 5;
-    reasons.push('時間軸が短期のため、即効性のある重点取材を+5pt');
-  } else if (horizon === 'long') {
-    alloc.writer += 5; alloc.priority -= 5;
-    reasons.push('時間軸が長期のため、担い手育成につながる地域ライター育成を+5pt');
+  if (hasKey('priority') && hasKey('writer')) {
+    if (horizon === 'short') {
+      alloc.priority += 5; alloc.writer -= 5;
+      reasons.push('時間軸が短期のため、即効性のある重点取材を+5pt');
+    } else if (horizon === 'long') {
+      alloc.writer += 5; alloc.priority -= 5;
+      reasons.push('時間軸が長期のため、担い手育成につながる地域ライター育成を+5pt');
+    }
   }
 
-  if (disaster === 'high') {
-    alloc.baseline += 10; alloc.ai -= 10;
-    reasons.push('災害リスクが高いため、全島との最低限のつながりを保つ最低接点保障を+10pt(AI編集基盤から振り替え)');
+  if (hasKey('baseline') && hasKey('ai')) {
+    if (disaster === 'high') {
+      alloc.baseline += 10; alloc.ai -= 10;
+      reasons.push('災害リスクが高いため、全島との最低限のつながりを保つ最低接点保障を+10pt(AI編集基盤から振り替え)');
+    }
   }
 
   categories.forEach(function(c){ if (alloc[c.key] < 5) alloc[c.key] = 5; });
@@ -485,11 +570,12 @@ function render(){
   var summary = '要するに：' + top.label + '(' + alloc[top.key] + '%)を最優先に配分するのが、今の条件に合っています。';
   document.getElementById('resultSummary').textContent = summary;
 
+  var baseText = categories.map(function(c){ return c.label + c.base + '%'; }).join('・');
   var detailsEl = document.getElementById('resultDetails');
   if (result.reasons.length) {
     detailsEl.innerHTML = '<ul>' + result.reasons.map(function(r){ return '<li>' + r + '</li>'; }).join('') + '</ul>';
   } else {
-    detailsEl.innerHTML = '<p>今のところ、基準配分(重点取材40%・最低接点25%・地域ライター20%・AI編集基盤15%)から変更する条件は選ばれていません。</p>';
+    detailsEl.innerHTML = '<p>今のところ、基準配分(' + baseText + ')から変更する条件は選ばれていません。</p>';
   }
 
   var tryOneEl = document.getElementById('tryOne');
@@ -498,7 +584,145 @@ function render(){
   } else {
     tryOneEl.innerHTML = '<b>✅ まず1つ試すなら：</b>' + top.label + 'から着手し、90日で島カルテ設計・自治体候補選定など小さな一歩を踏み出すのがおすすめです。';
   }
+
+  // III-3: 資源循環スコア(3年後見込み)
+  var sustain = computeSustainability(alloc);
+  document.getElementById('sustainStars').textContent = '★★★★★☆☆☆☆☆'.slice(5 - sustain.score, 10 - sustain.score);
+  document.getElementById('sustainNote').textContent = sustain.note;
+
+  // II-2: 現在の条件をURLに反映(共有・比較用)
+  syncStateToUrl();
 }
+
+/* ============ III-3: 資源循環スコア(3年後見込み) ============
+   育成・接点保障への配分が薄いと、数年後に担い手やカバー範囲が先細りするという考え方を
+   簡易なルールで星1〜5に変換する。厳密な財務予測ではなく、話し合いの視点を増やすための目安。 */
+function computeSustainability(alloc){
+  var score = 3;
+  var notes = [];
+  var writer = alloc.writer;
+  var baseline = alloc.baseline;
+  var ai = alloc.ai;
+
+  if (typeof writer === 'number') {
+    if (writer < 15) { score -= 1; notes.push('地域ライター育成への配分が少なく、数年後の担い手不足につながる可能性'); }
+    else if (writer >= 25) { score += 1; notes.push('地域ライター育成に厚めに配分しており、担い手が育ちやすい'); }
+  }
+  if (typeof baseline === 'number') {
+    if (baseline < 15) { score -= 1; notes.push('最低接点保障が薄く、情報空白の島が固定化するリスク'); }
+  }
+  if (typeof ai === 'number' && typeof writer === 'number' && ai > 30 && writer < 15) {
+    notes.push('AI編集基盤への依存度が高い一方、育成投資が少ない組み合わせは要注意');
+  }
+
+  score = Math.max(1, Math.min(5, score));
+  var note = notes.length ? notes.join('。') + '。' : '育成・接点保障・効率化のバランスがとれた配分です。';
+  return { score: score, note: '(3年後見込み・簡易ルールベース) ' + note };
+}
+
+/* ============ II-2: 結果の記録・共有・比較 ============ */
+function syncStateToUrl(){
+  var params = new URLSearchParams();
+  var persona = document.querySelector('.personaBtn.active');
+  if (persona) params.set('persona', persona.dataset.persona);
+  params.set('fairness', choiceState.fairness);
+  params.set('efficiency', choiceState.efficiency);
+  params.set('growth', choiceState.growth);
+  params.set('budget', choiceState.budget);
+  params.set('staff', choiceState.staff);
+  params.set('horizon', choiceState.horizon);
+  params.set('disaster', choiceState.disaster);
+  params.set('view', 'full');
+  var newUrl = window.location.pathname + '?' + params.toString();
+  window.history.replaceState(null, '', newUrl);
+}
+
+function parseStateFromSearch(search){
+  var params = new URLSearchParams(search);
+  if (!params.has('fairness')) return null;
+  return {
+    persona: params.get('persona'),
+    fairness: Number(params.get('fairness')) || 60,
+    efficiency: Number(params.get('efficiency')) || 60,
+    growth: Number(params.get('growth')) || 60,
+    budget: params.get('budget') || 'mid',
+    staff: params.get('staff') || 'mid',
+    horizon: params.get('horizon') || 'mid',
+    disaster: params.get('disaster') || 'low'
+  };
+}
+
+function applyStateToUi(state){
+  choiceState.fairness = state.fairness;
+  choiceState.efficiency = state.efficiency;
+  choiceState.growth = state.growth;
+  choiceState.budget = state.budget;
+  choiceState.staff = state.staff;
+  choiceState.horizon = state.horizon;
+  choiceState.disaster = state.disaster;
+
+  ['fairness','efficiency','growth'].forEach(function(key){
+    document.getElementById(key).value = state[key];
+    document.getElementById(key + 'Val').textContent = state[key];
+  });
+  [['fairness',state.fairness],['efficiency',state.efficiency],['growth',state.growth],
+   ['budget',state.budget],['staff',state.staff],['horizon',state.horizon],['disaster',state.disaster]]
+  .forEach(function(pair){
+    var group = document.querySelector('.choiceBtns[data-target="' + pair[0] + '"]');
+    if (!group) return;
+    group.querySelectorAll('.choiceBtn').forEach(function(b){
+      b.classList.toggle('active', String(b.dataset.value) === String(pair[1]));
+    });
+  });
+  if (state.persona) {
+    document.querySelectorAll('.personaBtn').forEach(function(b){
+      b.classList.toggle('active', b.dataset.persona === state.persona);
+    });
+    var explain = document.getElementById('personaExplain');
+    if (personaExplainText[state.persona]) {
+      explain.textContent = personaExplainText[state.persona];
+      explain.classList.add('show');
+    }
+  }
+}
+
+document.getElementById('btnShare').addEventListener('click', function(){
+  syncStateToUrl();
+  var url = window.location.href;
+  var msg = document.getElementById('shareMsg');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(function(){
+      msg.textContent = '✅ リンクをコピーしました：' + url;
+    }).catch(function(){
+      msg.textContent = 'このURLをコピーしてください：' + url;
+    });
+  } else {
+    msg.textContent = 'このURLをコピーしてください：' + url;
+  }
+});
+
+document.getElementById('btnCompare').addEventListener('click', function(){
+  var input = document.getElementById('compareInput').value.trim();
+  var resultEl = document.getElementById('compareResult');
+  if (!input) { resultEl.innerHTML = ''; return; }
+  var search = input.indexOf('?') >= 0 ? input.slice(input.indexOf('?')) : ('?' + input);
+  var otherState = parseStateFromSearch(search);
+  if (!otherState) {
+    resultEl.innerHTML = '<p class="stepHint">リンクから条件を読み取れませんでした。シミュレーターのURL(?fairness=...を含むもの)を貼り付けてください。</p>';
+    return;
+  }
+  var savedState = JSON.parse(JSON.stringify(choiceState));
+  choiceState.fairness = otherState.fairness; choiceState.efficiency = otherState.efficiency; choiceState.growth = otherState.growth;
+  choiceState.budget = otherState.budget; choiceState.staff = otherState.staff; choiceState.horizon = otherState.horizon; choiceState.disaster = otherState.disaster;
+  var otherAlloc = computeAllocation().alloc;
+  choiceState = savedState;
+  var currentAlloc = computeAllocation().alloc;
+
+  var rows = categories.map(function(c){
+    return '<tr><td>' + c.label + '</td><td>' + currentAlloc[c.key] + '%</td><td>' + (otherAlloc[c.key] !== undefined ? otherAlloc[c.key] + '%' : '-') + '</td></tr>';
+  }).join('');
+  resultEl.innerHTML = '<table class="compareTable"><thead><tr><th>カテゴリ</th><th>今回</th><th>比較先</th></tr></thead><tbody>' + rows + '</tbody></table>';
+});
 
 document.getElementById('toggleDetails').addEventListener('click', function(){
   var box = document.getElementById('resultDetails');
@@ -544,6 +768,15 @@ document.getElementById('btnCopy').addEventListener('click', function(){
 document.getElementById('btnPrint').addEventListener('click', function(){
   window.print();
 });
+
+/* ============ II-2: シェアされたリンクを開いたら、そのままフル版・結果表示に復元する ============ */
+(function initFromUrl(){
+  var initialState = parseStateFromSearch(window.location.search);
+  if (initialState) {
+    applyStateToUi(initialState);
+    showFull();
+  }
+})();
 </script>
 </body>
 </html>
