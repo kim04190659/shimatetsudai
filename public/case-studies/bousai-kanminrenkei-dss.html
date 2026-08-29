@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>りとけい 未来のシマ共創会議2026 | 特別テーマ「生きた防災施設」意思決定支援</title>
+<style>
+:root{--ink:#2C2C2B;--muted:#7D7A75;--line:#E6E5E3;--soft:#F9F8F7;--blue:#2783DE;--blueSoft:#E5F2FC;--green:#46A171;--greenSoft:#E8F1EC;--orange:#D5803B;--orangeSoft:#FBEBDE;--red:#E56458;--redSoft:#FCE9E7;--purple:#7A5CCF;--purpleSoft:#EEE9FB}
+*{box-sizing:border-box}
+body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.5}
+.app{max-width:1200px;margin:0 auto;background:#fff;min-height:100vh}
+.hero{padding:24px 28px 14px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:800}
+.title{font-size:26px;font-weight:900;margin:6px 0 4px}
+.subtitle{color:var(--muted);font-size:13px}
+.decision{border:2px solid #9ac9ef;border-radius:14px;background:#fbfdff;padding:14px;margin-top:14px}
+.badge{display:inline-block;background:var(--blueSoft);color:#165c9d;border-radius:8px;padding:6px 10px;font-weight:900;font-size:12px}
+.decision p{margin:8px 0 0;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px}
+.kpi b{font-size:20px;display:block}
+.kpi span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.tabs{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 28px;z-index:5;display:flex;gap:8px;overflow:auto}
+.tabs button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;white-space:nowrap;font-size:13px}
+.tabs button.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.panel{display:none;padding:20px 28px 36px}
+.panel.active{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.card{border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px}
+.card h3{margin:0 0 10px;font-size:16px}
+.callout{border-left:5px solid var(--blue);background:var(--blueSoft);border-radius:10px;padding:10px;margin:8px 0;font-size:13px}
+.ok{border-left-color:var(--green);background:var(--greenSoft)}
+.warn{border-left-color:var(--orange);background:var(--orangeSoft)}
+.risk{border-left-color:var(--red);background:var(--redSoft)}
+.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top;text-align:left}
+th{background:var(--soft);font-weight:900}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;border-radius:999px;padding:3px 8px;font-size:10.5px;font-weight:800}
+.pblue{background:var(--blueSoft);color:#165c9d}
+.pgreen{background:var(--greenSoft);color:#1f6b46}
+.porange{background:var(--orangeSoft);color:#93501a}
+.pred{background:var(--redSoft);color:#a13327}
+.ppurple{background:var(--purpleSoft);color:#4b3494}
+.measureCard{border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.measureCard b{font-size:14.5px}
+.outlookRow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;font-size:12px}
+.outlookRow div{border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--soft)}
+.outlookRow div em{display:block;font-style:normal;color:var(--muted);font-size:10.5px;margin-bottom:2px}
+.stakeGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stakeCard{border:1px solid var(--line);border-radius:12px;padding:12px}
+.stakeCard b{font-size:13.5px}
+.stakeCard p{font-size:12.5px;color:#4a453f;margin:6px 0 0}
+.footNote{font-size:11.5px;color:var(--muted);margin-top:18px}
+.a3Grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.mini{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.mini h4{margin:0 0 8px;font-size:13px}
+.mini ul{margin:0;padding-left:16px;font-size:12px;line-height:1.55}
+.mini li{margin:3px 0}
+.kidBox{border:2px solid #F0C56B;background:#FFF8E8;border-radius:14px;padding:14px 16px;margin-top:14px}
+.kidBox b{font-size:13px}
+.kidBox p{margin:8px 0 0;font-size:14.5px;line-height:1.7;color:#4a3f28}
+.wizard{margin:14px 0 0;padding:14px 16px;border:2px solid #9ac9ef;border-radius:14px;background:#fbfdff}
+.wizard.wizardDone{display:none}
+.wizardQ{margin:0 0 10px;font-size:13.5px;font-weight:800;color:var(--ink)}
+.wizardBtns{display:flex;flex-wrap:wrap;gap:8px}
+.wizardBtn{border:1px solid var(--blue);background:#fff;color:#165c9d;border-radius:999px;padding:9px 14px;font-weight:800;font-size:13px;cursor:pointer}
+.wizardBtn:hover{background:var(--blueSoft)}
+.wizardSkip{display:block;margin:10px 0 0;border:none;background:none;color:var(--muted);font-size:11.5px;text-decoration:underline;cursor:pointer;padding:0}
+@media(max-width:900px){.grid2,.grid3,.stakeGrid,.outlookRow,.a3Grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hero">
+  <span class="eyebrow">意思決定支援PoC ｜ 大和リース株式会社 × 認定NPO法人 離島経済新聞社(りとけい) ｜ 未来のシマ共創会議2026 特別テーマ</span>
+  <div class="title">大規模災害時の復旧復興に「必要な機能」を官民連携で備えるには？</div>
+  <div class="subtitle">全国1,500超の自治体とつながる大和リース株式会社と、全国の離島ネットワークを持つりとけいが共同で提起する特別テーマです。使われないまま維持費だけがかかる防災施設ではなく、日常はコミュニティスペース、有事には防災拠点となる「生きた防災施設」のあり方を検討しています。</div>
+  <div class="kidBox">
+    <b>🌱 かんたんに言うと</b>
+    <p>津波などの災害に備えて建てられた避難タワーが、30年経って古くなり、直すお金が足りずに使えなくなっている島があります。もし避難タワーが、普段は住民がおしゃべりしたり集まったりできる場所になっていれば、毎日使われるので大事にされ、いざという時にも役立ちます。でも今の国のルールでは、そういう「普段使い」の設計にすると補助金の対象から外れてしまうことがあります。このズレを、島の人たちと会社と国が一緒に解決できないか、というアイデアです。</p>
+  </div>
+  <div class="decision">
+    <span class="badge">📝 現在のステータス：論点提起(共創ワークショップ前)</span>
+    <p>本論点は2026年8月時点で「提起」段階です。りとけい主催「未来のシマ共創会議2026」の共創ワークショップ(9月24日・10月15日オンライン、10月23日リアル)を経て、実際の議論が始まります。このシートは特定の案を推奨するものではなく、大和リース・りとけい両者の公開発言をもとに論点と選択肢を整理し、ワークショップでの議論の出発点として作成したものです。</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><b>1,500超</b><span>大和リースがつながる自治体数(全国1,741中)</span></div>
+    <div class="kpi"><b>32年</b><span>奥尻町の防災施設の経過年数</span></div>
+    <div class="kpi"><b>5,000万円</b><span>2025年台風被災支援で集まった総額</span></div>
+    <div class="kpi"><b>89事業者</b><span>台風22号・23号での支援金届け先</span></div>
+  </div>
+  <div class="callout warn" style="margin-top:14px">
+    <b>📎 この論点の位置づけについて</b>
+    <p style="margin-top:6px">本論点は特定の島の論点ではなく、りとけいが主催する「未来のシマ共創会議2026」の特別テーマ(全国レベルの官民連携・制度提言案件)です。りとけい分室のページに、他のテーマオーナー案件と合わせて掲載しています。</p>
+  </div>
+</div>
+
+<div class="wizard" id="wizard">
+  <p class="wizardQ">今日、何について確認したいですか？</p>
+  <div class="wizardBtns">
+    <button type="button" class="wizardBtn" data-goto="summary">✅ 結論だけ知りたい</button>
+    <button type="button" class="wizardBtn" data-goto="proposal">💡 検討中の選択肢を見たい</button>
+    <button type="button" class="wizardBtn" data-goto="raw">🗣️ 元になった事実・出典を見たい</button>
+  </div>
+  <button type="button" class="wizardSkip" id="wizardSkip">すべてのタブを自分で見る →</button>
+</div>
+
+<nav class="tabs">
+  <button class="tabBtn active" data-tab="summary">議論まとめ</button>
+  <button class="tabBtn" data-tab="premise">りとけいの視点（前提条件）</button>
+  <button class="tabBtn" data-tab="proposal">提案内容・詳細</button>
+  <button class="tabBtn" data-tab="cases">国内外の類似事例</button>
+  <button class="tabBtn" data-tab="funding">活用できる補助金・交付金</button>
+  <button class="tabBtn" data-tab="raw">生データ（補足）</button>
+</nav>
+
+<section class="panel active" id="panel-summary">
+  <div class="card">
+    <h3>論点の整理：なぜ「生きた防災施設」が必要か</h3>
+    <div class="grid2">
+      <div class="callout risk">
+        <b>きっかけとなった課題</b>
+        <ul style="margin:6px 0 0;padding-left:18px">
+          <li>北海道奥尻町では、32年前の大津波を受けて整備した防災施設が経年劣化</li>
+          <li>人口減少で維持・更新の予算が不足している</li>
+          <li>避難タワーを日常利用可能に設計すると国の防災交付金の要件から外れる制度の壁がある</li>
+        </ul>
+      </div>
+      <div class="callout ok">
+        <b>すでにある実績・つながりの力</b>
+        <ul style="margin:6px 0 0;padding-left:18px">
+          <li>大和リースは阪神・淡路、東日本、熊本の応急仮設住宅整備で国・自治体と連携してきた実績</li>
+          <li>2025年台風22号・23号被災時、りとけいが緊急支援プロジェクトで総額5,000万円を集めた</li>
+          <li>被災89事業者に最短2週間で支援金を届けた実績がある</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>共創ワークショップの位置づけ</h3>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>日程</th><th>形式</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>9月24日・10月15日</td><td>オンライン</td><td>論点の共有、フェーズフリー施設・防災交付金制度の事例研究</td></tr>
+          <tr><td>10月23日</td><td>対面(定員25名)</td><td>大和リース・りとけい・参加者・専門家を交えた議論、共創セッションでの発表</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footNote">テーマオーナー：大和リース株式会社(民間活力研究所) 中野宏祐さん × りとけい編集長 鯨本あつこ。参加はPeatixで受付。詳細・最新情報は<a href="https://ritokei.com/forum/shimakaigi2026_theme07_tokubetsu" target="_blank" rel="noopener">りとけいフォーラムの元記事</a>でご確認ください。</p>
+  </div>
+
+  <h3 style="margin-top:18px;font-size:15px">この論点の全体像(A3サマリー)</h3>
+  <div class="a3Grid">
+    <div class="mini">
+      <h4>📊 判断材料ハイライト</h4>
+      <ul>
+        <li>30年前整備の防災施設が全国的に経年劣化のピークを迎えつつある</li>
+        <li>フェーズフリー設計が国の防災交付金要件と噛み合わないケースがある</li>
+        <li>人口減少地域では維持・更新の財源確保が難しい</li>
+        <li>りとけいのネットワークによる災害支援の実効性は実証済み</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>💡 検討中の選択肢ハイライト</h4>
+      <ul>
+        <li>案A：既存の防災施設に日常利用機能を後付けする改修モデル</li>
+        <li>案B：新設施設をフェーズフリー前提で設計し交付金要件の緩和を提言する</li>
+        <li>案C：りとけいのネットワークを平時の見守り・有事の情報網として制度に組み込む</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>🗣️ 現時点で分かっている声</h4>
+      <ul>
+        <li>奥尻町職員：「30年後にどうなるかを、すでに経験しているような状況」</li>
+        <li>大和リース：国も事業者も住民も一生懸命なのに歯車が噛み合っていない</li>
+        <li>りとけい編集長：150〜250人規模の顔の見えるコミュニティに自活的な自治の力が育つ</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>🌍 類似事例ハイライト</h4>
+      <ul>
+        <li><span class="pill porange">要検証</span> フェーズフリーの考え方を採用した公共施設の全国事例</li>
+        <li><span class="pill pgreen">実績あり</span> 2025年台風被災時のりとけい緊急支援プロジェクト</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>💰 補助金・交付金ハイライト</h4>
+      <ul>
+        <li><span class="pill porange">中</span> 防災・減災、国土強靱化のための5か年加速化対策関連交付金</li>
+        <li><span class="pill porange">中</span> 官民連携による地域防災力強化に関する制度：制度提言の対象候補</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>✅ 現時点の結論・次の一手</h4>
+      <ul>
+        <li>特定の案への合意はまだ形成されておらず、共創ワークショップが出発点</li>
+        <li>次の一手：防災交付金要件のミスマッチを具体的に洗い出す</li>
+        <li>ワークショップ後、実際の議論を踏まえて制度提言の骨子を作成予定</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin-top:18px;font-size:15px">🧭 りとけいの活動目的との関わり</h3>
+  <p style="font-size:12px;color:var(--muted);margin:6px 0 10px">りとけいの分室ページ「りとけい分室」が掲げる、論点が増減しても変わらない目的との関わり。</p>
+  <div class="tableWrap">
+    <table>
+      <thead><tr><th>りとけいの目的</th><th>この論点の影響方向</th></tr></thead>
+      <tbody>
+        <tr><td>420の有人離島を、取材・発信・連携でつなぐ</td><td><span class="pill pgreen">追い風</span> 大和リースの全国自治体ネットワークとりとけいの離島ネットワークを組み合わせる好機</td></tr>
+        <tr><td>離島の防災・災害復興を後押しする</td><td><span class="pill pgreen">追い風</span> 2025年の緊急支援実績を制度提言にまで発展させる機会</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel" id="panel-premise">
+  <div class="card">
+    <h3>りとけい「未来のシマ共創会議2026」との関わり</h3>
+    <p style="font-size:12.5px;color:var(--muted)">この論点固有の前提として、りとけいが主催する共創会議の位置づけを確認します。</p>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>会議の目的</th><td>「アクション発動！」を掲げ、交通・防災・子どもの3分野で全国の島々から公募した「問い」を、共創ワークショップを通じて具体的なアクションに育てる</td></tr>
+          <tr><th>この論点の分野</th><td>離島×防災(特別テーマ・官民連携による制度提言)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn" style="margin-top:10px"><b>前提条件：</b>他の6テーマが個別の島の具体課題であるのに対し、本テーマは全国レベルの制度設計・官民連携の枠組みを扱う特別テーマである点が異なる。個別の島の実例(奥尻町等)を踏まえつつ、対象レベルは「全国」として整理している。</div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>本論点固有の背景</h3>
+    <ul style="font-size:13px">
+      <li>大和リースは2023年度よりりとけいのサポーターとなり共創会議に協賛</li>
+      <li>2025年の共創会議当日、台風22号が八丈島・青ヶ島を直撃した経緯がある</li>
+      <li>りとけいは災害翌日に緊急支援プロジェクトを立ち上げ、5,000万円を集めた実績</li>
+      <li>「人が信頼関係を結び活動できる規模は150〜250人程度」という編集長の知見</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel" id="panel-proposal">
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">以下は、大和リース・りとけい両者の発言をもとに整理した「検討の選択肢」です。共創ワークショップでの議論を経て、内容は更新されます。特定の案を推奨するものではありません。</p>
+  <div class="measureCard">
+    <b>案A 既存の防災施設に日常利用機能を後付けする改修モデル</b>
+    <p style="font-size:13px;margin:6px 0 0">老朽化した避難タワー等の既存施設を、住民が日常的に使えるコミュニティスペースとして改修する案。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>既存施設を活用できるため着手しやすい</div>
+      <div><em>中期</em>改修費用の財源確保が課題</div>
+      <div><em>長期</em>施設が日常的に使われることで維持管理の意識が高まる</div>
+    </div>
+  </div>
+  <div class="measureCard">
+    <b>案B 新設施設をフェーズフリー前提で設計し交付金要件の緩和を提言する</b>
+    <p style="font-size:13px;margin:6px 0 0">新設する防災施設を最初からフェーズフリー設計とし、国の防災交付金の要件そのものの見直しを提言する案。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>制度提言には時間と関係機関との調整が必要</div>
+      <div><em>中期</em>実現すれば全国の新設施設に適用可能になる</div>
+      <div><em>長期</em>公共施設の集約によるコスト削減効果が期待できる</div>
+    </div>
+  </div>
+  <div class="measureCard">
+    <b>案C りとけいのネットワークを平時の見守り・有事の情報網として制度に組み込む</b>
+    <p style="font-size:13px;margin:6px 0 0">2025年の緊急支援実績のように、りとけいの全国ネットワークを公式な防災連携の枠組みに位置づける案。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>民間NPOと行政の連携スキームの設計が必要</div>
+      <div><em>中期</em>災害発生時の初動対応の速度が向上する</div>
+      <div><em>長期</em>官民連携による分散型の防災ネットワークが構築される</div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>3つの選択肢を比較(たたき台)</h3>
+    <div class="grid3">
+      <div class="card"><span class="pill pblue">案A</span><h3 style="margin-top:8px">既存施設の改修</h3><p style="font-size:12.5px">着手しやすいが、財源確保が課題。</p></div>
+      <div class="card"><span class="pill porange">案B</span><h3 style="margin-top:8px">制度提言による要件緩和</h3><p style="font-size:12.5px">波及効果は大きいが、実現までの調整に時間がかかる。</p></div>
+      <div class="card"><span class="pill pgreen">案C</span><h3 style="margin-top:8px">NPOネットワークの制度化</h3><p style="font-size:12.5px">実績があるが、公式な位置づけの設計が必要。</p></div>
+    </div>
+    <p class="footNote">※ この比較は共創ワークショップでの議論のたたき台として作成した仮のものです。実際の評価はワークショップでの議論・ヒアリングを経て更新します。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-cases">
+  <div class="card">
+    <h3>国内外の類似事例</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">フェーズフリー・官民連携防災に関連する、広く知られている事例です。掲載情報は要検証を含みます。</p>
+    <div class="measureCard">
+      <span class="pill porange">要検証</span>
+      <b>フェーズフリーの考え方を採用した公共施設の全国事例</b>
+      <p style="font-size:13px;margin:6px 0 0">「フェーズフリー」という概念自体は防災分野で徐々に知られてきているが、離島の避難タワーへの具体的な適用事例は、本資料作成時点では未確認。</p>
+      <div class="callout warn" style="margin-top:8px"><b>取り扱いの注意：</b>推測で制度内容を補って書かないこと。共創ワークショップまでに、一次情報での確認を行う必要がある。</div>
+    </div>
+    <div class="measureCard">
+      <span class="pill pgreen">実績あり</span>
+      <b>2025年台風22号・23号 りとけい緊急支援プロジェクト</b>
+      <p style="font-size:13px;margin:6px 0 0">共創会議2025当日に八丈島・青ヶ島を襲った台風被害に対し、りとけいが翌日に緊急支援プロジェクトを立ち上げ、総額5,000万円を集め、被災89事業者に最短2週間で支援金を届けた実績。</p>
+      <div class="callout warn" style="margin-top:8px"><b>本論点への示唆：</b>この実績を単発の対応で終わらせず、制度化・恒常化することが本テーマの核心。</div>
+    </div>
+    <p class="footNote">※ 一部の掲載情報はAIによる下書き(未検証)を含みます。実際の政策検討には一次情報での確認をお願いします。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-funding">
+  <div class="card">
+    <h3>活用できる補助金・交付金(候補)</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">一般的に知られている制度から、官民連携防災・フェーズフリー施設に関連が高いと考えられる候補です。金額・締切等は必ず一次情報でご確認ください。</p>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>制度名(候補)</th><th>所管(想定)</th><th>概要</th><th>マッチ理由</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>防災・減災、国土強靱化のための5か年加速化対策関連交付金</b><br><span class="pill porange">自治体向け</span></td>
+            <td>内閣府・国土交通省</td>
+            <td>防災施設の整備・老朽化対策を支援する交付金群。</td>
+            <td>既存防災施設の改修(案A)の財源候補として、現行要件との整合性が論点になる。</td>
+          </tr>
+          <tr>
+            <td><b>官民連携による地域防災力強化に関する各種制度</b><br><span class="pill porange">自治体・企業向け</span></td>
+            <td>内閣府防災担当</td>
+            <td>官民が連携して地域の防災力を高める取り組みを支援。</td>
+            <td>りとけいのネットワークを活用した防災連携(案C)の制度的な受け皿候補。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。申請・制度提言にあたっては国・自治体の一次情報を必ずご確認ください。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-raw">
+  <div class="card">
+    <h3>元になった事実・出典(EvidenceRecord)</h3>
+    <div class="stakeGrid">
+      <div class="stakeCard">
+        <b>奥尻町の防災施設の経年劣化</b>
+        <p>30年前の大津波を受けて整備された防災施設が、32年が経過し劣化。人口減少で維持・更新の予算が不足している(奥尻町役場 情報防災係長 今谷好志さんの発言)。</p>
+      </div>
+      <div class="stakeCard">
+        <b>フェーズフリー設計と交付金要件の壁</b>
+        <p>大和リースが避難タワーに日常利用スペースを設計しようとした際、国の防災交付金の要件から外れてしまうという課題に直面した。</p>
+      </div>
+      <div class="stakeCard">
+        <b>大和リースの実績とネットワーク</b>
+        <p>阪神・淡路大震災、東日本大震災、熊本地震の応急仮設住宅整備で国・自治体と連携。全国1,741自治体のうち1,500超とつながるネットワークを持つ。</p>
+      </div>
+      <div class="stakeCard">
+        <b>りとけいの緊急支援プロジェクト</b>
+        <p>2025年10月の台風22号・23号で被災した八丈島・青ヶ島に対し、翌日に緊急支援プロジェクトを立ち上げ、総額5,000万円を集め、89事業者に最短2週間で支援金を届けた。</p>
+      </div>
+    </div>
+    <p class="footNote">出典：<a href="https://ritokei.com/forum/shimakaigi2026_theme07_tokubetsu" target="_blank" rel="noopener">りとけいフォーラム「大規模災害時の復旧復興に『必要な機能』を官民連携で備えるには？」(2026年)</a></p>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>ステークホルダーの意見について</h3>
+    <div class="callout warn">
+      <b>まだ収集していません</b>
+      <p style="margin-top:6px">本論点は2026年8月時点で「提起」段階です。Stakeholder・PositionRecord(立場表明ログ)は、共創ワークショップでの議論を経るまで空のままにしています。ここに掲載しているのは、大和リース・りとけい両者が公開の場(りとけいフォーラム記事)で発言した内容のみです。ワークショップ(9月・10月)を経て、実際の声を収集次第、このシートも更新します。</p>
+    </div>
+  </div>
+</section>
+
+</div>
+<script>
+function switchTab(tabName){
+  document.querySelectorAll('.tabBtn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  var btn = document.querySelector('.tabBtn[data-tab="' + tabName + '"]');
+  if (btn) btn.classList.add('active');
+  var panel = document.getElementById('panel-' + tabName);
+  if (panel) panel.classList.add('active');
+}
+document.querySelectorAll('.tabBtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    switchTab(btn.dataset.tab);
+  });
+});
+(function(){
+  var wizard = document.getElementById('wizard');
+  var wizardSkip = document.getElementById('wizardSkip');
+  document.querySelectorAll('.wizardBtn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      switchTab(btn.dataset.goto);
+      wizard.classList.add('wizardDone');
+    });
+  });
+  if (wizardSkip) wizardSkip.addEventListener('click', function(){ wizard.classList.add('wizardDone'); });
+})();
+</script>
+</body>
+</html>

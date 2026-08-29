@@ -89,6 +89,66 @@ export const branches: Branch[] = [
         cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-ritokei-ieshima-ryugaku/cards",
         cardGameLabel: "しまのみんな会議で意見を出す",
       },
+      {
+        title: "高島(長崎)「生活航路を守りながら関係人口で来島を持続させる」には？",
+        status: "提起",
+        summary:
+          "りとけい主催「未来のシマ共創会議2026」のテーマオーナー案件です。高島(長崎県長崎市・人口215人)で、長崎市地域おこし協力隊の池田美和子さんが提起。年間約2.4億円の赤字が生じている生活航路を、補助金だけに頼らず「関係人口1,000人」で支える仕組みを検討しています。",
+        dashboardUrl: "/case-studies/takashima-kankeijinko-dss.html",
+        dashboardLabel: "意思決定支援ダッシュボードを見る",
+        cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-ritokei-takashima-kankeijinko/cards",
+        cardGameLabel: "しまのみんな会議で意見を出す",
+      },
+      {
+        title: "祝島(山口)「部活動の場を島で自給する」には？",
+        status: "提起",
+        summary:
+          "りとけい主催「未来のシマ共創会議2026」のテーマオーナー案件です。祝島(山口県上関町・人口約250人)で、祝島有志の会の秋山鈴明さんが提起。中学進学時の「教育流出」を防ぐため、島の中で部活動を「自給」する仕組みを検討しています。",
+        dashboardUrl: "/case-studies/iwaishima-bukatsu-jikyu-dss.html",
+        dashboardLabel: "意思決定支援ダッシュボードを見る",
+        cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-ritokei-iwaishima-bukatsu/cards",
+        cardGameLabel: "しまのみんな会議で意見を出す",
+      },
+      {
+        title: "小値賀島(長崎)「島をまるごと子どもの居場所にする受け入れチーム」とは？",
+        status: "提起",
+        summary:
+          "りとけい主催「未来のシマ共創会議2026」のテーマオーナー案件です。小値賀島(長崎県小値賀町)で、小値賀町教育委員会「ちかまる寮」の牧尾儀信さんが提起。7年間続けてきた「ふるさと留学制度」を、寮・学校・地域が一体となった受け入れチームへと発展させる仕組みを検討しています。",
+        dashboardUrl: "/case-studies/ojika-ukeire-team-dss.html",
+        dashboardLabel: "意思決定支援ダッシュボードを見る",
+        cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-ritokei-ojika-ukeirechim/cards",
+        cardGameLabel: "しまのみんな会議で意見を出す",
+      },
+      {
+        title: "佐合島(山口)「電気・水の維持コストを下げつつ災害に強いインフラを自給する」には？",
+        status: "提起",
+        summary:
+          "りとけい主催「未来のシマ共創会議2026」のテーマオーナー案件です。佐合島(山口県平生町・人口5人)で、「人口5人の島から未来をつくる会」の梅本将輝さんが提起。人口減少で跳ね上がるインフラ維持コストを、井戸の自家浄水や太陽光・蓄電池の複線化で「フェーズフリー」に自給する仕組みを検討しています。",
+        dashboardUrl: "/case-studies/sago-infra-jikyu-dss.html",
+        dashboardLabel: "意思決定支援ダッシュボードを見る",
+        cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-ritokei-sago-infra/cards",
+        cardGameLabel: "しまのみんな会議で意見を出す",
+      },
+      {
+        title: "特別テーマ「大規模災害時に必要な機能を官民連携で備える、生きた防災施設」とは？",
+        status: "提起",
+        summary:
+          "りとけい主催「未来のシマ共創会議2026」の特別テーマです。大和リース株式会社(民間活力研究所)と、りとけいが共同で提起。老朽化する防災施設と国の交付金要件のミスマッチを、官民連携で解消する「生きた防災施設」のあり方を検討しています。",
+        dashboardUrl: "/case-studies/bousai-kanminrenkei-dss.html",
+        dashboardLabel: "意思決定支援ダッシュボードを見る",
+        cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-ritokei-bousai-kanminrenkei/cards",
+        cardGameLabel: "しまのみんな会議で意見を出す",
+      },
+      {
+        title: "屋久島(鹿児島)「地域主体で航路を支える新モデル」(未来のシマ共創会議2026 テーマオーナー)",
+        status: "提起",
+        summary:
+          "りとけい主催「未来のシマ共創会議2026」のテーマオーナー案件の一つ。屋久島観光協会 荒木会長が提起した論点で、詳細な意思決定支援ダッシュボード・しまのみんな会議は屋久島町分室に掲載しています。",
+        dashboardUrl: "/case-studies/yakushima-route-model-dss.html",
+        dashboardLabel: "屋久島町分室のダッシュボードを見る",
+        cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-yakushima-route-model/cards",
+        cardGameLabel: "しまのみんな会議で意見を出す",
+      },
     ],
   },
   {

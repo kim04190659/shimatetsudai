@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>りとけい 未来のシマ共創会議2026 | 高島「生活航路×関係人口1,000人」意思決定支援</title>
+<style>
+:root{--ink:#2C2C2B;--muted:#7D7A75;--line:#E6E5E3;--soft:#F9F8F7;--blue:#2783DE;--blueSoft:#E5F2FC;--green:#46A171;--greenSoft:#E8F1EC;--orange:#D5803B;--orangeSoft:#FBEBDE;--red:#E56458;--redSoft:#FCE9E7;--purple:#7A5CCF;--purpleSoft:#EEE9FB}
+*{box-sizing:border-box}
+body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.5}
+.app{max-width:1200px;margin:0 auto;background:#fff;min-height:100vh}
+.hero{padding:24px 28px 14px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:800}
+.title{font-size:26px;font-weight:900;margin:6px 0 4px}
+.subtitle{color:var(--muted);font-size:13px}
+.decision{border:2px solid #9ac9ef;border-radius:14px;background:#fbfdff;padding:14px;margin-top:14px}
+.badge{display:inline-block;background:var(--blueSoft);color:#165c9d;border-radius:8px;padding:6px 10px;font-weight:900;font-size:12px}
+.decision p{margin:8px 0 0;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px}
+.kpi b{font-size:20px;display:block}
+.kpi span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.tabs{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 28px;z-index:5;display:flex;gap:8px;overflow:auto}
+.tabs button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;white-space:nowrap;font-size:13px}
+.tabs button.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.panel{display:none;padding:20px 28px 36px}
+.panel.active{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.card{border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px}
+.card h3{margin:0 0 10px;font-size:16px}
+.callout{border-left:5px solid var(--blue);background:var(--blueSoft);border-radius:10px;padding:10px;margin:8px 0;font-size:13px}
+.ok{border-left-color:var(--green);background:var(--greenSoft)}
+.warn{border-left-color:var(--orange);background:var(--orangeSoft)}
+.risk{border-left-color:var(--red);background:var(--redSoft)}
+.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top;text-align:left}
+th{background:var(--soft);font-weight:900}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;border-radius:999px;padding:3px 8px;font-size:10.5px;font-weight:800}
+.pblue{background:var(--blueSoft);color:#165c9d}
+.pgreen{background:var(--greenSoft);color:#1f6b46}
+.porange{background:var(--orangeSoft);color:#93501a}
+.pred{background:var(--redSoft);color:#a13327}
+.ppurple{background:var(--purpleSoft);color:#4b3494}
+.measureCard{border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.measureCard b{font-size:14.5px}
+.outlookRow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;font-size:12px}
+.outlookRow div{border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--soft)}
+.outlookRow div em{display:block;font-style:normal;color:var(--muted);font-size:10.5px;margin-bottom:2px}
+.stakeGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stakeCard{border:1px solid var(--line);border-radius:12px;padding:12px}
+.stakeCard b{font-size:13.5px}
+.stakeCard p{font-size:12.5px;color:#4a453f;margin:6px 0 0}
+.footNote{font-size:11.5px;color:var(--muted);margin-top:18px}
+.a3Grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.mini{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.mini h4{margin:0 0 8px;font-size:13px}
+.mini ul{margin:0;padding-left:16px;font-size:12px;line-height:1.55}
+.mini li{margin:3px 0}
+.kidBox{border:2px solid #F0C56B;background:#FFF8E8;border-radius:14px;padding:14px 16px;margin-top:14px}
+.kidBox b{font-size:13px}
+.kidBox p{margin:8px 0 0;font-size:14.5px;line-height:1.7;color:#4a3f28}
+.wizard{margin:14px 0 0;padding:14px 16px;border:2px solid #9ac9ef;border-radius:14px;background:#fbfdff}
+.wizard.wizardDone{display:none}
+.wizardQ{margin:0 0 10px;font-size:13.5px;font-weight:800;color:var(--ink)}
+.wizardBtns{display:flex;flex-wrap:wrap;gap:8px}
+.wizardBtn{border:1px solid var(--blue);background:#fff;color:#165c9d;border-radius:999px;padding:9px 14px;font-weight:800;font-size:13px;cursor:pointer}
+.wizardBtn:hover{background:var(--blueSoft)}
+.wizardSkip{display:block;margin:10px 0 0;border:none;background:none;color:var(--muted);font-size:11.5px;text-decoration:underline;cursor:pointer;padding:0}
+@media(max-width:900px){.grid2,.grid3,.stakeGrid,.outlookRow,.a3Grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hero">
+  <span class="eyebrow">意思決定支援PoC ｜ 認定NPO法人 離島経済新聞社(りとけい) ｜ 未来のシマ共創会議2026 テーマオーナー案件</span>
+  <div class="title">生活航路を守りながら、関係人口で来島を持続させるには？</div>
+  <div class="subtitle">高島(長崎県長崎市・人口215人)で、長崎市地域おこし協力隊の池田美和子さんが提起したテーマです。年間約2億4,000万円の赤字が生じている生活航路を、補助金だけに頼らず、関係人口を増やすことで支えられないかを検討しています。</div>
+  <div class="kidBox">
+    <b>🌱 かんたんに言うと</b>
+    <p>高島には215人が暮らしていて、船が病院や学校に行くための命綱です。でも、この船を走らせるには毎年2億4,000万円もの赤字が出ていて、国や県、市のお金で何とか走らせています。そこで「1回来て終わり」ではなく、何度も遊びに来てくれる仲間(関係人口)を増やして、船に乗る理由をたくさん作ろう、というアイデアです。</p>
+  </div>
+  <div class="decision">
+    <span class="badge">📝 現在のステータス：論点提起(共創ワークショップ前)</span>
+    <p>本論点は2026年8月時点で「提起」段階です。りとけい主催「未来のシマ共創会議2026」の共創ワークショップ(9月17日・10月8日オンライン、10月23日リアル)を経て、実際の議論が始まります。このシートは特定の案を推奨するものではなく、テーマオーナー・池田さんの公開発言をもとに論点と選択肢を整理し、ワークショップでの議論の出発点として作成したものです。</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><b>215人</b><span>高島の人口(2026年5月末時点)</span></div>
+    <div class="kpi"><b>約2.4億円</b><span>生活航路の年間赤字(令和5年度実績)</span></div>
+    <div class="kpi"><b>5万人</b><span>長崎から高島への年間来島者数</span></div>
+    <div class="kpi"><b>1,000人</b><span>目標とする「関係人口」</span></div>
+  </div>
+  <div class="callout warn" style="margin-top:14px">
+    <b>📎 この論点の位置づけについて</b>
+    <p style="margin-top:6px">本論点はりとけいが主催する「未来のシマ共創会議2026」のテーマオーナー案件(全国の島々から公募)です。りとけい分室のページに、他のテーマオーナー案件と合わせて掲載しています。</p>
+  </div>
+</div>
+
+<div class="wizard" id="wizard">
+  <p class="wizardQ">今日、何について確認したいですか？</p>
+  <div class="wizardBtns">
+    <button type="button" class="wizardBtn" data-goto="summary">✅ 結論だけ知りたい</button>
+    <button type="button" class="wizardBtn" data-goto="proposal">💡 検討中の選択肢を見たい</button>
+    <button type="button" class="wizardBtn" data-goto="raw">🗣️ 元になった事実・出典を見たい</button>
+  </div>
+  <button type="button" class="wizardSkip" id="wizardSkip">すべてのタブを自分で見る →</button>
+</div>
+
+<nav class="tabs">
+  <button class="tabBtn active" data-tab="summary">議論まとめ</button>
+  <button class="tabBtn" data-tab="premise">りとけいの視点（前提条件）</button>
+  <button class="tabBtn" data-tab="proposal">提案内容・詳細</button>
+  <button class="tabBtn" data-tab="cases">国内外の類似事例</button>
+  <button class="tabBtn" data-tab="funding">活用できる補助金・交付金</button>
+  <button class="tabBtn" data-tab="raw">生データ（補足）</button>
+</nav>
+
+<section class="panel active" id="panel-summary">
+  <div class="card">
+    <h3>論点の整理：なぜ「関係人口による航路支援」が必要か</h3>
+    <div class="grid2">
+      <div class="callout risk">
+        <b>きっかけとなった出来事</b>
+        <ul style="margin:6px 0 0;padding-left:18px">
+          <li>人口が年間約10%減少し、2026年中にも200人を切る見通し</li>
+          <li>生活航路の維持に年間約2.4億円の赤字が生じている</li>
+          <li>公的支援が縮小されれば減便・運休・航路維持不能のリスクがある</li>
+        </ul>
+      </div>
+      <div class="callout ok">
+        <b>すでにある地域資源・実績</b>
+        <ul style="margin:6px 0 0;padding-left:18px">
+          <li>「やったろうde高島」が16年間、環境保全・教育・地域づくりを継続</li>
+          <li>長崎大学水産試験所による「長崎ブルーエコノミープロジェクト」</li>
+          <li>年間5万人が海水浴・シュノーケリング等で来島している実績</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>共創ワークショップの位置づけ</h3>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>日程</th><th>形式</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>9月17日・10月8日</td><td>オンライン</td><td>論点の共有、事例研究、関係人口づくりのアイデア出し</td></tr>
+          <tr><td>10月23日</td><td>対面(定員25名)</td><td>テーマオーナー・参加者・専門家を交えた議論、共創セッションでの発表</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footNote">テーマオーナー：長崎市地域おこし協力隊 池田美和子さん／やったろうde高島。参加はPeatixで受付。詳細・最新情報は<a href="https://ritokei.com/forum/shimakaigi2026_theme02_takashima" target="_blank" rel="noopener">りとけいフォーラムの元記事</a>でご確認ください。</p>
+  </div>
+
+  <h3 style="margin-top:18px;font-size:15px">この論点の全体像(A3サマリー)</h3>
+  <div class="a3Grid">
+    <div class="mini">
+      <h4>📊 判断材料ハイライト</h4>
+      <ul>
+        <li>年間約2.4億円の赤字を公的支援で補っている生活航路</li>
+        <li>人口減少で補助金依存の継続に限界がある</li>
+        <li>年間5万人が来島する観光資源がすでにある</li>
+        <li>「一過性の観光」から「関係人口」への転換が焦点</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>💡 検討中の選択肢ハイライト</h4>
+      <ul>
+        <li>案A：既存の観光資源(海・歴史)を軸に来島頻度を高める</li>
+        <li>案B：企業のSDGs研修・ワーケーション受け入れを拡充する</li>
+        <li>案C：学校の教育旅行・大学連携の体験プログラムを軸にする</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>🗣️ 現時点で分かっている声</h4>
+      <ul>
+        <li>テーマオーナー：「船が走っているから行く」ではなく「行く理由」を作りたい</li>
+        <li>島の子どもたち：「笑顔で人があふれる島にしたい」という声</li>
+        <li>個別のステークホルダーへのヒアリングは共創ワークショップで実施予定</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>🌍 類似事例ハイライト</h4>
+      <ul>
+        <li><span class="pill porange">要検証</span> 他の離島の関係人口創出施策(ふるさと納税・サポーター制度等)</li>
+        <li><span class="pill porange">要検証</span> ワーケーション誘致に取り組む他地域の事例</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>💰 補助金・交付金ハイライト</h4>
+      <ul>
+        <li><span class="pill porange">中</span> 地域公共交通確保維持改善事業(離島航路補助)：既存の航路支援制度</li>
+        <li><span class="pill porange">中</span> 関係人口創出・拡大交付金：来島促進策の財源候補</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>✅ 現時点の結論・次の一手</h4>
+      <ul>
+        <li>特定の案への合意はまだ形成されておらず、共創ワークショップが出発点</li>
+        <li>次の一手：企業・学校向けプログラムの具体的な受け皿を設計する</li>
+        <li>ワークショップ後、実際の議論を踏まえてPositionRecordを登録</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin-top:18px;font-size:15px">🧭 りとけいの活動目的との関わり</h3>
+  <p style="font-size:12px;color:var(--muted);margin:6px 0 10px">りとけいの分室ページ「りとけい分室」が掲げる、論点が増減しても変わらない目的との関わり。</p>
+  <div class="tableWrap">
+    <table>
+      <thead><tr><th>りとけいの目的</th><th>この論点の影響方向</th></tr></thead>
+      <tbody>
+        <tr><td>420の有人離島を、取材・発信・連携でつなぐ</td><td><span class="pill pgreen">追い風</span> 生活航路と関係人口の両立は、多くの離島に共通する交通課題の先行事例になりうる</td></tr>
+        <tr><td>離島の交通インフラの持続性を後押しする</td><td><span class="pill pgreen">追い風</span> 補助金だけに頼らない需要創出の考え方は横展開の可能性が高い</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel" id="panel-premise">
+  <div class="card">
+    <h3>りとけい「未来のシマ共創会議2026」との関わり</h3>
+    <p style="font-size:12.5px;color:var(--muted)">この論点固有の前提として、りとけいが主催する共創会議の位置づけを確認します。</p>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>会議の目的</th><td>「アクション発動！」を掲げ、交通・防災・子どもの3分野で全国の島々から公募した「問い」を、共創ワークショップを通じて具体的なアクションに育てる</td></tr>
+          <tr><th>この論点の分野</th><td>離島×交通(生活航路の維持・関係人口づくり)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn" style="margin-top:10px"><b>前提条件：</b>瀬戸内・九州近海の内海離島の航路も、外海の離島と同様に人口減少に伴う財政負担の増大に直面しており、単発の観光振興ではなく継続的な関係づくりが問われている。</div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>本論点固有の背景</h3>
+    <ul style="font-size:13px">
+      <li>人口が最盛期1万人以上から215人まで減少、年間約10%のペースで減少中</li>
+      <li>生活航路の年間赤字は約2.4億円、公的支援に依存</li>
+      <li>「やったろうde高島」の16年の受け入れ実績が基盤としてある</li>
+      <li>長崎大学との「長崎ブルーエコノミープロジェクト」など地域資源が豊富</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel" id="panel-proposal">
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">以下は、池田さんの発言をもとに整理した「検討の選択肢」です。共創ワークショップでの議論を経て、内容は更新されます。特定の案を推奨するものではありません。</p>
+  <div class="measureCard">
+    <b>案A 既存の観光資源を軸に来島頻度を高める</b>
+    <p style="font-size:13px;margin:6px 0 0">サンゴ礁でのシュノーケリングや世界遺産「高島炭鉱跡」など、既存の観光資源を活用したリピーター施策を強化する案。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>既存資源を活かせるため着手しやすい</div>
+      <div><em>中期</em>夏季レジャーへの偏りが残る可能性がある</div>
+      <div><em>長期</em>年間を通じた来島動機の分散が課題</div>
+    </div>
+  </div>
+  <div class="measureCard">
+    <b>案B 企業のSDGs研修・ワーケーション受け入れを拡充する</b>
+    <p style="font-size:13px;margin:6px 0 0">企業向けの研修プログラムや新しい働き方の実証の場として島を活用する案。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>受け入れ体制(宿泊・通信環境等)の整備が必要</div>
+      <div><em>中期</em>季節を問わない来島需要を生み出せる</div>
+      <div><em>長期</em>企業との継続的な関係が構築できる可能性</div>
+    </div>
+  </div>
+  <div class="measureCard">
+    <b>案C 学校の教育旅行・大学連携の体験プログラムを軸にする</b>
+    <p style="font-size:13px;margin:6px 0 0">修学旅行・教育旅行や、長崎大学などと連携した海の環境学習プログラムを軸にする案。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>学校側との調整・カリキュラム設計に時間がかかる</div>
+      <div><em>中期</em>教育機関との継続的な関係を築きやすい</div>
+      <div><em>長期</em>次世代への環境教育としての波及効果が期待できる</div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>3つの選択肢を比較(たたき台)</h3>
+    <div class="grid3">
+      <div class="card"><span class="pill pblue">案A</span><h3 style="margin-top:8px">既存資源でリピーター化</h3><p style="font-size:12.5px">着手しやすいが、季節に偏りが出やすい。</p></div>
+      <div class="card"><span class="pill porange">案B</span><h3 style="margin-top:8px">企業研修・ワーケーション</h3><p style="font-size:12.5px">受け入れ体制整備が必要だが、通年の需要を作れる。</p></div>
+      <div class="card"><span class="pill pgreen">案C</span><h3 style="margin-top:8px">教育旅行・大学連携</h3><p style="font-size:12.5px">調整に時間がかかるが、継続的な関係を築きやすい。</p></div>
+    </div>
+    <p class="footNote">※ この比較は共創ワークショップでの議論のたたき台として作成した仮のものです。実際の評価はワークショップでの議論・ヒアリングを経て更新します。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-cases">
+  <div class="card">
+    <h3>国内外の類似事例</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">離島の関係人口づくり・交通維持に関連する、広く知られている事例です。掲載情報は要検証を含みます。</p>
+    <div class="measureCard">
+      <span class="pill porange">要検証</span>
+      <b>ふるさと納税・関係人口創出施策を活用する他の離島の取り組み</b>
+      <p style="font-size:13px;margin:6px 0 0">全国の離島でふるさと納税やサポーター制度を通じて関係人口を増やす取り組みが広がっているが、本資料作成時点では高島に直接応用できる具体策までは確認できていない。</p>
+      <div class="callout warn" style="margin-top:8px"><b>取り扱いの注意：</b>推測で制度内容を補って書かないこと。共創ワークショップまでに、一次情報での確認を行う必要がある。</div>
+    </div>
+    <div class="measureCard">
+      <span class="pill porange">要検証</span>
+      <b>ワーケーション誘致に取り組む他地域の事例</b>
+      <p style="font-size:13px;margin:6px 0 0">通信環境やコワーキングスペースを整備し、企業のワーケーション需要を取り込む地域が全国に増えている。高島に合う規模・形態は今後の検討課題。</p>
+      <div class="callout warn" style="margin-top:8px"><b>本論点への示唆：</b>「やったろうde高島」の受け入れ実績を活かせば、他地域にはない体験価値を提供できる可能性がある。</div>
+    </div>
+    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。実際の政策検討には一次情報での確認をお願いします。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-funding">
+  <div class="card">
+    <h3>活用できる補助金・交付金(候補)</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">一般的に知られている制度から、生活航路維持・関係人口創出に関連が高いと考えられる候補です。金額・締切等は必ず一次情報でご確認ください。</p>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>制度名(候補)</th><th>所管(想定)</th><th>概要</th><th>マッチ理由</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>地域公共交通確保維持改善事業(離島航路・航空路補助)</b><br><span class="pill porange">自治体向け</span></td>
+            <td>国土交通省</td>
+            <td>離島住民の生活・福祉の安定に資する離島航路の運航欠損を補助する制度。</td>
+            <td>すでに高島の生活航路を支えている基幹制度であり、今後の議論の前提となる。</td>
+          </tr>
+          <tr>
+            <td><b>関係人口創出・拡大事業に関する交付金</b><br><span class="pill porange">自治体・団体向け</span></td>
+            <td>デジタル田園都市国家構想関連(想定)</td>
+            <td>関係人口の創出・拡大に取り組む地域の事業を支援する制度群。</td>
+            <td>企業研修・教育旅行の受け入れ体制整備の財源候補になりうる。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。申請にあたっては国・県・市の一次情報を必ずご確認ください。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-raw">
+  <div class="card">
+    <h3>元になった事実・出典(EvidenceRecord)</h3>
+    <div class="stakeGrid">
+      <div class="stakeCard">
+        <b>人口減少の推移</b>
+        <p>最盛期は1万人以上が暮らしていたが、2020年に約300人、2026年5月末時点で215人。年間約10%のペースで減少しており、2026年中にも200人を切る見通し。</p>
+      </div>
+      <div class="stakeCard">
+        <b>生活航路の赤字規模</b>
+        <p>高島と本土を結ぶ生活航路の維持には年間約2億4,000万円(令和5年度実績)の赤字が生じており、国・長崎県・長崎市の公的支援で運航している。</p>
+      </div>
+      <div class="stakeCard">
+        <b>年間5万人の来島実績</b>
+        <p>サンゴ礁でのシュノーケリング、世界文化遺産「高島炭鉱跡」、軍艦島を望む立地などにより、長崎から年間5万人以上が訪れている。</p>
+      </div>
+      <div class="stakeCard">
+        <b>「やったろうde高島」の16年の実績</b>
+        <p>環境保全・教育・地域づくりを16年間続けてきた地元団体で、シュノーケリング体験や海の環境学習の受け入れ実績と実行力を持つ。</p>
+      </div>
+    </div>
+    <p class="footNote">出典：<a href="https://ritokei.com/forum/shimakaigi2026_theme02_takashima" target="_blank" rel="noopener">りとけいフォーラム「人口200人の島で、生活航路を守りながら、関係人口で来島を持続させるには？」(2026年)</a></p>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>ステークホルダーの意見について</h3>
+    <div class="callout warn">
+      <b>まだ収集していません</b>
+      <p style="margin-top:6px">本論点は2026年8月時点で「提起」段階です。Stakeholder・PositionRecord(立場表明ログ)は、共創ワークショップでの議論を経るまで空のままにしています。ここに掲載しているのは、テーマオーナー・池田さんが公開の場(りとけいフォーラム記事)で発言した内容のみです。ワークショップ(9月・10月)を経て、実際の声を収集次第、このシートも更新します。</p>
+    </div>
+  </div>
+</section>
+
+</div>
+<script>
+function switchTab(tabName){
+  document.querySelectorAll('.tabBtn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  var btn = document.querySelector('.tabBtn[data-tab="' + tabName + '"]');
+  if (btn) btn.classList.add('active');
+  var panel = document.getElementById('panel-' + tabName);
+  if (panel) panel.classList.add('active');
+}
+document.querySelectorAll('.tabBtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    switchTab(btn.dataset.tab);
+  });
+});
+(function(){
+  var wizard = document.getElementById('wizard');
+  var wizardSkip = document.getElementById('wizardSkip');
+  document.querySelectorAll('.wizardBtn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      switchTab(btn.dataset.goto);
+      wizard.classList.add('wizardDone');
+    });
+  });
+  if (wizardSkip) wizardSkip.addEventListener('click', function(){ wizard.classList.add('wizardDone'); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>りとけい 未来のシマ共創会議2026 | 祝島「部活動を島で自給する」意思決定支援</title>
+<style>
+:root{--ink:#2C2C2B;--muted:#7D7A75;--line:#E6E5E3;--soft:#F9F8F7;--blue:#2783DE;--blueSoft:#E5F2FC;--green:#46A171;--greenSoft:#E8F1EC;--orange:#D5803B;--orangeSoft:#FBEBDE;--red:#E56458;--redSoft:#FCE9E7;--purple:#7A5CCF;--purpleSoft:#EEE9FB}
+*{box-sizing:border-box}
+body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.5}
+.app{max-width:1200px;margin:0 auto;background:#fff;min-height:100vh}
+.hero{padding:24px 28px 14px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:800}
+.title{font-size:26px;font-weight:900;margin:6px 0 4px}
+.subtitle{color:var(--muted);font-size:13px}
+.decision{border:2px solid #9ac9ef;border-radius:14px;background:#fbfdff;padding:14px;margin-top:14px}
+.badge{display:inline-block;background:var(--blueSoft);color:#165c9d;border-radius:8px;padding:6px 10px;font-weight:900;font-size:12px}
+.decision p{margin:8px 0 0;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px}
+.kpi b{font-size:20px;display:block}
+.kpi span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.tabs{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 28px;z-index:5;display:flex;gap:8px;overflow:auto}
+.tabs button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;white-space:nowrap;font-size:13px}
+.tabs button.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.panel{display:none;padding:20px 28px 36px}
+.panel.active{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.card{border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px}
+.card h3{margin:0 0 10px;font-size:16px}
+.callout{border-left:5px solid var(--blue);background:var(--blueSoft);border-radius:10px;padding:10px;margin:8px 0;font-size:13px}
+.ok{border-left-color:var(--green);background:var(--greenSoft)}
+.warn{border-left-color:var(--orange);background:var(--orangeSoft)}
+.risk{border-left-color:var(--red);background:var(--redSoft)}
+.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top;text-align:left}
+th{background:var(--soft);font-weight:900}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;border-radius:999px;padding:3px 8px;font-size:10.5px;font-weight:800}
+.pblue{background:var(--blueSoft);color:#165c9d}
+.pgreen{background:var(--greenSoft);color:#1f6b46}
+.porange{background:var(--orangeSoft);color:#93501a}
+.pred{background:var(--redSoft);color:#a13327}
+.ppurple{background:var(--purpleSoft);color:#4b3494}
+.measureCard{border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.measureCard b{font-size:14.5px}
+.outlookRow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;font-size:12px}
+.outlookRow div{border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--soft)}
+.outlookRow div em{display:block;font-style:normal;color:var(--muted);font-size:10.5px;margin-bottom:2px}
+.stakeGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stakeCard{border:1px solid var(--line);border-radius:12px;padding:12px}
+.stakeCard b{font-size:13.5px}
+.stakeCard p{font-size:12.5px;color:#4a453f;margin:6px 0 0}
+.footNote{font-size:11.5px;color:var(--muted);margin-top:18px}
+.a3Grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.mini{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.mini h4{margin:0 0 8px;font-size:13px}
+.mini ul{margin:0;padding-left:16px;font-size:12px;line-height:1.55}
+.mini li{margin:3px 0}
+.kidBox{border:2px solid #F0C56B;background:#FFF8E8;border-radius:14px;padding:14px 16px;margin-top:14px}
+.kidBox b{font-size:13px}
+.kidBox p{margin:8px 0 0;font-size:14.5px;line-height:1.7;color:#4a3f28}
+.wizard{margin:14px 0 0;padding:14px 16px;border:2px solid #9ac9ef;border-radius:14px;background:#fbfdff}
+.wizard.wizardDone{display:none}
+.wizardQ{margin:0 0 10px;font-size:13.5px;font-weight:800;color:var(--ink)}
+.wizardBtns{display:flex;flex-wrap:wrap;gap:8px}
+.wizardBtn{border:1px solid var(--blue);background:#fff;color:#165c9d;border-radius:999px;padding:9px 14px;font-weight:800;font-size:13px;cursor:pointer}
+.wizardBtn:hover{background:var(--blueSoft)}
+.wizardSkip{display:block;margin:10px 0 0;border:none;background:none;color:var(--muted);font-size:11.5px;text-decoration:underline;cursor:pointer;padding:0}
+@media(max-width:900px){.grid2,.grid3,.stakeGrid,.outlookRow,.a3Grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hero">
+  <span class="eyebrow">意思決定支援PoC ｜ 認定NPO法人 離島経済新聞社(りとけい) ｜ 未来のシマ共創会議2026 テーマオーナー案件</span>
+  <div class="title">部活動の場を島で「自給」するには？</div>
+  <div class="subtitle">祝島(山口県上関町・人口約250人)で、祝島有志の会の秋山鈴明さんが提起したテーマです。中学校進学時に本土の学校へ通うことになり、部活動の選択肢の少なさや帰りの船の時間的制約から「教育流出」が繰り返されてきた課題に向き合っています。</div>
+  <div class="kidBox">
+    <b>🌱 かんたんに言うと</b>
+    <p>祝島には中学校がなく、中学生になると船で本土の学校に通います。でも帰りの船の時間が決まっていて、部活動をする時間がほとんどありません。やりたい部活もほとんど選べません。そこで「島の中で、自分たちの部活を作れないか」と考えたのがこのアイデアです。サッカーでも吹奏楽でもなく、島でしかできない部活を作れば、逆に「その部活をやりたいから祝島に来たい」と言われる島になるかもしれません。</p>
+  </div>
+  <div class="decision">
+    <span class="badge">📝 現在のステータス：論点提起(共創ワークショップ前)</span>
+    <p>本論点は2026年8月時点で「提起」段階です。りとけい主催「未来のシマ共創会議2026」の共創ワークショップ(9月10日・10月1日オンライン、10月23日リアル)を経て、実際の議論が始まります。このシートは特定の案を推奨するものではなく、テーマオーナー・秋山さんの公開発言をもとに論点と選択肢を整理し、ワークショップでの議論の出発点として作成したものです。</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><b>約250人</b><span>祝島の人口</span></div>
+    <div class="kpi"><b>8人</b><span>祝島小学校の児童数</span></div>
+    <div class="kpi"><b>2つ</b><span>上関中学校の部活動選択肢(テニス部・文化サークル)</span></div>
+    <div class="kpi"><b>片道30分</b><span>祝島—上関間の定期船(1日3便)</span></div>
+  </div>
+  <div class="callout warn" style="margin-top:14px">
+    <b>📎 この論点の位置づけについて</b>
+    <p style="margin-top:6px">本論点はりとけいが主催する「未来のシマ共創会議2026」のテーマオーナー案件(全国の島々から公募)です。りとけい分室のページに、他のテーマオーナー案件と合わせて掲載しています。</p>
+  </div>
+</div>
+
+<div class="wizard" id="wizard">
+  <p class="wizardQ">今日、何について確認したいですか？</p>
+  <div class="wizardBtns">
+    <button type="button" class="wizardBtn" data-goto="summary">✅ 結論だけ知りたい</button>
+    <button type="button" class="wizardBtn" data-goto="proposal">💡 検討中の選択肢を見たい</button>
+    <button type="button" class="wizardBtn" data-goto="raw">🗣️ 元になった事実・出典を見たい</button>
+  </div>
+  <button type="button" class="wizardSkip" id="wizardSkip">すべてのタブを自分で見る →</button>
+</div>
+
+<nav class="tabs">
+  <button class="tabBtn active" data-tab="summary">議論まとめ</button>
+  <button class="tabBtn" data-tab="premise">りとけいの視点（前提条件）</button>
+  <button class="tabBtn" data-tab="proposal">提案内容・詳細</button>
+  <button class="tabBtn" data-tab="cases">国内外の類似事例</button>
+  <button class="tabBtn" data-tab="funding">活用できる補助金・交付金</button>
+  <button class="tabBtn" data-tab="raw">生データ（補足）</button>
+</nav>
+
+<section class="panel active" id="panel-summary">
+  <div class="card">
+    <h3>論点の整理：なぜ「部活動の自給」が必要か</h3>
+    <div class="grid2">
+      <div class="callout risk">
+        <b>きっかけとなった出来事</b>
+        <ul style="margin:6px 0 0;padding-left:18px">
+          <li>祝島には中学校がなく、生徒は定期船で本土の上関中学校へ通う</li>
+          <li>帰りの船の時間(16時20分)の制約で放課後の部活動にほぼ参加できない</li>
+          <li>上関中学校の部活動は「テニス部」「文化サークル」の2つに限られる</li>
+        </ul>
+      </div>
+      <div class="callout ok">
+        <b>島にある地域資源</b>
+        <ul style="margin:6px 0 0;padding-left:18px">
+          <li>国の「部活動の地域展開(地域移行)」の流れが追い風になっている</li>
+          <li>シーカヤックなど海に囲まれた環境を生かした活動素材が豊富</li>
+          <li>島の木工職人など、地域の担い手が既に存在する</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>共創ワークショップの位置づけ</h3>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>日程</th><th>形式</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>9月10日・10月1日</td><td>オンライン</td><td>論点の共有、部活動の地域移行に関する事例研究、アイデア出し</td></tr>
+          <tr><td>10月23日</td><td>対面(定員25名)</td><td>テーマオーナー・参加者・専門家を交えた議論、共創セッションでの発表</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footNote">テーマオーナー：祝島有志の会 秋山鈴明さん(一本釣り漁師)。参加はPeatixで受付。詳細・最新情報は<a href="https://ritokei.com/forum/shimakaigi2026_theme03_iwaishima" target="_blank" rel="noopener">りとけいフォーラムの元記事</a>でご確認ください。</p>
+  </div>
+
+  <h3 style="margin-top:18px;font-size:15px">この論点の全体像(A3サマリー)</h3>
+  <div class="a3Grid">
+    <div class="mini">
+      <h4>📊 判断材料ハイライト</h4>
+      <ul>
+        <li>来年度10年ぶりに中学生誕生見込みだが部活動の選択肢が乏しい</li>
+        <li>帰りの船の時間制約が放課後活動への参加を妨げている</li>
+        <li>進学時の「教育流出」が繰り返されてきた</li>
+        <li>国の部活動地域移行の流れが制度的な追い風になっている</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>💡 検討中の選択肢ハイライト</h4>
+      <ul>
+        <li>案A：島内でシーカヤック等の海洋部活を立ち上げる</li>
+        <li>案B：スクールボートの復活を検討する</li>
+        <li>案C：世代混合型のコミュニティ部活として設計する</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>🗣️ 現時点で分かっている声</h4>
+      <ul>
+        <li>テーマオーナー：部活を「自給」し、島外から人を惹きつける強みに変えたい</li>
+        <li>10年前の実例：町の財政悪化でスクールボート運行事業者確保が困難に</li>
+        <li>個別のステークホルダーへのヒアリングは共創ワークショップで実施予定</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>🌍 類似事例ハイライト</h4>
+      <ul>
+        <li><span class="pill porange">要検証</span> 国が進める「部活動の地域展開(地域移行)」の全国動向</li>
+        <li><span class="pill porange">要検証</span> 離島・中山間地域での部活動の地域運営事例</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>💰 補助金・交付金ハイライト</h4>
+      <ul>
+        <li><span class="pill porange">中</span> 部活動地域移行に関する国の支援事業：運営体制整備の財源候補</li>
+        <li><span class="pill porange">中</span> 過疎地域持続的発展支援交付金：地域コミュニティ活動の財源候補</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>✅ 現時点の結論・次の一手</h4>
+      <ul>
+        <li>特定の案への合意はまだ形成されておらず、共創ワークショップが出発点</li>
+        <li>次の一手：地域移行の枠組みで実現可能な運営体制を具体化する</li>
+        <li>ワークショップ後、実際の議論を踏まえてPositionRecordを登録</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin-top:18px;font-size:15px">🧭 りとけいの活動目的との関わり</h3>
+  <p style="font-size:12px;color:var(--muted);margin:6px 0 10px">りとけいの分室ページ「りとけい分室」が掲げる、論点が増減しても変わらない目的との関わり。</p>
+  <div class="tableWrap">
+    <table>
+      <thead><tr><th>りとけいの目的</th><th>この論点の影響方向</th></tr></thead>
+      <tbody>
+        <tr><td>420の有人離島を、取材・発信・連携でつなぐ</td><td><span class="pill pgreen">追い風</span> 部活動の地域移行という全国的な制度改革を、離島特有の課題解決に生かす好例になりうる</td></tr>
+        <tr><td>離島の子育て・教育インフラの課題解決を後押しする</td><td><span class="pill pgreen">追い風</span> 教育流出という多くの離島が抱える課題への直接的なアプローチ</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel" id="panel-premise">
+  <div class="card">
+    <h3>りとけい「未来のシマ共創会議2026」との関わり</h3>
+    <p style="font-size:12.5px;color:var(--muted)">この論点固有の前提として、りとけいが主催する共創会議の位置づけを確認します。</p>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>会議の目的</th><td>「アクション発動！」を掲げ、交通・防災・子どもの3分野で全国の島々から公募した「問い」を、共創ワークショップを通じて具体的なアクションに育てる</td></tr>
+          <tr><th>この論点の分野</th><td>離島×こども(教育流出・部活動・地域コミュニティの自治)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn" style="margin-top:10px"><b>前提条件：</b>祝島には介護施設も保育園もなく、行政サービスの拡充も期待しにくい。だからこそ、部活動を「子育て」や「高齢者ケア」も自然と生まれる地域コミュニティの核として位置づける発想が特徴。</div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>本論点固有の背景</h3>
+    <ul style="font-size:13px">
+      <li>祝島小学校の児童数は8名、来年度10年ぶりに中学生が誕生する見込み</li>
+      <li>上関中学校の生徒数は約20人、部活動は2つに限られる</li>
+      <li>10年前にあったスクールボートは町財政の悪化で復活が容易ではない</li>
+      <li>人口250人だが、島民全員が顔見知りという強い自治の力がある</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel" id="panel-proposal">
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">以下は、秋山さんの発言をもとに整理した「検討の選択肢」です。共創ワークショップでの議論を経て、内容は更新されます。特定の案を推奨するものではありません。</p>
+  <div class="measureCard">
+    <b>案A 島内でシーカヤック等の海洋部活を立ち上げる</b>
+    <p style="font-size:13px;margin:6px 0 0">海に囲まれた環境を生かし、シーカヤックやマリンスポーツなど、島でしかできない部活を新設する案。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>指導者・安全管理体制の整備が必要</div>
+      <div><em>中期</em>島外から「その部活をやりたい」という留学希望者を惹きつけられる可能性</div>
+      <div><em>長期</em>島の観光・関係人口づくりとも連動しうる</div>
+    </div>
+  </div>
+  <div class="measureCard">
+    <b>案B スクールボートの復活を検討する</b>
+    <p style="font-size:13px;margin:6px 0 0">10年前に運行していたスクールボートを、財源・運行体制を再設計して復活させる案。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>運行事業者の確保・財源確保が課題</div>
+      <div><em>中期</em>既存の部活動の選択肢をそのまま活用できる</div>
+      <div><em>長期</em>町財政への継続的な負担が残る可能性</div>
+    </div>
+  </div>
+  <div class="measureCard">
+    <b>案C 世代混合型のコミュニティ部活として設計する</b>
+    <p style="font-size:13px;margin:6px 0 0">小学生・中学生・移住者・島のベテラン漁師などが世代を超えて混ざり合う「新しいコミュニティの核」として部活を設計する案。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>運営の仕組み・役割分担の設計に時間がかかる</div>
+      <div><em>中期</em>子育て・高齢者ケアの機能も自然に生まれる可能性</div>
+      <div><em>長期</em>祝島の自治の力を次世代に継承する仕組みになりうる</div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>3つの選択肢を比較(たたき台)</h3>
+    <div class="grid3">
+      <div class="card"><span class="pill pblue">案A</span><h3 style="margin-top:8px">海洋部活の新設</h3><p style="font-size:12.5px">島ならではの魅力を打ち出せるが、指導体制の整備が必要。</p></div>
+      <div class="card"><span class="pill porange">案B</span><h3 style="margin-top:8px">スクールボート復活</h3><p style="font-size:12.5px">既存の選択肢を維持できるが、財源確保が壁になる。</p></div>
+      <div class="card"><span class="pill pgreen">案C</span><h3 style="margin-top:8px">世代混合コミュニティ部活</h3><p style="font-size:12.5px">最も祝島らしい発想だが、運営設計に時間がかかる。</p></div>
+    </div>
+    <p class="footNote">※ この比較は共創ワークショップでの議論のたたき台として作成した仮のものです。実際の評価はワークショップでの議論・ヒアリングを経て更新します。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-cases">
+  <div class="card">
+    <h3>国内外の類似事例</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">部活動の地域移行・離島の教育に関連する、広く知られている事例です。掲載情報は要検証を含みます。</p>
+    <div class="measureCard">
+      <span class="pill porange">要検証</span>
+      <b>国が進める「部活動の地域展開(地域移行)」</b>
+      <p style="font-size:13px;margin:6px 0 0">教員の負担軽減を目的に、学校単位ではなく地域が受け皿となって部活動を運営する改革が全国で進んでいる。祝島のような小規模離島への具体的な適用事例は、本資料作成時点では未確認。</p>
+      <div class="callout warn" style="margin-top:8px"><b>取り扱いの注意：</b>推測で制度内容を補って書かないこと。共創ワークショップまでに、一次情報での確認を行う必要がある。</div>
+    </div>
+    <div class="measureCard">
+      <span class="pill porange">要検証</span>
+      <b>離島・中山間地域での部活動の地域運営事例</b>
+      <p style="font-size:13px;margin:6px 0 0">全国の少子化が進む地域で、複数校合同や地域クラブ形式の部活動運営が模索されているが、祝島の規模・条件に近い先行事例は今後の確認が必要。</p>
+      <div class="callout warn" style="margin-top:8px"><b>本論点への示唆：</b>祝島の強みは、人口が少ないからこそ意思決定が速いこと。地域移行の先進モデルになる可能性がある。</div>
+    </div>
+    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。実際の政策検討には一次情報での確認をお願いします。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-funding">
+  <div class="card">
+    <h3>活用できる補助金・交付金(候補)</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">一般的に知られている制度から、部活動の地域移行・地域コミュニティ活動に関連が高いと考えられる候補です。金額・締切等は必ず一次情報でご確認ください。</p>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>制度名(候補)</th><th>所管(想定)</th><th>概要</th><th>マッチ理由</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>地域部活動推進事業など、部活動地域移行に関する国の支援制度</b><br><span class="pill porange">自治体向け</span></td>
+            <td>スポーツ庁・文化庁</td>
+            <td>学校部活動から地域クラブ活動への移行を支援する制度群。</td>
+            <td>祝島の「部活動の自給」構想を制度面から後押しできる可能性がある。</td>
+          </tr>
+          <tr>
+            <td><b>過疎地域持続的発展支援交付金</b><br><span class="pill porange">自治体向け</span></td>
+            <td>総務省</td>
+            <td>過疎地域における生活環境の整備やコミュニティ活動を支援。</td>
+            <td>世代混合型コミュニティ部活の運営費の一部を補完できる可能性がある。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。申請にあたっては国・県・町の一次情報を必ずご確認ください。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-raw">
+  <div class="card">
+    <h3>元になった事実・出典(EvidenceRecord)</h3>
+    <div class="stakeGrid">
+      <div class="stakeCard">
+        <b>祝島の人口・教育環境</b>
+        <p>人口約250人。祝島小学校の児童数は8名、来年度10年ぶりに中学生が誕生する見込みだが、島に中学校はない。</p>
+      </div>
+      <div class="stakeCard">
+        <b>通学と部活動の時間的制約</b>
+        <p>中学生は定期船(片道30分・1日3便)で上関中学校へ通学。朝6時45分の船で登校し、夕方16時20分の船で帰るため、放課後の部活動にほぼ参加できない。</p>
+      </div>
+      <div class="stakeCard">
+        <b>上関中学校の部活動の選択肢</b>
+        <p>生徒数約20人の上関中学校では、部活動は「テニス部」と「文化サークル」の2つに限られている。</p>
+      </div>
+      <div class="stakeCard">
+        <b>10年前のスクールボート</b>
+        <p>10年前に中学生がいた頃は町がスクールボートを走らせていたが、財政状況の悪化で運行事業者の確保が難しく、復活は容易ではない。</p>
+      </div>
+    </div>
+    <p class="footNote">出典：<a href="https://ritokei.com/forum/shimakaigi2026_theme03_iwaishima" target="_blank" rel="noopener">りとけいフォーラム「部活動の場を島で『自給』するには？」(2026年)</a></p>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>ステークホルダーの意見について</h3>
+    <div class="callout warn">
+      <b>まだ収集していません</b>
+      <p style="margin-top:6px">本論点は2026年8月時点で「提起」段階です。Stakeholder・PositionRecord(立場表明ログ)は、共創ワークショップでの議論を経るまで空のままにしています。ここに掲載しているのは、テーマオーナー・秋山さんが公開の場(りとけいフォーラム記事)で発言した内容のみです。ワークショップ(9月・10月)を経て、実際の声を収集次第、このシートも更新します。</p>
+    </div>
+  </div>
+</section>
+
+</div>
+<script>
+function switchTab(tabName){
+  document.querySelectorAll('.tabBtn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  var btn = document.querySelector('.tabBtn[data-tab="' + tabName + '"]');
+  if (btn) btn.classList.add('active');
+  var panel = document.getElementById('panel-' + tabName);
+  if (panel) panel.classList.add('active');
+}
+document.querySelectorAll('.tabBtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    switchTab(btn.dataset.tab);
+  });
+});
+(function(){
+  var wizard = document.getElementById('wizard');
+  var wizardSkip = document.getElementById('wizardSkip');
+  document.querySelectorAll('.wizardBtn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      switchTab(btn.dataset.goto);
+      wizard.classList.add('wizardDone');
+    });
+  });
+  if (wizardSkip) wizardSkip.addEventListener('click', function(){ wizard.classList.add('wizardDone'); });
+})();
+</script>
+</body>
+</html>
