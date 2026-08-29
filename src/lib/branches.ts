@@ -79,6 +79,16 @@ export const branches: Branch[] = [
         cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-ritokei-resource/cards",
         cardGameLabel: "しまのみんな会議で意見を出す",
       },
+      {
+        title: "家島(兵庫)「空き家サブリース×離島留学モデル」をどう広げるか",
+        status: "提起",
+        summary:
+          "りとけい主催「未来のシマ共創会議2026」のテーマオーナー案件です。家島(兵庫県姫路市)で、一般社団法人はりまのいばしょ／いえしまコンシェルジュ株式会社(中西和也さん)が、空き家のサブリース収益で自走できる「離島留学モデル」を提起。補助金に頼らず、島の空き家と都市部の少人数教育ニーズを掛け合わせる仕組みを検討しています。",
+        dashboardUrl: "/case-studies/ieshima-ryugaku-model-dss.html",
+        dashboardLabel: "意思決定支援ダッシュボードを見る",
+        cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-ritokei-ieshima-ryugaku/cards",
+        cardGameLabel: "しまのみんな会議で意見を出す",
+      },
     ],
   },
   {

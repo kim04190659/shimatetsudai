@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>りとけい 未来のシマ共創会議2026 | 家島「空き家サブリース×離島留学モデル」意思決定支援</title>
+<style>
+:root{--ink:#2C2C2B;--muted:#7D7A75;--line:#E6E5E3;--soft:#F9F8F7;--blue:#2783DE;--blueSoft:#E5F2FC;--green:#46A171;--greenSoft:#E8F1EC;--orange:#D5803B;--orangeSoft:#FBEBDE;--red:#E56458;--redSoft:#FCE9E7;--purple:#7A5CCF;--purpleSoft:#EEE9FB}
+*{box-sizing:border-box}
+body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.5}
+.app{max-width:1200px;margin:0 auto;background:#fff;min-height:100vh}
+.hero{padding:24px 28px 14px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:800}
+.title{font-size:26px;font-weight:900;margin:6px 0 4px}
+.subtitle{color:var(--muted);font-size:13px}
+.decision{border:2px solid #9ac9ef;border-radius:14px;background:#fbfdff;padding:14px;margin-top:14px}
+.badge{display:inline-block;background:var(--blueSoft);color:#165c9d;border-radius:8px;padding:6px 10px;font-weight:900;font-size:12px}
+.decision p{margin:8px 0 0;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px}
+.kpi b{font-size:20px;display:block}
+.kpi span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.tabs{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 28px;z-index:5;display:flex;gap:8px;overflow:auto}
+.tabs button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;white-space:nowrap;font-size:13px}
+.tabs button.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.panel{display:none;padding:20px 28px 36px}
+.panel.active{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.card{border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px}
+.card h3{margin:0 0 10px;font-size:16px}
+.callout{border-left:5px solid var(--blue);background:var(--blueSoft);border-radius:10px;padding:10px;margin:8px 0;font-size:13px}
+.ok{border-left-color:var(--green);background:var(--greenSoft)}
+.warn{border-left-color:var(--orange);background:var(--orangeSoft)}
+.risk{border-left-color:var(--red);background:var(--redSoft)}
+.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top;text-align:left}
+th{background:var(--soft);font-weight:900}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;border-radius:999px;padding:3px 8px;font-size:10.5px;font-weight:800}
+.pblue{background:var(--blueSoft);color:#165c9d}
+.pgreen{background:var(--greenSoft);color:#1f6b46}
+.porange{background:var(--orangeSoft);color:#93501a}
+.pred{background:var(--redSoft);color:#a13327}
+.ppurple{background:var(--purpleSoft);color:#4b3494}
+.measureCard{border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.measureCard b{font-size:14.5px}
+.outlookRow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;font-size:12px}
+.outlookRow div{border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--soft)}
+.outlookRow div em{display:block;font-style:normal;color:var(--muted);font-size:10.5px;margin-bottom:2px}
+.stakeGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stakeCard{border:1px solid var(--line);border-radius:12px;padding:12px}
+.stakeCard b{font-size:13.5px}
+.stakeCard p{font-size:12.5px;color:#4a453f;margin:6px 0 0}
+.footNote{font-size:11.5px;color:var(--muted);margin-top:18px}
+.a3Grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.mini{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.mini h4{margin:0 0 8px;font-size:13px}
+.mini ul{margin:0;padding-left:16px;font-size:12px;line-height:1.55}
+.mini li{margin:3px 0}
+.kidBox{border:2px solid #F0C56B;background:#FFF8E8;border-radius:14px;padding:14px 16px;margin-top:14px}
+.kidBox b{font-size:13px}
+.kidBox p{margin:8px 0 0;font-size:14.5px;line-height:1.7;color:#4a3f28}
+.wizard{margin:14px 0 0;padding:14px 16px;border:2px solid #9ac9ef;border-radius:14px;background:#fbfdff}
+.wizard.wizardDone{display:none}
+.wizardQ{margin:0 0 10px;font-size:13.5px;font-weight:800;color:var(--ink)}
+.wizardBtns{display:flex;flex-wrap:wrap;gap:8px}
+.wizardBtn{border:1px solid var(--blue);background:#fff;color:#165c9d;border-radius:999px;padding:9px 14px;font-weight:800;font-size:13px;cursor:pointer}
+.wizardBtn:hover{background:var(--blueSoft)}
+.wizardSkip{display:block;margin:10px 0 0;border:none;background:none;color:var(--muted);font-size:11.5px;text-decoration:underline;cursor:pointer;padding:0}
+@media(max-width:900px){.grid2,.grid3,.stakeGrid,.outlookRow,.a3Grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hero">
+  <span class="eyebrow">意思決定支援PoC ｜ 認定NPO法人 離島経済新聞社(りとけい) ｜ 未来のシマ共創会議2026 テーマオーナー案件</span>
+  <div class="title">空き家のサブリース収益で自走できる「離島留学モデル」をつくるには？</div>
+  <div class="subtitle">家島(兵庫県姫路市・人口約2,000人)で、一般社団法人はりまのいばしょ／いえしまコンシェルジュ株式会社(中西和也さん)が提起したテーマです。多くの離島留学が自治体の予算・補助金頼みで持続性に課題を抱える中、空き家のサブリース(転貸)収益でコーディネーターの活動費を賄い、自走する仕組みを目指しています。</div>
+  <div class="kidBox">
+    <b>🌱 かんたんに言うと</b>
+    <p>島には使われていない空き家がたくさんあります。一方で、都会には「島みたいな少人数の学校で過ごしたい」という子どもや家族がいます。この2つをつなげるために、まず団体が空き家を借りて直し、住みたい家族に貸します。そのときの家賃の差額で、島と家族をつなぐ「コーディネーター」のお給料をまかなえば、国や町からの補助金がなくても続けられる仕組みになる、というアイデアです。</p>
+  </div>
+  <div class="decision">
+    <span class="badge">📝 現在のステータス：論点提起(共創ワークショップ前)</span>
+    <p>本論点は2026年8月時点で「提起」段階です。りとけい主催「未来のシマ共創会議2026」の共創ワークショップ(9月10日・10月1日オンライン、10月23日リアル)を経て、実際の議論が始まります。このシートは特定の案を推奨するものではなく、テーマオーナー・中西さんの公開発言をもとに論点と選択肢を整理し、ワークショップでの議論の出発点として作成したものです。</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><b>約2,000人</b><span>家島の人口(かつては約8,000人)</span></div>
+    <div class="kpi"><b>30人弱</b><span>家島小学校の児童数</span></div>
+    <div class="kpi"><b>15〜20人</b><span>家島中学校の生徒数</span></div>
+    <div class="kpi"><b>25名</b><span>共創ワークショップ定員</span></div>
+  </div>
+  <div class="callout warn" style="margin-top:14px">
+    <b>📎 この論点の位置づけについて</b>
+    <p style="margin-top:6px">本論点は屋久島町・渡名喜村のような、しまてつだいが直接関わる自治体の論点ではなく、りとけいが主催する「未来のシマ共創会議2026」のテーマオーナー案件(全国の島々から公募)です。りとけい分室のページに、他のテーマオーナー案件と合わせて掲載しています。</p>
+  </div>
+</div>
+
+<div class="wizard" id="wizard">
+  <p class="wizardQ">今日、何について確認したいですか？</p>
+  <div class="wizardBtns">
+    <button type="button" class="wizardBtn" data-goto="summary">✅ 結論だけ知りたい</button>
+    <button type="button" class="wizardBtn" data-goto="proposal">💡 検討中の選択肢を見たい</button>
+    <button type="button" class="wizardBtn" data-goto="raw">🗣️ 元になった事実・出典を見たい</button>
+  </div>
+  <button type="button" class="wizardSkip" id="wizardSkip">すべてのタブを自分で見る →</button>
+</div>
+
+<nav class="tabs">
+  <button class="tabBtn active" data-tab="summary">議論まとめ</button>
+  <button class="tabBtn" data-tab="premise">りとけいの視点（前提条件）</button>
+  <button class="tabBtn" data-tab="proposal">提案内容・詳細</button>
+  <button class="tabBtn" data-tab="cases">国内外の類似事例</button>
+  <button class="tabBtn" data-tab="funding">活用できる補助金・交付金</button>
+  <button class="tabBtn" data-tab="raw">生データ（補足）</button>
+</nav>
+
+<section class="panel active" id="panel-summary">
+  <div class="card">
+    <h3>論点の整理：なぜ「空き家サブリース×離島留学モデル」が必要か</h3>
+    <div class="grid2">
+      <div class="callout risk">
+        <b>きっかけとなった出来事</b>
+        <ul style="margin:6px 0 0;padding-left:18px">
+          <li>神戸市の中学生とその家族が家島で1年半を過ごした実例が生まれた</li>
+          <li>全国の離島留学の多くが自治体の予算・補助金頼みで、持続性に課題を抱えている</li>
+          <li>島の空き家(修繕費が必要な物件が多い)の活用が進んでいない</li>
+        </ul>
+      </div>
+      <div class="callout ok">
+        <b>すでに動いている取り組み</b>
+        <ul style="margin:6px 0 0;padding-left:18px">
+          <li>2025年1月、一般社団法人はりまのいばしょを設立</li>
+          <li>空き家を一括で借り受け(マスターリース)、改修して転貸(サブリース)する仕組みを構築中</li>
+          <li>転貸差額をコーディネーターの活動費に充てる自走モデルを目指している</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>共創ワークショップの位置づけ</h3>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>日程</th><th>形式</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>9月10日・10月1日</td><td>オンライン</td><td>論点の共有、事例研究、「離島留学モデル」を骨太な事業モデルに育てる議論</td></tr>
+          <tr><td>10月23日</td><td>対面(定員25名)</td><td>テーマオーナー・参加者・専門家を交えた議論、共創セッションでの発表</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footNote">テーマオーナー：一般社団法人はりまのいばしょ／いえしまコンシェルジュ株式会社 中西和也さん。参加はPeatixで受付。詳細・最新情報は<a href="https://ritokei.com/forum/shimakaigi2026_theme01_ieshima" target="_blank" rel="noopener">りとけいフォーラムの元記事</a>でご確認ください。</p>
+  </div>
+
+  <h3 style="margin-top:18px;font-size:15px">この論点の全体像(A3サマリー)</h3>
+  <div class="a3Grid">
+    <div class="mini">
+      <h4>📊 判断材料ハイライト</h4>
+      <ul>
+        <li>神戸の中学生家族が家島で1年半過ごした実例が構想の出発点</li>
+        <li>離島留学の多くが補助金依存で持続性に課題</li>
+        <li>島の空き家活用と、都市部の少人数教育ニーズを掛け合わせる発想</li>
+        <li>サブリース差額をコーディネーター活動費に充てる自走モデル</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>💡 検討中の選択肢ハイライト</h4>
+      <ul>
+        <li>案A：家島単独でモデルの実証を深める</li>
+        <li>案B：近隣の離島・中山間地域と共同でモデルを運営する</li>
+        <li>案C：全国展開を見据えて、仕組みを「型」として整備する</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>🗣️ 現時点で分かっている声</h4>
+      <ul>
+        <li>テーマオーナー：補助金に頼らない自走の仕組みをつくりたい</li>
+        <li>過去の受け入れ家族：島での滞在が子どもの表情を明るくした</li>
+        <li>個別のステークホルダーへのヒアリングは共創ワークショップで実施予定</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>🌍 類似事例ハイライト</h4>
+      <ul>
+        <li><span class="pill porange">要検証</span> 隠岐島前高校など、離島留学・高校魅力化の先行事例</li>
+        <li><span class="pill porange">要検証</span> 空き家バンク＋移住コーディネーター制度を持つ他地域の取り組み</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>💰 補助金・交付金ハイライト</h4>
+      <ul>
+        <li><span class="pill porange">中</span> 空き家対策・活用に関する国の支援制度：改修費用の財源候補</li>
+        <li><span class="pill porange">中</span> 地域おこし協力隊関連制度：コーディネーター人件費の一部候補</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>✅ 現時点の結論・次の一手</h4>
+      <ul>
+        <li>特定の案への合意はまだ形成されておらず、共創ワークショップが出発点</li>
+        <li>次の一手：保護者の就労支援・地域負担の軽減策を具体化する</li>
+        <li>ワークショップ後、実際の議論を踏まえてPositionRecordを登録</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin-top:18px;font-size:15px">🧭 りとけいの活動目的との関わり</h3>
+  <p style="font-size:12px;color:var(--muted);margin:6px 0 10px">りとけいの分室ページ「りとけい分室」が掲げる、論点が増減しても変わらない目的との関わり。</p>
+  <div class="tableWrap">
+    <table>
+      <thead><tr><th>りとけいの目的</th><th>この論点の影響方向</th></tr></thead>
+      <tbody>
+        <tr><td>420の有人離島を、取材・発信・連携でつなぐ</td><td><span class="pill pgreen">追い風</span> 家島発の自走モデルは、他の離島にも横展開できる「型」になりうる</td></tr>
+        <tr><td>離島の子育て・教育インフラの課題解決を後押しする</td><td><span class="pill pgreen">追い風</span> 学校存続・少人数教育という、多くの離島に共通する課題への挑戦</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel" id="panel-premise">
+  <div class="card">
+    <h3>りとけい「未来のシマ共創会議2026」との関わり</h3>
+    <p style="font-size:12.5px;color:var(--muted)">この論点固有の前提として、りとけいが主催する共創会議の位置づけを確認します。</p>
+    <div class="tableWrap">
+      <table>
+        <tbody>
+          <tr><th>会議の目的</th><td>「アクション発動！」を掲げ、交通・防災・子どもの3分野で全国の島々から公募した「問い」を、共創ワークショップを通じて具体的なアクションに育てる</td></tr>
+          <tr><th>この論点の分野</th><td>離島×こども(学校存続・少人数教育・移住)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn" style="margin-top:10px"><b>前提条件：</b>離島留学は多くの島に共通するテーマだが、家島の取り組みは「補助金に頼らない自走モデル」を志向している点が特徴。単なる個別の成功事例ではなく、他地域に展開できる「型」になりうるかが論点。</div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>本論点固有の背景</h3>
+    <ul style="font-size:13px">
+      <li>島の人口が約8,000人から約2,000人まで減少し、学校の児童・生徒数も減少</li>
+      <li>空き家は多いが、修繕費用(20万円規模)が活用の障壁になっている</li>
+      <li>離島留学の受け入れコーディネーターの人件費確保が全国共通の課題</li>
+      <li>2025年1月設立の一般社団法人はりまのいばしょが仕組みづくりの主体</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel" id="panel-proposal">
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">以下は、中西さんの発言をもとに整理した「検討の選択肢」です。共創ワークショップでの議論を経て、内容は更新されます。特定の案を推奨するものではありません。</p>
+  <div class="measureCard">
+    <b>案A 家島単独でモデルの実証を深める</b>
+    <p style="font-size:13px;margin:6px 0 0">まずは家島内で、サブリースの件数を増やし、保護者の就労支援や地域・学校の負担軽減など、残る課題を一つずつ検証する案。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>着手しやすく、実例を積み上げやすい</div>
+      <div><em>中期</em>家島単独では対応できる家族数に限りがある</div>
+      <div><em>長期</em>他地域への横展開のノウハウが蓄積される</div>
+    </div>
+  </div>
+  <div class="measureCard">
+    <b>案B 近隣の離島・中山間地域と共同でモデルを運営する</b>
+    <p style="font-size:13px;margin:6px 0 0">相生市・たつの市などのコーディネーターと連携し、複数地域で仕組みを共同運営する案。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>連携先との役割分担・調整に時間がかかる</div>
+      <div><em>中期</em>受け入れ可能な家族数を増やせる</div>
+      <div><em>長期</em>地域間でコーディネーターの知見を共有できる</div>
+    </div>
+  </div>
+  <div class="measureCard">
+    <b>案C 全国展開を見据えて、仕組みを「型」として整備する</b>
+    <p style="font-size:13px;margin:6px 0 0">サブリースの契約設計・コーディネーターの役割・学校との連携方法などをマニュアル化し、他の離島・中山間地域に展開できる形にする案。</p>
+    <div class="outlookRow">
+      <div><em>短期</em>型化の作業に時間とコストがかかる</div>
+      <div><em>中期</em>他地域からの問い合わせ・展開に対応しやすくなる</div>
+      <div><em>長期</em>全国の同様の課題を抱える地域への波及効果が期待できる</div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>3つの選択肢を比較(たたき台)</h3>
+    <div class="grid3">
+      <div class="card"><span class="pill pblue">案A</span><h3 style="margin-top:8px">家島単独で深化</h3><p style="font-size:12.5px">着手は早いが、受け入れ可能な家族数には限界がある。</p></div>
+      <div class="card"><span class="pill porange">案B</span><h3 style="margin-top:8px">近隣地域と共同運営</h3><p style="font-size:12.5px">連携先との調整に時間がかかるが、受け入れ規模を広げられる。</p></div>
+      <div class="card"><span class="pill pgreen">案C</span><h3 style="margin-top:8px">全国展開の型化</h3><p style="font-size:12.5px">最も波及効果が大きい案。型化のための整理・検証に時間が必要。</p></div>
+    </div>
+    <p class="footNote">※ この比較は共創ワークショップでの議論のたたき台として作成した仮のものです。実際の評価はワークショップでの議論・ヒアリングを経て更新します。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-cases">
+  <div class="card">
+    <h3>国内外の類似事例</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">離島留学・学校存続に関連する、広く知られている事例です。掲載情報は要検証を含みます。</p>
+    <div class="measureCard">
+      <span class="pill porange">要検証</span>
+      <b>隠岐島前高校の「高校魅力化プロジェクト」(島根県海士町など)</b>
+      <p style="font-size:13px;margin:6px 0 0">県外からの越境入学(島留学)により、統廃合の危機にあった高校の生徒数を回復させた事例として広く知られている。ただし本資料作成時点では、財源構造や運営体制の詳細までは一次情報で確認できていない。</p>
+      <div class="callout warn" style="margin-top:8px"><b>取り扱いの注意：</b>推測で制度内容を補って書かないこと。共創ワークショップまでに、一次情報での確認を行う必要がある。</div>
+    </div>
+    <div class="measureCard">
+      <span class="pill porange">要検証</span>
+      <b>空き家バンク＋移住コーディネーター制度を持つ他地域の取り組み</b>
+      <p style="font-size:13px;margin:6px 0 0">全国の移住促進策では、空き家バンクと移住コーディネーターを組み合わせる例が多いが、本論点のように「サブリース差額でコーディネーター人件費を賄う」設計まで踏み込んだ事例は、りとけいとして未確認。</p>
+      <div class="callout warn" style="margin-top:8px"><b>本論点への示唆：</b>財源の自走性という点で、家島の取り組みは他地域と一線を画す可能性がある。共創ワークショップで他地域の参加者から類似の取り組みが共有されるか確認したい。</div>
+    </div>
+    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。実際の政策検討には一次情報での確認をお願いします。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-funding">
+  <div class="card">
+    <h3>活用できる補助金・交付金(候補)</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">一般的に知られている制度から、空き家活用・コーディネーター人件費に関連が高いと考えられる候補です。金額・締切等は必ず一次情報でご確認ください。</p>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>制度名(候補)</th><th>所管(想定)</th><th>概要</th><th>マッチ理由</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>空き家対策総合支援事業など、空き家の改修・活用に関する国の支援制度</b><br><span class="pill porange">自治体・団体向け</span></td>
+            <td>国土交通省</td>
+            <td>空き家の除却・改修・活用を支援する制度群。</td>
+            <td>島の空き家の初期修繕費(1件あたり20万円規模)を賄う財源候補になりうる。</td>
+          </tr>
+          <tr>
+            <td><b>地域おこし協力隊制度</b><br><span class="pill porange">自治体向け</span></td>
+            <td>総務省</td>
+            <td>地域外の人材を受け入れ、地域協力活動を行う隊員の活動費・人件費を支援。</td>
+            <td>地域コーディネーターの活動費の一部を、立ち上げ期に補完できる可能性がある。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。申請にあたっては国・県・市の一次情報を必ずご確認ください。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-raw">
+  <div class="card">
+    <h3>元になった事実・出典(EvidenceRecord)</h3>
+    <div class="stakeGrid">
+      <div class="stakeCard">
+        <b>神戸市の中学生家族が家島で1年半を過ごした実例</b>
+        <p>学校に行きづらくなっていた中学生とその家族が、家島滞在をきっかけに島の学校へ通うことを選択。父親は神戸で仕事を続けながら二地域居住し、母子は家島で1年半を過ごした。</p>
+      </div>
+      <div class="stakeCard">
+        <b>空き家サブリースの仕組み</b>
+        <p>はりまのいばしょが空き家を一括で借り受け(マスターリース)、初期費用を負担して最低限の修繕を行い、移住希望の親子に転貸(サブリース)。転貸差額をコーディネーターの活動費に充てる設計。</p>
+      </div>
+      <div class="stakeCard">
+        <b>家島の人口・学校の状況</b>
+        <p>島の人口はかつて約8,000人だったが、現在は約2,000人まで減少。家島小学校の児童は30人弱、家島中学校の生徒は15〜20人ほど。</p>
+      </div>
+      <div class="stakeCard">
+        <b>横展開に向けた残る課題(本人発言)</b>
+        <p>①一緒に移住する保護者の島での働き口の確保、②受け入れる地域住民・学校の負担軽減、③空き家の改修資金や引越しに伴う諸課題のクリア、の3点が挙げられている。</p>
+      </div>
+    </div>
+    <p class="footNote">出典：<a href="https://ritokei.com/forum/shimakaigi2026_theme01_ieshima" target="_blank" rel="noopener">りとけいフォーラム「空き家のサブリース収益で自走できる『離島留学モデル』をつくるには？」(2026年)</a></p>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>ステークホルダーの意見について</h3>
+    <div class="callout warn">
+      <b>まだ収集していません</b>
+      <p style="margin-top:6px">本論点は2026年8月時点で「提起」段階です。Stakeholder・PositionRecord(立場表明ログ)は、共創ワークショップでの議論を経るまで空のままにしています。ここに掲載しているのは、テーマオーナー・中西さんが公開の場(りとけいフォーラム記事)で発言した内容のみです。ワークショップ(9月・10月)を経て、実際の声を収集次第、このシートも更新します。</p>
+    </div>
+  </div>
+</section>
+
+</div>
+<script>
+function switchTab(tabName){
+  document.querySelectorAll('.tabBtn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  var btn = document.querySelector('.tabBtn[data-tab="' + tabName + '"]');
+  if (btn) btn.classList.add('active');
+  var panel = document.getElementById('panel-' + tabName);
+  if (panel) panel.classList.add('active');
+}
+document.querySelectorAll('.tabBtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    switchTab(btn.dataset.tab);
+  });
+});
+(function(){
+  var wizard = document.getElementById('wizard');
+  var wizardSkip = document.getElementById('wizardSkip');
+  document.querySelectorAll('.wizardBtn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      switchTab(btn.dataset.goto);
+      wizard.classList.add('wizardDone');
+    });
+  });
+  if (wizardSkip) wizardSkip.addEventListener('click', function(){ wizard.classList.add('wizardDone'); });
+})();
+</script>
+</body>
+</html>
