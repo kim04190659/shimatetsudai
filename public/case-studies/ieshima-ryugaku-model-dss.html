@@ -76,6 +76,14 @@ tr:last-child td{border-bottom:0}
 .reasonBox ul{margin:8px 0 0;padding-left:18px;font-size:12.5px}
 .reasonBox li{margin:4px 0}
 .nextStep{border-left:5px solid var(--purple);background:var(--purpleSoft);border-radius:10px;padding:10px 12px;margin-top:16px;font-size:13px}
+.radarWrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:0 0 16px;padding:14px 16px;border:2px solid var(--purple);background:var(--purpleSoft);border-radius:14px}
+.radarNotes{flex:1;min-width:220px;font-size:12.5px}
+.radarNotes li{margin:4px 0}
+.forecastBar{display:flex;align-items:center;gap:10px;margin:6px 0}
+.forecastBar .label{width:110px;font-size:12px;color:var(--muted);flex-shrink:0}
+.forecastBar .track{flex:1;background:var(--soft);border-radius:999px;height:14px;overflow:hidden}
+.forecastBar .fill{background:var(--blue);height:100%;border-radius:999px}
+.forecastBar .val{width:70px;text-align:right;font-size:12.5px;font-weight:800;flex-shrink:0}
 @media(max-width:900px){.grid2,.grid3,.stakeGrid,.outlookRow,.a3Grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -110,6 +118,7 @@ tr:last-child td{border-bottom:0}
   <div class="wizardBtns">
     <button type="button" class="wizardBtn" data-goto="summary">✅ 結論だけ知りたい</button>
     <button type="button" class="wizardBtn" data-goto="proposal">💡 検討中の選択肢を見たい</button>
+    <button type="button" class="wizardBtn" data-goto="forecast">📈 将来の人口・経済効果を見たい</button>
     <button type="button" class="wizardBtn" data-goto="raw">🗣️ 元になった事実・出典を見たい</button>
   </div>
   <button type="button" class="wizardSkip" id="wizardSkip">すべてのタブを自分で見る →</button>
@@ -119,6 +128,7 @@ tr:last-child td{border-bottom:0}
   <button class="tabBtn active" data-tab="summary">議論まとめ</button>
   <button class="tabBtn" data-tab="premise">りとけいの視点（前提条件）</button>
   <button class="tabBtn" data-tab="proposal">提案内容・詳細</button>
+  <button class="tabBtn" data-tab="forecast">将来予測・経済効果</button>
   <button class="tabBtn" data-tab="cases">国内外の類似事例</button>
   <button class="tabBtn" data-tab="funding">活用できる補助金・交付金</button>
   <button class="tabBtn" data-tab="raw">生データ（補足）</button>
@@ -172,6 +182,16 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <h3 style="margin-top:18px;font-size:15px">この論点の全体像(A3サマリー)</h3>
+  <div class="radarWrap">
+    <svg id="radarChart" width="180" height="180" viewBox="0 0 180 180"></svg>
+    <div class="radarNotes">
+      <b>📡 情報充足度診断(AIによる自己レビュー・2026-09-02時点)</b>
+      <ul id="radarWeakPoints">
+        <li><b>財政(25点):</b> サブリース差額の具体的な収支モデル(賃料差・改修費20万円の回収年数など)が未試算。共創ワークショップまでに数値を詰める必要あり。</li>
+        <li><b>行政実務(20点):</b> マスターリース契約の法的スキーム、空き家所有者との合意形成プロセス、姫路市の空き家関連施策との整合性が未確認。</li>
+      </ul>
+    </div>
+  </div>
   <div class="a3Grid">
     <div class="mini">
       <h4>📊 判断材料ハイライト</h4>
@@ -188,6 +208,15 @@ tr:last-child td{border-bottom:0}
         <li>案A：家島単独でモデルの実証を深める</li>
         <li>案B：近隣の離島・中山間地域と共同でモデルを運営する</li>
         <li>案C：全国展開を見据えて、仕組みを「型」として整備する</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>📈 将来予測ハイライト</h4>
+      <ul>
+        <li>家島本島の人口は国勢調査ベースで2015年2,693人→2020年2,137人(▲20.6%)</li>
+        <li>2024年取材時点で島民の約半数が65歳以上</li>
+        <li><span class="pill porange">PoC概算</span> 未来30年分の推計はまだ簡易延長のみ。IPSS推計への差し替えが必要</li>
+        <li>サブリース収益の経済効果は基礎データ不足のため<b>未算出</b></li>
       </ul>
     </div>
     <div class="mini">
@@ -210,6 +239,14 @@ tr:last-child td{border-bottom:0}
       <ul>
         <li><span class="pill porange">中</span> 空き家対策・活用に関する国の支援制度：改修費用の財源候補</li>
         <li><span class="pill porange">中</span> 地域おこし協力隊関連制度：コーディネーター人件費の一部候補</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>📡 情報充足度診断サマリー</h4>
+      <ul>
+        <li>りとけい現場視点(55点)・住民生活視点(50点)は実例ベースの情報がある程度揃っている</li>
+        <li>専門家視点(40点)は要検証タグ付きの事例が多く、裏付けが弱い</li>
+        <li>財政(25点)・行政実務(20点)が特に手薄。ワークショップまでに優先して埋めたい</li>
       </ul>
     </div>
     <div class="mini">
@@ -301,6 +338,29 @@ tr:last-child td{border-bottom:0}
       <div class="card"><span class="pill pgreen">案C</span><h3 style="margin-top:8px">全国展開の型化</h3><p style="font-size:12.5px">最も波及効果が大きい案。型化のための整理・検証に時間が必要。</p></div>
     </div>
     <p class="footNote">※ この比較は共創ワークショップでの議論のたたき台として作成した仮のものです。実際の評価はワークショップでの議論・ヒアリングを経て更新します。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-forecast">
+  <div class="card">
+    <h3>家島本島の人口推移(過去・いま・未来)</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">国勢調査ベースの実測値と、離島経済新聞社の取材記事(2024年7月)をもとにした推移です。<a href="https://note.com/tb_regional_labo/n/n440914152243" target="_blank" rel="noopener">出典記事</a>。Notion OpenDataSourceに登録済み。</p>
+    <div class="forecastBar"><span class="label">2015年(過去)</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="val">2,693人</span></div>
+    <div class="forecastBar"><span class="label">2020年(過去)</span><div class="track"><div class="fill" style="width:79%"></div></div><span class="val">2,137人</span></div>
+    <div class="forecastBar"><span class="label">いま(概数)</span><div class="track"><div class="fill" style="width:74%"></div></div><span class="val">約2,000人</span></div>
+    <div class="callout warn" style="margin-top:10px">
+      <b>📎 未来30年分の推計について(PoC用概算・要精査)</b>
+      <p style="margin-top:6px">2015→2020年の5年間で▲20.6%という減少率がそのまま続くと仮定した単純な機械的延長であり、国立社会保障・人口問題研究所(IPSS)による地域別将来推計人口など、精度の高い推計とは置き換えていません。この論点はまだ「提起」段階のため、モデルの効果によって減少カーブがどう変わるかも未検討です。共創ワークショップまでに、より精度の高い推計への差し替えを推奨します。</p>
+    </div>
+    <p style="font-size:12.5px;color:var(--muted);margin-top:10px">※旧家島町全体(家島・坊勢島・男鹿島・西島の4島合計)ではなく、家島本島のみの数値です。1970〜80年代など、さらに遡った正確な数値は今回未確認(OpenDataSourceに「未確認」として記録済み)。</p>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>経済効果(サブリース収益モデル)</h3>
+    <div class="callout risk">
+      <b>❌ 現時点では算出できません</b>
+      <p style="margin-top:6px">「空き家サブリース×離島留学モデル」による経済効果(転貸差額の総額、地域内消費額の増加など)を試算するための、契約件数・賃料差・改修費回収年数などの基礎データが、共創ワークショップ前の現時点ではまだ揃っていません。実在しないデータをもとに仮の金額を書くと、かえって議論の土台を誤らせるため、ここでは「未算出」と正直に記載します。</p>
+    </div>
+    <p style="font-size:12.5px;color:var(--muted);margin-top:10px">共創ワークショップ(9〜10月)で案A〜Cのどれを深掘りするかが定まり次第、具体的な収支モデル・経済効果の試算に着手する想定です。</p>
   </div>
 </section>
 
@@ -402,6 +462,33 @@ document.querySelectorAll('.tabBtn').forEach(function(btn){
     switchTab(btn.dataset.tab);
   });
 });
+// 5軸レーダーチャートを描画する共通関数。0-100のスコアを渡す。
+function renderRadar(svgId, scores){
+  var axes = [
+    {key:'finance', label:'財政'}, {key:'life', label:'住民生活'},
+    {key:'admin', label:'行政実務'}, {key:'expert', label:'専門家'},
+    {key:'ritokei', label:'りとけい現場'}
+  ];
+  var cx=90, cy=90, r=70, svg=document.getElementById(svgId);
+  if (!svg) return;
+  var pt = function(i, val){
+    var ang = -Math.PI/2 + i * (2*Math.PI/5);
+    var rad = r * (val/100);
+    return [cx + rad*Math.cos(ang), cy + rad*Math.sin(ang)];
+  };
+  var rings = '';
+  [0.25,0.5,0.75,1].forEach(function(f){
+    var pts = axes.map(function(a,i){ return pt(i, f*100).join(','); }).join(' ');
+    rings += '<polygon points="'+pts+'" fill="none" stroke="#ddd" stroke-width="1"/>';
+  });
+  var dataPts = axes.map(function(a,i){ return pt(i, scores[a.key]||0).join(','); }).join(' ');
+  var labels = axes.map(function(a,i){
+    var p = pt(i, 118);
+    return '<text x="'+p[0]+'" y="'+p[1]+'" font-size="9" text-anchor="middle" fill="#7D7A75">'+a.label+'</text>';
+  }).join('');
+  svg.innerHTML = rings + '<polygon points="'+dataPts+'" fill="#7A5CCF55" stroke="#7A5CCF" stroke-width="2"/>' + labels;
+}
+renderRadar('radarChart', {finance:25, life:50, admin:20, expert:40, ritokei:55});
 (function(){
   var wizard = document.getElementById('wizard');
   var wizardSkip = document.getElementById('wizardSkip');
