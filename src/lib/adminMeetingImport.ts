@@ -288,6 +288,88 @@ export async function structureMeetingNotes(input: {
 }
 
 // ------------------------------------------------------------------
+// ステップ4.5: 対象Issueの「ダッシュボードURL」プロパティを読む
+// (静的HTMLダッシュボードの場合、確定後に反映待ちキューへ登録するために使う)
+// ------------------------------------------------------------------
+
+export async function getIssueDashboardUrl(issuePageId: string): Promise<string | null> {
+  const notion = getClient();
+  const page = await notion.pages.retrieve({ page_id: issuePageId });
+  if (!isFullPage(page)) return null;
+
+  const prop = page.properties["ダッシュボードURL"];
+  if (!prop) return null;
+  if (prop.type === "url") return prop.url;
+  if (prop.type === "rich_text") return extractRichText(prop.rich_text) || null;
+  return null;
+}
+
+// ------------------------------------------------------------------
+// ステップ6(静的HTMLダッシュボードの場合のみ):
+// 「🔔 ダッシュボード反映待ちキュー」DBに1件登録する。
+// 動的ダッシュボード(/dashboard/[slug])はrevalidateTagで即時反映されるため対象外。
+// 静的HTMLの場合はここにキューイングし、Cowork上のしまてつだいダッシュボード
+// エージェントが「反映待ちを処理して」と頼まれたときに拾って処理する想定。
+// ------------------------------------------------------------------
+
+const DASHBOARD_QUEUE_DATA_SOURCE_ID = "f44eab93-5bd2-44ec-9974-642bbc633dd9";
+
+function summarizeStructuredResult(confirmed: StructuredMeetingResult): string {
+  const lines: string[] = [];
+  if (confirmed.evidence.length) {
+    lines.push("【事実】");
+    confirmed.evidence.forEach((e) => lines.push(`- ${e.title}: ${e.summary}`));
+  }
+  if (confirmed.positions.length) {
+    lines.push("【発言】");
+    confirmed.positions.forEach((p) => lines.push(`- (${p.stance}) ${p.title}: ${p.content}`));
+  }
+  if (confirmed.goals.length) {
+    lines.push("【目標】");
+    confirmed.goals.forEach((g) => lines.push(`- (${g.goalType}) ${g.title}: ${g.content}`));
+  }
+  if (confirmed.agreements.length) {
+    lines.push("【決定】");
+    confirmed.agreements.forEach((a) => {
+      lines.push(`- ${a.title}: ${a.summary}`);
+      if (a.opposingSummary) lines.push(`  (反対意見) ${a.opposingSummary}`);
+    });
+  }
+  return lines.join("\n").slice(0, 2000);
+}
+
+export async function createDashboardReflectionQueueEntry(input: {
+  issueTitle: string;
+  issuePageId: string;
+  meetingNotePageId: string | null;
+  dashboardUrl: string;
+  confirmed: StructuredMeetingResult;
+  writtenCount: number;
+}): Promise<{ queueEntryUrl: string }> {
+  const notion = getClient();
+  const issueUrl = `https://app.notion.com/${input.issuePageId.replace(/-/g, "")}`;
+  const meetingNoteUrl = input.meetingNotePageId
+    ? `https://app.notion.com/${input.meetingNotePageId.replace(/-/g, "")}`
+    : undefined;
+
+  const page = await notion.pages.create({
+    parent: { type: "data_source_id", data_source_id: DASHBOARD_QUEUE_DATA_SOURCE_ID },
+    properties: {
+      Title: { title: [{ text: { content: `${input.issueTitle} — 議事録反映待ち` } }] },
+      IssueURL: { url: issueUrl },
+      ...(meetingNoteUrl ? { 議事録URL: { url: meetingNoteUrl } } : {}),
+      対象ダッシュボードURL: { url: input.dashboardUrl },
+      構造化サマリー: { rich_text: [{ text: { content: summarizeStructuredResult(input.confirmed) } }] },
+      書き込み件数: { number: input.writtenCount },
+      Status: { select: { name: "未反映" } },
+      登録日時: { date: { start: new Date().toISOString() } },
+    },
+  });
+
+  return { queueEntryUrl: "url" in page ? page.url ?? "" : "" };
+}
+
+// ------------------------------------------------------------------
 // ステップ4: 人が確認・修正した内容をNotionの各DBに書き込む
 // ------------------------------------------------------------------
 

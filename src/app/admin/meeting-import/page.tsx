@@ -53,7 +53,14 @@ export default function MeetingImportPage() {
   const [structured, setStructured] = useState<StructuredMeetingResult | null>(null);
   const [transcriptPreview, setTranscriptPreview] = useState("");
   const [confirming, setConfirming] = useState(false);
-  const [result, setResult] = useState<{ writtenCount: number; dashboardRevalidated: boolean; tenantSlug: string | null } | null>(null);
+  const [result, setResult] = useState<{
+    writtenCount: number;
+    dashboardRevalidated: boolean;
+    tenantSlug: string | null;
+    dashboardReflectionQueued: boolean;
+    queueEntryUrl: string | null;
+    staticDashboardUrl: string | null;
+  } | null>(null);
 
   function saveAdminKey(v: string) {
     setAdminKey(v);
@@ -93,7 +100,7 @@ export default function MeetingImportPage() {
       const res = await fetch("/api/admin/meeting-import/confirm", {
         method: "POST",
         headers: { "content-type": "application/json", "x-admin-key": adminKey },
-        body: JSON.stringify({ issuePageId, targets, confirmed: structured }),
+        body: JSON.stringify({ issuePageId, meetingNotePageId, targets, confirmed: structured }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "確定処理に失敗しました");
@@ -357,10 +364,24 @@ export default function MeetingImportPage() {
 
       {result && (
         <div style={{ marginTop: 20, padding: 14, background: "#E8F1EC", borderRadius: 10, color: "#1f6b46" }}>
-          {result.writtenCount}件をNotionに登録しました。
-          {result.dashboardRevalidated
-            ? `ダッシュボード(テナント: ${result.tenantSlug})のキャッシュを再生成しました。`
-            : "このIssueはテナントダッシュボード(/dashboard/[slug])に未登録のため、自動再生成の対象外です。既存のcase-studies HTMLを使っている場合は、手順書のステップ通りに手動更新してください。"}
+          <p style={{ margin: 0 }}>{result.writtenCount}件をNotionに登録しました。</p>
+          {result.dashboardRevalidated && (
+            <p style={{ margin: "8px 0 0" }}>ダッシュボード(テナント: {result.tenantSlug})のキャッシュを再生成しました。</p>
+          )}
+          {result.dashboardReflectionQueued && (
+            <p style={{ margin: "8px 0 0" }}>
+              このIssueは静的HTMLダッシュボード({result.staticDashboardUrl})を使っているため、自動再生成はできません。かわりに
+              <a href={result.queueEntryUrl ?? "#"} target="_blank" rel="noopener" style={{ marginLeft: 4 }}>
+                🔔 ダッシュボード反映待ちキュー
+              </a>
+              に登録しました。Cowork(Claude)で「反映待ちを処理して」と伝えると、しまてつだいダッシュボードエージェントが内容を確認したうえでダッシュボードに反映します。
+            </p>
+          )}
+          {!result.dashboardRevalidated && !result.dashboardReflectionQueued && (
+            <p style={{ margin: "8px 0 0" }}>
+              このIssueにはダッシュボードURLが登録されていないため、キャッシュ再生成もキュー登録も行いませんでした。
+            </p>
+          )}
         </div>
       )}
     </div>

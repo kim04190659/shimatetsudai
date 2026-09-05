@@ -7,6 +7,8 @@ import { revalidateTag } from "next/cache";
 import {
   writeStructuredMeetingResult,
   extractNotionPageId,
+  getIssueDashboardUrl,
+  createDashboardReflectionQueueEntry,
   type StructuredMeetingResult,
   type IssueRelationTargets,
 } from "@/lib/adminMeetingImport";
@@ -23,6 +25,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as {
       issuePageId?: string;
+      meetingNotePageId?: string;
       targets?: IssueRelationTargets;
       confirmed?: StructuredMeetingResult;
     };
@@ -66,10 +69,49 @@ export async function POST(req: NextRequest) {
       dashboardRevalidated = true;
     }
 
+    // 動的テナントダッシュボードでなければ、静的HTMLダッシュボード(case-studies/*.html)
+    // を使っている可能性がある。その場合はNotionの反映待ちキューに1件登録し、
+    // 次にCoworkでしまてつだいダッシュボードエージェントを呼んだときに処理してもらう。
+    let dashboardReflectionQueued = false;
+    let queueEntryUrl: string | null = null;
+    let staticDashboardUrl: string | null = null;
+    if (!matchedTenant) {
+      try {
+        staticDashboardUrl = await getIssueDashboardUrl(issuePageId);
+        if (staticDashboardUrl) {
+          const meetingNotePageId = body.meetingNotePageId
+            ? (() => {
+                try {
+                  return extractNotionPageId(body.meetingNotePageId!);
+                } catch {
+                  return null;
+                }
+              })()
+            : null;
+          const { queueEntryUrl: url } = await createDashboardReflectionQueueEntry({
+            issueTitle: body.targets.issueTitle,
+            issuePageId,
+            meetingNotePageId,
+            dashboardUrl: staticDashboardUrl,
+            confirmed: body.confirmed,
+            writtenCount,
+          });
+          dashboardReflectionQueued = true;
+          queueEntryUrl = url;
+        }
+      } catch (err) {
+        // キュー登録の失敗はDB書き込み自体の成功を止めるほどではないので、ログのみ残す
+        console.error("dashboard reflection queue の登録に失敗:", err);
+      }
+    }
+
     return NextResponse.json({
       writtenCount,
       dashboardRevalidated,
       tenantSlug: matchedTenant?.slug ?? null,
+      dashboardReflectionQueued,
+      queueEntryUrl,
+      staticDashboardUrl,
     });
   } catch (err) {
     console.error("meeting-import/confirm error:", err);
