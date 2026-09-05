@@ -156,12 +156,12 @@ tr:last-child td{border-bottom:0}
   </div>
   <div class="decisionQ">
     <b>🎯 今回、決めるべき問いは何か</b>
-    <p style="margin:8px 0 0;font-size:13px">「離島留学モデルを、まず家島単独で深めるか／近隣地域と共同運営するか／全国展開できる『型』として整備するか」— 共創ワークショップで検討する3つの方向性のうち、どれを軸に議論を深めるか。</p>
+    <p data-cell-id="decisionq-text" style="margin:8px 0 0;font-size:13px">「離島留学モデルを、まず家島単独で深めるか／近隣地域と共同運営するか／全国展開できる『型』として整備するか」— 共創ワークショップで検討する3つの方向性のうち、どれを軸に議論を深めるか。</p>
     <div class="metaRow">
-      <div><em>決断者</em>テーマオーナー中西さん＋ワークショップ参加者</div>
-      <div><em>締切</em>10月23日の対面セッションまでに方向性を仮決め</div>
-      <div><em>不可逆性</em>低(ワークショップでの議論の出発点。後から修正可能)</div>
-      <div><em>影響範囲</em>家島の空き家・学校・保護者、将来の横展開先</div>
+      <div><em>決断者</em><span data-cell-id="decisionq-who">テーマオーナー中西さん＋ワークショップ参加者</span></div>
+      <div><em>締切</em><span data-cell-id="decisionq-deadline">10月23日の対面セッションまでに方向性を仮決め</span></div>
+      <div><em>不可逆性</em><span data-cell-id="decisionq-reversibility">低(ワークショップでの議論の出発点。後から修正可能)</span></div>
+      <div><em>影響範囲</em><span data-cell-id="decisionq-scope">家島の空き家・学校・保護者、将来の横展開先</span></div>
     </div>
   </div>
   <div class="kpis">
@@ -209,9 +209,9 @@ tr:last-child td{border-bottom:0}
   <details class="reasonBox">
     <summary>▼ なぜそう言えるか(根拠)を見る</summary>
     <ul>
-      <li>神戸の中学生家族が1年半過ごした実例がすでにあり、ゼロからの構想ではない</li>
-      <li>離島留学の多くが補助金頼みで持続性に課題を抱えており、自走モデルへの需要は高い</li>
-      <li>空き家の修繕費(1件20万円規模)という具体的な障壁がすでに明確になっている</li>
+      <li data-cell-id="reason-1">神戸の中学生家族が1年半過ごした実例がすでにあり、ゼロからの構想ではない</li>
+      <li data-cell-id="reason-2">離島留学の多くが補助金頼みで持続性に課題を抱えており、自走モデルへの需要は高い</li>
+      <li data-cell-id="reason-3">空き家の修繕費(1件20万円規模)という具体的な障壁がすでに明確になっている</li>
     </ul>
   </details>
 
@@ -228,10 +228,10 @@ tr:last-child td{border-bottom:0}
     <table>
       <thead><tr><th>比較軸</th><th>案A 家島単独で深化</th><th>案B 近隣地域と共同運営</th><th>案C 全国展開の型化</th></tr></thead>
       <tbody>
-        <tr><td>着手しやすさ</td><td><span class="pill pgreen">◎</span></td><td><span class="pill porange">△</span></td><td><span class="pill pred">✕(時間要)</span></td></tr>
-        <tr><td>受け入れ規模の拡大</td><td><span class="pill pred">✕(限界あり)</span></td><td><span class="pill pgreen">◎</span></td><td><span class="pill pblue">○(将来的に)</span></td></tr>
-        <tr><td>横展開・波及効果</td><td><span class="pill porange">△</span></td><td><span class="pill pblue">○</span></td><td><span class="pill pgreen">◎</span></td></tr>
-        <tr><td>必要な調整コスト</td><td><span class="pill pgreen">低い</span></td><td><span class="pill porange">中</span></td><td><span class="pill pred">高い</span></td></tr>
+        <tr><td>着手しやすさ</td><td data-cell-id="tradeoff-ease-a"><span class="pill pgreen">◎</span></td><td data-cell-id="tradeoff-ease-b"><span class="pill porange">△</span></td><td data-cell-id="tradeoff-ease-c"><span class="pill pred">✕(時間要)</span></td></tr>
+        <tr><td>受け入れ規模の拡大</td><td data-cell-id="tradeoff-scale-a"><span class="pill pred">✕(限界あり)</span></td><td data-cell-id="tradeoff-scale-b"><span class="pill pgreen">◎</span></td><td data-cell-id="tradeoff-scale-c"><span class="pill pblue">○(将来的に)</span></td></tr>
+        <tr><td>横展開・波及効果</td><td data-cell-id="tradeoff-spread-a"><span class="pill porange">△</span></td><td data-cell-id="tradeoff-spread-b"><span class="pill pblue">○</span></td><td data-cell-id="tradeoff-spread-c"><span class="pill pgreen">◎</span></td></tr>
+        <tr><td>必要な調整コスト</td><td data-cell-id="tradeoff-cost-a"><span class="pill pgreen">低い</span></td><td data-cell-id="tradeoff-cost-b"><span class="pill porange">中</span></td><td data-cell-id="tradeoff-cost-c"><span class="pill pred">高い</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -249,24 +249,24 @@ tr:last-child td{border-bottom:0}
     <div class="confCard pending">
       <b>🕓 保留(方向性はあるが未確定)</b>
       <ul>
-        <li>サブリースの収支モデル(賃料差・改修費回収年数)</li>
-        <li>案A/B/Cのどれを軸にするか</li>
-        <li>横展開先の候補地域</li>
+        <li data-cell-id="conf-pending-1">サブリースの収支モデル(賃料差・改修費回収年数)</li>
+        <li data-cell-id="conf-pending-2">案A/B/Cのどれを軸にするか</li>
+        <li data-cell-id="conf-pending-3">横展開先の候補地域</li>
       </ul>
     </div>
     <div class="confCard missing">
       <b>❌ 未収集</b>
       <ul>
-        <li>ステークホルダーの立場表明(PositionRecord)</li>
-        <li>保護者・地域住民への正式なヒアリング結果</li>
-        <li>将来推計人口の精緻な試算(IPSS等)</li>
+        <li data-cell-id="conf-missing-1">ステークホルダーの立場表明(PositionRecord)</li>
+        <li data-cell-id="conf-missing-2">保護者・地域住民への正式なヒアリング結果</li>
+        <li data-cell-id="conf-missing-3">将来推計人口の精緻な試算(IPSS等)</li>
       </ul>
     </div>
   </div>
 
   <div class="coiBox">
     <b>⏳ 今、決めずに先送りした場合に起きうること(Cost of Inaction)</b>
-    <p style="margin-top:6px">具体的な金額や年数での試算はまだできません(基礎データ不足のため未算出)。ただし、確定している事実からは、①家島の人口・児童数の減少傾向が続いていること、②離島留学の多くが補助金依存で単年度ごとの不確実性を抱えていること、の2点は言えます。共創ワークショップでの議論を先送りするほど、既存の実例(神戸の家族)のような機会が積み上がりにくくなる可能性があります。</p>
+    <p data-cell-id="coi-text" style="margin-top:6px">具体的な金額や年数での試算はまだできません(基礎データ不足のため未算出)。ただし、確定している事実からは、①家島の人口・児童数の減少傾向が続いていること、②離島留学の多くが補助金依存で単年度ごとの不確実性を抱えていること、の2点は言えます。共創ワークショップでの議論を先送りするほど、既存の実例(神戸の家族)のような機会が積み上がりにくくなる可能性があります。</p>
   </div>
 
   <div class="card">
@@ -310,8 +310,8 @@ tr:last-child td{border-bottom:0}
     <div class="radarNotes">
       <b>📡 情報充足度診断(AIによる自己レビュー・2026-09-02時点)</b>
       <ul id="radarWeakPoints">
-        <li><b>財政(25点):</b> サブリース差額の具体的な収支モデル(賃料差・改修費20万円の回収年数など)が未試算。共創ワークショップまでに数値を詰める必要あり。</li>
-        <li><b>行政実務(20点):</b> マスターリース契約の法的スキーム、空き家所有者との合意形成プロセス、姫路市の空き家関連施策との整合性が未確認。</li>
+        <li><b>財政(25点):</b> <span data-cell-id="radar-note-finance">サブリース差額の具体的な収支モデル(賃料差・改修費20万円の回収年数など)が未試算。共創ワークショップまでに数値を詰める必要あり。</span></li>
+        <li><b>行政実務(20点):</b> <span data-cell-id="radar-note-admin">マスターリース契約の法的スキーム、空き家所有者との合意形成プロセス、姫路市の空き家関連施策との整合性が未確認。</span></li>
       </ul>
     </div>
   </div>
@@ -319,65 +319,65 @@ tr:last-child td{border-bottom:0}
     <div class="mini">
       <h4>📊 判断材料ハイライト</h4>
       <ul>
-        <li>神戸の中学生家族が家島で1年半過ごした実例が構想の出発点</li>
-        <li>離島留学の多くが補助金依存で持続性に課題</li>
-        <li>島の空き家活用と、都市部の少人数教育ニーズを掛け合わせる発想</li>
-        <li>サブリース差額をコーディネーター活動費に充てる自走モデル</li>
+        <li data-cell-id="mini-material-1">神戸の中学生家族が家島で1年半過ごした実例が構想の出発点</li>
+        <li data-cell-id="mini-material-2">離島留学の多くが補助金依存で持続性に課題</li>
+        <li data-cell-id="mini-material-3">島の空き家活用と、都市部の少人数教育ニーズを掛け合わせる発想</li>
+        <li data-cell-id="mini-material-4">サブリース差額をコーディネーター活動費に充てる自走モデル</li>
       </ul>
     </div>
     <div class="mini">
       <h4>💡 検討中の選択肢ハイライト</h4>
       <ul>
-        <li>案A：家島単独でモデルの実証を深める</li>
-        <li>案B：近隣の離島・中山間地域と共同でモデルを運営する</li>
-        <li>案C：全国展開を見据えて、仕組みを「型」として整備する</li>
+        <li data-cell-id="mini-options-1">案A：家島単独でモデルの実証を深める</li>
+        <li data-cell-id="mini-options-2">案B：近隣の離島・中山間地域と共同でモデルを運営する</li>
+        <li data-cell-id="mini-options-3">案C：全国展開を見据えて、仕組みを「型」として整備する</li>
       </ul>
     </div>
     <div class="mini">
       <h4>📈 将来予測ハイライト</h4>
       <ul>
         <li>家島本島の人口は国勢調査ベースで2015年2,693人→2020年2,137人(▲20.6%)</li>
-        <li>2024年取材時点で島民の約半数が65歳以上</li>
-        <li><span class="pill porange">PoC概算</span> 未来30年分の推計はまだ簡易延長のみ。IPSS推計への差し替えが必要</li>
-        <li>サブリース収益の経済効果は基礎データ不足のため<b>未算出</b></li>
+        <li data-cell-id="mini-forecast-2">2024年取材時点で島民の約半数が65歳以上</li>
+        <li data-cell-id="mini-forecast-3"><span class="pill porange">PoC概算</span> 未来30年分の推計はまだ簡易延長のみ。IPSS推計への差し替えが必要</li>
+        <li data-cell-id="mini-forecast-4">サブリース収益の経済効果は基礎データ不足のため<b>未算出</b></li>
       </ul>
     </div>
     <div class="mini">
       <h4>🗣️ 現時点で分かっている声</h4>
       <ul>
-        <li>テーマオーナー：補助金に頼らない自走の仕組みをつくりたい</li>
-        <li>過去の受け入れ家族：島での滞在が子どもの表情を明るくした</li>
-        <li>個別のステークホルダーへのヒアリングは共創ワークショップで実施予定</li>
+        <li data-cell-id="mini-voice-1">テーマオーナー：補助金に頼らない自走の仕組みをつくりたい</li>
+        <li data-cell-id="mini-voice-2">過去の受け入れ家族：島での滞在が子どもの表情を明るくした</li>
+        <li data-cell-id="mini-voice-3">個別のステークホルダーへのヒアリングは共創ワークショップで実施予定</li>
       </ul>
     </div>
     <div class="mini">
       <h4>🌍 類似事例ハイライト</h4>
       <ul>
-        <li><span class="pill porange">要検証</span> 隠岐島前高校など、離島留学・高校魅力化の先行事例</li>
-        <li><span class="pill porange">要検証</span> 空き家バンク＋移住コーディネーター制度を持つ他地域の取り組み</li>
+        <li data-cell-id="mini-cases-1"><span class="pill porange">要検証</span> 隠岐島前高校など、離島留学・高校魅力化の先行事例</li>
+        <li data-cell-id="mini-cases-2"><span class="pill porange">要検証</span> 空き家バンク＋移住コーディネーター制度を持つ他地域の取り組み</li>
       </ul>
     </div>
     <div class="mini">
       <h4>💰 補助金・交付金ハイライト</h4>
       <ul>
-        <li><span class="pill porange">中</span> 空き家対策・活用に関する国の支援制度：改修費用の財源候補</li>
-        <li><span class="pill porange">中</span> 地域おこし協力隊関連制度：コーディネーター人件費の一部候補</li>
+        <li data-cell-id="mini-funding-1"><span class="pill porange">中</span> 空き家対策・活用に関する国の支援制度：改修費用の財源候補</li>
+        <li data-cell-id="mini-funding-2"><span class="pill porange">中</span> 地域おこし協力隊関連制度：コーディネーター人件費の一部候補</li>
       </ul>
     </div>
     <div class="mini">
       <h4>📡 情報充足度診断サマリー</h4>
       <ul>
-        <li>りとけい現場視点(55点)・住民生活視点(50点)は実例ベースの情報がある程度揃っている</li>
-        <li>専門家視点(40点)は要検証タグ付きの事例が多く、裏付けが弱い</li>
-        <li>財政(25点)・行政実務(20点)が特に手薄。ワークショップまでに優先して埋めたい</li>
+        <li data-cell-id="mini-sufficiency-1">りとけい現場視点(55点)・住民生活視点(50点)は実例ベースの情報がある程度揃っている</li>
+        <li data-cell-id="mini-sufficiency-2">専門家視点(40点)は要検証タグ付きの事例が多く、裏付けが弱い</li>
+        <li data-cell-id="mini-sufficiency-3">財政(25点)・行政実務(20点)が特に手薄。ワークショップまでに優先して埋めたい</li>
       </ul>
     </div>
     <div class="mini">
       <h4>✅ 現時点の結論・次の一手</h4>
       <ul>
-        <li>特定の案への合意はまだ形成されておらず、共創ワークショップが出発点</li>
-        <li>次の一手：保護者の就労支援・地域負担の軽減策を具体化する</li>
-        <li>ワークショップ後、実際の議論を踏まえてPositionRecordを登録</li>
+        <li data-cell-id="mini-conclusion-1">特定の案への合意はまだ形成されておらず、共創ワークショップが出発点</li>
+        <li data-cell-id="mini-conclusion-2">次の一手：保護者の就労支援・地域負担の軽減策を具体化する</li>
+        <li data-cell-id="mini-conclusion-3">ワークショップ後、実際の議論を踏まえてPositionRecordを登録</li>
       </ul>
     </div>
   </div>
@@ -388,8 +388,8 @@ tr:last-child td{border-bottom:0}
     <table>
       <thead><tr><th>りとけいの目的</th><th>この論点の影響方向</th></tr></thead>
       <tbody>
-        <tr><td>420の有人離島を、取材・発信・連携でつなぐ</td><td><span class="pill pgreen">追い風</span> 家島発の自走モデルは、他の離島にも横展開できる「型」になりうる</td></tr>
-        <tr><td>離島の子育て・教育インフラの課題解決を後押しする</td><td><span class="pill pgreen">追い風</span> 学校存続・少人数教育という、多くの離島に共通する課題への挑戦</td></tr>
+        <tr><td>420の有人離島を、取材・発信・連携でつなぐ</td><td data-cell-id="impact-1"><span class="pill pgreen">追い風</span> 家島発の自走モデルは、他の離島にも横展開できる「型」になりうる</td></tr>
+        <tr><td>離島の子育て・教育インフラの課題解決を後押しする</td><td data-cell-id="impact-2"><span class="pill pgreen">追い風</span> 学校存続・少人数教育という、多くの離島に共通する課題への挑戦</td></tr>
       </tbody>
     </table>
   </div>
@@ -412,37 +412,37 @@ tr:last-child td{border-bottom:0}
   <div class="personaGrid">
     <div class="personaCard" data-persona="owner">
       <b>🧑‍💼 テーマオーナー(中西さん)</b>
-      <p>自走モデルの実現可能性、案A/B/Cのどれを軸に据えるかを一番気にしている立場。</p>
+      <p data-cell-id="persona-card-owner">自走モデルの実現可能性、案A/B/Cのどれを軸に据えるかを一番気にしている立場。</p>
     </div>
     <div class="personaCard" data-persona="workshop">
       <b>🙋 共創ワークショップ参加者</b>
-      <p>9〜10月の議論に向けて、論点の全体像と検討中の選択肢を事前に把握したい立場。</p>
+      <p data-cell-id="persona-card-workshop">9〜10月の議論に向けて、論点の全体像と検討中の選択肢を事前に把握したい立場。</p>
     </div>
     <div class="personaCard" data-persona="resident">
       <b>🏠 家島の住民・保護者</b>
-      <p>島の学校・暮らしへの影響、地域の負担が増えないかを気にしている立場。</p>
+      <p data-cell-id="persona-card-resident">島の学校・暮らしへの影響、地域の負担が増えないかを気にしている立場。</p>
     </div>
     <div class="personaCard" data-persona="ritokei">
       <b>🗞️ りとけい運営スタッフ</b>
-      <p>この論点が、りとけい全体の活動目的や他の島への横展開にどうつながるかを気にしている立場。</p>
+      <p data-cell-id="persona-card-ritokei">この論点が、りとけい全体の活動目的や他の島への横展開にどうつながるかを気にしている立場。</p>
     </div>
   </div>
 
   <div class="personaDetail" id="persona-owner">
     <b>🧑‍💼 テーマオーナーの方へ</b>
-    <p style="margin-top:8px;font-size:13px">「決断まとめ」タブのトレードオフ比較(案A/B/Cの着手しやすさ・受け入れ規模・横展開効果)と、「提案内容・詳細」タブの3案の詳しい説明が参考になります。財政面(サブリース収支モデル)は現時点で未試算であることも、あわせてご確認ください。</p>
+    <p data-cell-id="persona-detail-owner" style="margin-top:8px;font-size:13px">「決断まとめ」タブのトレードオフ比較(案A/B/Cの着手しやすさ・受け入れ規模・横展開効果)と、「提案内容・詳細」タブの3案の詳しい説明が参考になります。財政面(サブリース収支モデル)は現時点で未試算であることも、あわせてご確認ください。</p>
   </div>
   <div class="personaDetail" id="persona-workshop">
     <b>🙋 ワークショップ参加者の方へ</b>
-    <p style="margin-top:8px;font-size:13px">「決断まとめ」タブの30秒/3分/15分ルートガイドに沿って読むのがおすすめです。「国内外の類似事例」タブ(要検証タグ付き)も、議論のたたき台として目を通しておくと当日話が早いです。</p>
+    <p data-cell-id="persona-detail-workshop" style="margin-top:8px;font-size:13px">「決断まとめ」タブの30秒/3分/15分ルートガイドに沿って読むのがおすすめです。「国内外の類似事例」タブ(要検証タグ付き)も、議論のたたき台として目を通しておくと当日話が早いです。</p>
   </div>
   <div class="personaDetail" id="persona-resident">
     <b>🏠 家島の住民・保護者の方へ</b>
-    <p style="margin-top:8px;font-size:13px">「生データ(補足)」タブに、家島の人口・学校の状況や、実際に1年半滞在した家族の実例をまとめています。ステークホルダーの正式な意見収集はまだ行っておらず、共創ワークショップ後に実施予定です。ご意見がある場合はワークショップへの参加をご検討ください。</p>
+    <p data-cell-id="persona-detail-resident" style="margin-top:8px;font-size:13px">「生データ(補足)」タブに、家島の人口・学校の状況や、実際に1年半滞在した家族の実例をまとめています。ステークホルダーの正式な意見収集はまだ行っておらず、共創ワークショップ後に実施予定です。ご意見がある場合はワークショップへの参加をご検討ください。</p>
   </div>
   <div class="personaDetail" id="persona-ritokei">
     <b>🗞️ りとけい運営スタッフの方へ</b>
-    <p style="margin-top:8px;font-size:13px">「決断まとめ」タブ末尾の「りとけいの活動目的との関わり」表と、「提案内容・詳細」タブの案C(全国展開の型化)が、他の離島への横展開を考えるうえで参考になります。</p>
+    <p data-cell-id="persona-detail-ritokei" style="margin-top:8px;font-size:13px">「決断まとめ」タブ末尾の「りとけいの活動目的との関わり」表と、「提案内容・詳細」タブの案C(全国展開の型化)が、他の離島への横展開を考えるうえで参考になります。</p>
   </div>
 </section>
 
@@ -458,7 +458,7 @@ tr:last-child td{border-bottom:0}
         </tbody>
       </table>
     </div>
-    <div class="callout warn" style="margin-top:10px"><b>前提条件：</b>離島留学は多くの島に共通するテーマだが、家島の取り組みは「補助金に頼らない自走モデル」を志向している点が特徴。単なる個別の成功事例ではなく、他地域に展開できる「型」になりうるかが論点。</div>
+    <div class="callout warn" style="margin-top:10px"><b>前提条件：</b><span data-cell-id="premise-callout">離島留学は多くの島に共通するテーマだが、家島の取り組みは「補助金に頼らない自走モデル」を志向している点が特徴。単なる個別の成功事例ではなく、他地域に展開できる「型」になりうるかが論点。</span></div>
   </div>
   <div class="card" style="margin-top:14px">
     <h3>本論点固有の背景</h3>
@@ -475,37 +475,37 @@ tr:last-child td{border-bottom:0}
   <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">以下は、中西さんの発言をもとに整理した「検討の選択肢」です。共創ワークショップでの議論を経て、内容は更新されます。特定の案を推奨するものではありません。</p>
   <div class="measureCard">
     <b>案A 家島単独でモデルの実証を深める</b>
-    <p style="font-size:13px;margin:6px 0 0">まずは家島内で、サブリースの件数を増やし、保護者の就労支援や地域・学校の負担軽減など、残る課題を一つずつ検証する案。</p>
+    <p data-cell-id="proposal-a-desc" style="font-size:13px;margin:6px 0 0">まずは家島内で、サブリースの件数を増やし、保護者の就労支援や地域・学校の負担軽減など、残る課題を一つずつ検証する案。</p>
     <div class="outlookRow">
-      <div><em>短期</em>着手しやすく、実例を積み上げやすい</div>
-      <div><em>中期</em>家島単独では対応できる家族数に限りがある</div>
-      <div><em>長期</em>他地域への横展開のノウハウが蓄積される</div>
+      <div><em>短期</em><span data-cell-id="proposal-a-short">着手しやすく、実例を積み上げやすい</span></div>
+      <div><em>中期</em><span data-cell-id="proposal-a-mid">家島単独では対応できる家族数に限りがある</span></div>
+      <div><em>長期</em><span data-cell-id="proposal-a-long">他地域への横展開のノウハウが蓄積される</span></div>
     </div>
   </div>
   <div class="measureCard">
     <b>案B 近隣の離島・中山間地域と共同でモデルを運営する</b>
-    <p style="font-size:13px;margin:6px 0 0">相生市・たつの市などのコーディネーターと連携し、複数地域で仕組みを共同運営する案。</p>
+    <p data-cell-id="proposal-b-desc" style="font-size:13px;margin:6px 0 0">相生市・たつの市などのコーディネーターと連携し、複数地域で仕組みを共同運営する案。</p>
     <div class="outlookRow">
-      <div><em>短期</em>連携先との役割分担・調整に時間がかかる</div>
-      <div><em>中期</em>受け入れ可能な家族数を増やせる</div>
-      <div><em>長期</em>地域間でコーディネーターの知見を共有できる</div>
+      <div><em>短期</em><span data-cell-id="proposal-b-short">連携先との役割分担・調整に時間がかかる</span></div>
+      <div><em>中期</em><span data-cell-id="proposal-b-mid">受け入れ可能な家族数を増やせる</span></div>
+      <div><em>長期</em><span data-cell-id="proposal-b-long">地域間でコーディネーターの知見を共有できる</span></div>
     </div>
   </div>
   <div class="measureCard">
     <b>案C 全国展開を見据えて、仕組みを「型」として整備する</b>
-    <p style="font-size:13px;margin:6px 0 0">サブリースの契約設計・コーディネーターの役割・学校との連携方法などをマニュアル化し、他の離島・中山間地域に展開できる形にする案。</p>
+    <p data-cell-id="proposal-c-desc" style="font-size:13px;margin:6px 0 0">サブリースの契約設計・コーディネーターの役割・学校との連携方法などをマニュアル化し、他の離島・中山間地域に展開できる形にする案。</p>
     <div class="outlookRow">
-      <div><em>短期</em>型化の作業に時間とコストがかかる</div>
-      <div><em>中期</em>他地域からの問い合わせ・展開に対応しやすくなる</div>
-      <div><em>長期</em>全国の同様の課題を抱える地域への波及効果が期待できる</div>
+      <div><em>短期</em><span data-cell-id="proposal-c-short">型化の作業に時間とコストがかかる</span></div>
+      <div><em>中期</em><span data-cell-id="proposal-c-mid">他地域からの問い合わせ・展開に対応しやすくなる</span></div>
+      <div><em>長期</em><span data-cell-id="proposal-c-long">全国の同様の課題を抱える地域への波及効果が期待できる</span></div>
     </div>
   </div>
   <div class="card" style="margin-top:14px">
     <h3>3つの選択肢を比較(たたき台)</h3>
     <div class="grid3">
-      <div class="card"><span class="pill pblue">案A</span><h3 style="margin-top:8px">家島単独で深化</h3><p style="font-size:12.5px">着手は早いが、受け入れ可能な家族数には限界がある。</p></div>
-      <div class="card"><span class="pill porange">案B</span><h3 style="margin-top:8px">近隣地域と共同運営</h3><p style="font-size:12.5px">連携先との調整に時間がかかるが、受け入れ規模を広げられる。</p></div>
-      <div class="card"><span class="pill pgreen">案C</span><h3 style="margin-top:8px">全国展開の型化</h3><p style="font-size:12.5px">最も波及効果が大きい案。型化のための整理・検証に時間が必要。</p></div>
+      <div class="card"><span class="pill pblue">案A</span><h3 style="margin-top:8px">家島単独で深化</h3><p data-cell-id="proposal-compare-a" style="font-size:12.5px">着手は早いが、受け入れ可能な家族数には限界がある。</p></div>
+      <div class="card"><span class="pill porange">案B</span><h3 style="margin-top:8px">近隣地域と共同運営</h3><p data-cell-id="proposal-compare-b" style="font-size:12.5px">連携先との調整に時間がかかるが、受け入れ規模を広げられる。</p></div>
+      <div class="card"><span class="pill pgreen">案C</span><h3 style="margin-top:8px">全国展開の型化</h3><p data-cell-id="proposal-compare-c" style="font-size:12.5px">最も波及効果が大きい案。型化のための整理・検証に時間が必要。</p></div>
     </div>
     <p class="footNote">※ この比較は共創ワークショップでの議論のたたき台として作成した仮のものです。実際の評価はワークショップでの議論・ヒアリングを経て更新します。</p>
   </div>
@@ -520,7 +520,7 @@ tr:last-child td{border-bottom:0}
     <div class="forecastBar"><span class="label">いま(概数)</span><div class="track"><div class="fill" style="width:74%"></div></div><span class="val">約2,000人</span></div>
     <div class="callout warn" style="margin-top:10px">
       <b>📎 未来30年分の推計について(PoC用概算・要精査)</b>
-      <p style="margin-top:6px">2015→2020年の5年間で▲20.6%という減少率がそのまま続くと仮定した単純な機械的延長であり、国立社会保障・人口問題研究所(IPSS)による地域別将来推計人口など、精度の高い推計とは置き換えていません。この論点はまだ「提起」段階のため、モデルの効果によって減少カーブがどう変わるかも未検討です。共創ワークショップまでに、より精度の高い推計への差し替えを推奨します。</p>
+      <p data-cell-id="forecast-poc-caveat" style="margin-top:6px">2015→2020年の5年間で▲20.6%という減少率がそのまま続くと仮定した単純な機械的延長であり、国立社会保障・人口問題研究所(IPSS)による地域別将来推計人口など、精度の高い推計とは置き換えていません。この論点はまだ「提起」段階のため、モデルの効果によって減少カーブがどう変わるかも未検討です。共創ワークショップまでに、より精度の高い推計への差し替えを推奨します。</p>
     </div>
     <p style="font-size:12.5px;color:var(--muted);margin-top:10px">※旧家島町全体(家島・坊勢島・男鹿島・西島の4島合計)ではなく、家島本島のみの数値です。1970〜80年代など、さらに遡った正確な数値は今回未確認(OpenDataSourceに「未確認」として記録済み)。</p>
   </div>
@@ -530,7 +530,7 @@ tr:last-child td{border-bottom:0}
       <b>❌ 現時点では算出できません</b>
       <p data-cell-id="forecast-economic-status" style="margin-top:6px">「空き家サブリース×離島留学モデル」による経済効果(転貸差額の総額、地域内消費額の増加など)を試算するための、契約件数・賃料差・改修費回収年数などの基礎データが、共創ワークショップ前の現時点ではまだ揃っていません。実在しないデータをもとに仮の金額を書くと、かえって議論の土台を誤らせるため、ここでは「未算出」と正直に記載します。</p>
     </div>
-    <p style="font-size:12.5px;color:var(--muted);margin-top:10px">共創ワークショップ(9〜10月)で案A〜Cのどれを深掘りするかが定まり次第、具体的な収支モデル・経済効果の試算に着手する想定です。</p>
+    <p data-cell-id="forecast-next" style="font-size:12.5px;color:var(--muted);margin-top:10px">共創ワークショップ(9〜10月)で案A〜Cのどれを深掘りするかが定まり次第、具体的な収支モデル・経済効果の試算に着手する想定です。</p>
   </div>
 </section>
 
@@ -579,21 +579,21 @@ tr:last-child td{border-bottom:0}
       <div class="stage"><b>④</b>実行</div>
       <div class="stage"><b>⑤</b>振り返り</div>
     </div>
-    <p style="font-size:12.5px;color:var(--muted)">現在は①情報収集の段階です。9〜10月の共創ワークショップで②対話・検討に進みます。</p>
+    <p data-cell-id="journey-current" style="font-size:12.5px;color:var(--muted)">現在は①情報収集の段階です。9〜10月の共創ワークショップで②対話・検討に進みます。</p>
   </div>
   <div class="card" style="margin-top:14px">
     <h3>③決断に進む前のチェックリスト(未達成)</h3>
     <ul style="font-size:13px">
-      <li>☐ サブリースの収支モデル(賃料差・改修費回収年数)の試算</li>
-      <li>☐ ステークホルダー(住民・保護者・学校)への正式なヒアリング</li>
-      <li>☐ 案A/B/Cのどれを軸にするかの参加者間の合意</li>
-      <li>☐ マスターリース契約の法的スキームの確認</li>
+      <li data-cell-id="journey-checklist-1">☐ サブリースの収支モデル(賃料差・改修費回収年数)の試算</li>
+      <li data-cell-id="journey-checklist-2">☐ ステークホルダー(住民・保護者・学校)への正式なヒアリング</li>
+      <li data-cell-id="journey-checklist-3">☐ 案A/B/Cのどれを軸にするかの参加者間の合意</li>
+      <li data-cell-id="journey-checklist-4">☐ マスターリース契約の法的スキームの確認</li>
     </ul>
     <p class="footNote">チェックが揃うまでは「③決断」段階には進まない想定です。</p>
   </div>
   <div class="card" style="margin-top:14px">
     <h3>振り返り(まだ実施していません)</h3>
-    <p style="font-size:12.5px;color:var(--muted)">③決断・④実行を経た後、数ヶ月後・1年後の振り返りをここに記録する予定です。現時点では実行段階に達していないため、記載内容はありません。</p>
+    <p data-cell-id="journey-retro" style="font-size:12.5px;color:var(--muted)">③決断・④実行を経た後、数ヶ月後・1年後の振り返りをここに記録する予定です。現時点では実行段階に達していないため、記載内容はありません。</p>
   </div>
 </section>
 
@@ -604,14 +604,14 @@ tr:last-child td{border-bottom:0}
     <div class="measureCard">
       <span class="pill porange">要検証</span>
       <b>隠岐島前高校の「高校魅力化プロジェクト」(島根県海士町など)</b>
-      <p style="font-size:13px;margin:6px 0 0">県外からの越境入学(島留学)により、統廃合の危機にあった高校の生徒数を回復させた事例として広く知られている。ただし本資料作成時点では、財源構造や運営体制の詳細までは一次情報で確認できていない。</p>
-      <div class="callout warn" style="margin-top:8px"><b>取り扱いの注意：</b>推測で制度内容を補って書かないこと。共創ワークショップまでに、一次情報での確認を行う必要がある。</div>
+      <p data-cell-id="cases-1-desc" style="font-size:13px;margin:6px 0 0">県外からの越境入学(島留学)により、統廃合の危機にあった高校の生徒数を回復させた事例として広く知られている。ただし本資料作成時点では、財源構造や運営体制の詳細までは一次情報で確認できていない。</p>
+      <div class="callout warn" style="margin-top:8px"><b>取り扱いの注意：</b><span data-cell-id="cases-1-note">推測で制度内容を補って書かないこと。共創ワークショップまでに、一次情報での確認を行う必要がある。</span></div>
     </div>
     <div class="measureCard">
       <span class="pill porange">要検証</span>
       <b>空き家バンク＋移住コーディネーター制度を持つ他地域の取り組み</b>
-      <p style="font-size:13px;margin:6px 0 0">全国の移住促進策では、空き家バンクと移住コーディネーターを組み合わせる例が多いが、本論点のように「サブリース差額でコーディネーター人件費を賄う」設計まで踏み込んだ事例は、りとけいとして未確認。</p>
-      <div class="callout warn" style="margin-top:8px"><b>本論点への示唆：</b>財源の自走性という点で、家島の取り組みは他地域と一線を画す可能性がある。共創ワークショップで他地域の参加者から類似の取り組みが共有されるか確認したい。</div>
+      <p data-cell-id="cases-2-desc" style="font-size:13px;margin:6px 0 0">全国の移住促進策では、空き家バンクと移住コーディネーターを組み合わせる例が多いが、本論点のように「サブリース差額でコーディネーター人件費を賄う」設計まで踏み込んだ事例は、りとけいとして未確認。</p>
+      <div class="callout warn" style="margin-top:8px"><b>本論点への示唆：</b><span data-cell-id="cases-2-note">財源の自走性という点で、家島の取り組みは他地域と一線を画す可能性がある。共創ワークショップで他地域の参加者から類似の取り組みが共有されるか確認したい。</span></div>
     </div>
     <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。実際の政策検討には一次情報での確認をお願いします。</p>
   </div>
@@ -628,14 +628,14 @@ tr:last-child td{border-bottom:0}
           <tr>
             <td><b>空き家対策総合支援事業など、空き家の改修・活用に関する国の支援制度</b><br><span class="pill porange">自治体・団体向け</span></td>
             <td>国土交通省</td>
-            <td>空き家の除却・改修・活用を支援する制度群。</td>
-            <td>島の空き家の初期修繕費(1件あたり20万円規模)を賄う財源候補になりうる。</td>
+            <td data-cell-id="funding-1-desc">空き家の除却・改修・活用を支援する制度群。</td>
+            <td data-cell-id="funding-1-reason">島の空き家の初期修繕費(1件あたり20万円規模)を賄う財源候補になりうる。</td>
           </tr>
           <tr>
             <td><b>地域おこし協力隊制度</b><br><span class="pill porange">自治体向け</span></td>
             <td>総務省</td>
-            <td>地域外の人材を受け入れ、地域協力活動を行う隊員の活動費・人件費を支援。</td>
-            <td>地域コーディネーターの活動費の一部を、立ち上げ期に補完できる可能性がある。</td>
+            <td data-cell-id="funding-2-desc">地域外の人材を受け入れ、地域協力活動を行う隊員の活動費・人件費を支援。</td>
+            <td data-cell-id="funding-2-reason">地域コーディネーターの活動費の一部を、立ち上げ期に補完できる可能性がある。</td>
           </tr>
         </tbody>
       </table>
