@@ -135,7 +135,7 @@ tr:last-child td{border-bottom:0}
 @media(max-width:900px){.grid2,.grid3,.stakeGrid,.outlookRow,.a3Grid,.decisionQ .metaRow,.confGrid,.personaGrid{grid-template-columns:1fr}}
 </style>
 </head>
-<body data-dashboard-slug="ieshima-ryugaku-model-dss">
+<body data-dashboard-slug="ieshima-ryugaku-model-dss" data-issue-page-id="3cb960a9-1e23-818c-9217-cf0fa224f120">
 <div class="app">
 <div class="hero">
   <span class="eyebrow">意思決定支援PoC ｜ 認定NPO法人 離島経済新聞社(りとけい) ｜ 未来のシマ共創会議2026 テーマオーナー案件</span>
@@ -199,6 +199,7 @@ tr:last-child td{border-bottom:0}
   <button class="tabBtn" data-tab="cases">国内外の類似事例</button>
   <button class="tabBtn" data-tab="funding">活用できる補助金・交付金</button>
   <button class="tabBtn" data-tab="raw">生データ（補足）</button>
+  <button class="tabBtn" data-tab="meetingnotes">🗒️ 議事メモ</button>
   <button class="tabBtn" data-tab="history">📜 過去のダッシュボード</button>
 </nav>
 
@@ -677,6 +678,14 @@ tr:last-child td{border-bottom:0}
       <b>まだ収集していません</b>
       <p style="margin-top:6px">本論点は2026年8月時点で「提起」段階です。Stakeholder・PositionRecord(立場表明ログ)は、共創ワークショップでの議論を経るまで空のままにしています。ここに掲載しているのは、テーマオーナー・中西さんが公開の場(りとけいフォーラム記事)で発言した内容のみです。ワークショップ(9月・10月)を経て、実際の声を収集次第、このシートも更新します。</p>
     </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-meetingnotes">
+  <div class="card">
+    <h3>🗒️ 議事メモ</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">ワークショップ・会議の議事録や議事メモを、右下の「編集モード」から誰でも直接登録できます。登録された内容は、しまてつだいダッシュボードエージェントが確認し、必要な内容を各タブ(決断まとめ・立場地図など)に反映します。反映済みのメモには「✅ 反映済み」バッジが付きます。</p>
+    <div id="meeting-notes-list">読み込み中…</div>
   </div>
 </section>
 
