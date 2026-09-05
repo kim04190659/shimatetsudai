@@ -712,7 +712,7 @@ tr:last-child td{border-bottom:0}
 <section class="panel" id="panel-history">
   <div class="card">
     <h3>📜 過去のダッシュボード</h3>
-    <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">改版のたびに、このタブへスナップショット(要約)を追加していきます。全内容の差分が必要な場合は、開発者(吉高さん)にgit履歴・Notionページ履歴の確認をご依頼ください。</p>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">改版のたびに、このタブへ要約を追加します。「決断まとめ」タブは特に変化が分かりにくいため、直前バージョンについては「▼ 全文を見る」から当時のタブ全体をそのまま確認できます(古いバージョンほど要約のみになります)。それ以前の全内容の差分が必要な場合は、開発者(吉高さん)にgit履歴・Notionページ履歴の確認をご依頼ください。</p>
     <div class="historyCard">
       <b>v1(7タブ構成・情報充足度レーダー版)</b>
       <p style="font-size:12.5px;margin:8px 0 0">「議論まとめ／前提条件／提案内容・詳細／将来予測・経済効果／類似事例／補助金・交付金／生データ」の7タブ構成。要するに：案Aを続けながら3課題を1つずつ潰していくのが現実的、という結論。情報充足度：財政25点・行政実務20点が弱いとの自己診断。</p>
@@ -730,6 +730,214 @@ tr:last-child td{border-bottom:0}
         <span>反映元：ChangeRequest「意思決定支援ダッシュボードの全面刷新：5案統合」</span>
         <span>更新者：Claude(エージェント)</span>
       </div>
+      <details class="historySnapshot" style="margin-top:10px">
+        <summary>▼ v2時点の「決断まとめ」タブ全文を見る(参考・このHTMLはそのまま当時の表示内容です)</summary>
+        <div class="card" style="margin-top:10px;background:#fafaf8">
+      
+        <div class="tldr">
+          <b>✅ 要するに：まずは案A(家島単独でのモデル実証)を続けながら、残る3課題(就労・地域負担・改修資金)を1つずつ潰していくのが現実的です。</b>
+        </div>
+        <details class="reasonBox">
+          <summary>▼ なぜそう言えるか(根拠)を見る</summary>
+          <ul>
+            <li>神戸の中学生家族が1年半過ごした実例がすでにあり、ゼロからの構想ではない</li>
+            <li>離島留学の多くが補助金頼みで持続性に課題を抱えており、自走モデルへの需要は高い</li>
+            <li>空き家の修繕費(1件20万円規模)という具体的な障壁がすでに明確になっている</li>
+          </ul>
+        </details>
+      
+        <h3 style="margin-top:18px;font-size:15px">🧭 30秒/3分/15分ルートガイド</h3>
+        <div class="routeGuide">
+          <div class="r"><b>⏱ 30秒</b>上のtldrと、下の「現時点の結論・次の一手」だけ読めばOK</div>
+          <div class="r"><b>☕ 3分</b>このタブ全体＋「提案内容・詳細」タブの3案比較まで</div>
+          <div class="r"><b>📚 15分</b>「立場地図」「決断ジャーニー」「生データ」まで含めて全体を確認</div>
+        </div>
+      
+        <h3 style="margin-top:18px;font-size:15px">3案のトレードオフ比較(たたき台)</h3>
+        <p style="font-size:12px;color:var(--muted);margin:0 0 8px">◎○△は、下の「提案内容・詳細」タブの記述をもとにした定性的な目安であり、点数化されたスコアではありません。共創ワークショップでの議論を経て更新します。</p>
+        <div class="tradeoffWrap">
+          <table>
+            <thead><tr><th>比較軸</th><th>案A 家島単独で深化</th><th>案B 近隣地域と共同運営</th><th>案C 全国展開の型化</th></tr></thead>
+            <tbody>
+              <tr><td>着手しやすさ</td><td><span class="pill pgreen">◎</span></td><td><span class="pill porange">△</span></td><td><span class="pill pred">✕(時間要)</span></td></tr>
+              <tr><td>受け入れ規模の拡大</td><td><span class="pill pred">✕(限界あり)</span></td><td><span class="pill pgreen">◎</span></td><td><span class="pill pblue">○(将来的に)</span></td></tr>
+              <tr><td>横展開・波及効果</td><td><span class="pill porange">△</span></td><td><span class="pill pblue">○</span></td><td><span class="pill pgreen">◎</span></td></tr>
+              <tr><td>必要な調整コスト</td><td><span class="pill pgreen">低い</span></td><td><span class="pill porange">中</span></td><td><span class="pill pred">高い</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      
+        <h3 style="margin-top:18px;font-size:15px">情報の信頼度別に見る(確定/保留/未収集)</h3>
+        <div class="confGrid">
+          <div class="confCard done">
+            <b>✅ 確定(実測・一次情報あり)</b>
+            <ul>
+              <li>家島本島の人口推移(国勢調査2015→2020)</li>
+              <li>家島小中学校の児童・生徒数</li>
+              <li>2025年1月の一般社団法人はりまのいばしょ設立</li>
+            </ul>
+          </div>
+          <div class="confCard pending">
+            <b>🕓 保留(方向性はあるが未確定)</b>
+            <ul>
+              <li>サブリースの収支モデル(賃料差・改修費回収年数)</li>
+              <li>案A/B/Cのどれを軸にするか</li>
+              <li>横展開先の候補地域</li>
+            </ul>
+          </div>
+          <div class="confCard missing">
+            <b>❌ 未収集</b>
+            <ul>
+              <li>ステークホルダーの立場表明(PositionRecord)</li>
+              <li>保護者・地域住民への正式なヒアリング結果</li>
+              <li>将来推計人口の精緻な試算(IPSS等)</li>
+            </ul>
+          </div>
+        </div>
+      
+        <div class="coiBox">
+          <b>⏳ 今、決めずに先送りした場合に起きうること(Cost of Inaction)</b>
+          <p style="margin-top:6px">具体的な金額や年数での試算はまだできません(基礎データ不足のため未算出)。ただし、確定している事実からは、①家島の人口・児童数の減少傾向が続いていること、②離島留学の多くが補助金依存で単年度ごとの不確実性を抱えていること、の2点は言えます。共創ワークショップでの議論を先送りするほど、既存の実例(神戸の家族)のような機会が積み上がりにくくなる可能性があります。</p>
+        </div>
+      
+        <div class="card">
+          <h3>論点の整理：なぜ「空き家サブリース×離島留学モデル」が必要か</h3>
+          <div class="grid2">
+            <div class="callout risk">
+              <b>きっかけとなった出来事</b>
+              <ul style="margin:6px 0 0;padding-left:18px">
+                <li>神戸市の中学生とその家族が家島で1年半を過ごした実例が生まれた</li>
+                <li>全国の離島留学の多くが自治体の予算・補助金頼みで、持続性に課題を抱えている</li>
+                <li>島の空き家(修繕費が必要な物件が多い)の活用が進んでいない</li>
+              </ul>
+            </div>
+            <div class="callout ok">
+              <b>すでに動いている取り組み</b>
+              <ul style="margin:6px 0 0;padding-left:18px">
+                <li>2025年1月、一般社団法人はりまのいばしょを設立</li>
+                <li>空き家を一括で借り受け(マスターリース)、改修して転貸(サブリース)する仕組みを構築中</li>
+                <li>転貸差額をコーディネーターの活動費に充てる自走モデルを目指している</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <h3>共創ワークショップの位置づけ</h3>
+          <div class="tableWrap">
+            <table>
+              <thead><tr><th>日程</th><th>形式</th><th>内容</th></tr></thead>
+              <tbody>
+                <tr><td>9月10日・10月1日</td><td>オンライン</td><td>論点の共有、事例研究、「離島留学モデル」を骨太な事業モデルに育てる議論</td></tr>
+                <tr><td>10月23日</td><td>対面(定員25名)</td><td>テーマオーナー・参加者・専門家を交えた議論、共創セッションでの発表</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="footNote">テーマオーナー：一般社団法人はりまのいばしょ／いえしまコンシェルジュ株式会社 中西和也さん。参加はPeatixで受付。詳細・最新情報は<a href="https://ritokei.com/forum/shimakaigi2026_theme01_ieshima" target="_blank" rel="noopener">りとけいフォーラムの元記事</a>でご確認ください。</p>
+        </div>
+      
+        <h3 style="margin-top:18px;font-size:15px">この論点の全体像(A3サマリー)</h3>
+        <div class="radarWrap">
+          <svg id="radarChart-v2snap" width="180" height="180" viewBox="0 0 180 180"></svg>
+          <div class="radarNotes">
+            <b>📡 情報充足度診断(AIによる自己レビュー・2026-09-02時点)</b>
+            <ul id="radarWeakPoints-v2snap">
+              <li><b>財政(25点):</b> <span>サブリース差額の具体的な収支モデル(賃料差・改修費20万円の回収年数など)が未試算。共創ワークショップまでに数値を詰める必要あり。</span></li>
+              <li><b>行政実務(20点):</b> <span>マスターリース契約の法的スキーム、空き家所有者との合意形成プロセス、姫路市の空き家関連施策との整合性が未確認。</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="a3Grid">
+          <div class="mini">
+            <h4>📊 判断材料ハイライト</h4>
+            <ul>
+              <li>神戸の中学生家族が家島で1年半過ごした実例が構想の出発点</li>
+              <li>離島留学の多くが補助金依存で持続性に課題</li>
+              <li>島の空き家活用と、都市部の少人数教育ニーズを掛け合わせる発想</li>
+              <li>サブリース差額をコーディネーター活動費に充てる自走モデル</li>
+            </ul>
+          </div>
+          <div class="mini">
+            <h4>💡 検討中の選択肢ハイライト</h4>
+            <ul>
+              <li>案A：家島単独でモデルの実証を深める</li>
+              <li>案B：近隣の離島・中山間地域と共同でモデルを運営する</li>
+              <li>案C：全国展開を見据えて、仕組みを「型」として整備する</li>
+            </ul>
+          </div>
+          <div class="mini">
+            <h4>📈 将来予測ハイライト</h4>
+            <ul>
+              <li>家島本島の人口は国勢調査ベースで2015年2,693人→2020年2,137人(▲20.6%)</li>
+              <li>2024年取材時点で島民の約半数が65歳以上</li>
+              <li><span class="pill porange">PoC概算</span> 未来30年分の推計はまだ簡易延長のみ。IPSS推計への差し替えが必要</li>
+              <li>サブリース収益の経済効果は基礎データ不足のため<b>未算出</b></li>
+            </ul>
+          </div>
+          <div class="mini">
+            <h4>🗣️ 現時点で分かっている声</h4>
+            <ul>
+              <li>テーマオーナー：補助金に頼らない自走の仕組みをつくりたい</li>
+              <li>過去の受け入れ家族：島での滞在が子どもの表情を明るくした</li>
+              <li>個別のステークホルダーへのヒアリングは共創ワークショップで実施予定</li>
+            </ul>
+          </div>
+          <div class="mini">
+            <h4>🌍 類似事例ハイライト</h4>
+            <ul>
+              <li><span class="pill porange">要検証</span> 隠岐島前高校など、離島留学・高校魅力化の先行事例</li>
+              <li><span class="pill porange">要検証</span> 空き家バンク＋移住コーディネーター制度を持つ他地域の取り組み</li>
+            </ul>
+          </div>
+          <div class="mini">
+            <h4>💰 補助金・交付金ハイライト</h4>
+            <ul>
+              <li><span class="pill porange">中</span> 空き家対策・活用に関する国の支援制度：改修費用の財源候補</li>
+              <li><span class="pill porange">中</span> 地域おこし協力隊関連制度：コーディネーター人件費の一部候補</li>
+            </ul>
+          </div>
+          <div class="mini">
+            <h4>📡 情報充足度診断サマリー</h4>
+            <ul>
+              <li>りとけい現場視点(55点)・住民生活視点(50点)は実例ベースの情報がある程度揃っている</li>
+              <li>専門家視点(40点)は要検証タグ付きの事例が多く、裏付けが弱い</li>
+              <li>財政(25点)・行政実務(20点)が特に手薄。ワークショップまでに優先して埋めたい</li>
+            </ul>
+          </div>
+          <div class="mini">
+            <h4>✅ 現時点の結論・次の一手</h4>
+            <ul>
+              <li>特定の案への合意はまだ形成されておらず、共創ワークショップが出発点</li>
+              <li>次の一手：保護者の就労支援・地域負担の軽減策を具体化する</li>
+              <li>ワークショップ後、実際の議論を踏まえてPositionRecordを登録</li>
+            </ul>
+          </div>
+        </div>
+      
+        <h3 style="margin-top:18px;font-size:15px">🧭 りとけいの活動目的との関わり</h3>
+        <p style="font-size:12px;color:var(--muted);margin:6px 0 10px">りとけいの分室ページ「りとけい分室」が掲げる、論点が増減しても変わらない目的との関わり。</p>
+        <div class="tableWrap">
+          <table>
+            <thead><tr><th>りとけいの目的</th><th>この論点の影響方向</th></tr></thead>
+            <tbody>
+              <tr><td>420の有人離島を、取材・発信・連携でつなぐ</td><td><span class="pill pgreen">追い風</span> 家島発の自走モデルは、他の離島にも横展開できる「型」になりうる</td></tr>
+              <tr><td>離島の子育て・教育インフラの課題解決を後押しする</td><td><span class="pill pgreen">追い風</span> 学校存続・少人数教育という、多くの離島に共通する課題への挑戦</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="nextStep">
+          <b>🌱 厳しい前提の中でも、まず1つ試すなら：</b>
+          <p style="margin:6px 0 0">今ある空き家1件分の改修費用を、地域おこし協力隊制度でどこまで賄えるか試算してみることです。全体構想の合意を待たずに、今すぐ着手できます。</p>
+        </div>
+      
+        <div class="actionStrip">
+          <button type="button" disabled>案Aを推す</button>
+          <button type="button" disabled>案Bを推す</button>
+          <button type="button" disabled>案Cを推す</button>
+          <button type="button" disabled>📄 決断メモを書き出す</button>
+          <span class="note">※ これらのボタンは現在デモ表示のみです(v1)。実際の意思表明・記録機能は別途ChangeRequestとして検討します。</span>
+        </div>
+        </div>
+      </details>
     </div>
     <div class="historyCard">
       <b>v3(現行・9/5・9/6の事前会議を反映、議事メモタブ新設)</b>
