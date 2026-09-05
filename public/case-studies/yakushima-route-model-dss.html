@@ -31,6 +31,16 @@ body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMa
 .tabs{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 28px;z-index:5;display:flex;gap:8px;overflow:auto}
 .tabs button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;white-space:nowrap;font-size:13px}
 .tabs button.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.tabGroupPrimary{border-color:#8fc9a8!important;background:var(--greenSoft)!important}
+.tabGroupDetail{border-color:#a9c3ea!important;background:var(--blueSoft)!important}
+.tabGroupRef{border-color:#d8d5cf!important;background:var(--soft)!important}
+.tabs button.active.tabGroupPrimary,.tabs button.active.tabGroupDetail,.tabs button.active.tabGroupRef{background:var(--blue)!important;border-color:var(--blue)!important;color:#fff!important}
+.tabLegend{display:flex;gap:14px;flex-wrap:wrap;padding:6px 28px 10px;font-size:11px;color:var(--muted);background:rgba(255,255,255,.95)}
+.tabLegend span{display:inline-flex;align-items:center;gap:5px}
+.tabLegend .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.dotPrimary{background:var(--green)}
+.dotDetail{background:var(--blue)}
+.dotRef{background:var(--gray)}
 .panel{display:none;padding:20px 28px 36px}
 .panel.active{display:block}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -178,19 +188,24 @@ tr:last-child td{border-bottom:0}
 </div>
 
 <nav class="tabs">
-  <button class="tabBtn active" data-tab="summary">決断まとめ</button>
-  <button class="tabBtn" data-tab="persona">あなたの立場から</button>
-  <button class="tabBtn" data-tab="premise">屋久島町の視点（前提条件）</button>
-  <button class="tabBtn" data-tab="proposal">提案内容・詳細</button>
-  <button class="tabBtn" data-tab="forecast">将来予測・経済効果</button>
-  <button class="tabBtn" data-tab="positions">立場地図</button>
-  <button class="tabBtn" data-tab="journey">決断ジャーニー</button>
-  <button class="tabBtn" data-tab="cases">国内外の類似事例</button>
-  <button class="tabBtn" data-tab="funding">活用できる補助金・交付金</button>
-  <button class="tabBtn" data-tab="raw">生データ（補足）</button>
-  <button class="tabBtn" data-tab="meetingnotes">🗒️ 議事メモ</button>
-  <button class="tabBtn" data-tab="history">📜 過去のダッシュボード</button>
+  <button class="tabBtn tabGroupPrimary active" data-tab="summary">決断まとめ</button>
+  <button class="tabBtn tabGroupPrimary" data-tab="persona">立場別</button>
+  <button class="tabBtn tabGroupDetail" data-tab="premise">町の視点</button>
+  <button class="tabBtn tabGroupDetail" data-tab="proposal">提案</button>
+  <button class="tabBtn tabGroupDetail" data-tab="forecast">将来予測</button>
+  <button class="tabBtn tabGroupDetail" data-tab="positions">立場地図</button>
+  <button class="tabBtn tabGroupDetail" data-tab="journey">進捗</button>
+  <button class="tabBtn tabGroupRef" data-tab="cases">事例</button>
+  <button class="tabBtn tabGroupRef" data-tab="funding">補助金</button>
+  <button class="tabBtn tabGroupPrimary" data-tab="raw">生データ</button>
+  <button class="tabBtn tabGroupPrimary" data-tab="meetingnotes">🗒️ 議事メモ</button>
+  <button class="tabBtn tabGroupRef" data-tab="history">📜 履歴</button>
 </nav>
+<div class="tabLegend">
+  <span><i class="dot dotPrimary"></i>まず見る</span>
+  <span><i class="dot dotDetail"></i>くわしく検討</span>
+  <span><i class="dot dotRef"></i>参考</span>
+</div>
 
 <section class="panel active" id="panel-summary">
   <div class="tldr">
@@ -208,10 +223,13 @@ tr:last-child td{border-bottom:0}
 
   <h3 style="margin-top:18px;font-size:15px">🧭 30秒/3分/15分ルートガイド</h3>
   <div class="routeGuide">
-    <div class="r"><b>⏱ 30秒</b>上のtldrと、下の「現時点の結論・次の一手」だけ読めばOK</div>
-    <div class="r"><b>☕ 3分</b>このタブ全体＋「提案内容・詳細」タブの3案比較まで</div>
-    <div class="r"><b>📚 15分</b>「立場地図」「決断ジャーニー」「生データ」まで含めて全体を確認</div>
+    <div class="r"><b>⏱ 30秒</b>上のtldrだけ読めばOK</div>
+    <div class="r"><b>☕ 3分</b>下の「▼もっと詳しく見る」を開いてトレードオフ比較まで＋「提案」タブの3案比較</div>
+    <div class="r"><b>📚 15分</b>「立場地図」「進捗」「生データ」まで含めて全体を確認</div>
   </div>
+
+  <details class="reasonBox">
+    <summary>▼ もっと詳しく見る(3分〜15分向け：トレードオフ比較・信頼度・論点の背景・将来予測など)</summary>
 
   <h3 style="margin-top:18px;font-size:15px">3案のトレードオフ比較(たたき台)</h3>
   <p style="font-size:12px;color:var(--muted);margin:0 0 8px">◎○△は、下の「提案内容・詳細」タブの記述をもとにした定性的な目安であり、点数化されたスコアではありません。共創ワークショップでの議論を経て更新します。</p>
@@ -382,6 +400,8 @@ tr:last-child td{border-bottom:0}
     </table>
   </div>
   <p class="footNote">出典：屋久島町 第三期総合戦略(既存論点「屋久島航路の持続可能性」と同じ町全体の指標を参照)</p>
+  </details>
+
   <div class="nextStep">
     <b>🌱 厳しい前提の中でも、まず1つ試すなら：</b>
     <p data-cell-id="next-step" style="margin:6px 0 0">隠岐諸島の「上下分離方式」について、隠岐広域連合など一次情報で船体保有主体・費用負担割合を確認してみることです。共創ワークショップ本番を待たずに、今すぐ着手できます。</p>
