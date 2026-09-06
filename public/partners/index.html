@@ -22,8 +22,9 @@
     しまてつだい分室（shimatetsudai.vercel.app）のトップページを、
     実際にブラウザで開いて実測したCSS変数・Tailwindクラスをそのまま使用。
     --background/--foreground/--brand/--brand-dark/--brand-soft/--accent-green は実測値。
-    構成（ヘッダー→ヒーロー→はじめての方へ→3つの輪→3つのツール→OUR APPROACH→JOIN US→フッター）も同一。
-    変更したのは文言（島→代理店、自治体→HD本部、拠点スタッフ→認定代理店 等）のみ。
+    構成（ヘッダー→ヒーロー→3つのツール→3つの輪→JOIN US→ABOUT→CONTACT→フッター）は、
+    トップメッセージの直後に3つのツールを提示し、それらがつながって価値になる流れを示した上で、
+    シンプルな代理店募集からお問い合わせへ繋げる構成に整理。
   */
   body{ background:#fdf8f2; color:#4a3f35; font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
   h1,h2,h3{ text-wrap:balance; }
@@ -60,70 +61,7 @@
     </div>
   </section>
 
-  <!-- はじめての方へ -->
-  <section class="mx-auto max-w-5xl px-5 py-14">
-    <div class="text-center">
-      <h2 class="text-2xl font-bold text-foreground">はじめての方へ</h2>
-      <p class="mt-2 text-sm text-foreground/70">あなたの立場に合わせて、見ていただきたいページをご案内します</p>
-    </div>
-    <div class="mt-8 grid gap-5 sm:grid-cols-3">
-      <div class="flex flex-col rounded-2xl border border-brand-soft bg-card p-6 text-center">
-        <span class="text-3xl">🏪</span>
-        <h3 class="mt-3 font-bold text-foreground">代理店の方へ</h3>
-        <p class="mt-2 text-sm leading-relaxed text-foreground/70">今、あなたの代理店でどんな成果が出ているかを見て、本部やほかの代理店にあなたの声を届けられます。</p>
-        <a class="mt-4 inline-flex items-center justify-center gap-1 rounded-full bg-accent-green px-5 py-2.5 text-sm font-semibold text-white transition hover:opacity-90" href="https://claude.ai/code/artifact/ab05cbfa-4413-4c7b-89c1-e04c6b52e64c" target="_blank" rel="noopener">あなたの代理店の状況を見る</a>
-      </div>
-      <div class="flex flex-col rounded-2xl border border-brand-soft bg-card p-6 text-center">
-        <span class="text-3xl">🏢</span>
-        <h3 class="mt-3 font-bold text-foreground">HD本部の方へ</h3>
-        <p class="mt-2 text-sm leading-relaxed text-foreground/70">代理店の声とデータをあわせて、意思決定を後押しする仕組みをご紹介します。初めて開く画面でも迷わないよう、まず「今日、何を確認したいですか?」の1問から案内する作りにしています。</p>
-        <a class="mt-4 inline-flex items-center justify-center gap-1 rounded-full border border-brand bg-white px-5 py-2.5 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40" href="https://claude.ai/code/artifact/ab05cbfa-4413-4c7b-89c1-e04c6b52e64c" target="_blank" rel="noopener">意思決定支援を見る</a>
-      </div>
-      <div class="flex flex-col rounded-2xl border border-brand-soft bg-card p-6 text-center">
-        <span class="text-3xl">🙋</span>
-        <h3 class="mt-3 font-bold text-foreground">新しく代理店になりたい方へ</h3>
-        <p class="mt-2 text-sm leading-relaxed text-foreground/70">自分の暮らす地域のために働く、認定代理店という選択肢があります。</p>
-        <a class="mt-4 inline-flex items-center justify-center gap-1 rounded-full border border-accent-green px-5 py-2.5 text-sm font-semibold text-accent-green transition hover:bg-accent-green/10" href="#contact">代理店について問い合わせる</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3つの輪 -->
-  <section class="bg-brand-soft/30 py-14">
-    <div class="mx-auto max-w-5xl px-5">
-      <div class="text-center">
-        <h2 class="text-2xl font-bold text-foreground">3つのツールが、ひとつの輪になっています</h2>
-        <p class="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-foreground/70">声を聞き、意見としてまとめ、HD本部と決め、また日々の営業に還っていく。この輪を、代理店ごとに小さく回しています。</p>
-      </div>
-      <div class="mt-10 grid gap-4 sm:grid-cols-4">
-        <div class="relative flex flex-col items-center text-center">
-          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-3xl shadow-sm">👂</div>
-          <h3 class="mt-3 font-bold text-foreground">聞く</h3>
-          <p class="mt-1 text-xs leading-relaxed text-foreground/70">「てつだって」で、日々の困りごとを集めます</p>
-          <span class="mt-2 hidden text-xl text-brand-dark/40 sm:block sm:absolute sm:top-6 sm:-right-4">→</span>
-        </div>
-        <div class="relative flex flex-col items-center text-center">
-          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-3xl shadow-sm">✍️</div>
-          <h3 class="mt-3 font-bold text-foreground">意見にする</h3>
-          <p class="mt-1 text-xs leading-relaxed text-foreground/70">「代理店のみんな会議」で、現場の声を言葉にします</p>
-          <span class="mt-2 hidden text-xl text-brand-dark/40 sm:block sm:absolute sm:top-6 sm:-right-4">→</span>
-        </div>
-        <div class="relative flex flex-col items-center text-center">
-          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-3xl shadow-sm">🗳️</div>
-          <h3 class="mt-3 font-bold text-foreground">決める</h3>
-          <p class="mt-1 text-xs leading-relaxed text-foreground/70">「意思決定支援」で、HD本部とともに話し合います</p>
-          <span class="mt-2 hidden text-xl text-brand-dark/40 sm:block sm:absolute sm:top-6 sm:-right-4">→</span>
-        </div>
-        <div class="relative flex flex-col items-center text-center">
-          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-3xl shadow-sm">🏠</div>
-          <h3 class="mt-3 font-bold text-foreground">営業に還る</h3>
-          <p class="mt-1 text-xs leading-relaxed text-foreground/70">決まったことが、また日々の営業に活かされます</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3つのツール -->
+  <!-- 3つのツール（トップメッセージのすぐ次に配置） -->
   <section id="tools" class="mx-auto max-w-5xl px-5 py-16">
     <div class="text-center">
       <h2 class="text-2xl font-bold text-foreground">私たちが届ける3つのツール</h2>
@@ -154,44 +92,48 @@
     </div>
   </section>
 
-  <!-- OUR APPROACH -->
-  <section class="mx-auto max-w-5xl px-5 py-16">
-    <div class="overflow-hidden rounded-3xl border-2 border-accent-green/30 bg-accent-green/5 px-6 py-12 sm:px-12">
+  <!-- 3つの輪：上の3ツールがつながって価値を生み出していることを示す -->
+  <section class="bg-brand-soft/30 py-14">
+    <div class="mx-auto max-w-5xl px-5">
       <div class="text-center">
-        <p class="text-sm font-semibold tracking-wide text-accent-green">OUR APPROACH</p>
-        <h2 class="mt-2 text-2xl font-bold text-foreground">それぞれの代理店が、それぞれの営業判断で決める。それでも、パートナーズ全体が良くなる。</h2>
-        <p class="mx-auto mt-4 max-w-2xl leading-relaxed text-foreground/80">全国の認定代理店には、それぞれ異なる地域・規模・強みがあります。各代理店が自分たちの営業判断で動くのは自然なことですが、バラバラのままだとHD全体の最適にはつながらないことがあります。私たちは、パートナーズ全体で共有する指標と、それぞれの代理店の課題との関わりを生成AIで横断的に見える化することで、各代理店とHD本部の意思決定を支える仕組みに取り組んでいます。</p>
+        <h2 class="text-2xl font-bold text-foreground">この3つが、つながって価値になります</h2>
+        <p class="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-foreground/70">声を聞き、意見としてまとめ、HD本部と決め、また日々の営業に還っていく。この輪を、代理店ごとに小さく回しています。</p>
+      </div>
+      <div class="mt-10 grid gap-4 sm:grid-cols-4">
+        <div class="relative flex flex-col items-center text-center">
+          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-3xl shadow-sm">👂</div>
+          <h3 class="mt-3 font-bold text-foreground">聞く</h3>
+          <p class="mt-1 text-xs leading-relaxed text-foreground/70">「てつだって」で、日々の困りごとを集めます</p>
+          <span class="mt-2 hidden text-xl text-brand-dark/40 sm:block sm:absolute sm:top-6 sm:-right-4">→</span>
+        </div>
+        <div class="relative flex flex-col items-center text-center">
+          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-3xl shadow-sm">✍️</div>
+          <h3 class="mt-3 font-bold text-foreground">意見にする</h3>
+          <p class="mt-1 text-xs leading-relaxed text-foreground/70">「代理店のみんな会議」で、現場の声を言葉にします</p>
+          <span class="mt-2 hidden text-xl text-brand-dark/40 sm:block sm:absolute sm:top-6 sm:-right-4">→</span>
+        </div>
+        <div class="relative flex flex-col items-center text-center">
+          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-3xl shadow-sm">🗳️</div>
+          <h3 class="mt-3 font-bold text-foreground">決める</h3>
+          <p class="mt-1 text-xs leading-relaxed text-foreground/70">「意思決定支援」で、HD本部とともに話し合います</p>
+          <span class="mt-2 hidden text-xl text-brand-dark/40 sm:block sm:absolute sm:top-6 sm:-right-4">→</span>
+        </div>
+        <div class="relative flex flex-col items-center text-center">
+          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-3xl shadow-sm">🏠</div>
+          <h3 class="mt-3 font-bold text-foreground">営業に還る</h3>
+          <p class="mt-1 text-xs leading-relaxed text-foreground/70">決まったことが、また日々の営業に活かされます</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- JOIN US -->
+  <!-- JOIN US：シンプルな代理店募集メッセージ→お問い合わせへ -->
   <section class="mx-auto max-w-5xl px-5 py-16">
-    <div class="overflow-hidden rounded-3xl bg-accent-green/10 px-6 py-12 sm:px-12">
-      <div class="text-center">
-        <p class="text-sm font-semibold tracking-wide text-accent-green">JOIN US</p>
-        <h2 class="mt-2 text-2xl font-bold text-foreground">あなたのまちにも、パートナーズの拠点を。</h2>
-        <p class="mx-auto mt-4 max-w-2xl leading-relaxed text-foreground/80">地域創生HDパートナーズでは、全国各地で活動する認定代理店を募集しています。自分の暮らすまちで、まちのために働く。そんな選択肢を、全国の地域に広げていきたいと考えています。</p>
-      </div>
-      <div class="mt-10 grid gap-6 sm:grid-cols-2">
-        <div class="rounded-2xl bg-card p-6 shadow-sm">
-          <h3 class="font-bold text-brand-dark">自分のまちのための仕事</h3>
-          <p class="mt-2 text-sm leading-relaxed text-foreground/80">住み慣れた地域で、地域の人の役に立つ実感を持てる仕事です。</p>
-        </div>
-        <div class="rounded-2xl bg-card p-6 shadow-sm">
-          <h3 class="font-bold text-brand-dark">無理なく続けられる働き方</h3>
-          <p class="mt-2 text-sm leading-relaxed text-foreground/80">本業と両立しながら、代理店として関わることができます。</p>
-        </div>
-        <div class="rounded-2xl bg-card p-6 shadow-sm">
-          <h3 class="font-bold text-brand-dark">全国の仲間とゆるやかにつながる</h3>
-          <p class="mt-2 text-sm leading-relaxed text-foreground/80">各地の代理店同士で情報交換をしながら、一人にならずに活動できます。</p>
-        </div>
-        <div class="rounded-2xl bg-card p-6 shadow-sm">
-          <h3 class="font-bold text-brand-dark">未経験からでも安心</h3>
-          <p class="mt-2 text-sm leading-relaxed text-foreground/80">生成AIを活用したツールで、専門知識がなくても始められるようサポートします。</p>
-        </div>
-      </div>
-      <div class="mt-10 text-center">
+    <div class="overflow-hidden rounded-3xl bg-accent-green/10 px-6 py-12 text-center sm:px-12">
+      <p class="text-sm font-semibold tracking-wide text-accent-green">JOIN US</p>
+      <h2 class="mt-2 text-2xl font-bold text-foreground">あなたのまちにも、パートナーズの拠点を。</h2>
+      <p class="mx-auto mt-4 max-w-2xl leading-relaxed text-foreground/80">地域創生HDパートナーズでは、全国各地で活動する認定代理店を募集しています。自分の暮らすまちで、まちのために働く。そんな選択肢を、全国の地域に広げていきたいと考えています。</p>
+      <div class="mt-8">
         <a class="inline-flex items-center rounded-full bg-accent-green px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90" href="#contact">代理店について問い合わせる</a>
       </div>
     </div>
