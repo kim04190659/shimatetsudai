@@ -192,7 +192,7 @@
         </div>
       </div>
       <div class="mt-10 text-center">
-        <a class="inline-flex items-center rounded-full bg-accent-green px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90" href="#contact" id="contact">代理店について問い合わせる</a>
+        <a class="inline-flex items-center rounded-full bg-accent-green px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90" href="#contact">代理店について問い合わせる</a>
       </div>
     </div>
   </section>
@@ -201,6 +201,60 @@
   <section id="about" class="mx-auto max-w-5xl px-5 py-16 text-center">
     <h2 class="text-2xl font-bold text-foreground">わたしたちについて</h2>
     <p class="mx-auto mt-4 max-w-2xl leading-relaxed text-foreground/80">地域創生HDパートナーズは、地域創生ホールディングスのパートナーとして、全国の認定代理店の皆さまとともに活動しています。それぞれの地域に根ざした代理店の声に耳を傾け、日々の営業や、パートナーズ全体の意思決定に、小さくても確かな「てつだい」を届けることを大切にしています。</p>
+  </section>
+
+  <!-- CONTACT（しまてつだい本体の/contactページと同じ2段構成：一般問い合わせ＋ダッシュボード試用申請） -->
+  <section id="contact" class="scroll-mt-20 bg-brand-soft/30 py-16">
+    <div class="mx-auto max-w-2xl px-5">
+      <div class="text-center">
+        <p class="text-sm font-semibold tracking-wide text-brand-dark">CONTACT</p>
+        <h2 class="mt-2 text-2xl font-bold text-foreground">お問い合わせ</h2>
+        <p class="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-foreground/70">代理店としての参加、日々の営業でのご相談、取材のご依頼など、気になることを下のフォームからご連絡ください。担当者の判断が必要な内容は、追って地域創生HD本部からご連絡します。</p>
+      </div>
+
+      <form class="mt-8 space-y-4 rounded-2xl border border-brand-soft bg-card p-6 shadow-sm" onsubmit="return false;">
+        <div>
+          <label class="block text-sm font-semibold text-foreground">代理店名・会社名</label>
+          <input type="text" class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground" placeholder="例：やまびこでんき">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-foreground">ご担当者名</label>
+          <input type="text" class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-foreground">連絡先（メールアドレス）</label>
+          <input type="email" class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-foreground">お問い合わせの種類</label>
+          <select class="mt-1 w-full rounded-lg border border-brand-soft bg-white px-3 py-2 text-sm text-foreground">
+            <option>新しく代理店になりたい</option>
+            <option>営業・運営についての相談</option>
+            <option>意思決定支援ダッシュボードを試したい</option>
+            <option>取材・その他</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-foreground">お問い合わせ内容</label>
+          <textarea rows="4" class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground"></textarea>
+        </div>
+        <button type="submit" class="w-full rounded-full bg-accent-green px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90">送信する</button>
+        <p class="text-center text-xs text-foreground/50">※ このフォームは打ち合わせ用のデモです。実際の送信は行われません。</p>
+      </form>
+
+      <div class="mt-10 rounded-2xl border border-brand-soft bg-card p-6 shadow-sm">
+        <p class="text-xs font-semibold tracking-wide text-brand-dark">DASHBOARD TRIAL</p>
+        <h3 class="mt-2 text-lg font-bold text-foreground">意思決定支援ダッシュボードを試してみたい代理店の方へ</h3>
+        <p class="mt-2 text-sm leading-relaxed text-foreground/70">契約が伸び悩んでいる、インセンティブの相談をしたい、といった論点があれば、専用のダッシュボードをパスワード付きでご用意します。今の状況を教えていただければ、生成AIが意思決定支援シートの下書きを作成します。費用はかかりません。今は実証段階のため、対応できる件数には限りがあります。</p>
+        <form class="mt-4 space-y-3" onsubmit="return false;">
+          <input type="text" class="w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground" placeholder="代理店の名前">
+          <input type="text" class="w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground" placeholder="担当者のお名前">
+          <input type="email" class="w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground" placeholder="連絡先（メールアドレス）">
+          <textarea rows="3" class="w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground" placeholder="今、悩んでいる論点"></textarea>
+          <button type="submit" class="w-full rounded-full border border-brand bg-white px-6 py-3 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40">この内容で申請する</button>
+        </form>
+      </div>
+    </div>
   </section>
 </div>
 
