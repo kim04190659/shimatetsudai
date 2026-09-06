@@ -1,0 +1,261 @@
+<title>しまのみんな会議 - やまびこでんき</title>
+<style>
+  /* 実際の「あいカード」アプリ(shimatetsudai-issue-cardgame)を計測して再現したトークン */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  :root{
+    --page-bg:#ffffff; --ink:rgb(23,23,23); --ink-strong:rgb(17,24,39);
+    --muted:#6b7280; --line:#e5e7eb; --card-bg:#ffffff;
+    --ring-blue:#93c5fd; --blue:#2563eb; --blue-dark:#1d4ed8;
+    --terracotta:#C96F42; --peach-bg:#FBEBDE;
+    --suit-spade:#374151; --suit-club:#4C7A52; --suit-diamond:#C96F42; --suit-heart:#B3392C;
+    --shadow-md:0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1);
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; background:var(--page-bg); color:var(--ink);
+    font-family:Inter,"Inter Fallback","Hiragino Sans","Hiragino Kaku Gothic ProN",Meiryo,sans-serif; }
+  .shell{max-width:980px; margin:0 auto; padding:28px 20px 70px;}
+  .breadcrumb{font-size:.78rem; color:var(--muted); margin-bottom:16px;}
+  .breadcrumb a{color:var(--blue); text-decoration:none;}
+
+  .banner{background:var(--peach-bg); border-left:4px solid var(--terracotta); border-radius:8px; padding:12px 16px; font-size:.83rem; margin-bottom:22px; color:var(--ink-strong);}
+
+  .title-row{margin-bottom:6px;}
+  h1{font-size:1.4rem; margin:0; color:var(--ink-strong);}
+  .sub{font-size:.88rem; color:var(--muted); max-width:70ch; margin:6px 0 22px;}
+
+  .progress{display:flex; gap:8px; margin-bottom:22px;}
+  .step{flex:1; height:6px; border-radius:99px; background:var(--line);}
+  .step.done{background:var(--blue);}
+  .step.active{background:var(--terracotta);}
+
+  .suit-head{display:flex; align-items:center; gap:10px; margin-bottom:16px;}
+  .suit-icon{font-size:1.6rem;}
+  .suit-name{font-size:1.15rem; font-weight:700; color:var(--ink-strong);}
+  .suit-desc{font-size:.83rem; color:var(--muted);}
+
+  .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px;}
+  @media (max-width:820px){ .grid{grid-template-columns:repeat(3,1fr);} }
+  @media (max-width:600px){ .grid{grid-template-columns:repeat(2,1fr);} }
+
+  .card{
+    background:var(--card-bg); border:1px solid var(--line); border-radius:8px;
+    box-shadow:var(--shadow-md); padding:14px 12px; cursor:pointer; text-align:left;
+    transition:box-shadow .15s, transform .1s; font-family:inherit;
+  }
+  .card:hover{ box-shadow:0 0 0 2px var(--ring-blue), var(--shadow-md); transform:translateY(-1px); }
+  .card .rank{font-size:.7rem; color:var(--muted); margin-bottom:4px;}
+  .card .emoji{font-size:1.3rem; margin-bottom:6px;}
+  .card .ctitle{font-size:.86rem; font-weight:600; color:var(--ink-strong); margin-bottom:4px;}
+
+  .hidden{display:none !important;}
+
+  .review-card{background:var(--card-bg); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow-md); padding:16px 18px; display:flex; gap:12px; align-items:flex-start; margin-bottom:12px;}
+  .review-card .emoji{font-size:1.4rem;}
+  .review-suit{font-size:.72rem; font-weight:700; color:var(--muted); margin-bottom:2px;}
+  .review-title{font-size:.92rem; font-weight:600; color:var(--ink-strong);}
+
+  textarea{width:100%; border:1px solid var(--line); border-radius:8px; padding:12px; font-family:inherit; font-size:.88rem; resize:vertical; min-height:90px;}
+
+  .btn{display:inline-flex; align-items:center; gap:6px; font-size:.88rem; font-weight:600; padding:10px 20px; border-radius:8px; border:none; cursor:pointer; box-shadow:var(--shadow-md);}
+  .btn-blue{background:var(--blue); color:#fff;}
+  .btn-blue:hover{background:var(--blue-dark);}
+  .btn-ghost{background:#fff; color:var(--muted); border:1px solid var(--line); box-shadow:none;}
+
+  .done-box{text-align:center; padding:50px 20px;}
+  .done-box .big{font-size:2.4rem; margin-bottom:10px;}
+  footer{margin-top:40px; padding-top:16px; border-top:1px solid var(--line); font-size:.74rem; color:var(--muted);}
+</style>
+
+<div class="shell">
+  <div class="breadcrumb"><a href="agencies/yamabiko.html">← やまびこでんき</a> ｜ しまのみんな会議</div>
+  <div class="banner">🃏 このカードゲームは、しまてつだいの実際の「あいカード」アプリ（4スート×13枚・各1枚選択方式）と同じ形式で作成した、やまびこでんき向けの打ち合わせ用デモです。</div>
+
+  <div class="title-row"><h1>しまのみんな会議：やまびこでんき 休眠リスクを、みんなで考える</h1></div>
+  <p class="sub">♠視点 → ♣価値観 → ♦懸念 → ♥結論 の順に、各スート13枚から自分の気持ちに一番近いカードを1枚ずつ選んでください。最後にコメントを添えて、意見をまとめます。</p>
+
+  <div class="progress">
+    <div class="step" id="prog-0"></div>
+    <div class="step" id="prog-1"></div>
+    <div class="step" id="prog-2"></div>
+    <div class="step" id="prog-3"></div>
+  </div>
+
+  <div id="game-area"></div>
+
+  <div id="review-area" class="hidden">
+    <div class="suit-head"><span class="suit-name">選んだ4枚</span></div>
+    <div id="review-list"></div>
+    <p class="sub" style="margin-top:18px;">最後に、一言コメントを添えてください（任意）。</p>
+    <textarea id="comment" placeholder="例：まずは電話でもいいので、本部から一度声をかけてもらえると安心すると思います。"></textarea>
+    <div style="margin-top:16px; display:flex; gap:10px;">
+      <button class="btn btn-blue" id="submit-btn">この内容で会議に提出する</button>
+      <button class="btn btn-ghost" id="restart-btn">最初から選び直す</button>
+    </div>
+  </div>
+
+  <div id="done-area" class="hidden done-box">
+    <div class="big">🎉</div>
+    <h2 style="margin:0 0 8px; color:var(--ink-strong);">提出しました</h2>
+    <p class="sub" style="margin:0 auto;">ご意見は「しまのみんな会議」としてやまびこでんきの担当者・地域創生HD本部に共有されます（このデモでは実際の送信は行われません）。</p>
+    <div style="margin-top:20px;"><a class="btn btn-blue" href="agencies/yamabiko.html" style="text-decoration:none;">やまびこでんきのページに戻る</a></div>
+  </div>
+
+  <footer>地域創生ホールディングス 地域創生パートナーズ ／ しまてつだい「あいカード」形式を活用した打ち合わせ用デモです。</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var SUITS = [
+    { key:"spade", icon:"♠", name:"視点", desc:"誰の立場で考えますか？", color:"var(--suit-spade)",
+      cards:[
+        {t:"やまびこでんき担当者の視点", e:"👤"},
+        {t:"エンドカスタマー（契約者）の視点", e:"🏠"},
+        {t:"地域創生HD本部の視点", e:"🏢"},
+        {t:"契約を見送った住民の視点", e:"🤔"},
+        {t:"高齢のご家庭の視点", e:"👵"},
+        {t:"やまびこでんきの経営者の視点", e:"💼"},
+        {t:"隣の好調な代理店の視点", e:"🌊"},
+        {t:"新しく代理店になりたい人の視点", e:"🌱"},
+        {t:"地域の自治会・民生委員の視点", e:"🏘"},
+        {t:"パートナーズハブ運営者の視点", e:"🖥"},
+        {t:"インセンティブを待つ営業担当の視点", e:"💴"},
+        {t:"契約更新を控えたお客様の視点", e:"📅"},
+        {t:"離れて暮らす家族を支える息子・娘の視点", e:"👨‍👩‍👧"}
+      ]
+    },
+    { key:"club", icon:"♣", name:"価値観", desc:"何を大事にしたいですか？", color:"var(--suit-club)",
+      cards:[
+        {t:"顔の見える関係を大事にしたい", e:"🤝"},
+        {t:"無理に売り込まず信頼を優先したい", e:"🕊"},
+        {t:"頑張りが正当に報われてほしい", e:"💰"},
+        {t:"一人で抱え込まず助け合いたい", e:"🫱"},
+        {t:"お客様の暮らしに本当に役立ちたい", e:"🏡"},
+        {t:"地域に長く根を張る商売でありたい", e:"🌳"},
+        {t:"数字より人とのつながりを大切にしたい", e:"❤️"},
+        {t:"新しいやり方も柔軟に取り入れたい", e:"🔄"},
+        {t:"小さな成功でも認めてもらいたい", e:"🌟"},
+        {t:"本部と対等な立場で話したい", e:"⚖️"},
+        {t:"失敗しても責められない安心感がほしい", e:"🛡"},
+        {t:"地域の暮らしを支える誇りを持ちたい", e:"🎌"},
+        {t:"一歩ずつでも前に進んでいる実感がほしい", e:"👣"}
+      ]
+    },
+    { key:"diamond", icon:"♦", name:"懸念", desc:"何が心配ですか？", color:"var(--suit-diamond)",
+      cards:[
+        {t:"このまま契約が増えず撤退になるのでは", e:"😟"},
+        {t:"インセンティブの遅延で生活が苦しくなるのでは", e:"💸"},
+        {t:"一人で頑張っても限界があるのでは", e:"😓"},
+        {t:"本部に相談しても迷惑がられるのでは", e:"🙅"},
+        {t:"訪問営業のやり方が時代に合っていないのでは", e:"📉"},
+        {t:"高齢のお客様に無理な説明をしていないか", e:"🗣"},
+        {t:"他の代理店と比べられて評価が下がるのでは", e:"📊"},
+        {t:"支援を受けることが「失格の証」に見えるのでは", e:"🏳"},
+        {t:"支援プログラムが一時的で終わってしまうのでは", e:"⏳"},
+        {t:"地域の人間関係を壊してしまわないか", e:"🕸"},
+        {t:"デジタルツールに慣れていないのでは", e:"📱"},
+        {t:"契約者から不信感を持たれていないか", e:"🤨"},
+        {t:"このまま声を上げずに終わってしまうのでは", e:"🔇"}
+      ]
+    },
+    { key:"heart", icon:"♥", name:"結論", desc:"どうするのがよいと思いますか？", color:"var(--suit-heart)",
+      cards:[
+        {t:"3ヶ月の伴走支援プログラムを受け入れる", e:"🤝"},
+        {t:"インセンティブの前払いを条件付きで認める", e:"💴"},
+        {t:"てつだってメンタリングで先輩代理店とつなぐ", e:"👥"},
+        {t:"まずは小さな成功体験を一緒に作る", e:"🌱"},
+        {t:"本部が定期的に声をかける仕組みを作る", e:"📞"},
+        {t:"訪問営業の型を一緒に見直す", e:"🔁"},
+        {t:"無理に急がず、半年単位で見守る", e:"⏳"},
+        {t:"現場の声を匿名でも共有できるようにする", e:"🗨"},
+        {t:"他代理店の成功事例を共有する場を設ける", e:"📚"},
+        {t:"支援を受けても評価が下がらないと明言する", e:"📣"},
+        {t:"地域住民との関係づくりから支援する", e:"🏘"},
+        {t:"デジタルツールの使い方を丁寧にサポートする", e:"🖥"},
+        {t:"3ヶ月後に本人を交えて振り返りを行う", e:"🔄"}
+      ]
+    }
+  ];
+
+  var state = { step:0, picks:[] };
+
+  var gameArea = document.getElementById("game-area");
+  var reviewArea = document.getElementById("review-area");
+  var doneArea = document.getElementById("done-area");
+  var reviewList = document.getElementById("review-list");
+
+  function renderProgress(){
+    for (var i=0;i<4;i++){
+      var el = document.getElementById("prog-"+i);
+      el.className = "step" + (i < state.step ? " done" : (i === state.step ? " active" : ""));
+    }
+  }
+
+  function renderSuit(){
+    if (state.step >= SUITS.length){ showReview(); return; }
+    var suit = SUITS[state.step];
+    renderProgress();
+    var html = '<div class="suit-head"><span class="suit-icon" style="color:'+suit.color+'">'+suit.icon+'</span>' +
+      '<div><div class="suit-name">'+suit.name+'（'+(state.step+1)+' / 4）</div>' +
+      '<div class="suit-desc">'+suit.desc+'</div></div></div>' +
+      '<div class="grid">';
+    suit.cards.forEach(function(c, idx){
+      html += '<button class="card" data-idx="'+idx+'">' +
+        '<div class="rank">No.'+(idx+1)+'</div>' +
+        '<div class="emoji">'+c.e+'</div>' +
+        '<div class="ctitle">'+c.t+'</div>' +
+        '</button>';
+    });
+    html += '</div>';
+    gameArea.innerHTML = html;
+
+    var buttons = gameArea.querySelectorAll(".card");
+    buttons.forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var idx = parseInt(btn.getAttribute("data-idx"), 10);
+        var card = suit.cards[idx];
+        state.picks.push({ suit:suit.name, icon:suit.icon, color:suit.color, title:card.t, emoji:card.e });
+        state.step += 1;
+        renderSuit();
+      });
+    });
+  }
+
+  function showReview(){
+    gameArea.classList.add("hidden");
+    reviewArea.classList.remove("hidden");
+    renderProgress();
+    reviewList.innerHTML = "";
+    state.picks.forEach(function(p){
+      var div = document.createElement("div");
+      div.className = "review-card";
+      div.innerHTML = '<span class="emoji" style="color:'+p.color+'">'+p.icon+'</span>' +
+        '<div><div class="review-suit">'+p.suit+'</div><div class="review-title">'+p.emoji+' '+p.title+'</div></div>';
+      reviewList.appendChild(div);
+    });
+  }
+
+  document.getElementById("restart-btn").addEventListener("click", function(){
+    state = { step:0, picks:[] };
+    reviewArea.classList.add("hidden");
+    gameArea.classList.remove("hidden");
+    document.getElementById("comment").value = "";
+    renderSuit();
+  });
+
+  document.getElementById("submit-btn").addEventListener("click", function(){
+    try{
+      var comment = document.getElementById("comment").value;
+      var record = { picks: state.picks, comment: comment, submittedAt: new Date().toISOString() };
+      var existing = JSON.parse(localStorage.getItem("cg_yamabiko_submissions") || "[]");
+      existing.push(record);
+      localStorage.setItem("cg_yamabiko_submissions", JSON.stringify(existing));
+    }catch(e){ /* localStorageが使えない環境でも動作継続 */ }
+    reviewArea.classList.add("hidden");
+    doneArea.classList.remove("hidden");
+  });
+
+  renderSuit();
+})();
+</script>

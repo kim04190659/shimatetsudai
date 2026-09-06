@@ -1,0 +1,75 @@
+<title>代理店一覧</title>
+<style>
+  :root{
+    --bg:#F2EEE6; --card:#FFFFFF; --card-soft:#F9F8F7;
+    --ink:#2C2C2B; --muted:#726A5E; --line:#E1DDD3;
+    --blue:#2783DE; --terracotta:#C96F42; --green:#7A9A7E;
+    --callout-peach-bg:#FBEBDE; --callout-peach-line:#C96F42;
+    --status-good:#4C7A52; --status-good-bg:#E8F1EC;
+    --status-warn:#9C6B0B; --status-warn-bg:#FFF8E8;
+    --status-crit:#B3392C; --status-crit-bg:#FBEBDE;
+    --shadow:0 1px 2px rgba(44,44,43,.05), 0 8px 22px rgba(44,44,43,.06);
+  }
+  *{box-sizing:border-box;}
+  body{ background:var(--bg); color:var(--ink); line-height:1.75; margin:0;
+    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
+  .shell{max-width:980px; margin:0 auto; padding:30px 22px 60px;}
+  .back{font-size:.82rem; color:var(--blue); text-decoration:none;}
+  .eyebrow{font-size:.78rem; color:var(--terracotta); font-weight:600; margin-top:18px;}
+  h1{font-size:1.6rem; margin:6px 0 10px;}
+  .lead{color:var(--muted); font-size:.92rem; max-width:64ch; margin-bottom:8px;}
+  .note{background:var(--callout-peach-bg); border-left:4px solid var(--callout-peach-line); border-radius:8px; padding:12px 15px; font-size:.84rem; margin:18px 0 26px;}
+  .grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+  @media (max-width:700px){ .grid{grid-template-columns:1fr;} }
+  a.card{
+    display:block; background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:20px 22px; text-decoration:none; color:var(--ink); box-shadow:var(--shadow);
+    transition:transform .15s;
+  }
+  a.card:hover{transform:translateY(-2px);}
+  .card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+  .card-name{font-size:1.05rem; font-weight:700;}
+  .card-region{font-size:.78rem; color:var(--muted); margin-top:2px;}
+  .pill{font-size:.7rem; font-weight:700; padding:3px 10px; border-radius:99px; white-space:nowrap;}
+  .pill-good{background:var(--status-good-bg); color:var(--status-good);}
+  .pill-warn{background:var(--status-warn-bg); color:var(--status-warn);}
+  .pill-crit{background:var(--status-crit-bg); color:var(--status-crit);}
+  .card-desc{font-size:.85rem; color:var(--muted); margin-top:10px;}
+  .card-issue{font-size:.8rem; font-weight:600; color:var(--terracotta); margin-top:12px;}
+  footer{margin-top:36px; padding-top:16px; border-top:1px solid var(--line); font-size:.74rem; color:var(--muted);}
+</style>
+
+<div class="shell">
+  <a class="back" href="index.html">← パートナーズハブ トップに戻る</a>
+  <p class="eyebrow">PARTNERS</p>
+  <h1>代理店一覧</h1>
+  <p class="lead">今、それぞれの認定代理店でどんな状況・話し合いが進んでいるかを見られるページです。気になる論点があれば、しまのみんな会議のカードゲームから意見を届けることもできます。</p>
+
+  <div class="note">⚠️ このページに掲載する代理店名・数値は、打ち合わせ用に作成した実証用のデモンストレーションです。実在の代理店の実績を示すものではありません。</div>
+
+  <div class="grid">
+    <a class="card" href="agencies/shiokaze.html">
+      <div class="card-top"><div><div class="card-name">潮風商店</div><div class="card-region">長崎県 対馬市</div></div><span class="pill pill-good">好調</span></div>
+      <p class="card-desc">契約件数32件・定着率91%。プレミアム「ふるさと電気」の案内で成果を伸ばしています。</p>
+    </a>
+    <a class="card" href="agencies/konan.html">
+      <div class="card-top"><div><div class="card-name">こなん電材</div><div class="card-region">滋賀県 湖南市</div></div><span class="pill pill-good">好調</span></div>
+      <p class="card-desc">契約件数41件・定着率95%とパートナーズ内トップ。ノウハウが「てつだって」で他代理店に共有されています。</p>
+    </a>
+    <a class="card" href="agencies/setouchi.html">
+      <div class="card-top"><div><div class="card-name">せとうち電力サービス</div><div class="card-region">岡山県 瀬戸内市</div></div><span class="pill pill-good">順調</span></div>
+      <p class="card-desc">契約件数18件・定着率76%。地域貢献実績の見える化について本部に要望を届けています。</p>
+    </a>
+    <a class="card" href="agencies/nanmoku.html">
+      <div class="card-top"><div><div class="card-name">なんもく電化センター</div><div class="card-region">群馬県 南牧村</div></div><span class="pill pill-warn">要フォロー</span></div>
+      <p class="card-desc">契約件数9件・定着率58%。高齢のお宅への訪問営業のコツを「てつだって」で相談中です。</p>
+    </a>
+    <a class="card" href="agencies/yamabiko.html">
+      <div class="card-top"><div><div class="card-name">やまびこでんき</div><div class="card-region">福岡県 八女市</div></div><span class="pill pill-crit">休眠リスク</span></div>
+      <p class="card-desc">契約件数4件・定着率22%とパートナーズ内で最も苦戦。てつだって相談への参加もなく、支援方針を検討しています。</p>
+      <div class="card-issue">論点1件を掲載中 →</div>
+    </a>
+  </div>
+
+  <footer>地域創生ホールディングス 地域創生パートナーズ / 2026-09-06作成</footer>
+</div>

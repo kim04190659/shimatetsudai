@@ -1,0 +1,93 @@
+<title>やまびこでんき</title>
+<style>
+  :root{
+    --bg:#F2EEE6; --card:#FFFFFF; --card-soft:#F9F8F7;
+    --ink:#2C2C2B; --muted:#726A5E; --line:#E1DDD3;
+    --blue:#2783DE; --terracotta:#C96F42; --green:#7A9A7E;
+    --callout-peach-bg:#FBEBDE; --callout-peach-line:#C96F42;
+    --callout-blue-bg:#EFF6FE; --callout-blue-line:#2783DE;
+    --crit:#B3392C; --crit-bg:#FBEBDE;
+    --shadow:0 1px 2px rgba(44,44,43,.05), 0 8px 22px rgba(44,44,43,.06);
+  }
+  *{box-sizing:border-box;}
+  body{ background:var(--bg); color:var(--ink); line-height:1.75; margin:0;
+    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
+  .shell{max-width:900px; margin:0 auto; padding:26px 22px 60px;}
+  .breadcrumb{font-size:.78rem; color:var(--muted); margin-bottom:14px;}
+  .breadcrumb a{color:var(--blue); text-decoration:none;}
+  .head{display:flex; justify-content:space-between; align-items:flex-start; gap:14px; margin-bottom:6px;}
+  h1{font-size:1.55rem; margin:0;}
+  .region{font-size:.85rem; color:var(--muted); margin-top:2px;}
+  .pill-crit{font-size:.74rem; font-weight:700; padding:4px 12px; border-radius:99px; background:var(--crit-bg); color:var(--crit); white-space:nowrap;}
+  .lead{color:var(--muted); font-size:.9rem; max-width:70ch; margin:12px 0 24px;}
+
+  .stat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px;}
+  @media (max-width:700px){ .stat-grid{grid-template-columns:repeat(2,1fr);} }
+  .stat{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow);}
+  .stat-label{font-size:.72rem; color:var(--muted);}
+  .stat-value{font-size:1.25rem; font-weight:700; margin-top:2px;}
+  .stat-delta{font-size:.72rem; color:var(--crit); margin-top:2px;}
+
+  h2{font-size:1.05rem; margin:0 0 10px;}
+  section{margin-bottom:28px;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px 20px; box-shadow:var(--shadow);}
+
+  .issue-card{background:var(--callout-peach-bg); border-left:4px solid var(--callout-peach-line); border-radius:12px; padding:20px 22px;}
+  .issue-status{display:inline-block; font-size:.72rem; font-weight:700; color:var(--crit); background:var(--crit-bg); padding:3px 10px; border-radius:99px; margin-bottom:8px;}
+  .issue-title{font-size:1.05rem; font-weight:700; margin-bottom:6px;}
+  .issue-desc{font-size:.87rem; color:var(--muted); margin-bottom:16px;}
+  .action-row{display:flex; gap:12px; flex-wrap:wrap;}
+  .btn{display:inline-flex; align-items:center; gap:6px; font-size:.85rem; font-weight:600; padding:10px 16px; border-radius:10px; text-decoration:none; box-shadow:var(--shadow);}
+  .btn-blue{background:var(--blue); color:#fff;}
+  .btn-green{background:var(--green); color:#fff;}
+
+  .mini-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px;}
+  @media (max-width:700px){ .mini-grid{grid-template-columns:1fr;} }
+  .mini{background:var(--card-soft); border:1px solid var(--line); border-radius:10px; padding:14px 16px; font-size:.85rem;}
+  .mini b{display:block; margin-bottom:4px; font-size:.82rem;}
+  footer{margin-top:36px; padding-top:16px; border-top:1px solid var(--line); font-size:.74rem; color:var(--muted);}
+</style>
+
+<div class="shell">
+  <div class="breadcrumb"><a href="../agencies.html">← 代理店一覧</a> ｜ 地域創生パートナーズ</div>
+
+  <div class="head">
+    <div>
+      <h1>やまびこでんき</h1>
+      <div class="region">福岡県 八女市 ｜ 認定代理店</div>
+    </div>
+    <span class="pill-crit">休眠リスク</span>
+  </div>
+  <p class="lead">2025年に認定代理店として活動を開始しましたが、直近3ヶ月で新規契約がほぼ止まっています。HD本部・パートナーズハブでは伴走支援プログラムの提案を検討中です。</p>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-label">契約件数（今期）</div><div class="stat-value">4件</div><div class="stat-delta">前期比 -84%</div></div>
+    <div class="stat"><div class="stat-label">定着率</div><div class="stat-value">22%</div><div class="stat-delta">パートナーズ平均比 -58pt</div></div>
+    <div class="stat"><div class="stat-label">インセンティブ未払い</div><div class="stat-value">¥62,000</div><div class="stat-delta">支払い保留中</div></div>
+    <div class="stat"><div class="stat-label">てつだって相談投稿</div><div class="stat-value">0件</div><div class="stat-delta">直近90日</div></div>
+  </div>
+
+  <section>
+    <h2>論点との関わり</h2>
+    <div class="mini-grid">
+      <div class="mini"><b>🗣 現場の声が届いていない</b>担当者からてつだって相談への投稿がなく、困りごとが本部に共有されていません。</div>
+      <div class="mini"><b>💴 インセンティブの遅延</b>未払いが続いており、営業モチベーションの低下につながっている可能性があります。</div>
+      <div class="mini"><b>👥 訪問営業のノウハウ不足</b>高齢世帯が多い地域で、対面提案の進め方に迷いがある様子です。</div>
+      <div class="mini"><b>🤝 本部との連携頻度</b>他代理店と比べて本部とのやり取りの頻度が少なく、孤立が懸念されます。</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="issue-card">
+      <div class="issue-status">対応検討中</div>
+      <div class="issue-title">論点：やまびこでんき 休眠リスクへの対応方針</div>
+      <p class="issue-desc">契約獲得・定着率の急落と、てつだって相談への不参加が重なっており、このまま推移すると契約更新期に離脱リスクが高まります。AIによる意思決定支援ダッシュボードでは、3ヶ月間の伴走支援プログラム（てつだってメンタリング＋インセンティブ前払いの条件付き適用）を提案しています。あわせて、しまのみんな会議のカードゲームで現場の視点・懸念を出し合う場も用意しました。</p>
+      <div class="action-row">
+        <a class="btn btn-blue" href="../issue-yamabiko.html">意思決定支援ダッシュボードを見る ↗</a>
+        <a class="btn btn-green" href="../cardgame-yamabiko.html">しまのみんな会議で意見を出す ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>地域創生ホールディングス 地域創生パートナーズ ／ このページの数値は打ち合わせ用の実証デモです。</footer>
+</div>

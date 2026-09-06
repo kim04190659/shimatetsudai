@@ -1,0 +1,40 @@
+<title>潮風商店</title>
+<style>
+  :root{ --bg:#F2EEE6; --card:#FFFFFF; --ink:#2C2C2B; --muted:#726A5E; --line:#E1DDD3; --blue:#2783DE; --good:#4C7A52; --good-bg:#E8F1EC;
+    --shadow:0 1px 2px rgba(44,44,43,.05), 0 8px 22px rgba(44,44,43,.06); }
+  *{box-sizing:border-box;}
+  body{ background:var(--bg); color:var(--ink); line-height:1.75; margin:0;
+    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
+  .shell{max-width:900px; margin:0 auto; padding:26px 22px 60px;}
+  .breadcrumb{font-size:.78rem; color:var(--muted); margin-bottom:14px;}
+  .breadcrumb a{color:var(--blue); text-decoration:none;}
+  .head{display:flex; justify-content:space-between; align-items:flex-start; gap:14px;}
+  h1{font-size:1.55rem; margin:0;}
+  .region{font-size:.85rem; color:var(--muted); margin-top:2px;}
+  .pill{font-size:.74rem; font-weight:700; padding:4px 12px; border-radius:99px; background:var(--good-bg); color:var(--good); white-space:nowrap;}
+  .lead{color:var(--muted); font-size:.9rem; max-width:70ch; margin:12px 0 24px;}
+  .stat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px;}
+  @media (max-width:700px){ .stat-grid{grid-template-columns:repeat(2,1fr);} }
+  .stat{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow);}
+  .stat-label{font-size:.72rem; color:var(--muted);}
+  .stat-value{font-size:1.25rem; font-weight:700; margin-top:2px;}
+  .stat-delta{font-size:.72rem; color:var(--good); margin-top:2px;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px 20px; box-shadow:var(--shadow); font-size:.88rem; color:var(--muted);}
+  footer{margin-top:36px; padding-top:16px; border-top:1px solid var(--line); font-size:.74rem; color:var(--muted);}
+</style>
+<div class="shell">
+  <div class="breadcrumb"><a href="../agencies.html">← 代理店一覧</a> ｜ 地域創生パートナーズ</div>
+  <div class="head">
+    <div><h1>潮風商店</h1><div class="region">長崎県 対馬市 ｜ 認定代理店</div></div>
+    <span class="pill">好調</span>
+  </div>
+  <p class="lead">プレミアム「ふるさと電気」の案内を軸に、地域の顔なじみのお客様との関係を活かして着実に契約を伸ばしています。現在、特に対応が必要な論点はありません。</p>
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-label">契約件数（今期）</div><div class="stat-value">32件</div><div class="stat-delta">前期比 +18%</div></div>
+    <div class="stat"><div class="stat-label">定着率</div><div class="stat-value">91%</div><div class="stat-delta">パートナーズ平均以上</div></div>
+    <div class="stat"><div class="stat-label">インセンティブ</div><div class="stat-value">支払い済み</div><div class="stat-delta">遅延なし</div></div>
+    <div class="stat"><div class="stat-label">てつだって相談投稿</div><div class="stat-value">3件</div><div class="stat-delta">直近90日</div></div>
+  </div>
+  <div class="card">現在、掲載中の論点（イシュー）はありません。てつだって相談・しまのみんな会議での発信は引き続き歓迎です。</div>
+  <footer>地域創生ホールディングス 地域創生パートナーズ ／ このページの数値は打ち合わせ用の実証デモです。</footer>
+</div>
