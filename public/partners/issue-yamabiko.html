@@ -1,0 +1,304 @@
+<title>やまびこでんき休眠リスク対応</title>
+<style>
+  /* パートナーズハブMVPと同一のデザイントークン（しまてつだい実測値ベース）を継続使用 */
+  :root{
+    --bg:#F2EEE6; --card:#FFFFFF; --card-soft:#F9F8F7;
+    --ink:#2C2C2B; --muted:#726A5E; --line:#E1DDD3;
+    --blue:#2783DE; --blue-ink:#FFFFFF;
+    --terracotta:#C96F42; --green:#7A9A7E;
+    --callout-yellow-bg:#FFF8E8; --callout-yellow-line:#D9A02B;
+    --callout-blue-bg:#EFF6FE; --callout-blue-line:#2783DE;
+    --callout-green-bg:#E8F1EC; --callout-green-line:#5C8161;
+    --callout-peach-bg:#FBEBDE; --callout-peach-line:#C96F42;
+    --good:#4C7A52; --warn:#9C6B0B; --crit:#B3392C;
+    --shadow:0 1px 2px rgba(44,44,43,.05), 0 8px 22px rgba(44,44,43,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1C1B17; --card:#242320; --card-soft:#29281F;
+      --ink:#EDEAE2; --muted:#B2A895; --line:#3B392E;
+      --blue:#6FB3F2; --blue-ink:#0E1B27;
+      --terracotta:#E2925F; --green:#96B79A;
+      --callout-yellow-bg:#332A12; --callout-yellow-line:#D9A02B;
+      --callout-blue-bg:#152332; --callout-blue-line:#6FB3F2;
+      --callout-green-bg:#1B2A1F; --callout-green-line:#96B79A;
+      --callout-peach-bg:#33231A; --callout-peach-line:#E2925F;
+      --good:#8FC494; --warn:#E3BE71; --crit:#E79284;
+      --shadow:0 1px 2px rgba(0,0,0,.35), 0 8px 22px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1C1B17; --card:#242320; --card-soft:#29281F;
+    --ink:#EDEAE2; --muted:#B2A895; --line:#3B392E;
+    --blue:#6FB3F2; --blue-ink:#0E1B27;
+    --terracotta:#E2925F; --green:#96B79A;
+    --callout-yellow-bg:#332A12; --callout-yellow-line:#D9A02B;
+    --callout-blue-bg:#152332; --callout-blue-line:#6FB3F2;
+    --callout-green-bg:#1B2A1F; --callout-green-line:#96B79A;
+    --callout-peach-bg:#33231A; --callout-peach-line:#E2925F;
+    --good:#8FC494; --warn:#E3BE71; --crit:#E79284;
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 8px 22px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box;}
+  body{ background:var(--bg); color:var(--ink); line-height:1.75;
+    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
+  h1,h2,h3{text-wrap:balance; margin:0;}
+  .num{font-variant-numeric:tabular-nums;}
+  .shell{max-width:980px; margin:0 auto; padding:26px 22px 60px;}
+
+  .breadcrumb{font-size:.78rem; color:var(--muted); margin-bottom:10px;}
+  .issue-title{font-size:1.5rem; font-weight:700; margin-bottom:8px;}
+  .issue-sub{font-size:.92rem; color:var(--muted); max-width:70ch; margin-bottom:20px;}
+
+  .callout{border-radius:10px; padding:14px 17px; font-size:.88rem; margin-bottom:18px; border-left:4px solid; display:flex; gap:10px; align-items:flex-start;}
+  .callout .ic{font-size:1rem;}
+  .callout-peach{background:var(--callout-peach-bg); border-color:var(--callout-peach-line);}
+  .callout-blue{background:var(--callout-blue-bg); border-color:var(--callout-blue-line);}
+  .callout-green{background:var(--callout-green-bg); border-color:var(--callout-green-line);}
+  .callout-yellow{background:var(--callout-yellow-bg); border-color:var(--callout-yellow-line);}
+  .callout b{font-weight:700;}
+
+  .kpi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:22px;}
+  @media (max-width:700px){ .kpi-grid{grid-template-columns:repeat(2,1fr);} }
+  .kpi{background:var(--card-soft); border:1px solid var(--line); border-radius:10px; padding:14px 16px; text-align:center;}
+  .kpi .value{font-size:1.5rem; font-weight:700;}
+  .kpi .label{font-size:.72rem; color:var(--muted); margin-top:4px;}
+  .kpi.crit .value{color:var(--crit);}
+
+  .tabbar{display:flex; gap:4px; flex-wrap:wrap; margin-bottom:18px; border-bottom:1px solid var(--line);}
+  .tabbtn{appearance:none; border:1px solid transparent; background:transparent; color:var(--muted);
+    font:inherit; font-size:.82rem; font-weight:600; padding:9px 13px; border-radius:9px 9px 0 0; cursor:pointer; margin-bottom:-1px;}
+  .tabbtn[aria-selected="true"]{background:var(--card); color:var(--blue); border-color:var(--line); border-bottom-color:var(--card);}
+  .tabpanel{display:none;}
+  .tabpanel.active{display:block;}
+
+  .panel{background:var(--card); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); padding:20px 22px; margin-bottom:18px;}
+  .panel h3{font-size:1rem; margin-bottom:10px;}
+  .panel p{font-size:.88rem;}
+
+  .highlight-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:6px;}
+  @media (max-width:700px){ .highlight-grid{grid-template-columns:1fr;} }
+  .highlight-card h4{font-size:.85rem; font-weight:700; margin-bottom:6px;}
+  .highlight-card ul{margin:0; padding-left:1.1em; font-size:.84rem;}
+  .highlight-card li{margin-bottom:4px;}
+
+  .card-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:10px;}
+  @media (max-width:700px){ .card-grid{grid-template-columns:repeat(2,1fr);} }
+  .judge-card{background:var(--card-soft); border:1px solid var(--line); border-radius:10px; padding:12px 14px;}
+  .judge-card .tag{font-size:.68rem; font-weight:700; color:var(--blue);}
+  .judge-card h4{font-size:.86rem; margin:4px 0;}
+  .judge-card p{font-size:.78rem; color:var(--muted); margin:0;}
+
+  table{width:100%; border-collapse:collapse; font-size:.85rem;}
+  thead th{text-align:left; font-weight:600; color:var(--muted); font-size:.7rem; padding:9px 10px; border-bottom:1px solid var(--line);}
+  tbody td{padding:9px 10px; border-bottom:1px solid var(--line);}
+  tbody tr:last-child td{border-bottom:0;}
+  .table-wrap{overflow-x:auto;}
+
+  .status-pill{display:inline-block; font-size:.7rem; font-weight:700; padding:2px 9px; border-radius:99px;}
+  .pill-success{background:var(--callout-green-bg); color:var(--good);}
+  .pill-caution{background:var(--callout-yellow-bg); color:var(--warn);}
+
+  .case{border-left:3px solid var(--line); padding-left:14px; margin-bottom:16px;}
+  .case:last-child{margin-bottom:0;}
+  .case .note{font-size:.8rem; color:var(--muted); margin-top:4px;}
+
+  .disclaimer{font-size:.74rem; color:var(--muted); margin-top:10px;}
+  footer{margin-top:36px; padding-top:16px; border-top:1px solid var(--line); font-size:.74rem; color:var(--muted);}
+  footer a{color:var(--blue);}
+</style>
+
+<div class="shell">
+  <div class="breadcrumb">意思決定支援PoC ｜ 地域創生ホールディングス パートナーズハブ ｜ やまびこでんき（福岡県八女市）</div>
+  <div class="issue-title">やまびこでんき 休眠リスクへの対応方針</div>
+  <div class="issue-sub">認定代理店「やまびこでんき」（福岡県八女市）の契約件数・定着率が5代理店中最下位まで落ち込んでいる件について、追加支援を行うかどうかを検討する事例です。</div>
+
+  <div class="callout callout-yellow">
+    <span class="ic">🌱</span>
+    <div><b>かんたんに言うと</b><br>やまびこでんきさんの契約が思うように増えず、インセンティブの支払いも遅れがちで、やる気が下がってきています。このままだと代理店をやめてしまうかもしれません。追加でサポートするかどうかを考えるための資料です。</div>
+  </div>
+
+  <div class="callout callout-blue">
+    <span class="ic">📌</span>
+    <div><b>本日の決定案</b><br>てつだって伴走メンタリング（好調代理店とのペアリング）とインセンティブ前払いの条件付き適用を3ヶ月間実施し、契約件数と相談参加率の回復を確認しながら、代理店契約の継続可否を判断する。</div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi crit"><div class="value num">4件</div><div class="label">契約件数（目標25件比 -84%）</div></div>
+    <div class="kpi crit"><div class="value num">22%</div><div class="label">定着率スコア（目標比 -58pt）</div></div>
+    <div class="kpi crit"><div class="value num">¥62,000</div><div class="label">インセンティブ未払い滞留</div></div>
+    <div class="kpi crit"><div class="value num">0件</div><div class="label">てつだって相談投稿（過去60日）</div></div>
+  </div>
+
+  <div class="panel">
+    <h3>📎 判断材料・提案・類似事例からの示唆</h3>
+    <div class="highlight-grid">
+      <div class="highlight-card">
+        <h4>📊 現状ハイライト</h4>
+        <ul>
+          <li>5代理店中、契約件数・定着率ともに最下位</li>
+          <li>てつだって相談への投稿が過去60日で0件＝孤立傾向</li>
+          <li>インセンティブ支払いサイクルへの不満をしまのみんな会議で表明済み（共感8件）</li>
+        </ul>
+      </div>
+      <div class="highlight-card">
+        <h4>💡 提案内容ハイライト</h4>
+        <ul>
+          <li>好調代理店（こなん電材）とのてつだって伴走ペアリング</li>
+          <li>インセンティブ前払いの条件付き適用（3ヶ月上限）</li>
+          <li>地域貢献実績の簡易チラシ自動出力を先行提供</li>
+        </ul>
+      </div>
+      <div class="highlight-card">
+        <h4>🗣️ 立場・状況</h4>
+        <ul>
+          <li>代理店主：意欲はあるが訪問営業のノウハウ不足を自覚</li>
+          <li>HD本部：追加支援コストと公平性（他代理店との整合）を懸念</li>
+        </ul>
+      </div>
+      <div class="highlight-card">
+        <h4>🌍 類似事例ハイライト</h4>
+        <ul>
+          <li><span class="status-pill pill-success">一部成功</span> フランチャイズ加盟店の伴走メンタリング再活性化事例</li>
+          <li><span class="status-pill pill-success">一部成功</span> 保険代理店業界の早期介入型サポートプログラム</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabbar" role="tablist" aria-label="意思決定支援タブ">
+    <button class="tabbtn" data-panel="t-summary" aria-selected="true">議論まとめ</button>
+    <button class="tabbtn" data-panel="t-goals" aria-selected="false">HD全体目標（前提条件）</button>
+    <button class="tabbtn" data-panel="t-proposal" aria-selected="false">提案内容・詳細</button>
+    <button class="tabbtn" data-panel="t-cases" aria-selected="false">類似事例</button>
+    <button class="tabbtn" data-panel="t-support" aria-selected="false">活用できる支援制度</button>
+    <button class="tabbtn" data-panel="t-data" aria-selected="false">生データ（補足）</button>
+  </div>
+
+  <div class="tabpanel active" id="t-summary">
+    <div class="panel">
+      <h3>結論・判断</h3>
+      <p><b>支援に値する根拠は揃っている。</b>意欲はあり、孤立とインセンティブ遅延という構造的な要因が大きい。</p>
+      <p><b>ただし「無条件延命」ではない。</b>契約件数・相談参加率の回復を条件として公開管理し、3ヶ月で改善が見られない場合は契約見直しを検討する。</p>
+    </div>
+    <div class="card-grid">
+      <div class="judge-card"><span class="tag">A. 静観</span><h4>非推奨</h4><p>孤立が進み離脱の可能性が高い</p></div>
+      <div class="judge-card"><span class="tag">B. 条件付き支援</span><h4>推奨</h4><p>条件を公開管理しながら3ヶ月伴走</p></div>
+      <div class="judge-card"><span class="tag">C. 無条件延命</span><h4>非推奨</h4><p>他代理店との公平性を損なう</p></div>
+      <div class="judge-card"><span class="tag">状況</span><h4>孤立傾向</h4><p>相談投稿0件・意欲はあるがノウハウ不足</p></div>
+    </div>
+    <div class="panel" style="margin-top:14px;">
+      <h3>決定文案</h3>
+      <p>地域創生ホールディングスは、やまびこでんきに対し、3ヶ月間の伴走支援プログラム（てつだってメンタリング・インセンティブ前払いの条件付き適用）を実施する。ただし、契約件数・てつだって参加率の回復を工程条件として公開管理し、改善が見られない場合は代理店契約の見直しを検討する。</p>
+      <p style="margin-top:8px;"><b>次の会議で決めること：</b>この条件付き伴走支援を、HD本部の正式なプログラムとして承認するかどうか。</p>
+    </div>
+    <div class="panel">
+      <h3>反対意見への向き合い方</h3>
+      <p>「追加コストをかけるべきではない」という意見は、"支援をやめる理由"ではなく"条件を明確にする論点"として扱う。3ヶ月で回復しない場合の判断基準（契約件数10件未満・相談参加0件が継続）を先に決めておく。</p>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="t-goals">
+    <div class="panel">
+      <h3>🧭 パートナーズ全体が目指す姿（変わらない指標）</h3>
+      <p>特定の代理店の問題のために作った数字ではなく、パートナーズ全体で継続的に追っている指標です。個別の代理店イシューが増減しても、この指標自体は変わりません。</p>
+      <div class="table-wrap" style="margin-top:12px;">
+        <table>
+          <thead><tr><th>指標</th><th>現状値</th><th>目標値</th><th>この論点の影響方向</th></tr></thead>
+          <tbody>
+            <tr><td>稼働代理店維持率</td><td class="num">5 / 5社</td><td class="num">5 / 5社を維持</td><td>追い風：早期支援で離脱を防止／リスク：支援コストが他代理店還元原資を圧迫</td></tr>
+            <tr><td>平均定着率</td><td class="num">82%</td><td class="num">90%</td><td>やまびこでんきの回復如何で全体平均が変動</td></tr>
+            <tr><td>てつだって月間相談投稿数</td><td class="num">14件</td><td class="num">20件</td><td>伴走ペアリングにより相談投稿が増える見込み</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="t-proposal">
+    <div class="panel">
+      <h3>支援メニューの詳細</h3>
+      <div class="case">
+        <b>① てつだって伴走メンタリング</b>
+        <p class="note">好調代理店「こなん電材」とペアリングし、月2回のオンライン相談枠を設定。プレミアムプラン案内トークなど、すでに「てつだって」で共有されているノウハウを重点的に共有する。</p>
+      </div>
+      <div class="case">
+        <b>② インセンティブ前払いの条件付き適用</b>
+        <p class="note">通常は月末締め翌月払いのところ、3ヶ月間に限り成約確定時点での前払いを試験適用。財務負担を抑えるため上限額を設定する。</p>
+      </div>
+      <div class="case">
+        <b>③ 地域貢献実績の簡易チラシ自動出力</b>
+        <p class="note">しまのみんな会議で複数代理店から要望のあった機能を先行提供し、営業時の説得材料を増やす。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="t-cases">
+    <div class="panel">
+      <h3>類似事例（代理店網の再活性化）</h3>
+      <div class="case">
+        <span class="status-pill pill-success">一部成功</span>
+        <b> フランチャイズ加盟店に対する伴走メンタリング制度</b>
+        <p class="note">成績下位の加盟店に対し、本部が上位加盟店とのメンタリングをマッチングする取り組み。売上回復に一定の効果があった一方、メンター側の負担増が課題として指摘されている。<br><b>転用時の注意点：</b>メンター役の代理店への謝礼・インセンティブ設計も合わせて検討する必要がある。</p>
+      </div>
+      <div class="case">
+        <span class="status-pill pill-success">一部成功</span>
+        <b> 保険代理店業界の早期介入型サポートプログラム</b>
+        <p class="note">契約件数が一定期間落ち込んだ代理店を早期に検知し、本部担当者が集中支援する仕組み。早期発見ほど回復率が高いという報告がある。<br><b>転用時の注意点：</b>「早期発見」の基準（本ケースでは相談投稿0件・契約件数の急減）をあらかじめ数値で定義しておくことが重要。</p>
+      </div>
+      <p class="disclaimer">※ 掲載情報はAIによる下書き（未検証）です。実際の制度設計には一次情報での確認をお願いします。</p>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="t-support">
+    <div class="panel">
+      <h3>活用できる支援制度（候補）</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>制度名</th><th>提供元</th><th>概要</th><th>マッチ理由</th></tr></thead>
+          <tbody>
+            <tr><td><b>てつだって伴走ペアリング制度</b><br>社内制度</td><td>HD本部</td><td>好調代理店と苦戦代理店をマッチングし、相談枠を提供</td><td>相談投稿0件という孤立傾向に直接効く</td></tr>
+            <tr><td><b>インセンティブ前払い制度</b><br>社内制度</td><td>HD本部</td><td>成約確定時点での前払いを条件付きで試験適用</td><td>支払いサイクルへの不満（しまのみんな会議より）に対応</td></tr>
+            <tr><td><b>伴走支援型経営改善計画策定支援事業</b><br>公的支援（参考）</td><td>中小企業庁</td><td>経営に不安のある小規模事業者に対し、専門家が伴走しながら経営改善計画の策定を支援</td><td>やまびこでんきが個人事業主規模の場合、外部の経営相談窓口として参考になる可能性</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="disclaimer">※ 掲載情報はAIによる下書き（未検証）です。公的制度の適用可否・要件は必ず一次情報でご確認ください。</p>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="t-data">
+    <div class="panel">
+      <h3>生データ一覧</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>分類</th><th>値・内容</th><th>判断での使い方</th></tr></thead>
+          <tbody>
+            <tr><td>契約件数</td><td class="num">4件（目標25件、他4代理店平均25件）</td><td>回復条件のベースライン</td></tr>
+            <tr><td>定着率スコア</td><td class="num">22%（他4代理店平均85%）</td><td>孤立・モチベーション低下の裏付け</td></tr>
+            <tr><td>インセンティブ未払い</td><td class="num">¥62,000（支払いサイクル起因の滞留分）</td><td>前払い制度の適用額の目安</td></tr>
+            <tr><td>てつだって相談投稿</td><td class="num">過去60日で0件（他代理店平均3.5件/60日）</td><td>孤立傾向の定量的根拠</td></tr>
+            <tr><td>しまのみんな会議 投稿</td><td>「インセンティブの支払いサイクルを早めてほしい」（共感8件）</td><td>本人の不満の一次情報</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <footer>やまびこでんき 意思決定支援PoC — 2026-09-06作成 / 数値・事例はすべて打ち合わせ用のサンプルです。デザインは <a href="https://shimatetsudai.vercel.app/case-studies/yakushima-a3.html" target="_blank" rel="noopener">しまてつだい分室の意思決定支援ダッシュボード</a> の構成をそのまま踏襲しています。</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var buttons = document.querySelectorAll(".tabbtn");
+  buttons.forEach(function(btn){
+    btn.addEventListener("click", function(){
+      buttons.forEach(function(b){ b.setAttribute("aria-selected","false"); });
+      btn.setAttribute("aria-selected","true");
+      document.querySelectorAll(".tabpanel").forEach(function(p){ p.classList.remove("active"); });
+      document.getElementById(btn.getAttribute("data-panel")).classList.add("active");
+    });
+  });
+})();
+</script>
