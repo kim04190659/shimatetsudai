@@ -1,0 +1,602 @@
+<title>パートナーズハブ</title>
+<style>
+  /*
+    デザイントークンは、しまてつだい本体サイト（shimatetsudai.vercel.app）と
+    意思決定支援ダッシュボード（/case-studies/*.html）から実測した値をそのまま使用。
+    - ブランドのテラコッタ／グリーン：トップサイトの実測色
+    - 意思決定支援ダッシュボードのタブ・コールアウト・KPIタイルの配色をそのまま踏襲
+  */
+  :root{
+    --bg:#F2EEE6;
+    --card:#FFFFFF;
+    --card-soft:#F9F8F7;
+    --ink:#2C2C2B;
+    --muted:#726A5E;
+    --line:#E1DDD3;
+    --blue:#2783DE;
+    --blue-ink:#FFFFFF;
+    --terracotta:#C96F42;
+    --green:#7A9A7E;
+    --callout-yellow-bg:#FFF8E8;
+    --callout-yellow-line:#D9A02B;
+    --callout-blue-bg:#EFF6FE;
+    --callout-blue-line:#2783DE;
+    --callout-green-bg:#E8F1EC;
+    --callout-green-line:#5C8161;
+    --callout-peach-bg:#FBEBDE;
+    --callout-peach-line:#C96F42;
+    --good:#4C7A52;
+    --warn:#9C6B0B;
+    --crit:#B3392C;
+    --shadow:0 1px 2px rgba(44,44,43,.05), 0 8px 22px rgba(44,44,43,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1C1B17; --card:#242320; --card-soft:#29281F;
+      --ink:#EDEAE2; --muted:#B2A895; --line:#3B392E;
+      --blue:#6FB3F2; --blue-ink:#0E1B27;
+      --terracotta:#E2925F; --green:#96B79A;
+      --callout-yellow-bg:#332A12; --callout-yellow-line:#D9A02B;
+      --callout-blue-bg:#152332; --callout-blue-line:#6FB3F2;
+      --callout-green-bg:#1B2A1F; --callout-green-line:#96B79A;
+      --callout-peach-bg:#33231A; --callout-peach-line:#E2925F;
+      --good:#8FC494; --warn:#E3BE71; --crit:#E79284;
+      --shadow:0 1px 2px rgba(0,0,0,.35), 0 8px 22px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1C1B17; --card:#242320; --card-soft:#29281F;
+    --ink:#EDEAE2; --muted:#B2A895; --line:#3B392E;
+    --blue:#6FB3F2; --blue-ink:#0E1B27;
+    --terracotta:#E2925F; --green:#96B79A;
+    --callout-yellow-bg:#332A12; --callout-yellow-line:#D9A02B;
+    --callout-blue-bg:#152332; --callout-blue-line:#6FB3F2;
+    --callout-green-bg:#1B2A1F; --callout-green-line:#96B79A;
+    --callout-peach-bg:#33231A; --callout-peach-line:#E2925F;
+    --good:#8FC494; --warn:#E3BE71; --crit:#E79284;
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 8px 22px rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--ink); line-height:1.75;
+    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  }
+  h1,h2,h3{text-wrap:balance; margin:0;}
+  .num{font-variant-numeric:tabular-nums;}
+
+  .shell{max-width:1100px; margin:0 auto; padding:26px 22px 60px;}
+
+  /* ---- header (しまてつだい本体の見出しスタイルを踏襲) ---- */
+  .topbar{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:18px;}
+  .brandblock{display:flex; align-items:center; gap:11px;}
+  .brand-icon{
+    width:34px; height:34px; border-radius:9px; flex-shrink:0;
+    background:var(--green); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:1.05rem;
+  }
+  .brand-eyebrow{font-size:.72rem; color:var(--terracotta); font-weight:600; letter-spacing:.03em;}
+  .brand-name{font-size:1.2rem; font-weight:700;}
+  .mvp-tag{
+    font-size:.66rem; letter-spacing:.06em; background:var(--callout-peach-bg); color:var(--terracotta);
+    border:1px solid var(--callout-peach-line); padding:2px 8px; border-radius:99px; font-weight:600;
+  }
+
+  .roleswitch{display:flex; gap:8px; flex-wrap:wrap;}
+  .rolebtn{
+    display:flex; align-items:center; gap:7px; appearance:none; cursor:pointer; font:inherit;
+    background:var(--card); border:1px solid var(--line); color:var(--muted);
+    padding:8px 14px 8px 10px; border-radius:10px; font-size:.85rem; font-weight:600;
+    box-shadow:var(--shadow);
+  }
+  .rolebtn .ic{
+    width:22px; height:22px; border-radius:7px; display:flex; align-items:center; justify-content:center;
+    font-size:.85rem; background:var(--card-soft);
+  }
+  .rolebtn[aria-pressed="true"]{color:var(--ink); border-color:var(--blue);}
+  .rolebtn[aria-pressed="true"] .ic{background:var(--blue); }
+  .rolebtn:focus-visible{outline:2px solid var(--blue); outline-offset:2px;}
+
+  select{
+    font:inherit; font-size:.84rem; background:var(--card); color:var(--ink);
+    border:1px solid var(--line); border-radius:8px; padding:8px 11px;
+  }
+
+  /* ---- callout（意思決定支援ダッシュボードの「かんたんに言うと」「本日の決定案」を踏襲）---- */
+  .callout{
+    border-radius:10px; padding:13px 16px; font-size:.86rem; margin-bottom:20px;
+    border-left:4px solid; display:flex; gap:10px; align-items:flex-start;
+  }
+  .callout .ic{font-size:1rem; line-height:1.5;}
+  .callout-peach{background:var(--callout-peach-bg); border-color:var(--callout-peach-line);}
+  .callout-blue{background:var(--callout-blue-bg); border-color:var(--callout-blue-line);}
+  .callout-green{background:var(--callout-green-bg); border-color:var(--callout-green-line);}
+  .callout-yellow{background:var(--callout-yellow-bg); border-color:var(--callout-yellow-line);}
+  .callout b{font-weight:700;}
+
+  .view{display:none;}
+  .view.active{display:block;}
+
+  /* ---- tab pills（意思決定支援ダッシュボードの6タブUIを踏襲）---- */
+  .tabbar{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:18px; border-bottom:1px solid var(--line); padding-bottom:0;}
+  .tabbtn{
+    appearance:none; border:1px solid transparent; background:transparent; color:var(--muted);
+    font:inherit; font-size:.85rem; font-weight:600; padding:9px 15px; border-radius:9px 9px 0 0;
+    cursor:pointer; margin-bottom:-1px;
+  }
+  .tabbtn[aria-selected="true"]{
+    background:var(--card); color:var(--blue); border-color:var(--line); border-bottom-color:var(--card);
+  }
+  .tabpanel{display:none;}
+  .tabpanel.active{display:block;}
+
+  /* ---- KPI tiles（意思決定支援ダッシュボードのB/C・便益タイルを踏襲）---- */
+  .kpi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:22px;}
+  @media (max-width:760px){ .kpi-grid{grid-template-columns:repeat(2,1fr);} }
+  .kpi{background:var(--card-soft); border:1px solid var(--line); border-radius:10px; padding:14px 16px;}
+  .kpi .label{font-size:.72rem; color:var(--muted);}
+  .kpi .value{font-size:1.45rem; font-weight:700; margin-top:5px;}
+  .kpi .value small{font-size:.85rem; font-weight:500; color:var(--muted);}
+
+  .panel{background:var(--card); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); overflow:hidden;}
+  .panel-title{font-size:.95rem; font-weight:700; padding:14px 16px; border-bottom:1px solid var(--line);}
+
+  .table-wrap{overflow-x:auto;}
+  table{width:100%; border-collapse:collapse; font-size:.86rem; min-width:600px;}
+  thead th{text-align:left; font-weight:600; color:var(--muted); font-size:.7rem; letter-spacing:.04em; padding:10px 14px; border-bottom:1px solid var(--line); white-space:nowrap;}
+  tbody td{padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:middle;}
+  tbody tr:last-child td{border-bottom:0;}
+  tbody tr:hover{background:var(--card-soft);}
+  td.num, th.num{text-align:right;}
+
+  .status-chip{display:inline-flex; align-items:center; gap:5px; font-size:.74rem; font-weight:700; padding:3px 9px; border-radius:99px; white-space:nowrap;}
+  .status-chip::before{content:""; width:6px; height:6px; border-radius:50%; background:currentColor;}
+  .status-good{background:var(--callout-green-bg); color:var(--good);}
+  .status-warn{background:var(--callout-yellow-bg); color:var(--warn);}
+  .status-crit{background:var(--callout-peach-bg); color:var(--crit);}
+
+  .bar-track{width:70px; height:6px; background:var(--card-soft); border-radius:99px; overflow:hidden;}
+  .bar-fill{height:100%; background:var(--blue); border-radius:99px;}
+
+  .list > *{padding:14px 16px; border-bottom:1px solid var(--line);}
+  .list > *:last-child{border-bottom:0;}
+
+  .voice-item{display:flex; gap:12px; align-items:flex-start;}
+  .voice-item .who{font-size:.74rem; color:var(--muted); margin-top:4px;}
+  .empathy-btn{
+    display:flex; flex-direction:column; align-items:center; gap:1px;
+    background:var(--card-soft); border:1px solid var(--line); border-radius:8px;
+    padding:5px 9px; cursor:pointer; color:var(--ink); font:inherit; font-size:.7rem; min-width:48px;
+  }
+  .empathy-btn:hover{border-color:var(--blue);}
+  .empathy-btn .n{font-size:.92rem; font-weight:700;}
+
+  .priority-tag{font-size:.66rem; font-weight:700; padding:2px 7px; border-radius:5px;}
+  .priority-high{background:var(--callout-peach-bg); color:var(--crit);}
+  .priority-mid{background:var(--callout-yellow-bg); color:var(--warn);}
+
+  .thread{padding:14px 16px; border-bottom:1px solid var(--line);}
+  .thread:last-child{border-bottom:0;}
+  .thread-head{display:flex; justify-content:space-between; gap:10px; font-size:.89rem; font-weight:700;}
+  .thread-meta{font-size:.73rem; color:var(--muted); margin-top:3px;}
+  .thread-tag{font-size:.66rem; color:var(--blue); background:var(--callout-blue-bg); border:1px solid var(--callout-blue-line); padding:1px 8px; border-radius:99px; white-space:nowrap;}
+  .thread-replies{margin-top:9px; display:flex; flex-direction:column; gap:7px;}
+  .reply{font-size:.83rem; background:var(--card-soft); border-radius:8px; padding:8px 11px;}
+  .reply b{font-weight:700;}
+
+  form.composer{display:flex; gap:8px; padding:13px 16px; background:var(--card-soft);}
+  form.composer textarea{
+    flex:1; resize:vertical; min-height:38px; max-height:120px; font:inherit; font-size:.85rem;
+    padding:8px 10px; border:1px solid var(--line); border-radius:8px; background:var(--card); color:var(--ink);
+  }
+  form.composer button{
+    appearance:none; border:0; background:var(--blue); color:var(--blue-ink); font:inherit;
+    font-size:.83rem; font-weight:700; padding:0 17px; border-radius:8px; cursor:pointer;
+  }
+  form.composer button:hover{filter:brightness(1.05);}
+
+  .agency-header{display:flex; justify-content:space-between; align-items:flex-end; gap:14px; flex-wrap:wrap; margin-bottom:16px;}
+  .agency-name{font-size:1.2rem; font-weight:700;}
+  .agency-region{color:var(--muted); font-size:.83rem;}
+
+  .goal-card{padding:16px 18px;}
+  .goal-row{display:flex; align-items:center; gap:12px; margin-top:9px;}
+  .goal-row:first-child{margin-top:0;}
+  .goal-label{width:110px; font-size:.8rem; color:var(--muted); flex-shrink:0;}
+  .goal-track{flex:1; height:8px; background:var(--card-soft); border-radius:99px; overflow:hidden;}
+  .goal-fill{height:100%; border-radius:99px; background:var(--blue);}
+  .goal-val{width:105px; text-align:right; font-size:.83rem; flex-shrink:0;}
+
+  .section-gap{margin-top:22px;}
+  footer{margin-top:40px; padding-top:16px; border-top:1px solid var(--line); font-size:.74rem; color:var(--muted);}
+  footer a{color:var(--blue);}
+</style>
+
+<div class="shell">
+
+  <div class="topbar">
+    <div class="brandblock">
+      <span class="brand-icon">🔌</span>
+      <div>
+        <div class="brand-eyebrow">地域創生ホールディングス 代理店網PRM</div>
+        <div class="brand-name">パートナーズハブ <span class="mvp-tag">MVP</span></div>
+      </div>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <select id="agencyPicker" aria-label="代理店を選択"></select>
+      <div class="roleswitch" role="tablist" aria-label="視点切替">
+        <button class="rolebtn" id="btnHD" role="tab" aria-pressed="true"><span class="ic">🏛️</span>HD本部として見る</button>
+        <button class="rolebtn" id="btnAgency" role="tab" aria-pressed="false"><span class="ic">🤝</span>代理店として見る</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-peach">
+    <span class="ic">🌾</span>
+    <div><b>しまてつだいの機能を転用しています。</b>意思決定支援ダッシュボードのタブ・コールアウト・KPIタイルの見た目と、てつだって（相談機能）・しまのみんな会議（声の集約）の仕組みを、代理店網向けにそのまま流用したプロトタイプです。</div>
+  </div>
+
+  <!-- ============ HD VIEW ============ -->
+  <div id="viewHD" class="view active">
+
+    <div class="tabbar" role="tablist" aria-label="HD本部ビュー タブ">
+      <button class="tabbtn" data-panel="hd-summary" aria-selected="true">全体サマリー</button>
+      <button class="tabbtn" data-panel="hd-ranking" aria-selected="false">代理店ランキング</button>
+      <button class="tabbtn" data-panel="hd-voice" aria-selected="false">現場の声</button>
+      <button class="tabbtn" data-panel="hd-topic" aria-selected="false">相談トレンド</button>
+    </div>
+
+    <div class="tabpanel active" id="hd-summary">
+      <div class="kpi-grid">
+        <div class="kpi"><div class="label">稼働代理店（過去30日）</div><div class="value num">5<small> / 5</small></div></div>
+        <div class="kpi"><div class="label">平均定着率</div><div class="value num">82<small>%</small></div></div>
+        <div class="kpi"><div class="label">今月の相談投稿</div><div class="value num">14<small> 件</small></div></div>
+        <div class="kpi"><div class="label">今月の地域貢献額</div><div class="value num">¥185<small>,000</small></div></div>
+      </div>
+      <div class="callout callout-blue">
+        <span class="ic">📌</span>
+        <div><b>本日のポイント：</b>やまびこでんき（福岡県八女市）が休眠リスク圏内です。契約件数4件・定着率22%と目標を大きく下回っています。てつだって相談への参加も少なく、早めのフォローが必要です。</div>
+      </div>
+      <div class="callout callout-green">
+        <span class="ic">👏</span>
+        <div><b>好調事例：</b>こなん電材（滋賀県湖南市）は契約41件・定着率95%と目標超過。プレミアムプラン案内トークが「てつだって」で共有され、他代理店にも波及しています。</div>
+      </div>
+    </div>
+
+    <div class="tabpanel" id="hd-ranking">
+      <div class="panel table-wrap">
+        <table>
+          <thead>
+            <tr><th>代理店</th><th>地域</th><th>ステータス</th><th class="num">契約件数</th><th class="num">インセンティブ</th><th class="num">地域貢献額</th><th>定着率</th></tr>
+          </thead>
+          <tbody id="rankingBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tabpanel" id="hd-voice">
+      <div class="panel list" id="voiceListHD"></div>
+    </div>
+
+    <div class="tabpanel" id="hd-topic">
+      <div class="panel list" id="topicListHD"></div>
+    </div>
+  </div>
+
+  <!-- ============ AGENCY VIEW ============ -->
+  <div id="viewAgency" class="view">
+
+    <div class="agency-header">
+      <div>
+        <div class="agency-name" id="agName"></div>
+        <div class="agency-region" id="agRegion"></div>
+      </div>
+      <span class="status-chip" id="agStatusChip"></span>
+    </div>
+
+    <div class="tabbar" role="tablist" aria-label="代理店ビュー タブ">
+      <button class="tabbtn" data-panel="ag-perf" aria-selected="true">自分の実績</button>
+      <button class="tabbtn" data-panel="ag-thread" aria-selected="false">てつだって相談</button>
+      <button class="tabbtn" data-panel="ag-voice" aria-selected="false">しまのみんな会議</button>
+    </div>
+
+    <div class="tabpanel active" id="ag-perf">
+      <div class="kpi-grid">
+        <div class="kpi"><div class="label">今月の契約件数</div><div class="value num" id="agContracts"></div></div>
+        <div class="kpi"><div class="label">インセンティブ収入</div><div class="value num" id="agIncentive"></div></div>
+        <div class="kpi"><div class="label">地域貢献額（あなたの実績）</div><div class="value num" id="agContribution"></div></div>
+        <div class="kpi"><div class="label">定着率スコア</div><div class="value num" id="agRetention"></div></div>
+      </div>
+      <div id="agStatusCallout"></div>
+      <div class="panel goal-card section-gap">
+        <div class="goal-row">
+          <div class="goal-label">契約件数</div>
+          <div class="goal-track"><div class="goal-fill" id="goalContractsFill"></div></div>
+          <div class="goal-val num" id="goalContractsVal"></div>
+        </div>
+        <div class="goal-row">
+          <div class="goal-label">地域貢献額</div>
+          <div class="goal-track"><div class="goal-fill" id="goalContribFill"></div></div>
+          <div class="goal-val num" id="goalContribVal"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabpanel" id="ag-thread">
+      <div class="panel">
+        <div id="threadList"></div>
+        <form class="composer" id="threadForm">
+          <textarea id="threadInput" placeholder="困っていることを投稿する（例：留守がちなお宅への再訪コツは？）" required></textarea>
+          <button type="submit">投稿する</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="tabpanel" id="ag-voice">
+      <div class="panel">
+        <div class="list" id="voiceListAgency"></div>
+        <form class="composer" id="voiceForm">
+          <textarea id="voiceInput" placeholder="本部に伝えたいことを書く（例：還元先の選び方を増やしてほしい）" required></textarea>
+          <button type="submit">送信する</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer>パートナーズハブ MVP — 2026-09-06作成 / データはすべて打ち合わせ用のサンプルです。デザインは <a href="https://shimatetsudai.vercel.app" target="_blank" rel="noopener">しまてつだい分室</a> の意思決定支援ダッシュボードを踏襲しています。</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var agencies = [
+    {id:"shiokaze", name:"潮風商店", region:"長崎県 対馬市", status:"good",
+     contracts:32, incentive:184000, contribution:58000, retention:91,
+     goalContracts:{cur:32, target:35}, goalContrib:{cur:58000, target:60000}},
+    {id:"nanmoku", name:"なんもく電化センター", region:"群馬県 南牧村", status:"warn",
+     contracts:9, incentive:51000, contribution:16000, retention:58,
+     goalContracts:{cur:9, target:20}, goalContrib:{cur:16000, target:30000}},
+    {id:"konan", name:"こなん電材", region:"滋賀県 湖南市", status:"good",
+     contracts:41, incentive:236000, contribution:73000, retention:95,
+     goalContracts:{cur:41, target:40}, goalContrib:{cur:73000, target:70000}},
+    {id:"yamabiko", name:"やまびこでんき", region:"福岡県 八女市", status:"crit",
+     contracts:4, incentive:21000, contribution:7000, retention:22,
+     goalContracts:{cur:4, target:25}, goalContrib:{cur:7000, target:35000}},
+    {id:"setouchi", name:"せとうち電力サービス", region:"岡山県 瀬戸内市", status:"good",
+     contracts:18, incentive:98000, contribution:31000, retention:76,
+     goalContracts:{cur:18, target:22}, goalContrib:{cur:31000, target:32000}}
+  ];
+
+  var statusMeta = {
+    good:{label:"好調", cls:"status-good"},
+    warn:{label:"要フォロー", cls:"status-warn"},
+    crit:{label:"休眠リスク", cls:"status-crit"}
+  };
+
+  var threads = [
+    {agency:"なんもく電化センター", tag:"訪問営業", title:"高齢のお宅への再訪、どこまでが適切？",
+     replies:[
+       {who:"潮風商店", text:"うちは必ず家族の同席日を先に聞いて、その日に合わせて再訪してます。"},
+       {who:"せとうち電力サービス", text:"パンフレットを郵送してから電話→訪問の順にすると警戒されにくいです。"}
+     ]},
+    {agency:"せとうち電力サービス", tag:"プレミアムプラン", title:"プレミアムふるさと電気、案内トークの成功例ある？",
+     replies:[
+       {who:"こなん電材", text:"「電気代の一部が地元の◯◯に使われます」を数字で見せると刺さります。"},
+       {who:"潮風商店", text:"ダッシュボードの還元実績を印刷して持って行くと信頼されやすいです。"},
+       {who:"なんもく電化センター", text:"うちも真似してみます、ありがとうございます。"}
+     ]},
+    {agency:"こなん電材", tag:"解約対応", title:"解約引き止め、成功した時の共通点を教えてください",
+     replies:[
+       {who:"やまびこでんき", text:"値段だけの話にせず、地域貢献の話を最後にもう一度するようにしてます。"}
+     ]}
+  ];
+
+  var voices = [
+    {agency:"潮風商店", text:"地域貢献の還元先を、住民側でもっと自由に選べるようにしてほしいです。", empathy:12, priority:"high"},
+    {agency:"やまびこでんき", text:"インセンティブの支払いサイクルを、月末締め翌月払いから早められませんか。", empathy:8, priority:"mid"},
+    {agency:"せとうち電力サービス", text:"地域貢献実績を、チラシに貼れる簡易PDFで自動出力してほしいです。", empathy:15, priority:"high"},
+    {agency:"なんもく電化センター", text:"高齢者向けの説明資料を、もっと大きい文字のバージョンで用意してほしい。", empathy:6, priority:"mid"}
+  ];
+
+  var topics = [
+    {name:"訪問営業・特商法まわり", count:5},
+    {name:"プレミアムプランの案内トーク", count:4},
+    {name:"解約引き止め", count:3},
+    {name:"インセンティブ・支払い", count:2}
+  ];
+
+  var statusCalloutMeta = {
+    good:{cls:"callout-green", ic:"👏", text:"目標を上回るペースです。この調子で継続しましょう。"},
+    warn:{cls:"callout-yellow", ic:"⚠️", text:"目標にやや届いていません。てつだって相談で他の代理店のコツを聞いてみましょう。"},
+    crit:{cls:"callout-peach", ic:"🆘", text:"目標との差が大きくなっています。HD本部から近くフォロー連絡が届く予定です。"}
+  };
+
+  function yen(n){ return "¥" + n.toLocaleString("ja-JP"); }
+
+  function loadLocal(key, fallback){
+    try{ var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
+    catch(e){ return fallback; }
+  }
+  function saveLocal(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){} }
+
+  threads = loadLocal("ph_threads", threads);
+  voices = loadLocal("ph_voices", voices);
+
+  // ---- agency picker ----
+  var picker = document.getElementById("agencyPicker");
+  agencies.forEach(function(a){
+    var opt = document.createElement("option");
+    opt.value = a.id; opt.textContent = a.name + "（" + a.region + "）";
+    picker.appendChild(opt);
+  });
+  var currentAgencyId = agencies[0].id;
+  picker.value = currentAgencyId;
+  picker.addEventListener("change", function(){ currentAgencyId = picker.value; renderAgencyView(); });
+  picker.style.visibility = "hidden";
+
+  // ---- role switch ----
+  var btnHD = document.getElementById("btnHD"), btnAgency = document.getElementById("btnAgency");
+  var viewHD = document.getElementById("viewHD"), viewAgency = document.getElementById("viewAgency");
+  function showHD(){
+    viewHD.classList.add("active"); viewAgency.classList.remove("active");
+    btnHD.setAttribute("aria-pressed","true"); btnAgency.setAttribute("aria-pressed","false");
+    picker.style.visibility = "hidden";
+  }
+  function showAgency(){
+    viewAgency.classList.add("active"); viewHD.classList.remove("active");
+    btnAgency.setAttribute("aria-pressed","true"); btnHD.setAttribute("aria-pressed","false");
+    picker.style.visibility = "visible"; renderAgencyView();
+  }
+  btnHD.addEventListener("click", showHD);
+  btnAgency.addEventListener("click", showAgency);
+
+  // ---- generic tab controller ----
+  function wireTabs(root){
+    var buttons = root.querySelectorAll(".tabbtn");
+    buttons.forEach(function(btn){
+      btn.addEventListener("click", function(){
+        buttons.forEach(function(b){ b.setAttribute("aria-selected","false"); });
+        btn.setAttribute("aria-selected","true");
+        var panels = root.querySelectorAll(".tabpanel");
+        panels.forEach(function(p){ p.classList.remove("active"); });
+        document.getElementById(btn.getAttribute("data-panel")).classList.add("active");
+      });
+    });
+  }
+  wireTabs(viewHD);
+  wireTabs(viewAgency);
+
+  // ---- HD ranking table ----
+  var rankingBody = document.getElementById("rankingBody");
+  agencies.slice().sort(function(a,b){return b.contracts - a.contracts;}).forEach(function(a){
+    var meta = statusMeta[a.status];
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      "<td>" + a.name + "</td>" +
+      "<td>" + a.region + "</td>" +
+      "<td><span class='status-chip " + meta.cls + "'>" + meta.label + "</span></td>" +
+      "<td class='num'>" + a.contracts + " 件</td>" +
+      "<td class='num'>" + yen(a.incentive) + "</td>" +
+      "<td class='num'>" + yen(a.contribution) + "</td>" +
+      "<td><div style='display:flex; align-items:center; gap:8px;'>" +
+        "<div class='bar-track'><div class='bar-fill' style='width:" + a.retention + "%'></div></div>" +
+        "<span class='num' style='font-size:.78rem;'>" + a.retention + "%</span></div></td>";
+    rankingBody.appendChild(tr);
+  });
+
+  // ---- HD voice list (read-only) ----
+  function renderVoiceList(container, withEmpathyButton){
+    container.innerHTML = "";
+    voices.slice().sort(function(a,b){return b.empathy-a.empathy;}).forEach(function(v){
+      var row = document.createElement("div");
+      row.className = "voice-item";
+      var tagHtml = "<span class='priority-tag priority-" + (v.priority==="high"?"high":"mid") + "'>" + (v.priority==="high"?"優先度高":"優先度中") + "</span>";
+      row.innerHTML =
+        "<div style='flex:1'>" +
+          "<div>" + tagHtml + " " + v.text + "</div>" +
+          "<div class='who'>" + v.agency + "</div>" +
+        "</div>";
+      if(withEmpathyButton){
+        var btn = document.createElement("button");
+        btn.className = "empathy-btn"; btn.type = "button";
+        btn.innerHTML = "<span class='n'>" + v.empathy + "</span><span>共感</span>";
+        btn.addEventListener("click", function(){
+          v.empathy++; saveLocal("ph_voices", voices);
+          renderVoiceList(document.getElementById("voiceListHD"), false);
+          renderVoiceList(document.getElementById("voiceListAgency"), true);
+        });
+        row.appendChild(btn);
+      } else {
+        var count = document.createElement("div");
+        count.className = "who"; count.style.textAlign="right";
+        count.innerHTML = "<span class='num' style='font-weight:700;color:var(--ink)'>" + v.empathy + "</span><br>共感";
+        row.appendChild(count);
+      }
+      container.appendChild(row);
+    });
+  }
+  renderVoiceList(document.getElementById("voiceListHD"), false);
+
+  // ---- HD topic list ----
+  var topicListHD = document.getElementById("topicListHD");
+  var maxTopic = Math.max.apply(null, topics.map(function(t){return t.count;}));
+  topics.forEach(function(t){
+    var row = document.createElement("div");
+    row.innerHTML =
+      "<div style='display:flex; justify-content:space-between; margin-bottom:6px;'>" +
+        "<span>" + t.name + "</span><span class='num'>" + t.count + "件</span></div>" +
+      "<div class='bar-track' style='width:100%;'><div class='bar-fill' style='width:" + (t.count/maxTopic*100) + "%; background:var(--terracotta);'></div></div>";
+    topicListHD.appendChild(row);
+  });
+
+  // ---- Agency view ----
+  function currentAgency(){ return agencies.filter(function(a){return a.id===currentAgencyId;})[0]; }
+
+  function renderThreadList(){
+    var list = document.getElementById("threadList");
+    list.innerHTML = "";
+    threads.forEach(function(t){
+      var div = document.createElement("div");
+      div.className = "thread";
+      var repliesHtml = t.replies.map(function(r){ return "<div class='reply'><b>" + r.who + "：</b>" + r.text + "</div>"; }).join("");
+      div.innerHTML =
+        "<div class='thread-head'><span>" + t.title + "</span><span class='thread-tag'>" + t.tag + "</span></div>" +
+        "<div class='thread-meta'>投稿：" + t.agency + " ・ 回答 " + t.replies.length + " 件</div>" +
+        "<div class='thread-replies'>" + repliesHtml + "</div>";
+      list.appendChild(div);
+    });
+  }
+  renderThreadList();
+
+  document.getElementById("threadForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var input = document.getElementById("threadInput");
+    var text = input.value.trim();
+    if(!text) return;
+    threads.unshift({agency: currentAgency().name, tag:"新規", title:text, replies:[]});
+    saveLocal("ph_threads", threads);
+    input.value = ""; renderThreadList();
+  });
+
+  document.getElementById("voiceForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var input = document.getElementById("voiceInput");
+    var text = input.value.trim();
+    if(!text) return;
+    voices.unshift({agency: currentAgency().name, text:text, empathy:0, priority:"mid"});
+    saveLocal("ph_voices", voices);
+    input.value = "";
+    renderVoiceList(document.getElementById("voiceListHD"), false);
+    renderVoiceList(document.getElementById("voiceListAgency"), true);
+  });
+
+  function renderAgencyView(){
+    var a = currentAgency();
+    var meta = statusMeta[a.status];
+    document.getElementById("agName").textContent = a.name;
+    document.getElementById("agRegion").textContent = a.region;
+    var chip = document.getElementById("agStatusChip");
+    chip.textContent = meta.label; chip.className = "status-chip " + meta.cls;
+
+    document.getElementById("agContracts").textContent = a.contracts + " 件";
+    document.getElementById("agIncentive").textContent = yen(a.incentive);
+    document.getElementById("agContribution").textContent = yen(a.contribution);
+    document.getElementById("agRetention").textContent = a.retention + "%";
+
+    var gc = a.goalContracts, gk = a.goalContrib;
+    document.getElementById("goalContractsFill").style.width = Math.min(100, gc.cur/gc.target*100) + "%";
+    document.getElementById("goalContractsVal").textContent = gc.cur + " / " + gc.target + " 件";
+    document.getElementById("goalContribFill").style.width = Math.min(100, gk.cur/gk.target*100) + "%";
+    document.getElementById("goalContribVal").textContent = yen(gk.cur) + " / " + yen(gk.target);
+
+    var scMeta = statusCalloutMeta[a.status];
+    document.getElementById("agStatusCallout").innerHTML =
+      "<div class='callout " + scMeta.cls + "'><span class='ic'>" + scMeta.ic + "</span><div>" + scMeta.text + "</div></div>";
+
+    renderVoiceList(document.getElementById("voiceListAgency"), true);
+  }
+  renderAgencyView();
+
+})();
+</script>
