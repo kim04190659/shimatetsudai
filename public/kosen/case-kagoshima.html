@@ -1,86 +1,209 @@
 <title>鹿児島高専 Mission in LOGI-TECH（実施予定）</title>
 <style>
   :root{ --bg:#F2EEE6; --card:#FFFFFF; --ink:#2C2C2B; --muted:#726A5E; --line:#E1DDD3; --blue:#2783DE;
-    --warn:#9C6B0B; --warn-bg:#FFF8E8;
+    --warn:#9C6B0B; --warn-bg:#FFF8E8; --good:#4C7A52; --good-bg:#E8F1EC; --bad:#B23B3B; --bad-bg:#FBEAEA;
     --callout-blue-bg:#EFF6FE; --callout-blue-line:#2783DE;
     --shadow:0 1px 2px rgba(44,44,43,.05), 0 8px 22px rgba(44,44,43,.06); }
   *{box-sizing:border-box;}
   body{ background:var(--bg); color:var(--ink); line-height:1.75; margin:0;
     font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
-  .shell{max-width:900px; margin:0 auto; padding:26px 22px 60px;}
+  .shell{max-width:960px; margin:0 auto; padding:26px 22px 60px;}
   .breadcrumb{font-size:.78rem; color:var(--muted); margin-bottom:14px;}
   .breadcrumb a{color:var(--blue); text-decoration:none;}
   .head{display:flex; justify-content:space-between; align-items:flex-start; gap:14px;}
   h1{font-size:1.55rem; margin:0;}
   .region{font-size:.85rem; color:var(--muted); margin-top:2px;}
   .pill{font-size:.74rem; font-weight:700; padding:4px 12px; border-radius:99px; background:var(--warn-bg); color:var(--warn); white-space:nowrap;}
-  .lead{color:var(--muted); font-size:.9rem; max-width:70ch; margin:12px 0 24px;}
-  h2{font-size:1.1rem; margin:32px 0 12px;}
+  .lead{color:var(--muted); font-size:.9rem; max-width:76ch; margin:12px 0 24px;}
+  h2{font-size:1.15rem; margin:0 0 4px;}
+  .section-num{font-size:.72rem; font-weight:700; color:var(--blue); letter-spacing:.04em;}
+  section.block{scroll-margin-top:76px; margin-top:40px; padding-top:8px; border-top:1px solid var(--line);}
+  .subtle{color:var(--muted); font-size:.86rem; margin:6px 0 14px;}
   .stat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:8px;}
   @media (max-width:700px){ .stat-grid{grid-template-columns:repeat(2,1fr);} }
   .stat{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow);}
   .stat-label{font-size:.72rem; color:var(--muted);}
-  .stat-value{font-size:1.15rem; font-weight:700; margin-top:2px;}
-  .card{background:var(--callout-blue-bg); border-left:4px solid var(--callout-blue-line); border-radius:12px; padding:18px 20px; font-size:.88rem; color:var(--ink); margin:16px 0;}
-  table{width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; font-size:.86rem;}
+  .stat-value{font-size:1.1rem; font-weight:700; margin-top:2px;}
+  .card{background:var(--callout-blue-bg); border-left:4px solid var(--callout-blue-line); border-radius:12px; padding:16px 18px; font-size:.87rem; color:var(--ink); margin:14px 0;}
+  .card.good{background:var(--good-bg); border-left-color:var(--good);}
+  .card.bad{background:var(--bad-bg); border-left-color:var(--bad);}
+  table{width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; font-size:.85rem; margin:10px 0;}
   th,td{padding:10px 14px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top;}
-  th{background:#F7F4EE; color:var(--muted); font-weight:600; width:30%;}
+  th{background:#F7F4EE; color:var(--muted); font-weight:600;}
   tr:last-child td{border-bottom:none;}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:700px){ .grid2{grid-template-columns:1fr;} }
+  .persona-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:12px 0;}
+  @media (max-width:700px){ .persona-grid{grid-template-columns:repeat(2,1fr);} }
+  .persona{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:.78rem; box-shadow:var(--shadow);}
   .suit-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:16px 0;}
   @media (max-width:700px){ .suit-grid{grid-template-columns:repeat(2,1fr);} }
   .suit{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; box-shadow:var(--shadow); text-align:center;}
   .suit-mark{font-size:1.4rem;}
   .suit-name{font-size:.82rem; font-weight:700; margin-top:4px;}
   .suit-desc{font-size:.74rem; color:var(--muted); margin-top:4px;}
+  .quote{border-left:3px solid var(--line); padding:8px 14px; margin:12px 0; color:var(--muted); font-size:.85rem; font-style:normal;}
+  .toc{display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 8px; padding:14px; background:var(--card); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow);}
+  .toc a{font-size:.76rem; color:var(--blue); text-decoration:none; background:var(--callout-blue-bg); padding:4px 10px; border-radius:99px;}
   footer{margin-top:36px; padding-top:16px; border-top:1px solid var(--line); font-size:.74rem; color:var(--muted);}
   a.btn{display:inline-block; margin-top:6px; padding:8px 16px; border-radius:99px; background:var(--blue); color:#fff; text-decoration:none; font-size:.82rem; font-weight:600;}
 </style>
 <div class="shell">
-  <div class="breadcrumb"><a href="index.html">← 高専教育コンテンツプラットフォーム</a> ｜ 先行実践事例</div>
+  <div class="breadcrumb"><a href="index.html">← 次世代高専教育</a> ｜ 先行実践事例</div>
   <div class="head">
     <div><h1>Mission in LOGI-TECH</h1><div class="region">鹿児島高専 2類（知能ロボティクスコース・先進エレクトロニクスコース）1年生 ｜ 工学基礎実習</div></div>
     <span class="pill">実施予定・準備中</span>
   </div>
-  <p class="lead">「教育マッチングサイト（カードデッキライブラリー）」の先行実践として、配送業の人材不足をテーマにしたPBLワークショップです。2026年11月に実施予定で、現在カードの印刷・授業内容の準備を進めています。以下は2026年9月時点でNotionに記録されている準備状況です。</p>
+  <p class="lead">「教育マッチングサイト」を通じて、企業人材（NEC・木村好孝／鹿児島高専OB）と高専教員（逆瀬川先生・谷口先生）がつながり、配送業の人材不足をテーマにしたPBLワークショップとして教材化した事例です。2026年11月に実施予定で、以下はNotionに記録されている教育資料・準備状況をそのまま構成し直したものです。</p>
+
+  <div class="toc">
+    <a href="#purpose">① 教育の目的</a>
+    <a href="#company">② 企業紹介</a>
+    <a href="#problem">③ 問題提起</a>
+    <a href="#activity">④ 企業活動</a>
+    <a href="#value">⑤ 社会価値創造</a>
+    <a href="#execution">⑥ 実行</a>
+    <a href="#success">⑦ 成功事例</a>
+    <a href="#failure">⑧ 失敗事例</a>
+  </div>
 
   <div class="stat-grid">
     <div class="stat"><div class="stat-label">実施時期</div><div class="stat-value">11/16・11/30</div></div>
     <div class="stat"><div class="stat-label">授業時間</div><div class="stat-value">10:40〜14:30</div></div>
     <div class="stat"><div class="stat-label">担当教員</div><div class="stat-value">逆瀬川先生・谷口先生</div></div>
-    <div class="stat"><div class="stat-label">ゲスト講師</div><div class="stat-value">木村好孝（NEC）</div></div>
+    <div class="stat"><div class="stat-label">企業人材（ゲスト講師）</div><div class="stat-value">木村好孝（NEC）</div></div>
   </div>
 
-  <h2>社会課題：配送業の人材不足</h2>
-  <p class="lead" style="margin-top:0;">日本の宅配便取扱個数は50.3億個（2024年度）で、10年前の1.4倍。一方で配送業界は崩壊の危機に瀕しています。</p>
-  <div class="stat-grid">
-    <div class="stat"><div class="stat-label">有効求人倍率</div><div class="stat-value">2.78倍</div></div>
-    <div class="stat"><div class="stat-label">2030年予測</div><div class="stat-value">25〜28万人不足</div></div>
-    <div class="stat"><div class="stat-label">40代以上ドライバー</div><div class="stat-value">70%</div></div>
-    <div class="stat"><div class="stat-label">トラック積載率</div><div class="stat-value">40%以下</div></div>
-  </div>
+  <section id="purpose" class="block">
+    <p class="section-num">① PURPOSE</p>
+    <h2>教育の目的</h2>
+    <p class="subtle">この授業で学生が得ることは5つあります。</p>
+    <div class="persona-grid">
+      <div class="persona">🌍 社会課題を多角的に理解する力</div>
+      <div class="persona">🔗 問題を相互に関連するシステムとして捉えるシステム思考</div>
+      <div class="persona">⚙️ 学ぶ技術が社会課題解決にどう貢献できるかの理解</div>
+      <div class="persona">🤝 チームで議論し創造的なソリューションを生む協働問題解決能力</div>
+    </div>
+    <div class="card">技術だけでなく、パートナーシップや実現可能性を含めた<b>ビジネスモデル思考</b>を養うことも目的の一つです。半導体技術（MaaS・IoT・AI処理・センサー技術）、ロボット技術（自動運転・倉庫自動化）、制御技術（運行管理・最適化アルゴリズム）、電気・電子技術（EV化・充電インフラ）など、2類の学習内容すべてがこのワークショップにつながっています。</div>
+  </section>
 
-  <h2>カードゲームの仕組み</h2>
-  <p class="lead" style="margin-top:0;">トランプ52枚を4つの要素に見立て、学生が各スートから1枚ずつ引いて「この技術とパートナーで、この人の悩みをどう解決するか」を考え、ビジネスプランを作ります。</p>
-  <div class="suit-grid">
-    <div class="suit"><div class="suit-mark">♥</div><div class="suit-name">ペルソナ（Who?）</div><div class="suit-desc">長距離ドライバー、買い物難民の高齢者 等</div></div>
-    <div class="suit"><div class="suit-mark">♦</div><div class="suit-name">課題（What?）</div><div class="suit-desc">荷待ち時間、積載率低下 等</div></div>
-    <div class="suit"><div class="suit-mark">♣</div><div class="suit-name">パートナー（With Whom?）</div><div class="suit-desc">運送会社、自治体、IT企業 等</div></div>
-    <div class="suit"><div class="suit-mark">♠</div><div class="suit-name">技術（How?）</div><div class="suit-desc">AI配車最適化、自動運転、倉庫ロボット 等</div></div>
-  </div>
-  <div class="card">💻 Webゲーム版も用意されています。<br><a class="btn" href="https://ai-saas-platform-gules.vercel.app/card-game/select" target="_blank" rel="noopener">カードゲームを試す ↗</a></div>
+  <section id="company" class="block">
+    <p class="section-num">② COMPANY</p>
+    <h2>企業紹介</h2>
+    <p class="subtle">ゲスト講師：木村好孝（NEC コーポレートIT・AIイノベーション部門 デジタルワークプレイス統括部 統括部長／鹿児島高専OB）</p>
+    <div class="grid2">
+      <div class="card">
+        <b>NECについて</b><br>
+        ICT・AI・ネットワーク・セキュリティなどを扱い、官公庁・自治体・企業・社会インフラなど幅広い領域を支える企業。技術そのものを売るだけでなく、顧客や社会の課題を解決することを重視している。
+      </div>
+      <div class="card">
+        <b>木村好孝が取り組んでいること</b><br>
+        AI・ITを使って地域の困りごとを早く見つけ、人・企業・自治体が協力して解決できる仕組みづくりに取り組んでいる。鹿児島高専のメンバーとも、ハッカソンのような形で地域課題解決のサービスづくりを進めている。
+      </div>
+    </div>
+    <p class="quote">「NECは、コンピュータやネットワーク、AIなどの技術を使って、企業や社会の困りごとを解決する会社です。技術があるだけでは仕事になりません。誰が困っているのか、何を解決するのか、どうすれば続けられるのかを考えて、初めて事業になります。」（学生向け説明例より）</p>
+  </section>
 
-  <h2>2日間のプログラム</h2>
-  <table>
-    <tr><th>DAY 1（個人戦）</th><td>社会問題の理解 → 企業事例紹介 → カードゲーム個人実践 → ビジネスプラン作成 → 個人発表 → 振り返り</td></tr>
-    <tr><th>DAY 2（チーム戦）</th><td>チーム編成 → カード選択・事業化提案書作成 → 生成AIによる提案書診断 → 投資判断プレゼン（各チーム5分＋質疑）→ 総括</td></tr>
-  </table>
+  <section id="problem" class="block">
+    <p class="section-num">③ PROBLEM</p>
+    <h2>問題提起：配送業の人材不足</h2>
+    <p class="subtle">日本の宅配便取扱個数は50.3億個（2024年度）で、10年前の1.4倍。一方で配送業界は崩壊の危機に瀕しています。</p>
+    <div class="stat-grid">
+      <div class="stat"><div class="stat-label">有効求人倍率</div><div class="stat-value">2.78倍</div></div>
+      <div class="stat"><div class="stat-label">2030年予測</div><div class="stat-value">25〜28万人不足</div></div>
+      <div class="stat"><div class="stat-label">40代以上ドライバー</div><div class="stat-value">70%</div></div>
+      <div class="stat"><div class="stat-label">トラック積載率</div><div class="stat-value">40%以下</div></div>
+    </div>
+    <div class="card">
+      <b>深い問い①：なぜ荷物が増えて便利になっているのに、配送会社は困っているのか？</b><br>
+      荷物が増えれば、それだけ人手・車両・時間・倉庫・システムが必要になる。個人宅への配送は届ける場所が細かく分かれ、再配達も発生する。売上が増えても、現場の負担やコストも同時に増えてしまう。
+    </div>
+    <div class="card">
+      <b>深い問い②：なぜドライバーだけでなく、利用者・企業・地域・自治体も一緒に考える必要があるのか？</b><br>
+      再配達は受け取る人の生活時間、荷待ち時間は荷主企業や倉庫の仕組み、過疎地・離島の配送維持は自治体の支援と関係している。関係者をつなげて考えることで、受け取り拠点づくりや共同配送、AIによる需要予測が可能になる。
+    </div>
+  </section>
 
-  <h2>準備状況（2026年9月時点）</h2>
-  <div class="card">
-    カードは表裏とも印刷済み（29セット到着済み、市販のトレーディングカードサイズ）。Webゲーム版は谷口先生が試用し「問題ないのではないか」との確認あり。印刷費用は工学基礎実習の予算から今村先生により5万円分が確保済み。残る主な準備は、説明・運営手順の整理です。
-  </div>
+  <section id="activity" class="block">
+    <p class="section-num">④ BUSINESS ACTIVITY</p>
+    <h2>企業活動</h2>
+    <p class="subtle">企業活動とは、社会や顧客の困りごとを見つけ、それを解決する商品・サービスを提供し、その価値に対して対価を得る活動。技術は目的ではなく、課題解決と価値提供のための手段として位置づけます。</p>
+    <p class="subtle">カードゲームの4要素は、企業活動の基本にそのまま対応しています。</p>
+    <div class="suit-grid">
+      <div class="suit"><div class="suit-mark">♥</div><div class="suit-name">ペルソナ（Who?）</div><div class="suit-desc">誰に価値を届けるのか。長距離ドライバー、買い物難民の高齢者 等</div></div>
+      <div class="suit"><div class="suit-mark">♦</div><div class="suit-name">課題（What?）</div><div class="suit-desc">何を解決するのか。荷待ち時間、積載率低下 等</div></div>
+      <div class="suit"><div class="suit-mark">♣</div><div class="suit-name">パートナー（With Whom?）</div><div class="suit-desc">誰と組んで実現するのか。運送会社、自治体、IT企業 等</div></div>
+      <div class="suit"><div class="suit-mark">♠</div><div class="suit-name">技術（How?）</div><div class="suit-desc">何を使って解決するのか。AI配車最適化、自動運転、倉庫ロボット 等</div></div>
+    </div>
+    <div class="card">💻 Webゲーム版も用意されています。<br><a class="btn" href="https://ai-saas-platform-gules.vercel.app/card-game/select" target="_blank" rel="noopener">カードゲームを試す ↗</a></div>
+  </section>
+
+  <section id="value" class="block">
+    <p class="section-num">⑤ SOCIAL VALUE</p>
+    <h2>社会価値創造</h2>
+    <p class="subtle">配送問題の解決が生み出す価値は、立場によって異なります。</p>
+    <table>
+      <tr><th>相手</th><th>価値の例</th></tr>
+      <tr><td>ドライバー</td><td>荷待ち時間が減る、ルートが分かりやすくなる、負担が減る</td></tr>
+      <tr><td>配送会社</td><td>人手不足を補える、積載率が上がる、再配達が減る</td></tr>
+      <tr><td>利用者</td><td>荷物を受け取りやすくなる、配送状況が分かる</td></tr>
+      <tr><td>地域</td><td>高齢者や買い物困難者を支えられる、地域内の物流が維持される</td></tr>
+      <tr><td>自治体</td><td>住民サービスの維持、防災・見守りとの連携</td></tr>
+      <tr><td>環境</td><td>無駄な走行が減り、CO2排出が減る</td></tr>
+    </table>
+  </section>
+
+  <section id="execution" class="block">
+    <p class="section-num">⑥ EXECUTION</p>
+    <h2>実行：2日間のプログラム</h2>
+    <table>
+      <tr><th>DAY 1（個人戦）</th><td>社会問題の理解 → 企業事例紹介 → カードゲーム個人実践 → ビジネスプラン作成 → 個人発表 → 振り返り</td></tr>
+      <tr><th>DAY 2（チーム戦）</th><td>チーム編成 → カード選択・事業化提案書作成 → 生成AIによる提案書診断 → 投資判断プレゼン（各チーム5分＋質疑）→ 総括</td></tr>
+    </table>
+    <p class="subtle">評価は「問題理解（Empathy）」「システム思考」「技術的リアリティ」「社会的インパクト」の4軸で行います。</p>
+    <div class="card">
+      <b>準備状況（2026年9月時点）</b><br>
+      カードは表裏とも印刷済み（29セット到着済み、市販のトレーディングカードサイズ）。Webゲーム版は谷口先生が試用し「問題ないのではないか」との確認あり。印刷費用は工学基礎実習の予算から今村先生により5万円分が確保済み。残る主な準備は、説明・運営手順の整理です。
+    </div>
+  </section>
+
+  <section id="success" class="block">
+    <p class="section-num">⑦ SUCCESS</p>
+    <h2>成功事例（良い提案の型）</h2>
+    <p class="subtle">教材内では、DAY1で「企業事例紹介（ヤマト運輸 等）」を実施し、実在の企業が配送問題にどう取り組んでいるかを学んだ上でカードゲームに入ります。良い提案書は、要素が具体的につながっています。</p>
+    <table>
+      <tr><th>観点</th><th>良い提案書</th></tr>
+      <tr><td>顧客</td><td>誰に役立つかが具体的（例：山間部に住み、車を運転できず、買い物や荷物の受け取りに困っている高齢者）</td></tr>
+      <tr><td>課題</td><td>再配達が多くドライバーの負担が増えている</td></tr>
+      <tr><td>技術</td><td>AIで配送ルートを最適化し、走行距離を減らす</td></tr>
+      <tr><td>パートナー</td><td>自治体が公共施設を受け取り拠点として提供する</td></tr>
+      <tr><td>実現性</td><td>まず学校周辺の地域で実証する</td></tr>
+    </table>
+    <div class="card good">
+      <b>一文テンプレート（例）</b><br>
+      「私たちは、買い物に行きにくい高齢者に対して、荷物を受け取りにくいという課題を解決するために、Webアプリと地域店舗・自治体の力を使って、近くの店舗で荷物を受け取れる地域受け取り支援サービスを提供します。」
+    </div>
+  </section>
+
+  <section id="failure" class="block">
+    <p class="section-num">⑧ FAILURE</p>
+    <h2>失敗事例（弱い提案のパターン）</h2>
+    <p class="subtle">教材では、学生が陥りやすい「弱い提案書」のパターンも明示し、良い提案との違いを対比で教えています。</p>
+    <table>
+      <tr><th>観点</th><th>弱い提案書</th></tr>
+      <tr><td>顧客</td><td>「みんなに役立つ」— 誰の課題か具体的でない</td></tr>
+      <tr><td>課題</td><td>「物流を良くする」— 原因まで深掘りされていない</td></tr>
+      <tr><td>技術</td><td>「AIを使う」— 何にどう使うかが説明されていない</td></tr>
+      <tr><td>パートナー</td><td>「自治体と協力」— 役割・メリットが不明確</td></tr>
+      <tr><td>実現性</td><td>「すぐ全国展開する」— 検証計画がない</td></tr>
+    </table>
+    <div class="card bad">
+      <b>よくある悪い例</b><br>
+      「ドローンで全部配達すればいい」はアイデアであって事業ではない、と教材内で明示されています。誰のどの課題を解決するのか、どこで使えるのか、誰が運用するのか、費用はどうするのかまで考えて初めて事業に近づく、と指導しています。
+    </div>
+  </section>
 
   <footer>
-    出典：Notion「🃏 カードゲームで企業活動を学ぶ｜Mission in LOGI-TECH（2類 特別講義）」（教育DX 鹿児島高専 PJ活動ポータル）。掲載内容は2026年9月時点の準備状況であり、実施結果ではありません。担当：NEC・鹿児島高専OB 木村好孝。
+    出典：Notionページ「🃏 カードゲームで企業活動を学ぶ｜Mission in LOGI-TECH（2類 特別講義）」「1日目 第1部｜自己紹介・NEC紹介・チェックイン」「1日目 第2部｜企業活動と事業化提案の考え方」（教育DX 鹿児島高専 PJ活動ポータル）。掲載内容は2026年9月時点の準備状況・教材内容であり、実施結果ではありません。担当：NEC・鹿児島高専OB 木村好孝。
   </footer>
 </div>

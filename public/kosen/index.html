@@ -1,4 +1,4 @@
-<title>高専教育コンテンツプラットフォーム(検討中)</title>
+<title>次世代高専教育（検討中）</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
@@ -20,7 +20,10 @@
 <style>
   /*
     地域創生HDパートナーズ(public/partners/index.html)と同じデザイントークン・構成を流用。
-    しまてつだいの3機能(てつだって/意思決定支援/カードゲーム)を、高専機構向けに転用した検討中の企画MVP。
+    しまてつだいの3機能を、高専機構向けに転用した検討中の企画MVP。
+    3本柱の並び：①教育コンテンツ作成支援(意思決定支援ダッシュボードの改版)
+              ②教育マッチングサイト(カードゲーム＝企業人材と教員をつなぐマッチングサイト)
+              ③先生の日記作成ツール(てつだって＝教育の結果を登録するツール)
     構成：ヘッダー→ヒーロー→3つのツール→3つの輪→JOIN US→ABOUT→CONTACT→フッター
     出典：Notion「🎓 高専機構向け 教育コンテンツプラットフォーム（検討中）」「🃏 カードゲームで企業活動を学ぶ｜Mission in LOGI-TECH」
   */
@@ -34,7 +37,7 @@
       <span class="text-xl sm:text-2xl">🎓</span>
       <span class="leading-tight">
         <span class="block text-[10px] font-semibold text-accent-green sm:text-xs">検討中の企画</span>
-        <span class="block whitespace-nowrap text-sm font-bold tracking-wide text-brand-dark sm:text-lg">高専教育コンテンツプラットフォーム</span>
+        <span class="block whitespace-nowrap text-sm font-bold tracking-wide text-brand-dark sm:text-lg">次世代高専教育</span>
       </span>
     </a>
     <nav class="flex gap-2 text-xs sm:gap-6 sm:text-base">
@@ -50,8 +53,8 @@
   <!-- HERO -->
   <section class="bg-gradient-to-b from-brand-soft/70 to-background">
     <div class="mx-auto max-w-5xl px-5 py-16 text-center sm:py-24">
-      <p class="text-sm font-semibold tracking-wide text-brand-dark">高専機構向け 教育コンテンツプラットフォーム（検討中）</p>
-      <h1 class="mt-4 text-3xl font-bold leading-snug text-foreground sm:text-4xl">高専の先生と、全国の専門家の知恵を、<br class="hidden sm:block">まっすぐつなぐ。</h1>
+      <p class="text-sm font-semibold tracking-wide text-brand-dark">次世代高専教育（検討中）</p>
+      <h1 class="mt-4 text-3xl font-bold leading-snug text-foreground sm:text-4xl">企業人材と、高専教員を、<br class="hidden sm:block">まっすぐつなぐ。</h1>
       <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-foreground/80">高専の先生は、授業・部活顧問・寮監・研究の4足のわらじで、新しい技術を学ぶ時間がありません。外部講師を呼びたくても「探せない」「交通費が出せない」が壁になっています。私たちは、高専機構をオーナーとした「専門家の知見を教材化し、全国の高専で使い回す」プラットフォームを検討しています。</p>
       <p class="mx-auto mt-3 max-w-2xl text-sm font-medium text-accent-green">次世代高専教育カンファレンスで寄せられた先生方の声をきっかけに、構想を進めています。</p>
     </div>
@@ -61,28 +64,28 @@
   <section id="tools" class="mx-auto max-w-5xl px-5 py-16">
     <div class="text-center">
       <h2 class="text-2xl font-bold text-foreground">検討している3つのツール</h2>
-      <p class="mt-2 text-sm text-foreground/70">しまてつだいの3機能を、高専機構・先生・講師それぞれの立場に合わせて転用します</p>
+      <p class="mt-2 text-sm text-foreground/70">しまてつだいの3機能を、高専機構・先生・企業人材それぞれの立場に合わせて転用します</p>
     </div>
     <div class="mt-10 grid gap-6 sm:grid-cols-3">
-      <a class="group flex flex-col rounded-2xl border border-brand-soft bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md" href="case-kagoshima.html">
-        <span class="text-4xl">📔</span>
-        <h3 class="mt-4 text-xl font-bold text-brand-dark">先生の日記作成ツール</h3>
-        <p class="mt-1 text-sm font-medium text-accent-green">各高専の先生（元：てつだって）</p>
-        <p class="mt-3 text-sm leading-relaxed text-foreground/80">実施の様子を写真を撮るだけで、生成AIが自動で記録。先生の負担ゼロのまま、実績データが機構に還元される</p>
-        <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-dark">先行実践事例を見る<span class="transition group-hover:translate-x-1">→</span></span>
-      </a>
       <a class="group flex flex-col rounded-2xl border border-brand-soft bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md" href="#contact">
         <span class="text-4xl">🧭</span>
         <h3 class="mt-4 text-xl font-bold text-brand-dark">教育コンテンツ作成支援</h3>
-        <p class="mt-1 text-sm font-medium text-accent-green">高専機構の企画担当（元：意思決定支援）</p>
-        <p class="mt-3 text-sm leading-relaxed text-foreground/80">講師が登録した「教えられること」から、優先的に教材化すべきテーマと講師の負荷を可視化する</p>
+        <p class="mt-1 text-sm font-medium text-accent-green">高専機構の企画担当（元：意思決定支援ダッシュボードの改版）</p>
+        <p class="mt-3 text-sm leading-relaxed text-foreground/80">企業人材が登録した「教えられること」から、優先的に教材化すべきテーマと講師の負荷を可視化する</p>
         <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-dark">構想について問い合わせる<span class="transition group-hover:translate-x-1">→</span></span>
       </a>
-      <a class="group flex flex-col rounded-2xl border border-brand-soft bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md" href="https://ai-saas-platform-gules.vercel.app/card-game/select" target="_blank" rel="noopener">
+      <a class="group flex flex-col rounded-2xl border border-brand-soft bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md" href="case-kagoshima.html">
         <span class="text-4xl">🃏</span>
         <h3 class="mt-4 text-xl font-bold text-brand-dark">教育マッチングサイト</h3>
-        <p class="mt-1 text-sm font-medium text-accent-green">各高専の先生・講師（元：カードゲーム）</p>
-        <p class="mt-3 text-sm leading-relaxed text-foreground/80">一度教材化されたカードデッキを、各高専の先生が講師なしで自由に選んで実施できる見本市</p>
+        <p class="mt-1 text-sm font-medium text-accent-green">企業人材と高専教員をつなぐ（元：カードゲーム）</p>
+        <p class="mt-3 text-sm leading-relaxed text-foreground/80">企業人材の知見をカードデッキとして教材化し、高専の先生とマッチングする。一度教材化すれば、講師なしでも自由に選んで実施できる</p>
+        <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-dark">先行実践事例を見る<span class="transition group-hover:translate-x-1">→</span></span>
+      </a>
+      <a class="group flex flex-col rounded-2xl border border-brand-soft bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md" href="https://ai-saas-platform-gules.vercel.app/card-game/select" target="_blank" rel="noopener">
+        <span class="text-4xl">📔</span>
+        <h3 class="mt-4 text-xl font-bold text-brand-dark">教育の結果を登録する てつだって</h3>
+        <p class="mt-1 text-sm font-medium text-accent-green">各高専の先生（元：てつだって）</p>
+        <p class="mt-3 text-sm leading-relaxed text-foreground/80">実施した教育の様子・成果を写真を撮るだけで、生成AIが自動で記録。先生の負担ゼロのまま、実績データが機構に還元される</p>
         <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-dark">Webゲームを試す<span class="transition group-hover:translate-x-1">↗</span></span>
       </a>
     </div>
@@ -93,19 +96,19 @@
     <div class="mx-auto max-w-5xl px-5">
       <div class="text-center">
         <h2 class="text-2xl font-bold text-foreground">この3つが、つながって価値になります</h2>
-        <p class="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-foreground/70">先生の困りごとを聞き、専門家の知見を教材にし、講師なしで実施でき、学生の学びに還っていく。この輪を、高専ごとに小さく回していきます。</p>
+        <p class="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-foreground/70">教材化すべきテーマを見極め、企業人材と教員をつなげて教材にし、講師なしで実施でき、その結果を登録して学びに還す。この輪を、高専ごとに小さく回していきます。</p>
       </div>
       <div class="mt-10 grid gap-4 sm:grid-cols-4">
         <div class="relative flex flex-col items-center text-center">
-          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-3xl shadow-sm">👂</div>
-          <h3 class="mt-3 font-bold text-foreground">聞く</h3>
-          <p class="mt-1 text-xs leading-relaxed text-foreground/70">「先生の日記」で、日々の困りごとを集めます</p>
+          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-3xl shadow-sm">🧭</div>
+          <h3 class="mt-3 font-bold text-foreground">見極める</h3>
+          <p class="mt-1 text-xs leading-relaxed text-foreground/70">「教育コンテンツ作成支援」で、優先すべきテーマを見える化します</p>
           <span class="mt-2 hidden text-xl text-brand-dark/40 sm:block sm:absolute sm:top-6 sm:-right-4">→</span>
         </div>
         <div class="relative flex flex-col items-center text-center">
           <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-3xl shadow-sm">🃏</div>
-          <h3 class="mt-3 font-bold text-foreground">教材にする</h3>
-          <p class="mt-1 text-xs leading-relaxed text-foreground/70">専門家の知見を、カードデッキとして教材化します</p>
+          <h3 class="mt-3 font-bold text-foreground">つなぎ、教材にする</h3>
+          <p class="mt-1 text-xs leading-relaxed text-foreground/70">「教育マッチングサイト」で、企業人材と教員をつなぎ教材化します</p>
           <span class="mt-2 hidden text-xl text-brand-dark/40 sm:block sm:absolute sm:top-6 sm:-right-4">→</span>
         </div>
         <div class="relative flex flex-col items-center text-center">
@@ -115,9 +118,9 @@
           <span class="mt-2 hidden text-xl text-brand-dark/40 sm:block sm:absolute sm:top-6 sm:-right-4">→</span>
         </div>
         <div class="relative flex flex-col items-center text-center">
-          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-3xl shadow-sm">🎓</div>
-          <h3 class="mt-3 font-bold text-foreground">学生に還る</h3>
-          <p class="mt-1 text-xs leading-relaxed text-foreground/70">毎年、質の高いPBL体験を継続的に受けられます</p>
+          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-3xl shadow-sm">📔</div>
+          <h3 class="mt-3 font-bold text-foreground">結果を登録する</h3>
+          <p class="mt-1 text-xs leading-relaxed text-foreground/70">「てつだって」で結果を記録し、次のテーマ選定に還します</p>
         </div>
       </div>
     </div>
@@ -128,7 +131,7 @@
     <div class="overflow-hidden rounded-3xl bg-accent-green/10 px-6 py-12 text-center sm:px-12">
       <p class="text-sm font-semibold tracking-wide text-accent-green">JOIN US</p>
       <h2 class="mt-2 text-2xl font-bold text-foreground">あなたの高専にも、この仕組みを。</h2>
-      <p class="mx-auto mt-4 max-w-2xl leading-relaxed text-foreground/80">現在、鹿児島高専の「Mission in LOGI-TECH」（配送業の人材不足をテーマにしたPBLワークショップ）を先行実践として準備を進めています。高専機構の企画担当の方、各高専の先生、講師として関わってみたい方からのご連絡をお待ちしています。</p>
+      <p class="mx-auto mt-4 max-w-2xl leading-relaxed text-foreground/80">現在、鹿児島高専の「Mission in LOGI-TECH」（配送業の人材不足をテーマにしたPBLワークショップ）を先行実践として準備を進めています。高専機構の企画担当の方、各高専の先生、企業人材として関わってみたい方からのご連絡をお待ちしています。</p>
       <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <a class="inline-flex items-center rounded-full bg-accent-green px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90" href="#contact">この企画について問い合わせる</a>
         <a class="inline-flex items-center rounded-full border border-brand bg-white px-6 py-3 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40" href="case-kagoshima.html">先行実践事例を見る</a>
@@ -148,7 +151,7 @@
       <div class="text-center">
         <p class="text-sm font-semibold tracking-wide text-brand-dark">CONTACT</p>
         <h2 class="mt-2 text-2xl font-bold text-foreground">お問い合わせ</h2>
-        <p class="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-foreground/70">高専機構の企画担当の方、各高専の先生、講師として関わってみたい方など、この企画に関するご質問・ご相談を下のフォームからご連絡ください。</p>
+        <p class="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-foreground/70">高専機構の企画担当の方、各高専の先生、企業人材として関わってみたい方など、この企画に関するご質問・ご相談を下のフォームからご連絡ください。</p>
       </div>
 
       <form class="mt-8 space-y-4 rounded-2xl border border-brand-soft bg-card p-6 shadow-sm" onsubmit="return false;">
@@ -169,7 +172,7 @@
           <select class="mt-1 w-full rounded-lg border border-brand-soft bg-white px-3 py-2 text-sm text-foreground">
             <option>高専機構の企画担当</option>
             <option>高専の先生</option>
-            <option>講師として関わってみたい</option>
+            <option>企業人材として関わってみたい</option>
             <option>その他</option>
           </select>
         </div>
@@ -188,15 +191,15 @@
   <div class="mx-auto max-w-5xl px-5 py-10 text-sm text-foreground/70">
     <div class="grid gap-8 sm:grid-cols-3">
       <div>
-        <p class="text-base font-bold text-brand-dark">高専教育コンテンツプラットフォーム（検討中）</p>
-        <p class="mt-2 leading-relaxed">しまてつだいの3機能を、高専機構向けに転用する検討段階の企画です。</p>
+        <p class="text-base font-bold text-brand-dark">次世代高専教育（検討中）</p>
+        <p class="mt-2 leading-relaxed">企業人材と高専教員をつなぐプラットフォーム。しまてつだいの3機能を高専機構向けに転用する検討段階の企画です。</p>
       </div>
       <div>
         <p class="font-semibold text-foreground">検討している3つのツール</p>
         <ul class="mt-2 space-y-1">
-          <li>先生の日記作成ツール</li>
           <li>教育コンテンツ作成支援</li>
           <li>教育マッチングサイト</li>
+          <li>教育の結果を登録する てつだって</li>
         </ul>
       </div>
       <div>
@@ -208,6 +211,6 @@
       </div>
     </div>
     <p class="mt-8 border-t border-brand-soft/60 pt-4 text-xs leading-relaxed text-foreground/50">本ページは検討段階のMVPです。掲載内容は2026年9月時点の構想・準備状況であり、正式な事業として決定したものではありません。地域創生HDパートナーズとは別事業として独立に管理しています。</p>
-    <p class="mt-4 text-xs text-foreground/50">© 2026 高専教育コンテンツプラットフォーム（検討中）</p>
+    <p class="mt-4 text-xs text-foreground/50">© 2026 次世代高専教育（検討中）</p>
   </div>
 </footer>
