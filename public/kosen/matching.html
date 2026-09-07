@@ -1,17 +1,12 @@
-<title>教育マッチングサイト（4カード体験版）</title>
+<title>教育マッチング（企業の「これだったらできる」から探す）</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
     theme: {
       extend: {
         colors: {
-          brand: '#e08a5b',
-          'brand-dark': '#c96f42',
-          'brand-soft': '#f7e0cf',
-          'accent-green': '#7a9a7e',
-          background: '#fdf8f2',
-          foreground: '#4a3f35',
-          card: '#ffffff'
+          brand: '#e08a5b', 'brand-dark': '#c96f42', 'brand-soft': '#f7e0cf',
+          'accent-green': '#7a9a7e', background: '#fdf8f2', foreground: '#4a3f35', card: '#ffffff'
         }
       }
     }
@@ -19,22 +14,16 @@
 </script>
 <style>
   /*
-    次世代高専教育(kosen/index.html)と同じデザイントークンを流用。
-    「教育マッチングサイト」の4カード構想(ペルソナ/提供する価値/技術/パートナー)を、
-    実際に動くクライアントサイドの体験版として実装。
-    高専側の2枚のニーズカード(逆瀬川先生=鹿児島高専/角田直輝先生=米子高専)は
-    このプロジェクトでNotion調査済みの実データをタグ化したもの。
-    企業人材カードは、選択式のタグ+自由記述で自分のカードをその場で作成できる。
-    マッチングは「分野タグの重なり数」による単純なスコアリング(生成AIではなくルールベース)。
+    「教育マッチングサイト」ツール。
+    企業の方が「これだったらできる」という内容を自由記述で入力すると、
+    文中のキーワードを分野タグに変換し、高専教員19名分のデータ（研究テーマ×社会課題）と
+    重なりの大きい順にマッチング候補を提示する。
   */
   body{ background:#fdf8f2; color:#4a3f35; font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
-  h1,h2,h3{ text-wrap:balance; }
-  .tag{ cursor:pointer; user-select:none; }
-  .tag input{ display:none; }
-  .tag span{ display:inline-flex; align-items:center; padding:6px 14px; border-radius:999px; border:1px solid #f7e0cf; font-size:.8rem; color:#4a3f35; transition:.15s; }
-  .tag input:checked + span{ background:#7a9a7e; border-color:#7a9a7e; color:#fff; font-weight:600; }
-  .match-bar{ height:8px; border-radius:999px; background:#f7e0cf; overflow:hidden; }
-  .match-fill{ height:100%; background:#7a9a7e; transition:width .3s; }
+  .match-bar{ height:8px; border-radius:999px; background:#f3e6d8; overflow:hidden; }
+  .match-fill{ height:100%; background:linear-gradient(90deg,#e08a5b,#c96f42); }
+  .tagchip{ font-size:11px; padding:3px 9px; border-radius:999px; background:#f7e0cf; color:#c96f42; }
+  .tagchip.hit{ background:#7a9a7e; color:#fff; }
 </style>
 
 <header class="sticky top-0 z-50 border-b border-brand-soft bg-background/90 backdrop-blur">
@@ -48,163 +37,132 @@
     </a>
     <nav class="flex gap-2 text-xs sm:gap-6 sm:text-base">
       <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="index.html">← トップに戻る</a>
-      <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="case-kagoshima.html">鹿児島高専</a>
-      <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="case-yonago.html">米子高専</a>
+      <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="content-support.html">教育コンテンツ作成支援</a>
+      <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="tetsudatte.html">てつだって</a>
     </nav>
   </div>
 </header>
 
 <div>
-  <!-- HERO -->
   <section class="bg-gradient-to-b from-brand-soft/70 to-background">
-    <div class="mx-auto max-w-4xl px-5 py-14 text-center">
-      <p class="text-sm font-semibold tracking-wide text-brand-dark">教育マッチングサイト（4カード体験版）</p>
-      <h1 class="mt-4 text-2xl font-bold leading-snug text-foreground sm:text-3xl">あなたの「4カード」を作って、<br class="hidden sm:block">高専のニーズと突き合わせてみる。</h1>
-      <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-foreground/80">ペルソナ（誰に届けたいか）・提供する価値（できる教育パターン）・技術（自分ができること）・パートナー（協力してほしいこと）の4つを選ぶと、鹿児島高専・米子高専の実データに基づく2つの「高専ニーズカード」との一致度を計算します。マッチングはタグの重なり数によるルールベース判定で、生成AIによる評価ではありません。</p>
+    <div class="mx-auto max-w-4xl px-5 py-12 text-center">
+      <p class="text-sm font-semibold tracking-wide text-brand-dark">教育マッチングサイト</p>
+      <h1 class="mt-4 text-2xl font-bold leading-snug text-foreground sm:text-3xl">「これだったらできる」を書くだけで、<br class="hidden sm:block">相性の良い高専の先生が見つかる。</h1>
+      <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-foreground/80">企業の方が、自社の技術・ノウハウ・提供できる教育内容などを自由に書き込むと、鹿児島高専・北九州高専・米子高専・高知高専の教員19名分の研究テーマ・社会課題データと照合し、マッチ度の高い順に一覧表示します。</p>
     </div>
   </section>
 
-  <!-- あなたのカード作成 -->
-  <section class="mx-auto max-w-4xl px-5 py-10">
-    <div class="rounded-2xl border border-brand-soft bg-card p-6 shadow-sm sm:p-8">
-      <h2 class="text-lg font-bold text-brand-dark">① あなたの企業人材カードを作る</h2>
-      <p class="mt-1 text-sm text-foreground/70">分野タグ（複数選択可）と、価値・パートナー要望を選んでください。</p>
-
-      <div class="mt-6">
-        <p class="text-sm font-semibold text-foreground">♠ 技術・提供できる分野（複数選択）</p>
-        <div id="tagArea" class="mt-3 flex flex-wrap gap-2"></div>
+  <section class="mx-auto max-w-3xl px-5 py-10">
+    <div class="rounded-2xl border border-brand-soft bg-card p-5 shadow-sm sm:p-6">
+      <label class="block text-sm font-semibold text-foreground">💬 これだったらできる、を書いてください</label>
+      <textarea id="freeText" rows="5" class="mt-2 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground" placeholder="例：当社は物流倉庫のDXを手がけています。AIを使った需要予測や、学生向けにロジスティクス業界の課題を伝える出前講義が可能です。">当社は再生可能エネルギー関連のベンチャーで、太陽光発電の投資評価や資金調達の実務経験があります。学生向けに金融・キャリア教育の出前講義や、産学連携の共同研究テーマの相談にも対応できます。</textarea>
+      <div class="mt-4 flex flex-wrap items-center gap-3">
+        <button id="matchBtn" class="rounded-full bg-brand px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark">マッチングする</button>
+        <span id="detectedTags" class="text-xs text-foreground/60"></span>
       </div>
-
-      <div class="mt-6 grid gap-4 sm:grid-cols-2">
-        <div>
-          <label class="block text-sm font-semibold text-foreground">♥ 届けたいペルソナ</label>
-          <select id="personaSelect" class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground">
-            <option value="低学年">低学年（1〜2年生）中心</option>
-            <option value="全学年">学年は問わない</option>
-            <option value="高学年">高学年（3年生以上）中心</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-sm font-semibold text-foreground">♦ 提供できる価値（自由記述）</label>
-          <input id="valueInput" type="text" class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground" placeholder="例：企業活動・事業化提案の考え方をカードゲームで教える講義">
-        </div>
-      </div>
-
-      <div class="mt-4">
-        <label class="block text-sm font-semibold text-foreground">♣ 先生・高専に協力してほしいこと（自由記述）</label>
-        <input id="partnerInput" type="text" class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground" placeholder="例：授業内の講義時間90分程度の確保">
-      </div>
-
-      <button id="matchBtn" class="mt-6 w-full rounded-full bg-accent-green px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90 sm:w-auto">この内容でマッチングする</button>
+      <p class="mt-3 text-xs text-foreground/50">※ 入力文からキーワードを検出し、分野タグに変換したうえで、教員側の分野タグとの重なりでマッチ度を計算する簡易デモです。実運用では生成AIによる意味的なマッチングに拡張します。</p>
     </div>
   </section>
 
-  <!-- マッチング結果 -->
   <section class="mx-auto max-w-4xl px-5 pb-16">
-    <h2 class="text-center text-lg font-bold text-foreground">② マッチング結果</h2>
-    <p class="mt-1 text-center text-sm text-foreground/70">高専側のニーズカード2枚との一致度です</p>
-    <div id="results" class="mt-8 grid gap-6 sm:grid-cols-2"></div>
-    <p id="emptyNote" class="mt-6 text-center text-sm text-foreground/60">タグを選んで「この内容でマッチングする」を押してください。</p>
-  </section>
-
-  <!-- 参考：高専側カード -->
-  <section class="mx-auto max-w-4xl px-5 pb-16">
-    <h2 class="text-center text-lg font-bold text-foreground">参考：高専側の元データ</h2>
-    <div class="mt-6 grid gap-6 sm:grid-cols-2" id="schoolCards"></div>
-    <p class="mt-6 text-center text-xs text-foreground/50">出典：Notion「🃏 カードゲームで企業活動を学ぶ｜Mission in LOGI-TECH」「📝 設計メモ｜教育マッチングサイト（4カード構想）と角田直輝先生研究テーマ調査」</p>
+    <p id="resultLabel" class="mb-4 text-center text-sm text-foreground/60"></p>
+    <div id="results" class="space-y-4"></div>
   </section>
 </div>
 
 <footer class="border-t border-brand-soft bg-brand-soft/40">
   <div class="mx-auto max-w-5xl px-5 py-8 text-center text-xs text-foreground/50">
-    本ページは検討段階のMVPです。マッチングはタグの重なり数による簡易ロジックで、実際の教材化・実施可否を保証するものではありません。<a class="text-brand-dark underline" href="index.html">次世代高専教育（検討中）</a>に戻る
+    データ出典：Notion「🎯 高専教員 教育テーマDB（オープンデータ抽出）」（researchmap・各高専公式サイトより整理）。<a class="text-brand-dark underline" href="index.html">次世代高専教育（検討中）</a>に戻る
   </div>
 </footer>
 
 <script>
-  // 分野タグの語彙（企業人材カード・高専ニーズカードで共通）
-  const TAGS = ["物流・DX", "AI・生成AI", "産学連携", "キャリア教育", "金融教育", "ロボティクス・センサー", "アントレプレナーシップ"];
+  // タグごとの検出キーワード辞書（自由記述文からタグを推定するための簡易ルール）
+  const TAG_KEYWORDS = {
+    "物流・DX": ["物流","ロジ","倉庫","配送","DX","デジタル化"],
+    "AI・生成AI": ["AI","人工知能","生成AI","機械学習","画像処理"],
+    "産学連携": ["産学","共同研究","連携","協業","共同開発"],
+    "キャリア教育": ["キャリア","働き方","就職","進路"],
+    "金融教育": ["金融","投資","資金調達","財務","FP","資産"],
+    "ロボティクス・センサー": ["ロボット","センサ","IoT","自動化"],
+    "防災・インフラ": ["防災","インフラ","河川","土木","災害"],
+    "環境・資源循環": ["環境","資源循環","リサイクル","廃棄物","バイオマス"],
+    "エネルギー": ["エネルギー","太陽光","発電","電池","再生可能"],
+    "農業・食品": ["農業","食品","水産","一次産業"],
+    "医療・福祉": ["医療","介護","福祉","健康","看護"],
+    "情報セキュリティ": ["セキュリティ","サイバー","ハッキング","情報漏洩"],
+    "まちづくり・地域文化": ["まちづくり","地域文化","町並み","歴史"],
+    "材料工学": ["材料","素材","金属","化学材料"],
+    "人文・教養": ["歴史","文化","教養","人文"]
+  };
 
-  // 高専側ニーズカード（Notion調査済みの実データをタグ化。数値・固有名詞は出典に基づく）
-  const SCHOOLS = [
-    {
-      name: "逆瀬川先生",
-      org: "鹿児島高専 2類（知能ロボティクス・先進エレクトロニクス）1年生",
-      tags: ["物流・DX", "AI・生成AI", "産学連携"],
-      persona: "2類 1年生（低学年）",
-      need: "物流業界の現場を知る講義と、カードゲームを使った企業活動・事業化提案の指導",
-      caseUrl: "case-kagoshima.html",
-      caseLabel: "鹿児島高専の実践記録を見る"
-    },
-    {
-      name: "角田直輝先生",
-      org: "米子高専 総合工学科 情報システム部門",
-      tags: ["キャリア教育", "金融教育", "産学連携"],
-      persona: "情報システムコース 全学年",
-      need: "技術者としてのキャリア形成・金融リテラシーを養う教材開発と、産学官連携の企画運営",
-      caseUrl: "case-yonago.html",
-      caseLabel: "米子高専の事例を見る"
-    }
+  const TEACHERS = [
+    {name:"逆瀬川栄一先生", school:"鹿児島高専", tags:["物流・DX","産学連携"], need:"物流業界の実務・企業活動教育での協力", url:"case-kagoshima.html"},
+    {name:"小田原悟先生", school:"鹿児島高専", tags:["エネルギー","材料工学"], need:"再エネ実証実験・企業データ提供での協力", url:"https://researchmap.jp/read0204911"},
+    {name:"山内正仁先生", school:"鹿児島高専", tags:["環境・資源循環","農業・食品","産学連携"], need:"廃棄物再資源化の実証フィールド提供", url:"https://researchmap.jp/read0178962"},
+    {name:"入江智和先生", school:"鹿児島高専", tags:["情報セキュリティ"], need:"ネットワーク実機環境・IoT現場での協力", url:"https://researchmap.jp/tomokazuirie"},
+    {name:"松田信彦先生", school:"鹿児島高専", tags:["人文・教養","まちづくり・地域文化"], need:"地域文化資源のデータ・現地知見提供", url:"https://researchmap.jp/Nobuhiko_Matsdua"},
+    {name:"久池井茂先生", school:"北九州高専", tags:["医療・福祉","AI・生成AI","産学連携"], need:"医療・介護現場の共同開発パートナー", url:"https://researchmap.jp/kuchii"},
+    {name:"松本圭司先生", school:"北九州高専", tags:["医療・福祉","ロボティクス・センサー"], need:"生体センシング製品化パートナー", url:"https://researchmap.jp/read0132483"},
+    {name:"井上祐一先生", school:"北九州高専", tags:["医療・福祉","産学連携"], need:"バイオ医薬品・食品分野の共同研究", url:"https://researchmap.jp/read0048018"},
+    {name:"北園優希先生", school:"北九州高専", tags:["医療・福祉","ロボティクス・センサー","防災・インフラ"], need:"見守り・インフラ点検の実証現場提供", url:"https://researchmap.jp/kitazono"},
+    {name:"蒋欣先生", school:"北九州高専", tags:["材料工学","医療・福祉"], need:"半導体設計・衛生分野の共同研究", url:"https://researchmap.jp/jiangxin"},
+    {name:"角田直輝先生", school:"米子高専", tags:["キャリア教育","金融教育","産学連携"], need:"金融・キャリア教育の出前講義、投資教材の実務知見", url:"case-yonago.html"},
+    {name:"伊達勇介先生", school:"米子高専", tags:["環境・資源循環","エネルギー","産学連携"], need:"地域環境課題の実証フィールド提供", url:"https://researchmap.jp/read0144682"},
+    {name:"清水剛志先生", school:"米子高専", tags:["エネルギー","材料工学"], need:"電池・EV関連の企業連携", url:"https://researchmap.jp/2020-06-12"},
+    {name:"川戸聡也先生", school:"米子高専", tags:["情報セキュリティ","金融教育","キャリア教育"], need:"セキュリティ実践講習の企業講師", url:"https://researchmap.jp/read2142050"},
+    {name:"岡田将治先生", school:"高知高専", tags:["防災・インフラ","ロボティクス・センサー"], need:"UAV測量・河川管理の共同実証", url:"https://www.kochi-ct.ac.jp/sangaku0/seeds/2026/21.okada.pdf"},
+    {name:"吉岡将孝先生", school:"高知高専", tags:["農業・食品","医療・福祉","ロボティクス・センサー"], need:"農業・福祉ロボットの実証パートナー", url:"https://www.kochi-ct.ac.jp/sangaku0/seeds/2026/14.myoshioka.pdf"},
+    {name:"横井克則先生", school:"高知高専", tags:["防災・インフラ","環境・資源循環","材料工学"], need:"インフラ維持管理・廃棄資源活用の企業相談", url:"https://www.kochi-ct.ac.jp/sangaku0/seeds/2026/23.yokoi.pdf"},
+    {name:"北山めぐみ先生", school:"高知高専", tags:["まちづくり・地域文化","産学連携"], need:"歴史的建造物の改修・活用プロジェクト協力", url:"https://www.kochi-ct.ac.jp/sangaku0/seeds/2026/26.kitayama.pdf"},
+    {name:"秦隆志先生", school:"高知高専", tags:["農業・食品","環境・資源循環","産学連携"], need:"水産・農業・環境浄化の共同開発", url:"https://www.kochi-ct.ac.jp/sangaku0/seeds/2026/31.hata.pdf"}
   ];
 
-  const tagArea = document.getElementById('tagArea');
-  TAGS.forEach((t, i) => {
-    const label = document.createElement('label');
-    label.className = 'tag';
-    label.innerHTML = `<input type="checkbox" value="${t}" id="tag${i}"><span>${t}</span>`;
-    tagArea.appendChild(label);
-  });
+  function detectTags(text) {
+    const hits = [];
+    for (const [tag, words] of Object.entries(TAG_KEYWORDS)) {
+      if (words.some(w => text.includes(w))) hits.push(tag);
+    }
+    return hits;
+  }
 
-  // 高専側カードを画面に描画
-  const schoolCards = document.getElementById('schoolCards');
-  SCHOOLS.forEach(s => {
-    const el = document.createElement('div');
-    el.className = 'rounded-2xl border border-brand-soft bg-card p-5 shadow-sm';
-    el.innerHTML = `
-      <p class="font-bold text-brand-dark">${s.name}</p>
-      <p class="text-xs text-foreground/60">${s.org}</p>
-      <div class="mt-3 flex flex-wrap gap-1.5">
-        ${s.tags.map(t => `<span class="rounded-full bg-brand-soft/60 px-2.5 py-1 text-[11px] text-brand-dark">${t}</span>`).join('')}
-      </div>
-      <p class="mt-3 text-xs leading-relaxed text-foreground/70">${s.need}</p>
-      <a class="mt-3 inline-block text-xs font-semibold text-brand-dark underline" href="${s.caseUrl}">${s.caseLabel}</a>
-    `;
-    schoolCards.appendChild(el);
-  });
+  function runMatch() {
+    const text = document.getElementById('freeText').value;
+    const detected = detectTags(text);
+    document.getElementById('detectedTags').innerHTML = detected.length
+      ? '検出タグ：' + detected.map(t => `<span class="tagchip hit">${t}</span>`).join(' ')
+      : '検出タグ：なし（もう少し具体的なキーワードを入れてみてください）';
 
-  document.getElementById('matchBtn').addEventListener('click', () => {
-    const selected = Array.from(document.querySelectorAll('#tagArea input:checked')).map(i => i.value);
-    const persona = document.getElementById('personaSelect').value;
-    const value = document.getElementById('valueInput').value || '（未入力）';
-    const partner = document.getElementById('partnerInput').value || '（未入力）';
-
-    const results = document.getElementById('results');
-    results.innerHTML = '';
-    document.getElementById('emptyNote').style.display = selected.length ? 'none' : 'block';
-    if (!selected.length) return;
-
-    const scored = SCHOOLS.map(s => {
-      const overlap = s.tags.filter(t => selected.includes(t));
-      const score = Math.round((overlap.length / s.tags.length) * 100);
-      return { s, overlap, score };
+    const scored = TEACHERS.map(t => {
+      const overlap = t.tags.filter(tag => detected.includes(tag));
+      const score = detected.length ? Math.round((overlap.length / t.tags.length) * 100) : 0;
+      return { ...t, overlap, score };
     }).sort((a, b) => b.score - a.score);
 
-    scored.forEach(({ s, overlap, score }) => {
-      const el = document.createElement('div');
-      el.className = 'rounded-2xl border border-brand-soft bg-card p-6 shadow-sm';
-      const barColor = score >= 60 ? '#7a9a7e' : score >= 30 ? '#e0b25b' : '#c96f6f';
-      el.innerHTML = `
-        <div class="flex items-center justify-between">
-          <p class="font-bold text-brand-dark">${s.name}（${s.org.split(' ')[0]}）</p>
-          <span class="text-lg font-bold" style="color:${barColor}">${score}%</span>
+    const results = document.getElementById('results');
+    const top = scored.filter(s => s.score > 0);
+    document.getElementById('resultLabel').textContent = top.length
+      ? `マッチ候補 ${top.length}件（全19件中）`
+      : 'マッチする候補が見つかりませんでした。文章の中に技術分野や協力できる内容を具体的に書いてみてください。';
+
+    results.innerHTML = (top.length ? top : scored.slice(0, 3)).map(s => `
+      <div class="rounded-2xl border border-brand-soft bg-card p-5 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <p class="font-bold text-brand-dark">${s.name}<span class="ml-2 text-xs font-normal text-foreground/50">${s.school}</span></p>
+            <p class="mt-1 text-xs text-foreground/60">先生が求めている協力：${s.need}</p>
+          </div>
+          <p class="text-lg font-bold text-brand">${s.score}%</p>
         </div>
-        <div class="match-bar mt-2"><div class="match-fill" style="width:${score}%; background:${barColor}"></div></div>
-        <p class="mt-3 text-xs text-foreground/70">重なった分野：${overlap.length ? overlap.join('、') : 'なし'}</p>
-        <p class="mt-2 text-xs leading-relaxed text-foreground/70">${s.need}</p>
-        <p class="mt-3 text-xs text-foreground/50">あなたのペルソナ：${persona} ／ 提供する価値：${value} ／ パートナー要望：${partner}</p>
-        <a class="mt-3 inline-block text-xs font-semibold text-brand-dark underline" href="${s.caseUrl}">${s.caseLabel}</a>
-      `;
-      results.appendChild(el);
-    });
-  });
+        <div class="match-bar mt-3"><div class="match-fill" style="width:${s.score}%"></div></div>
+        <div class="mt-3 flex flex-wrap gap-1.5">
+          ${s.tags.map(tag => `<span class="tagchip ${s.overlap.includes(tag) ? 'hit' : ''}">${tag}</span>`).join('')}
+        </div>
+        <a class="mt-3 inline-block text-xs font-semibold text-brand-dark underline" href="${s.url}" target="${s.url.startsWith('http') ? '_blank' : '_self'}" rel="noopener">詳細を見る</a>
+      </div>
+    `).join('');
+  }
+
+  document.getElementById('matchBtn').addEventListener('click', runMatch);
+  runMatch();
 </script>
