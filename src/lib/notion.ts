@@ -75,6 +75,121 @@ export async function logContactInquiry(input: ContactInquiryInput): Promise<Con
   return { pageId: page.id, url: isFullPage(page) ? page.url : "" };
 }
 
+// 高専サイト「先生・企業 登録リクエスト」DBのデータソースID
+// CR「先生がやってほしい授業を簡単に登録できるインターフェースがない」
+// CR「企業が自ら情報を登録する導線がなく、問い合わせフォームはダミー」への対応(2026-09-09)
+const KOSEN_REGISTRATION_DATA_SOURCE_ID = "650bfdd5-1d62-4eed-b31b-155287a3c7a2";
+
+export type KosenRegistrationInput = {
+  name: string; // 先生名 or 会社名・担当者名
+  type: "先生" | "企業";
+  affiliation: string; // 所属高専 or 会社名
+  content: string; // 先生: こんな授業をしてほしい／企業: これだったらできる
+  contactEmail?: string;
+};
+
+export type KosenRegistrationResult = {
+  pageId: string;
+  url: string;
+};
+
+/**
+ * 次世代高専教育サイト（public/kosen/）の登録フォーム（先生向け「こんな授業をしてほしい」、
+ * 企業向け「これだったらできる」）から送信された内容を、Notionの「📥 先生・企業 登録リクエスト」
+ * データソースに1件記録する。AIによる自動処理は行わず、対応状況=未確認で記録するのみ。
+ */
+export async function logKosenRegistration(
+  input: KosenRegistrationInput
+): Promise<KosenRegistrationResult> {
+  const notion = getClient();
+
+  const page = await notion.pages.create({
+    parent: { data_source_id: KOSEN_REGISTRATION_DATA_SOURCE_ID, type: "data_source_id" },
+    properties: {
+      Name: { title: [{ text: { content: input.name.slice(0, 200) } }] },
+      Type: { select: { name: input.type } },
+      所属: { rich_text: [{ text: { content: input.affiliation.slice(0, 500) } }] },
+      内容: { rich_text: [{ text: { content: input.content.slice(0, 2000) } }] },
+      対応状況: { select: { name: "未確認" } },
+      ...(input.contactEmail ? { 連絡先: { email: input.contactEmail } } : {}),
+    },
+  });
+
+  return { pageId: page.id, url: isFullPage(page) ? page.url : "" };
+}
+
+// 「てつだって高専版 実施記録」DBのデータソースID
+// CR「3ツール全てでデータがブラウザ内メモリ/静的配列のみで、Notion等への永続化がされていない」への対応(2026-09-09)
+const KOSEN_RECORD_DATA_SOURCE_ID = "4c57e40f-04b7-4c62-8838-a0ade9cf4db1";
+
+export type KosenRecordInput = {
+  school: string; // 高専名
+  teacher: string; // 先生・担当
+  date: string; // 実施日 (YYYY-MM-DD)
+  tag: string; // 分野タグ
+  studentCount: number; // 参加学生数
+  memo: string; // 授業内容メモ
+};
+
+export type KosenRecordResult = {
+  pageId: string;
+  url: string;
+};
+
+export type KosenRecordListItem = {
+  school: string;
+  teacher: string;
+  date: string;
+  tag: string;
+  studentCount: number;
+  memo: string;
+};
+
+/**
+ * tetsudatte.html（高専版）で登録された実施記録を、Notionの
+ * 「📔 てつだって高専版 実施記録」データソースに1件記録する。
+ */
+export async function logKosenRecord(input: KosenRecordInput): Promise<KosenRecordResult> {
+  const notion = getClient();
+
+  const page = await notion.pages.create({
+    parent: { data_source_id: KOSEN_RECORD_DATA_SOURCE_ID, type: "data_source_id" },
+    properties: {
+      Name: { title: [{ text: { content: `${input.school}｜${input.teacher}｜${input.date}` } }] },
+      実施日: { date: { start: input.date } },
+      高専名: { select: { name: input.school } },
+      先生担当: { rich_text: [{ text: { content: input.teacher.slice(0, 200) } }] },
+      分野タグ: { select: { name: input.tag } },
+      参加学生数: { number: input.studentCount },
+      メモ: { rich_text: [{ text: { content: input.memo.slice(0, 2000) } }] },
+    },
+  });
+
+  return { pageId: page.id, url: isFullPage(page) ? page.url : "" };
+}
+
+/**
+ * 「📔 てつだって高専版 実施記録」データソースから、実施日の新しい順に一覧を取得する。
+ */
+export async function listKosenRecords(limit = 50): Promise<KosenRecordListItem[]> {
+  const notion = getClient();
+
+  const res = await notion.dataSources.query({
+    data_source_id: KOSEN_RECORD_DATA_SOURCE_ID,
+    sorts: [{ property: "実施日", direction: "descending" }],
+    page_size: limit,
+  });
+
+  return res.results.filter(isFullPage).map((page) => ({
+    school: plainTextFromProperty(page.properties["高専名"]),
+    teacher: plainTextFromProperty(page.properties["先生担当"]),
+    date: plainTextFromProperty(page.properties["実施日"]),
+    tag: plainTextFromProperty(page.properties["分野タグ"]),
+    studentCount: Number(plainTextFromProperty(page.properties["参加学生数"])) || 0,
+    memo: plainTextFromProperty(page.properties["メモ"]),
+  }));
+}
+
 // 全体共通の「ChangeRequest（改造要求管理）」DBのデータソースID
 const CHANGE_REQUEST_DATA_SOURCE_ID = "78efaf0f-310d-4dc4-991f-ca5c3abf0d13";
 
@@ -161,6 +276,10 @@ function plainTextFromProperty(prop: PageObjectResponse["properties"][string] | 
       return prop.select?.name ?? "";
     case "created_time":
       return prop.created_time;
+    case "date":
+      return prop.date?.start ?? "";
+    case "number":
+      return prop.number != null ? String(prop.number) : "";
     default:
       return "";
   }

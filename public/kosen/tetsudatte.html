@@ -108,7 +108,7 @@
         </div>
       </div>
       <button id="addBtn" class="mt-4 rounded-full bg-brand px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark">この授業を記録する</button>
-      <p class="mt-2 text-xs text-foreground/50">※ このデモではブラウザ表示中のみ記録を保持します。実運用ではNotionデータベースに自動保存し、実績レポートとして蓄積します。</p>
+      <p id="formMsg" class="mt-2 text-xs text-foreground/50">記録するとNotionデータベース（実施記録）に自動保存されます。</p>
     </div>
   </section>
 
@@ -125,7 +125,9 @@
 </footer>
 
 <script>
-  // 初期実績サンプル（案件済み・準備中のものを事前登録）
+  // CR「3ツール全てでデータがブラウザ内メモリ/静的配列のみで、Notion等への永続化がされていない」対応(2026-09-09)
+  // 記録は /api/kosen/record 経由でNotion「てつだって高専版 実施記録」DBに保存・取得する。
+  // 初期表示は下記サンプル（案件済み・準備中のもの）から始め、ページ読み込み時にNotion保存分を追加で読み込む。
   let records = [
     { date: "2026-11-16", school: "鹿児島高専", teacher: "逆瀬川先生・谷口先生", tag: "物流・DX", students: 40, memo: "Mission in LOGI-TECH 1日目：物流業界講義＋4スーツカードゲームでの企業活動体験（実施予定）" },
     { date: "2025-09-01", school: "米子高専", teacher: "角田直輝先生", tag: "金融教育", students: 30, memo: "太陽光発電投資教材を用いたキャリア・金融教育の授業実践（研究ベース、科研費2025-2028）" }
@@ -157,19 +159,69 @@
     document.getElementById('statTag').textContent = topTag ? topTag[0] : '-';
   }
 
-  document.getElementById('addBtn').addEventListener('click', () => {
+  const addBtn = document.getElementById('addBtn');
+  const formMsg = document.getElementById('formMsg');
+
+  addBtn.addEventListener('click', async () => {
     const date = document.getElementById('fDate').value || new Date().toISOString().slice(0, 10);
     const school = document.getElementById('fSchool').value;
     const teacher = document.getElementById('fTeacher').value;
     const tag = document.getElementById('fTag').value;
     const students = document.getElementById('fStudents').value;
     const memo = document.getElementById('fMemo').value;
-    records.push({ date, school, teacher, tag, students, memo });
-    document.getElementById('fTeacher').value = '';
-    document.getElementById('fStudents').value = '';
-    document.getElementById('fMemo').value = '';
-    render();
+
+    if (!teacher.trim() || !memo.trim()) {
+      formMsg.textContent = '先生・担当と授業内容メモは必須です。';
+      formMsg.className = 'mt-2 text-xs text-red-600';
+      return;
+    }
+
+    addBtn.disabled = true;
+    addBtn.textContent = '記録中…';
+    formMsg.textContent = '';
+
+    try {
+      const res = await fetch('/api/kosen/record', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ school, teacher, date, tag, studentCount: Number(students) || 0, memo }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || '保存に失敗しました');
+
+      records.push({ date, school, teacher, tag, students, memo });
+      document.getElementById('fTeacher').value = '';
+      document.getElementById('fStudents').value = '';
+      document.getElementById('fMemo').value = '';
+      render();
+      formMsg.textContent = 'Notionに保存しました。';
+      formMsg.className = 'mt-2 text-xs text-accent-green';
+    } catch (err) {
+      formMsg.textContent = '保存中にエラーが発生しました。時間をおいて再度お試しください。';
+      formMsg.className = 'mt-2 text-xs text-red-600';
+    } finally {
+      addBtn.disabled = false;
+      addBtn.textContent = 'この授業を記録する';
+    }
   });
 
-  render();
+  // ページ読み込み時にNotion保存済みの実施記録を取得し、サンプルに追加表示する
+  async function loadSavedRecords() {
+    try {
+      const res = await fetch('/api/kosen/record');
+      const data = await res.json();
+      if (res.ok && data.ok && Array.isArray(data.records)) {
+        const saved = data.records.map(r => ({
+          date: r.date, school: r.school, teacher: r.teacher, tag: r.tag,
+          students: r.studentCount, memo: r.memo
+        }));
+        records = records.concat(saved);
+      }
+    } catch (err) {
+      // 取得に失敗してもサンプル表示は継続する
+    }
+    render();
+  }
+
+  loadSavedRecords();
 </script>

@@ -80,6 +80,34 @@
     <p id="countLabel" class="mb-4 text-center text-sm text-foreground/60"></p>
     <div id="cardList" class="grid gap-5 sm:grid-cols-2"></div>
   </section>
+
+  <!-- 先生ご自身の登録フォーム（CR「先生がやってほしい授業を簡単に登録できるインターフェースがない」対応） -->
+  <section class="mx-auto max-w-2xl px-5 pb-16">
+    <div class="rounded-2xl border border-brand-soft bg-card p-5 shadow-sm sm:p-6">
+      <p class="text-sm font-semibold text-foreground">📝 先生ご自身で「こんな授業をしてほしい」を登録する</p>
+      <p class="mt-1 text-xs text-foreground/60">上の一覧は事前調査済みのデータですが、ご自身の要望を直接登録することもできます。入力いただいた内容は、しまてつだい運営チームがNotionで確認します（自動送信のご案内はまだありません）。</p>
+      <form id="teacherForm" class="mt-4 space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-foreground">お名前</label>
+          <input id="teacherName" type="text" required class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-foreground">ご所属（高専名・学科等）</label>
+          <input id="teacherAffiliation" type="text" required class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-foreground">こんな授業をしてほしい（ご希望の内容）</label>
+          <textarea id="teacherContent" rows="4" required class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground" placeholder="例：地元企業と連携して、防災×ドローン測量の実践授業をしてほしい"></textarea>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-foreground">連絡先メールアドレス（任意）</label>
+          <input id="teacherEmail" type="email" class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground">
+        </div>
+        <button type="submit" id="teacherSubmitBtn" class="w-full rounded-full bg-brand px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark">登録する</button>
+        <p id="teacherFormMsg" class="text-center text-xs"></p>
+      </form>
+    </div>
+  </section>
 </div>
 
 <footer class="border-t border-brand-soft bg-brand-soft/40">
@@ -132,4 +160,40 @@
   document.getElementById('schoolFilter').addEventListener('change', render);
   document.getElementById('nameFilter').addEventListener('input', render);
   render();
+
+  // 先生ご自身の登録フォーム送信（/api/kosen/register へPOSTし、Notionに記録する）
+  const teacherForm = document.getElementById('teacherForm');
+  const teacherMsg = document.getElementById('teacherFormMsg');
+  const teacherBtn = document.getElementById('teacherSubmitBtn');
+  teacherForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    teacherBtn.disabled = true;
+    teacherBtn.textContent = '送信中…';
+    teacherMsg.textContent = '';
+    teacherMsg.className = 'text-center text-xs';
+    try {
+      const res = await fetch('/api/kosen/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: '先生',
+          name: document.getElementById('teacherName').value,
+          affiliation: document.getElementById('teacherAffiliation').value,
+          content: document.getElementById('teacherContent').value,
+          contactEmail: document.getElementById('teacherEmail').value
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || '送信に失敗しました');
+      teacherMsg.textContent = '✅ 登録しました。ありがとうございます。運営チームが内容を確認します。';
+      teacherMsg.className = 'text-center text-xs text-accent-green font-semibold';
+      teacherForm.reset();
+    } catch (err) {
+      teacherMsg.textContent = '⚠️ ' + (err.message || '送信中にエラーが発生しました。時間をおいて再度お試しください。');
+      teacherMsg.className = 'text-center text-xs text-red-600 font-semibold';
+    } finally {
+      teacherBtn.disabled = false;
+      teacherBtn.textContent = '登録する';
+    }
+  });
 </script>
