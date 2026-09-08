@@ -1,0 +1,137 @@
+<title>お問い合わせ｜次世代高専教育カンファレンス</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brand: '#e08a5b', 'brand-dark': '#c96f42', 'brand-soft': '#f7e0cf',
+          'accent-green': '#7a9a7e', background: '#fdf8f2', foreground: '#4a3f35', card: '#ffffff'
+        }
+      }
+    }
+  }
+</script>
+<style>
+  /* CR「60歳前後の熟年層向けUI検証」対応：ルートのfont-sizeを引き上げ、rem基準のTailwindクラスを全体的に拡大 */
+  html{ font-size:113%; }
+  /*
+    「お問い合わせ」タブ：グローバルナビ刷新CR対応(2026-09-09)で新設。
+    先生向け・企業人向けの登録フォーム(content-support.html/matching.html)と同じAPI(/api/kosen/register)を再利用し、
+    立場（先生／企業人）を選んでいただいたうえで汎用の問い合わせとして1件記録する。新規バックエンドは追加しない。
+  */
+  body{ background:#fdf8f2; color:#4a3f35; font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
+</style>
+
+<header class="sticky top-0 z-50 border-b border-brand-soft bg-background/90 backdrop-blur">
+  <div class="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3 sm:px-5 sm:py-4">
+    <a class="flex shrink-0 items-center gap-2" href="index.html">
+      <span class="text-xl sm:text-2xl">🎓</span>
+      <span class="leading-tight">
+        <span class="block text-[10px] font-semibold text-accent-green sm:text-xs">先生×企業人による社会価値教育</span>
+        <span class="block whitespace-nowrap text-sm font-bold tracking-wide text-brand-dark sm:text-lg">次世代高専教育カンファレンス</span>
+      </span>
+    </a>
+    <nav class="flex flex-wrap justify-end gap-2 text-xs sm:gap-5 sm:text-base">
+      <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="index.html">ホーム</a>
+      <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="teachers.html">先生</a>
+      <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="companies.html">企業人</a>
+      <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="matching.html">マッチング</a>
+      <a class="whitespace-nowrap font-bold text-brand-dark" href="contact.html">お問い合わせ</a>
+    </nav>
+  </div>
+</header>
+
+<div>
+  <section class="bg-gradient-to-b from-brand-soft/70 to-background">
+    <div class="mx-auto max-w-3xl px-5 py-12 text-center">
+      <p class="text-sm font-semibold tracking-wide text-brand-dark">お問い合わせ</p>
+      <h1 class="mt-4 text-2xl font-bold leading-snug text-foreground sm:text-3xl">先生・企業人、<br class="hidden sm:block">どちらのお立場からでもご連絡ください。</h1>
+      <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-foreground/80">「こんな授業をしてほしい」「これだったらできる」以外のご質問・ご相談も、こちらから承ります。入力いただいた内容は、しまてつだい運営チームがNotionで確認します（自動返信のご案内はまだありません）。</p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-2xl px-5 pb-16">
+    <div class="rounded-2xl border border-brand-soft bg-card p-5 shadow-sm sm:p-6">
+      <form id="contactForm" class="mt-1 space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-foreground">お立場</label>
+          <select id="contactType" class="mt-1 w-full rounded-lg border border-brand-soft bg-white px-3 py-2 text-sm text-foreground">
+            <option value="先生">先生</option>
+            <option value="企業">企業人</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-foreground">お名前</label>
+          <input id="contactName" type="text" required class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-foreground">ご所属（高専名／会社名等）</label>
+          <input id="contactAffiliation" type="text" required class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-foreground">お問い合わせ内容</label>
+          <textarea id="contactContent" rows="4" required class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground" placeholder="例：企画の詳細について話を聞いてみたい"></textarea>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-foreground">連絡先メールアドレス（任意）</label>
+          <input id="contactEmail" type="email" class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground">
+        </div>
+        <button type="submit" id="contactSubmitBtn" class="w-full rounded-full bg-brand px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark">送信する</button>
+        <p id="contactFormMsg" class="text-center text-xs"></p>
+      </form>
+    </div>
+    <p class="mt-4 text-center text-xs text-foreground/50">「こんな授業をしてほしい」は<a href="content-support.html" class="underline text-brand-dark">教育コンテンツ作成支援</a>、「これだったらできる」は<a href="matching.html" class="underline text-brand-dark">マッチング</a>ページの専用フォームからも登録できます。</p>
+  </section>
+</div>
+
+<footer class="border-t border-brand-soft bg-brand-soft/40">
+  <div class="mx-auto max-w-5xl px-5 py-8 text-center text-xs text-foreground/50">
+    <a class="text-brand-dark underline" href="index.html">次世代高専教育カンファレンス</a>に戻る
+  </div>
+</footer>
+
+<script>
+  const contactForm = document.getElementById('contactForm');
+  const contactSubmitBtn = document.getElementById('contactSubmitBtn');
+  const contactFormMsg = document.getElementById('contactFormMsg');
+
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const type = document.getElementById('contactType').value;
+    const name = document.getElementById('contactName').value.trim();
+    const affiliation = document.getElementById('contactAffiliation').value.trim();
+    const content = document.getElementById('contactContent').value.trim();
+    const contactEmail = document.getElementById('contactEmail').value.trim();
+
+    if (!name || !affiliation || !content) {
+      contactFormMsg.textContent = 'お名前・ご所属・お問い合わせ内容は必須です。';
+      contactFormMsg.className = 'text-center text-xs text-red-600';
+      return;
+    }
+
+    contactSubmitBtn.disabled = true;
+    contactSubmitBtn.textContent = '送信中…';
+    contactFormMsg.textContent = '';
+
+    try {
+      const res = await fetch('/api/kosen/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type, name, affiliation, content, contactEmail: contactEmail || undefined }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || '送信に失敗しました');
+
+      contactForm.reset();
+      contactFormMsg.textContent = 'お問い合わせを受け付けました。ありがとうございます。';
+      contactFormMsg.className = 'text-center text-xs text-accent-green';
+    } catch (err) {
+      contactFormMsg.textContent = '送信中にエラーが発生しました。時間をおいて再度お試しください。';
+      contactFormMsg.className = 'text-center text-xs text-red-600';
+    } finally {
+      contactSubmitBtn.disabled = false;
+      contactSubmitBtn.textContent = '送信する';
+    }
+  });
+</script>
