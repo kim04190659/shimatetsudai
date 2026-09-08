@@ -18,8 +18,9 @@
   /*
     「教育マッチングサイト」ツール。
     企業の方が「これだったらできる」という内容を自由記述で入力すると、
-    文中のキーワードを分野タグに変換し、高専教員19名分のデータ（研究テーマ×社会課題）と
-    重なりの大きい順にマッチング候補を提示する。
+    文中のキーワードを分野タグに変換し、パイロット2名（角田先生・久池井先生）のデータ（研究テーマ×社会課題）と
+    重なりの大きい順にマッチング候補を提示する。他17名分はNotion DBに保持し、CR「今回は角田先生・久池井先生の
+    2名限定にし、他の17名分のデータは削除する」に基づき一時的に非表示。
   */
   body{ background:#fdf8f2; color:#4a3f35; font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
   .match-bar{ height:8px; border-radius:999px; background:#f3e6d8; overflow:hidden; }
@@ -39,6 +40,7 @@
     </a>
     <nav class="flex gap-2 text-xs sm:gap-6 sm:text-base">
       <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="index.html">← トップに戻る</a>
+      <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="teachers.html">先生</a>
       <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="content-support.html">教育コンテンツ作成支援</a>
       <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="tetsudatte.html">てつだって</a>
     </nav>
@@ -50,7 +52,7 @@
     <div class="mx-auto max-w-4xl px-5 py-12 text-center">
       <p class="text-sm font-semibold tracking-wide text-brand-dark">教育マッチングサイト</p>
       <h1 class="mt-4 text-2xl font-bold leading-snug text-foreground sm:text-3xl">「これだったらできる」を書くだけで、<br class="hidden sm:block">相性の良い高専の先生が見つかる。</h1>
-      <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-foreground/80">企業の方が、自社の技術・ノウハウ・提供できる教育内容などを自由に書き込むと、鹿児島高専・北九州高専・米子高専・高知高専の教員19名分の研究テーマ・社会課題データと照合し、マッチ度の高い順に一覧表示します。</p>
+      <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-foreground/80">企業の方が、自社の技術・ノウハウ・提供できる教育内容などを自由に書き込むと、パイロット2名（米子高専・角田直輝先生、北九州高専・久池井茂先生）の研究テーマ・社会課題データと照合し、マッチ度の高い順に一覧表示します。他の高専・先生は<a href="teachers.html" class="underline text-brand-dark">先生一覧</a>から今後追加予定です。</p>
     </div>
   </section>
 
@@ -98,26 +100,11 @@
     "人文・教養": ["歴史","文化","教養","人文"]
   };
 
+  // CR「今回は角田先生・久池井先生の2名限定にし、他の17名分のデータは削除する」対応。
+  // 他17名分の調査データはNotion「🎯 高専教員 教育テーマDB」に保持しており、削除ではなく非表示（将来の拡張候補）。
   const TEACHERS = [
-    {name:"逆瀬川栄一先生", school:"鹿児島高専", tags:["物流・DX","産学連携"], need:"物流業界の実務・企業活動教育での協力", url:"case-kagoshima.html"},
-    {name:"小田原悟先生", school:"鹿児島高専", tags:["エネルギー","材料工学"], need:"再エネ実証実験・企業データ提供での協力", url:"https://researchmap.jp/read0204911"},
-    {name:"山内正仁先生", school:"鹿児島高専", tags:["環境・資源循環","農業・食品","産学連携"], need:"廃棄物再資源化の実証フィールド提供", url:"https://researchmap.jp/read0178962"},
-    {name:"入江智和先生", school:"鹿児島高専", tags:["情報セキュリティ"], need:"ネットワーク実機環境・IoT現場での協力", url:"https://researchmap.jp/tomokazuirie"},
-    {name:"松田信彦先生", school:"鹿児島高専", tags:["人文・教養","まちづくり・地域文化"], need:"地域文化資源のデータ・現地知見提供", url:"https://researchmap.jp/Nobuhiko_Matsdua"},
     {name:"久池井茂先生", school:"北九州高専", tags:["医療・福祉","AI・生成AI","産学連携"], need:"医療・介護現場の共同開発パートナー", url:"case-kuchii.html"},
-    {name:"松本圭司先生", school:"北九州高専", tags:["医療・福祉","ロボティクス・センサー"], need:"生体センシング製品化パートナー", url:"https://researchmap.jp/read0132483"},
-    {name:"井上祐一先生", school:"北九州高専", tags:["医療・福祉","産学連携"], need:"バイオ医薬品・食品分野の共同研究", url:"https://researchmap.jp/read0048018"},
-    {name:"北園優希先生", school:"北九州高専", tags:["医療・福祉","ロボティクス・センサー","防災・インフラ"], need:"見守り・インフラ点検の実証現場提供", url:"https://researchmap.jp/kitazono"},
-    {name:"蒋欣先生", school:"北九州高専", tags:["材料工学","医療・福祉"], need:"半導体設計・衛生分野の共同研究", url:"https://researchmap.jp/jiangxin"},
-    {name:"角田直輝先生", school:"米子高専", tags:["キャリア教育","金融教育","産学連携"], need:"金融・キャリア教育の出前講義、投資教材の実務知見", url:"case-yonago.html"},
-    {name:"伊達勇介先生", school:"米子高専", tags:["環境・資源循環","エネルギー","産学連携"], need:"地域環境課題の実証フィールド提供", url:"https://researchmap.jp/read0144682"},
-    {name:"清水剛志先生", school:"米子高専", tags:["エネルギー","材料工学"], need:"電池・EV関連の企業連携", url:"https://researchmap.jp/2020-06-12"},
-    {name:"川戸聡也先生", school:"米子高専", tags:["情報セキュリティ","金融教育","キャリア教育"], need:"セキュリティ実践講習の企業講師", url:"https://researchmap.jp/read2142050"},
-    {name:"岡田将治先生", school:"高知高専", tags:["防災・インフラ","ロボティクス・センサー"], need:"UAV測量・河川管理の共同実証", url:"https://www.kochi-ct.ac.jp/sangaku0/seeds/2026/21.okada.pdf"},
-    {name:"吉岡将孝先生", school:"高知高専", tags:["農業・食品","医療・福祉","ロボティクス・センサー"], need:"農業・福祉ロボットの実証パートナー", url:"https://www.kochi-ct.ac.jp/sangaku0/seeds/2026/14.myoshioka.pdf"},
-    {name:"横井克則先生", school:"高知高専", tags:["防災・インフラ","環境・資源循環","材料工学"], need:"インフラ維持管理・廃棄資源活用の企業相談", url:"https://www.kochi-ct.ac.jp/sangaku0/seeds/2026/23.yokoi.pdf"},
-    {name:"北山めぐみ先生", school:"高知高専", tags:["まちづくり・地域文化","産学連携"], need:"歴史的建造物の改修・活用プロジェクト協力", url:"https://www.kochi-ct.ac.jp/sangaku0/seeds/2026/26.kitayama.pdf"},
-    {name:"秦隆志先生", school:"高知高専", tags:["農業・食品","環境・資源循環","産学連携"], need:"水産・農業・環境浄化の共同開発", url:"https://www.kochi-ct.ac.jp/sangaku0/seeds/2026/31.hata.pdf"}
+    {name:"角田直輝先生", school:"米子高専", tags:["キャリア教育","金融教育","産学連携"], need:"金融・キャリア教育の出前講義、投資教材の実務知見", url:"case-yonago.html"}
   ];
 
   function detectTags(text) {
@@ -154,7 +141,7 @@
     const results = document.getElementById('results');
     const top = scored.filter(s => s.score > 0);
     document.getElementById('resultLabel').textContent = top.length
-      ? `マッチ候補 ${top.length}件（全19件中）`
+      ? `マッチ候補 ${top.length}件（全${TEACHERS.length}件中）`
       : 'マッチする候補が見つかりませんでした。文章の中に技術分野や協力できる内容を具体的に書いてみてください。';
 
     results.innerHTML = (top.length ? top : scored.slice(0, 3)).map(s => `

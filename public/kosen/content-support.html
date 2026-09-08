@@ -19,8 +19,10 @@
     「教育コンテンツ作成支援」ツールの一覧ページ。
     学校名・先生の名前を入力すると、オープンデータ(researchmap等)から抽出した研究テーマをもとに
     生成AIが作成した「こんな教育をしてほしい」提案が一覧に並ぶ、という体験を、
-    事前調査済み19名分の実データ(Notion DB「🎯 高専教員 教育テーマDB」)で再現した静的デモ。
+    事前調査済みデータ(Notion DB「🎯 高専教員 教育テーマDB」)で再現した静的デモ。
     実際のAI生成は行わず、あらかじめ作成済みの提案文をタイトル検索でフィルタする。
+    CR「今回は角田先生・久池井先生の2名限定にし、他の17名分のデータは削除する」に基づき、
+    現在はパイロット2名（角田直輝先生・久池井茂先生）のみを表示。他17名分はNotion DBに保持。
   */
   body{ background:#fdf8f2; color:#4a3f35; font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
   h1,h2,h3{ text-wrap:balance; }
@@ -38,6 +40,7 @@
     </a>
     <nav class="flex gap-2 text-xs sm:gap-6 sm:text-base">
       <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="index.html">← トップに戻る</a>
+      <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="teachers.html">先生</a>
       <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="matching.html">教育マッチング</a>
       <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="tetsudatte.html">てつだって</a>
     </nav>
@@ -49,7 +52,7 @@
     <div class="mx-auto max-w-4xl px-5 py-12 text-center">
       <p class="text-sm font-semibold tracking-wide text-brand-dark">教育コンテンツ作成支援</p>
       <h1 class="mt-4 text-2xl font-bold leading-snug text-foreground sm:text-3xl">学校名と先生の名前を入れると、<br class="hidden sm:block">「こんな教育をしてほしい」案が出てくる。</h1>
-      <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-foreground/80">researchmap等のオープンデータから先生の研究テーマを取得し、その研究がどんな社会課題（困りごと）につながるかを分析して、教育提案の下書きを生成AIが作成します。ここでは、鹿児島高専・北九州高専・米子高専・高知高専の教員19名分を先行調査し、一覧化しています。学校名や名前で検索してみてください。</p>
+      <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-foreground/80">researchmap等のオープンデータから先生の研究テーマを取得し、その研究がどんな社会課題（困りごと）につながるかを分析して、教育提案の下書きを生成AIが作成します。現在は角田直輝先生（米子高専）・久池井茂先生（北九州高専）の2名をパイロットとして、15コマカリキュラム案まで詳細に作り込んでいます。他の高専・先生は<a href="teachers.html" class="underline text-brand-dark">先生一覧</a>から今後追加予定です。</p>
     </div>
   </section>
 
@@ -60,10 +63,8 @@
           <label class="block text-xs font-semibold text-foreground">学校名</label>
           <select id="schoolFilter" class="mt-1 w-full rounded-lg border border-brand-soft bg-white px-3 py-2 text-sm text-foreground">
             <option value="">すべて</option>
-            <option value="鹿児島高専">鹿児島高専</option>
             <option value="北九州高専">北九州高専</option>
             <option value="米子高専">米子高専</option>
-            <option value="高知高専">高知高専</option>
           </select>
         </div>
         <div class="sm:col-span-2">
@@ -88,26 +89,11 @@
 </footer>
 
 <script>
+  // CR「今回は角田先生・久池井先生の2名限定にし、他の17名分のデータは削除する」対応。
+  // 他17名分の調査データはNotion「🎯 高専教員 教育テーマDB」に保持しており、削除ではなく非表示（将来の拡張候補）。
   const TEACHERS = [
-    {name:"逆瀬川栄一先生", school:"鹿児島高専", dept:"2類担当教員", keywords:"物流業界の現場知見、企業活動教育", issue:"物流の2024年問題、ドライバー不足、再配達・積載率低下", proposal:"物流業界の現場を知る講義と、カードゲームを使った企業活動・事業化提案の指導", tags:["物流・DX","産学連携"], url:"case-kagoshima.html"},
-    {name:"小田原悟先生", school:"鹿児島高専", dept:"創造デザイン工学科 准教授", keywords:"振動波動、水素エネルギー、風レンズ風車ブレード振動、エマルジョン燃料", issue:"再生可能エネルギー(風力)実用化を妨げるブレード疲労破損、液体水素の安全な貯蔵・輸送", proposal:"実験装置を自作・改良しながら実測データで現象を検証する、手を動かす機械力学教育", tags:["エネルギー","材料工学"], url:"https://researchmap.jp/read0204911"},
-    {name:"山内正仁先生", school:"鹿児島高専", dept:"創造デザイン工学科 教授", keywords:"水環境、資源循環、未利用バイオマス、下水汚泥のきのこ栽培利用", issue:"下水汚泥・地域バイオマス廃棄物の再資源化、地域農業振興、循環型社会", proposal:"企業・自治体と連携した実証実験で、地域の廃棄物を資源に変える現場感覚を養う教育", tags:["環境・資源循環","農業・食品","産学連携"], url:"https://researchmap.jp/read0178962"},
-    {name:"入江智和先生", school:"鹿児島高専", dept:"創造デザイン工学科 教授", keywords:"コンピュータネットワーク、IPv6アドレス運用、無線LAN最適化", issue:"IPv6移行期のネットワークトラブル解消、IoT環境の安定運用", proposal:"実機・実環境でのネットワーク構築・検証演習を重視した教育", tags:["情報セキュリティ"], url:"https://researchmap.jp/tomokazuirie"},
-    {name:"松田信彦先生", school:"鹿児島高専", dept:"一般教育科 教授", keywords:"日本神話、日本書紀、多変量解析", issue:"地域の神話・伝承を根拠に基づき継承する地域文化資源の掘り起こし", proposal:"技術系学生にも地域の歴史文化的背景を統計的に読み解く力を養う教養教育", tags:["人文・教養","まちづくり・地域文化"], url:"https://researchmap.jp/Nobuhiko_Matsdua"},
     {name:"久池井茂先生", school:"北九州高専", dept:"生産デザイン工学科 教授", keywords:"医療現場注射薬自動仕分け、認知症対話AIロボット、中小製造業DX", issue:"医療現場の人手不足、介護・認知症ケアの担い手不足、地方中小製造業のDX人材不足", proposal:"企業との共同プロジェクトで、ロボット・画像処理技術を医療・介護・製造現場に結びつける社会実装型教育（15コマカリキュラム案あり）", tags:["医療・福祉","AI・生成AI","産学連携"], url:"case-kuchii.html"},
-    {name:"松本圭司先生", school:"北九州高専", dept:"生産デザイン工学科 教授", keywords:"生体機能利用、生体信号快適性評価、視覚障害者歩行誘導支援", issue:"視覚障害者の移動支援・バリアフリー化、快適な生活環境設計", proposal:"生体センシングデータを人にやさしい製品設計に落とし込む演習を重視した教育", tags:["医療・福祉","ロボティクス・センサー"], url:"https://researchmap.jp/read0132483"},
-    {name:"井上祐一先生", school:"北九州高専", dept:"物質化学コース 教授", keywords:"ヒト細胞、抗体生産、抗アレルギー、イチゴ由来成分", issue:"アレルギー疾患・花粉症など健康課題の緩和、国産バイオ医薬品製造基盤の強化", proposal:"基礎研究の成果を食品・医薬という身近な健康課題に応用する、企業・医療現場連携教育", tags:["医療・福祉","産学連携"], url:"https://researchmap.jp/read0048018"},
-    {name:"北園優希先生", school:"北九州高専", dept:"情報システムコース 准教授", keywords:"センサシステム、道路ポットホール検出、高齢者見守り、視覚障害者歩行支援機", issue:"高齢者・要介護者の見守り・転倒防止、インフラ老朽化点検の省力化", proposal:"学生自身が日常の困りごとを見つけ、センサとAIで小さく試作するPBL", tags:["医療・福祉","ロボティクス・センサー","防災・インフラ"], url:"https://researchmap.jp/kitazono"},
-    {name:"蒋欣先生", school:"北九州高専", dept:"生産デザイン工学科 准教授", keywords:"ネットワークオンチップ、大規模集積回路、ファインバブル生成", issue:"半導体・LSI設計の消費電力・発熱問題低減、衛生分野へのファインバブル応用", proposal:"半導体設計と流体工学の両方に触れ、異分野を横断して考える力を養う教育", tags:["材料工学","医療・福祉"], url:"https://researchmap.jp/jiangxin"},
-    {name:"角田直輝先生", school:"米子高専", dept:"情報システム部門 教授", keywords:"産学連携、アントレプレナーシップ教育、金融教育、太陽光発電投資教材", issue:"技術者が専門技術だけでなく、キャリア形成・金融リテラシーを持たないまま社会に出てしまう課題", proposal:"太陽光発電投資教材を使った、専門科目とキャリア・金融教育を統合する授業デザイン（15コマカリキュラム案あり）", tags:["キャリア教育","金融教育","産学連携"], url:"case-yonago.html"},
-    {name:"伊達勇介先生", school:"米子高専", dept:"化学・バイオ部門 教授", keywords:"無機材料、粘土鉱物、ヌカカ対策、氷温技術、全固体電池", issue:"吸血害虫ヌカカによる生活環境悪化、中海・水鳥公園の水質浄化", proposal:"地域の環境・生活課題を自ら計測・分析し、行政や住民に説明できる現場密着型の研究教育", tags:["環境・資源循環","エネルギー","産学連携"], url:"https://researchmap.jp/read0144682"},
-    {name:"清水剛志先生", school:"米子高専", dept:"化学・バイオ部門 特命助教", keywords:"金属有機構造体(MOF)、ポストリチウムイオン電池", issue:"リチウムイオン電池のレアメタル依存、EV・スマートフォンのコスト低減", proposal:"基礎化学が身近な電子機器・EVのエネルギー問題にどうつながるかを体験させる指導", tags:["エネルギー","材料工学"], url:"https://researchmap.jp/2020-06-12"},
-    {name:"川戸聡也先生", school:"米子高専", dept:"情報システムコース 准教授", keywords:"情報セキュリティ教育、プログラミング教育、金融教育、ゲーム教育", issue:"サイバー犯罪被害、若年層のセキュリティリテラシー不足、金融リテラシー不足", proposal:"疑似ハッキング体験・学生主体の講習会運営のような実践型セキュリティ教育", tags:["情報セキュリティ","金融教育","キャリア教育"], url:"https://researchmap.jp/read2142050"},
-    {name:"岡田将治先生", school:"高知高専", dept:"まちづくり・防災コース 教授", keywords:"ADCP洪水流計測、河道管理技術、UAV測量", issue:"台風・集中豪雨による中小河川の氾濫リスク、自治体の限られた人員でのインフラ維持管理", proposal:"現場観測とドローン計測データ解析を組み合わせた実践的防災工学教育", tags:["防災・インフラ","ロボティクス・センサー"], url:"https://www.kochi-ct.ac.jp/sangaku0/seeds/2026/21.okada.pdf"},
-    {name:"吉岡将孝先生", school:"高知高専", dept:"ロボティクスコース 准教授", keywords:"生体信号処理、パワーアシスト、農作業支援ロボット", issue:"農業の担い手不足・高齢化による負担、福祉分野の介護負担軽減", proposal:"農業・福祉現場の困りごとから逆算する課題解決型ものづくり教育", tags:["農業・食品","医療・福祉","ロボティクス・センサー"], url:"https://www.kochi-ct.ac.jp/sangaku0/seeds/2026/14.myoshioka.pdf"},
-    {name:"横井克則先生", school:"高知高専", dept:"まちづくり・防災コース 教授", keywords:"コンクリート、ひび割れ診断、廃棄資源の有効利用", issue:"老朽化するインフラの維持管理コスト増大、産業廃棄物の有効活用", proposal:"地元企業の相談案件を教材に、材料開発から現場還元までを扱う地域企業直結の教育", tags:["防災・インフラ","環境・資源循環","材料工学"], url:"https://www.kochi-ct.ac.jp/sangaku0/seeds/2026/23.yokoi.pdf"},
-    {name:"北山めぐみ先生", school:"高知高専", dept:"まちづくり・防災コース 准教授", keywords:"歴史的環境保全、歴史的町並み、赤岡プロジェクト", issue:"過疎化・空き家増加による歴史的町並み・地域文化の喪失", proposal:"地域住民・行政・若手職人と協働し歴史的建造物を改修・活用するプロジェクト型学習", tags:["まちづくり・地域文化","産学連携"], url:"https://www.kochi-ct.ac.jp/sangaku0/seeds/2026/26.kitayama.pdf"},
-    {name:"秦隆志先生", school:"高知高専", dept:"新素材・生命コース 教授", keywords:"ファインバブル、農林水産、環境浄化", issue:"水産業・農業分野の生産性向上、環境浄化技術による水質改善", proposal:"地元企業との共同開発案件に学生を参加させる産学連携型教育", tags:["農業・食品","環境・資源循環","産学連携"], url:"https://www.kochi-ct.ac.jp/sangaku0/seeds/2026/31.hata.pdf"}
+    {name:"角田直輝先生", school:"米子高専", dept:"情報システム部門 教授", keywords:"産学連携、アントレプレナーシップ教育、金融教育、太陽光発電投資教材", issue:"技術者が専門技術だけでなく、キャリア形成・金融リテラシーを持たないまま社会に出てしまう課題", proposal:"太陽光発電投資教材を使った、専門科目とキャリア・金融教育を統合する授業デザイン（15コマカリキュラム案あり）", tags:["キャリア教育","金融教育","産学連携"], url:"case-yonago.html"}
   ];
 
   const cardList = document.getElementById('cardList');
