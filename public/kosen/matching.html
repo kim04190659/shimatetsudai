@@ -61,6 +61,14 @@
     <div class="rounded-2xl border border-brand-soft bg-card p-5 shadow-sm sm:p-6">
       <label class="block text-sm font-semibold text-foreground">💬 これだったらできる、を書いてください</label>
       <textarea id="freeText" rows="5" class="mt-2 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground" placeholder="例：当社は物流倉庫のDXを手がけています。AIを使った需要予測や、学生向けにロジスティクス業界の課題を伝える出前講義が可能です。">当社は再生可能エネルギー関連のベンチャーで、太陽光発電の投資評価や資金調達の実務経験があります。学生向けに金融・キャリア教育の出前講義や、産学連携の共同研究テーマの相談にも対応できます。</textarea>
+
+      <!-- CR「ドキュメント登録→自動マッチングの連携が未実装」対応：資料アップロード欄。txt/md等テキスト系はそのまま自由記述欄に反映し、マッチングに使う -->
+      <div class="mt-4 rounded-lg border border-dashed border-brand-soft bg-background/60 p-3">
+        <label class="block text-xs font-semibold text-foreground">📎 資料をアップロードする（任意・PDF/Word/画像/テキスト、8MBまで）</label>
+        <input id="docFile" type="file" accept=".txt,.md,.pdf,.doc,.docx,image/*" class="mt-2 w-full text-xs text-foreground/80 file:mr-3 file:rounded-full file:border-0 file:bg-brand-soft file:px-4 file:py-1.5 file:text-xs file:font-semibold file:text-brand-dark">
+        <p id="docFileStatus" class="mt-2 text-xs text-foreground/50">テキスト（.txt/.md）は内容を自動で上の欄に反映してマッチングに使います。PDF等は登録時に資料として添付されます（内容の自動読み取りは今後の拡張予定）。</p>
+      </div>
+
       <div class="mt-4 flex flex-wrap items-center gap-3">
         <button id="matchBtn" class="rounded-full bg-brand px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark">マッチングする</button>
         <span id="detectedTags" class="text-xs text-foreground/60"></span>
@@ -78,7 +86,7 @@
   <section class="mx-auto max-w-2xl px-5 pb-16">
     <div class="rounded-2xl border border-brand-soft bg-card p-5 shadow-sm sm:p-6">
       <p class="text-sm font-semibold text-foreground">🏢 企業として登録する</p>
-      <p class="mt-1 text-xs text-foreground/60">上の「これだったらできる」を書いていただいた内容をそのまま登録できます。入力いただいた内容は、しまてつだい運営チームがNotionで確認し、マッチしそうな先生におつなぎします（自動返信のご案内はまだありません）。</p>
+      <p class="mt-1 text-xs text-foreground/60">上の「これだったらできる」を書いていただいた内容をそのまま登録できます。上で資料をアップロードしている場合は、その資料もあわせて添付されます。入力いただいた内容は、しまてつだい運営チームがNotionで確認し、マッチしそうな先生におつなぎします（自動返信のご案内はまだありません）。</p>
       <form id="companyForm" class="mt-4 space-y-3">
         <div>
           <label class="block text-xs font-semibold text-foreground">会社名・お名前</label>
@@ -201,6 +209,50 @@
     document.getElementById('companyContent').value = document.getElementById('freeText').value;
   });
 
+  // CR「ドキュメント登録→自動マッチングの連携が未実装」対応：
+  // 資料アップロード欄。txt/mdはブラウザ上で内容を読み取り自由記述欄に反映してそのままマッチングに使う。
+  // それ以外（PDF/Word/画像）は内容抽出は行わず、登録時にNotionへ添付ファイルとして保存する。
+  let uploadedDocFile = null;
+  const docFileInput = document.getElementById('docFile');
+  const docFileStatus = document.getElementById('docFileStatus');
+  const TEXT_LIKE_EXT = ['.txt', '.md'];
+
+  docFileInput.addEventListener('change', () => {
+    const file = docFileInput.files[0];
+    uploadedDocFile = file || null;
+    if (!file) {
+      docFileStatus.textContent = 'テキスト（.txt/.md）は内容を自動で上の欄に反映してマッチングに使います。PDF等は登録時に資料として添付されます（内容の自動読み取りは今後の拡張予定）。';
+      return;
+    }
+    const isTextLike = TEXT_LIKE_EXT.some(ext => file.name.toLowerCase().endsWith(ext));
+    if (isTextLike) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const freeTextEl = document.getElementById('freeText');
+        const extracted = String(reader.result || '').slice(0, 4000);
+        freeTextEl.value = (freeTextEl.value ? freeTextEl.value + '\n\n' : '') + `--- 添付資料「${file.name}」より ---\n` + extracted;
+        docFileStatus.textContent = `「${file.name}」の内容を自由記述欄に反映しました。マッチングを再実行します。`;
+        runMatch();
+      };
+      reader.onerror = () => {
+        docFileStatus.textContent = `「${file.name}」の読み込みに失敗しました。登録時には資料として添付されます。`;
+      };
+      reader.readAsText(file);
+    } else {
+      docFileStatus.textContent = `「${file.name}」は登録時に資料として添付されます。内容の自動読み取りはPDF/Word/画像には未対応のため、可能であれば上の自由記述欄にも概要をご記入ください。`;
+    }
+  });
+
+  // 資料をNotion File Upload APIに送り、file_upload idを取得する
+  async function uploadDocFile(file) {
+    const fd = new FormData();
+    fd.append('file', file);
+    const res = await fetch('/api/kosen/upload', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (!res.ok || !data.ok) throw new Error(data.error || '資料のアップロードに失敗しました');
+    return data.fileUploadId;
+  }
+
   // 企業ご自身の登録フォーム送信（/api/kosen/register へPOSTし、Notionに記録する）
   const companyForm = document.getElementById('companyForm');
   const companyMsg = document.getElementById('companyFormMsg');
@@ -208,10 +260,16 @@
   companyForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     companyBtn.disabled = true;
-    companyBtn.textContent = '送信中…';
     companyMsg.textContent = '';
     companyMsg.className = 'text-center text-xs';
     try {
+      let fileUploadId;
+      if (uploadedDocFile) {
+        companyBtn.textContent = '資料をアップロード中…';
+        fileUploadId = await uploadDocFile(uploadedDocFile);
+      }
+
+      companyBtn.textContent = '送信中…';
       const res = await fetch('/api/kosen/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -220,14 +278,20 @@
           name: document.getElementById('companyName').value,
           affiliation: document.getElementById('companyAffiliation').value,
           content: document.getElementById('companyContent').value,
-          contactEmail: document.getElementById('companyEmail').value
+          contactEmail: document.getElementById('companyEmail').value,
+          fileUploadId
         })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || '送信に失敗しました');
-      companyMsg.textContent = '✅ 登録しました。ありがとうございます。運営チームが内容を確認し、マッチしそうな先生におつなぎします。';
+      companyMsg.textContent = uploadedDocFile
+        ? '✅ 資料とあわせて登録しました。ありがとうございます。運営チームが内容を確認し、マッチしそうな先生におつなぎします。'
+        : '✅ 登録しました。ありがとうございます。運営チームが内容を確認し、マッチしそうな先生におつなぎします。';
       companyMsg.className = 'text-center text-xs text-accent-green font-semibold';
       companyForm.reset();
+      uploadedDocFile = null;
+      docFileInput.value = '';
+      docFileStatus.textContent = 'テキスト（.txt/.md）は内容を自動で上の欄に反映してマッチングに使います。PDF等は登録時に資料として添付されます（内容の自動読み取りは今後の拡張予定）。';
     } catch (err) {
       companyMsg.textContent = '⚠️ ' + (err.message || '送信中にエラーが発生しました。時間をおいて再度お試しください。');
       companyMsg.className = 'text-center text-xs text-red-600 font-semibold';

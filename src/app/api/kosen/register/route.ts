@@ -15,6 +15,7 @@ type KosenRegisterBody = {
   affiliation: string;
   content: string;
   contactEmail?: string;
+  fileUploadId?: string;
 };
 
 function isNonEmptyString(value: unknown): value is string {
@@ -24,7 +25,7 @@ function isNonEmptyString(value: unknown): value is string {
 export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as Partial<KosenRegisterBody>;
-    const { type, name, affiliation, content, contactEmail } = body;
+    const { type, name, affiliation, content, contactEmail, fileUploadId } = body;
 
     if (type !== "先生" && type !== "企業") {
       return NextResponse.json({ error: "typeは「先生」または「企業」を指定してください" }, { status: 400 });
@@ -42,6 +43,7 @@ export async function POST(req: NextRequest) {
       affiliation,
       content,
       contactEmail: contactEmail || undefined,
+      fileUploadId: fileUploadId || undefined,
     });
 
     return NextResponse.json({ ok: true, pageId: result.pageId });

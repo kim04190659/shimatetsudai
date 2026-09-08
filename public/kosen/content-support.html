@@ -104,6 +104,10 @@
           <label class="block text-xs font-semibold text-foreground">連絡先メールアドレス（任意）</label>
           <input id="teacherEmail" type="email" class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground">
         </div>
+        <div>
+          <label class="block text-xs font-semibold text-foreground">資料を添付する（任意・シラバス案等、PDF/Word/画像/テキスト、8MBまで）</label>
+          <input id="teacherDocFile" type="file" accept=".txt,.md,.pdf,.doc,.docx,image/*" class="mt-1 w-full text-xs text-foreground/80 file:mr-3 file:rounded-full file:border-0 file:bg-brand-soft file:px-4 file:py-1.5 file:text-xs file:font-semibold file:text-brand-dark">
+        </div>
         <button type="submit" id="teacherSubmitBtn" class="w-full rounded-full bg-brand px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark">登録する</button>
         <p id="teacherFormMsg" class="text-center text-xs"></p>
       </form>
@@ -166,13 +170,30 @@
   const teacherForm = document.getElementById('teacherForm');
   const teacherMsg = document.getElementById('teacherFormMsg');
   const teacherBtn = document.getElementById('teacherSubmitBtn');
+  // CR「ドキュメント登録→自動マッチングの連携が未実装」対応：資料をNotion File Upload APIに送り、file_upload idを取得する
+  async function uploadDocFile(file) {
+    const fd = new FormData();
+    fd.append('file', file);
+    const res = await fetch('/api/kosen/upload', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (!res.ok || !data.ok) throw new Error(data.error || '資料のアップロードに失敗しました');
+    return data.fileUploadId;
+  }
+
   teacherForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     teacherBtn.disabled = true;
-    teacherBtn.textContent = '送信中…';
     teacherMsg.textContent = '';
     teacherMsg.className = 'text-center text-xs';
     try {
+      const docFile = document.getElementById('teacherDocFile').files[0];
+      let fileUploadId;
+      if (docFile) {
+        teacherBtn.textContent = '資料をアップロード中…';
+        fileUploadId = await uploadDocFile(docFile);
+      }
+
+      teacherBtn.textContent = '送信中…';
       const res = await fetch('/api/kosen/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -181,7 +202,8 @@
           name: document.getElementById('teacherName').value,
           affiliation: document.getElementById('teacherAffiliation').value,
           content: document.getElementById('teacherContent').value,
-          contactEmail: document.getElementById('teacherEmail').value
+          contactEmail: document.getElementById('teacherEmail').value,
+          fileUploadId
         })
       });
       const data = await res.json();

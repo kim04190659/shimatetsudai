@@ -86,6 +86,7 @@ export type KosenRegistrationInput = {
   affiliation: string; // 所属高専 or 会社名
   content: string; // 先生: こんな授業をしてほしい／企業: これだったらできる
   contactEmail?: string;
+  fileUploadId?: string; // CR「ドキュメント登録→自動マッチングの連携が未実装」対応(2026-09-09)。/api/kosen/uploadで発行したfile_upload id
 };
 
 export type KosenRegistrationResult = {
@@ -97,6 +98,7 @@ export type KosenRegistrationResult = {
  * 次世代高専教育サイト（public/kosen/）の登録フォーム（先生向け「こんな授業をしてほしい」、
  * 企業向け「これだったらできる」）から送信された内容を、Notionの「📥 先生・企業 登録リクエスト」
  * データソースに1件記録する。AIによる自動処理は行わず、対応状況=未確認で記録するのみ。
+ * fileUploadIdが指定された場合、「資料」Filesプロパティに添付ファイルとして紐づける。
  */
 export async function logKosenRegistration(
   input: KosenRegistrationInput
@@ -112,10 +114,47 @@ export async function logKosenRegistration(
       内容: { rich_text: [{ text: { content: input.content.slice(0, 2000) } }] },
       対応状況: { select: { name: "未確認" } },
       ...(input.contactEmail ? { 連絡先: { email: input.contactEmail } } : {}),
+      ...(input.fileUploadId
+        ? {
+            資料: {
+              files: [{ type: "file_upload", file_upload: { id: input.fileUploadId } }],
+            },
+          }
+        : {}),
     },
   });
 
   return { pageId: page.id, url: isFullPage(page) ? page.url : "" };
+}
+
+// CR「ドキュメント登録→自動マッチングの連携が未実装」対応(2026-09-09)
+// 先生・企業の登録フォームで添付された資料(PDF等)をNotionの File Upload APIに送信する。
+// single_part方式のみ対応(概ね20MB以下)。送信完了と同時にfile_uploadはuploaded状態になる。
+const MAX_KOSEN_UPLOAD_BYTES = 8 * 1024 * 1024; // 8MB。過大なアップロードでAPI呼び出しが失敗しないよう安全側で制限
+
+export async function createKosenFileUpload(
+  filename: string,
+  contentType: string,
+  data: Buffer
+): Promise<string> {
+  if (data.byteLength > MAX_KOSEN_UPLOAD_BYTES) {
+    throw new Error("ファイルサイズが大きすぎます（8MBまで）");
+  }
+
+  const notion = getClient();
+
+  const created = await notion.fileUploads.create({
+    mode: "single_part",
+    filename: filename.slice(0, 200),
+    content_type: contentType || "application/octet-stream",
+  });
+
+  await notion.fileUploads.send({
+    file_upload_id: created.id,
+    file: { filename: filename.slice(0, 200), data: new Blob([new Uint8Array(data)]) },
+  });
+
+  return created.id;
 }
 
 // 「てつだって高専版 実施記録」DBのデータソースID
