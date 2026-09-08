@@ -1,0 +1,200 @@
+<title>北九州高専 久池井茂先生（ロボット×医療・介護・製造DX）</title>
+<style>
+  /* CR「60歳前後の熟年層向けUI検証」対応：ルートのfont-sizeを引き上げ、rem基準のクラスを全体的に拡大 */
+  html{ font-size:113%; }
+  :root{ --bg:#F2EEE6; --card:#FFFFFF; --ink:#2C2C2B; --muted:#726A5E; --line:#E1DDD3; --blue:#2783DE;
+    --good:#4C7A52; --good-bg:#E8F1EC; --bad:#B23B3B; --bad-bg:#FBEAEA;
+    --callout-blue-bg:#EFF6FE; --callout-blue-line:#2783DE;
+    --shadow:0 1px 2px rgba(44,44,43,.05), 0 8px 22px rgba(44,44,43,.06); }
+  *{box-sizing:border-box;}
+  body{ background:var(--bg); color:var(--ink); line-height:1.75; margin:0;
+    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
+  .shell{max-width:960px; margin:0 auto; padding:26px 22px 60px;}
+  .breadcrumb{font-size:.78rem; color:var(--muted); margin-bottom:14px;}
+  .breadcrumb a{color:var(--blue); text-decoration:none;}
+  .head{display:flex; justify-content:space-between; align-items:flex-start; gap:14px;}
+  h1{font-size:1.55rem; margin:0;}
+  .region{font-size:.85rem; color:var(--muted); margin-top:2px;}
+  .pill{font-size:.74rem; font-weight:700; padding:4px 12px; border-radius:99px; background:var(--good-bg); color:var(--good); white-space:nowrap;}
+  .lead{color:var(--muted); font-size:.9rem; max-width:76ch; margin:12px 0 24px;}
+  h2{font-size:1.15rem; margin:0 0 4px;}
+  .section-num{font-size:.72rem; font-weight:700; color:var(--blue); letter-spacing:.04em;}
+  section.block{scroll-margin-top:76px; margin-top:40px; padding-top:8px; border-top:1px solid var(--line);}
+  .subtle{color:var(--muted); font-size:.86rem; margin:6px 0 14px;}
+  .stat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:8px;}
+  @media (max-width:700px){ .stat-grid{grid-template-columns:repeat(2,1fr);} }
+  .stat{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow);}
+  .stat-label{font-size:.72rem; color:var(--muted);}
+  .stat-value{font-size:1.05rem; font-weight:700; margin-top:2px;}
+  .card{background:var(--callout-blue-bg); border-left:4px solid var(--callout-blue-line); border-radius:12px; padding:16px 18px; font-size:.87rem; color:var(--ink); margin:14px 0;}
+  .card.good{background:var(--good-bg); border-left-color:var(--good);}
+  .card.warn{background:var(--bad-bg); border-left-color:var(--bad);}
+  table{width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; font-size:.85rem; margin:10px 0;}
+  th,td{padding:10px 14px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top;}
+  th{background:#F7F4EE; color:var(--muted); font-weight:600;}
+  tr:last-child td{border-bottom:none;}
+  .card-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:16px 0;}
+  @media (max-width:700px){ .card-grid{grid-template-columns:repeat(2,1fr);} }
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; box-shadow:var(--shadow); text-align:center;}
+  .mini-mark{font-size:1.3rem;}
+  .mini-name{font-size:.8rem; font-weight:700; margin-top:4px;}
+  .mini-desc{font-size:.73rem; color:var(--muted); margin-top:4px;}
+  .toc{display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 8px; padding:14px; background:var(--card); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow);}
+  .toc a{font-size:.76rem; color:var(--blue); text-decoration:none; background:var(--callout-blue-bg); padding:4px 10px; border-radius:99px;}
+  footer{margin-top:36px; padding-top:16px; border-top:1px solid var(--line); font-size:.74rem; color:var(--muted);}
+</style>
+<div class="shell">
+  <div class="breadcrumb"><a href="index.html">← 次世代高専教育</a> ｜ 教育コンテンツ作成支援 事例</div>
+  <div class="head">
+    <div><h1>久池井茂先生のロボット×社会実装教育</h1><div class="region">北九州工業高等専門学校 生産デザイン工学科 知能ロボットシステムコース 教授</div></div>
+    <span class="pill">実施中の研究・教育実践</span>
+  </div>
+  <p class="lead">「教育コンテンツ作成支援」が目指す、先生の研究テーマと社会課題（困りごと）をつなげた教育コンテンツづくりの具体例として、researchmap（researchmap.jp/kuchii）・J-GLOBAL等に公開されている久池井茂先生の研究活動を整理しました。角田先生（米子高専・キャリア金融教育）とは異なる、ロボット・画像処理技術を軸にした社会実装型ものづくり教育の事例です。</p>
+
+  <div class="toc">
+    <a href="#purpose">① 教育の目的</a>
+    <a href="#company">② 経歴・産学連携実績</a>
+    <a href="#problem">③ 問題提起</a>
+    <a href="#activity">④ 教育活動の4要素</a>
+    <a href="#value">⑤ 社会価値創造</a>
+    <a href="#execution">⑥ 実行</a>
+    <a href="#success">⑦ 成功事例</a>
+    <a href="#failure">⑧ 課題・留意点</a>
+    <a href="#curriculum">⑨ 15コマカリキュラム案</a>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-label">所属</div><div class="stat-value">北九州高専 生産デザイン工学科</div></div>
+    <div class="stat"><div class="stat-label">専門</div><div class="stat-value">知能ロボットシステム</div></div>
+    <div class="stat"><div class="stat-label">研究の軸</div><div class="stat-value">ロボット・画像処理の社会実装</div></div>
+    <div class="stat"><div class="stat-label">主な連携先</div><div class="stat-value">NEC（生成AI・PBL連携）ほか</div></div>
+  </div>
+
+  <section id="purpose" class="block">
+    <p class="section-num">① PURPOSE</p>
+    <h2>教育の目的</h2>
+    <p class="subtle">ロボット工学・画像処理という専門技術を、医療・介護・製造という具体的な社会課題の現場に結びつけ、学生が「誰のための技術か」を実感できる社会実装型ものづくり教育を志向している。</p>
+    <div class="card-grid">
+      <div class="mini"><div class="mini-mark">🏥</div><div class="mini-name">医療現場の人手不足解消</div><div class="mini-desc">注射薬自動仕分け等、ヒューマンエラーを技術で減らす視点</div></div>
+      <div class="mini"><div class="mini-mark">🤝</div><div class="mini-name">介護・認知症ケアの担い手不足</div><div class="mini-desc">対話AIロボットで現場を支える視点</div></div>
+      <div class="mini"><div class="mini-mark">🏭</div><div class="mini-name">地方中小製造業のDX</div><div class="mini-desc">経営層向けリカレント教育の実績を教育に還元</div></div>
+      <div class="mini"><div class="mini-mark">🎓</div><div class="mini-name">異分野横断の視点</div><div class="mini-desc">医療・介護・製造に共通する技術基盤を学生に持たせる</div></div>
+    </div>
+  </section>
+
+  <section id="company" class="block">
+    <p class="section-num">② BACKGROUND</p>
+    <h2>経歴・産学連携実績</h2>
+    <p class="subtle">久池井先生ご自身が、国内外の政府機関向けシンクタンク業務、民間企業向けコンサルティング、第4次産業革命に対応したデジタルものづくりの経営者向けエグゼクティブスクール運営など、非常に幅広い産学連携実績を持つ人物である。</p>
+    <div class="card good">
+      <b>確認できた共同研究・連携実績</b><br>
+      ジョーダン社とのAI音声道案内システムの共同研究／NECとの生成AIを活用したPBL学習の連携研究／機械学習を用いた接着材料の疲労寿命予測／中小製造業の経営層向けデジタルものづくりリカレント教育。
+    </div>
+    <div class="card warn">
+      <b>裏取りが弱い点（要：久池井先生への優先確認事項）</b><br>
+      「認知症対話AIロボットの学生共同プロジェクト」は前回調査時点の理解を踏襲しているが、今回のWeb調査では明確な裏付け記事までは見つけられなかった。介護・ロボット分野の実績自体はあるが、対話AIロボットという具体名までは特定できていない。
+    </div>
+  </section>
+
+  <section id="problem" class="block">
+    <p class="section-num">③ PROBLEM</p>
+    <h2>問題提起</h2>
+    <p class="subtle">久池井先生の研究は、単一の社会課題ではなく「医療」「介護」「製造」という3つの現場の困りごとに、共通のロボット・画像処理技術で向き合う点が特徴。</p>
+    <div class="card">
+      <b>3つのスレッド</b><br>
+      1) 医療現場の人手不足・ヒューマンエラー（注射薬自動仕分け）　2) 介護・認知症ケアの担い手不足（対話AIロボット）　3) 地方中小製造業のDX人材不足
+    </div>
+  </section>
+
+  <section id="activity" class="block">
+    <p class="section-num">④ ACTIVITY</p>
+    <h2>教育活動の4要素（マッチングサイトの4カードと対応）</h2>
+    <table>
+      <tr><th>カード</th><th>久池井先生の場合</th></tr>
+      <tr><td>♥ ペルソナ</td><td>北九州高専 生産デザイン工学科 知能ロボットシステムコースの学生</td></tr>
+      <tr><td>♦ 提供する価値</td><td>ロボット・画像処理技術を医療・介護・製造現場に結びつける社会実装型ものづくり教育</td></tr>
+      <tr><td>♠ 技術</td><td>ロボット工学・制御工学・画像処理・センシング、接着材料の疲労寿命予測（機械学習）</td></tr>
+      <tr><td>♣ パートナー</td><td>医療機器ベンダー・介護施設・地元中小製造業・NEC等ITベンダーとの連携ネットワーク</td></tr>
+    </table>
+  </section>
+
+  <section id="value" class="block">
+    <p class="section-num">⑤ SOCIAL VALUE</p>
+    <h2>社会価値創造</h2>
+    <table>
+      <tr><th>相手</th><th>価値の例</th></tr>
+      <tr><td>学生</td><td>医療・介護・製造という3つの異なる現場を通じて、技術がどう人の役に立つかを体験できる</td></tr>
+      <tr><td>医療・介護・製造の企業</td><td>学生との接点を通じて、自社の課題を伝え、将来の人材確保につながる</td></tr>
+      <tr><td>高専機構全体</td><td>COMPASS5.0のロボット分野等、産学連携の実践モデルとして横展開できる</td></tr>
+      <tr><td>地域中小製造業</td><td>既存のリカレント教育の枠組みを学生教育にも波及させられる</td></tr>
+    </table>
+  </section>
+
+  <section id="execution" class="block">
+    <p class="section-num">⑥ EXECUTION</p>
+    <h2>実行</h2>
+    <div class="card">
+      <b>教育・研究実践</b><br>
+      医療現場のヒューマンエラー、介護現場の担い手不足、製造業のDX人材不足という3つの現場課題に、ロボット・画像処理という共通技術で向き合う社会実装型教育を志向。中小製造業の経営層向けにデジタルものづくりのリカレント教育を継続的に実施している。
+    </div>
+    <div class="card">
+      <b>企業連携の広がり</b><br>
+      NECとの生成AI・PBL連携実績があることから、本プラットフォームの開発元自体が久池井先生にとって既に接点のある企業である可能性がある。企業探索の入口として活用できないか、確認する価値がある。
+    </div>
+  </section>
+
+  <section id="success" class="block">
+    <p class="section-num">⑦ SUCCESS</p>
+    <h2>成功事例</h2>
+    <table>
+      <tr><th>成果</th><th>内容</th></tr>
+      <tr><td>共同研究の広がり</td><td>ジョーダン社・NECなど、業種の異なる複数企業との共同研究実績</td></tr>
+      <tr><td>経営層教育への展開</td><td>中小製造業の経営者向けデジタルものづくりリカレント教育を継続的に実施</td></tr>
+      <tr><td>ロボティクス研究の蓄積</td><td>半passive歩行ロボット等、ロボット工学分野での研究実績</td></tr>
+    </table>
+  </section>
+
+  <section id="failure" class="block">
+    <p class="section-num">⑧ CAUTION</p>
+    <h2>課題・留意点（成功事例のみに偏らないための正直な整理）</h2>
+    <div class="card warn">
+      <b>本ページ作成にあたっての留意</b><br>
+      公開情報からは具体的な「失敗事例」は確認できませんでした。架空の失敗事例を作ることはせず、この点は未確認として明記します。
+    </div>
+    <div class="card warn">
+      <b>「介護・認知症ケア」スレッドについての留意</b><br>
+      3つのスレッドのうち、介護・認知症ケア関連は今回の調査で裏付けが最も弱い部分です。久池井先生に確認する際は、この点を最優先で聞くべきだと考えています（詳細はNotion「📅 久池井茂先生（北九州高専） 15コマカリキュラム提案」参照）。
+    </div>
+  </section>
+
+  <section id="curriculum" class="block">
+    <p class="section-num">⑨ CURRICULUM（仮説・久池井先生への確認前）</p>
+    <h2>15コマカリキュラム案：ロボット×医療・介護・製造DX</h2>
+    <p class="subtle">半年15コマ（年間30コマの前半）。医療→介護→製造の順で3つのスレッドを巡回し、最後に共通基盤に学びを回収する構成。<b>全て久池井先生への確認前の仮説</b>で、特に介護スレッドは優先確認事項。</p>
+    <table>
+      <tr><th>コマ</th><th>担当</th><th>内容</th><th>企業タグ／手伝ってほしいこと</th></tr>
+      <tr><td>1〜2</td><td>先生</td><td>ロボット工学・制御工学基礎、画像処理・センシング基礎</td><td>-</td></tr>
+      <tr><td>3</td><td>企業</td><td>医療現場のヒューマンエラー実態・注射薬仕分けの課題</td><td>医療機器ベンダー・病院DX担当：現場のヒューマンエラー事例共有</td></tr>
+      <tr><td>4</td><td>先生</td><td>自動仕分けシステムの設計理論</td><td>-</td></tr>
+      <tr><td>5</td><td>企業</td><td>自動仕分けロボットの実装例</td><td>医療ロボットメーカー：デモ・技術解説</td></tr>
+      <tr><td>6</td><td>先生</td><td>対話AIシステムの基礎（認知症ケア文脈）</td><td>-</td></tr>
+      <tr><td>7</td><td>企業</td><td>認知症ケア現場の担い手不足の実態</td><td>介護施設：現場の実態・導入経緯の共有</td></tr>
+      <tr><td>8</td><td>先生</td><td>対話AIロボットの設計ワーク</td><td>-</td></tr>
+      <tr><td>9</td><td>企業</td><td>実際の対話ロボット導入例・効果検証</td><td>介護ロボットメーカー：導入効果データの共有</td></tr>
+      <tr><td>10</td><td>先生</td><td>粉体工学・製造プロセス基礎</td><td>-</td></tr>
+      <tr><td>11</td><td>企業</td><td>DX人材不足の実態・現場課題</td><td>地元中小製造業：経営課題を率直に共有</td></tr>
+      <tr><td>12</td><td>先生</td><td>製造現場向けロボット導入設計ワーク</td><td>-</td></tr>
+      <tr><td>13</td><td>企業</td><td>中小企業向けDX導入の提案実例</td><td>製造業向けDXベンダー・SIer（NEC等）：提案実例の共有・学生提案への講評</td></tr>
+      <tr><td>14</td><td>先生</td><td>3テーマ統合ワーク</td><td>-</td></tr>
+      <tr><td>15</td><td>先生</td><td>成果発表会・総括</td><td>-</td></tr>
+    </table>
+    <div class="card">
+      <b>詳細版・企業への自動生成依頼文</b><br>
+      各コマの学習目標や、企業への具体的な依頼文サンプルは、社内Notion「📅 久池井茂先生（北九州高専） 15コマカリキュラム提案」に整理しています（本ページは要点のみの抜粋）。
+    </div>
+  </section>
+
+  <footer>
+    出典：researchmap「久池井 茂 (Shigeru Kuchii)」（https://researchmap.jp/kuchii）、J-GLOBAL研究者情報。2026年9月にWeb公開情報を調査。本ページは久池井先生ご本人への確認を経たものではなく、公開情報からの整理です。掲載内容に誤りがあれば訂正します。15コマカリキュラム案は2026-09-08にNotionで作成した仮説であり、先生ご本人への確認前です。
+  </footer>
+</div>

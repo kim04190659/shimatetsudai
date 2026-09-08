@@ -13,6 +13,8 @@
   }
 </script>
 <style>
+  /* CR「60歳前後の熟年層向けUI検証」対応：ルートのfont-sizeを引き上げ、rem基準のTailwindクラスを全体的に拡大 */
+  html{ font-size:113%; }
   /*
     「教育マッチングサイト」ツール。
     企業の方が「これだったらできる」という内容を自由記述で入力すると、
@@ -102,7 +104,7 @@
     {name:"山内正仁先生", school:"鹿児島高専", tags:["環境・資源循環","農業・食品","産学連携"], need:"廃棄物再資源化の実証フィールド提供", url:"https://researchmap.jp/read0178962"},
     {name:"入江智和先生", school:"鹿児島高専", tags:["情報セキュリティ"], need:"ネットワーク実機環境・IoT現場での協力", url:"https://researchmap.jp/tomokazuirie"},
     {name:"松田信彦先生", school:"鹿児島高専", tags:["人文・教養","まちづくり・地域文化"], need:"地域文化資源のデータ・現地知見提供", url:"https://researchmap.jp/Nobuhiko_Matsdua"},
-    {name:"久池井茂先生", school:"北九州高専", tags:["医療・福祉","AI・生成AI","産学連携"], need:"医療・介護現場の共同開発パートナー", url:"https://researchmap.jp/kuchii"},
+    {name:"久池井茂先生", school:"北九州高専", tags:["医療・福祉","AI・生成AI","産学連携"], need:"医療・介護現場の共同開発パートナー", url:"case-kuchii.html"},
     {name:"松本圭司先生", school:"北九州高専", tags:["医療・福祉","ロボティクス・センサー"], need:"生体センシング製品化パートナー", url:"https://researchmap.jp/read0132483"},
     {name:"井上祐一先生", school:"北九州高専", tags:["医療・福祉","産学連携"], need:"バイオ医薬品・食品分野の共同研究", url:"https://researchmap.jp/read0048018"},
     {name:"北園優希先生", school:"北九州高専", tags:["医療・福祉","ロボティクス・センサー","防災・インフラ"], need:"見守り・インフラ点検の実証現場提供", url:"https://researchmap.jp/kitazono"},
@@ -124,6 +126,16 @@
       if (words.some(w => text.includes(w))) hits.push(tag);
     }
     return hits;
+  }
+
+  // CR「生成AIによる意味的マッチング・組み合わせ理由文が未実装」対応の第一歩：
+  // 完全な意味理解ではないが、重なったタグをもとに「なぜこの組み合わせが良さそうか」を一文で言語化する。
+  function reasonText(s) {
+    if (s.overlap.length === 0) {
+      return 'まだ重なる分野タグは見つかっていませんが、参考候補として表示しています。';
+    }
+    const tagList = s.overlap.join('・');
+    return `入力文の内容と「${tagList}」の分野で重なりが見つかりました。${s.name}が求めている「${s.need}」に、御社の知見が活かせそうです。`;
   }
 
   function runMatch() {
@@ -158,6 +170,7 @@
         <div class="mt-3 flex flex-wrap gap-1.5">
           ${s.tags.map(tag => `<span class="tagchip ${s.overlap.includes(tag) ? 'hit' : ''}">${tag}</span>`).join('')}
         </div>
+        <p class="mt-3 rounded-lg bg-accent-green/10 px-3 py-2 text-xs leading-relaxed text-foreground/80">🤝 ${reasonText(s)}</p>
         <a class="mt-3 inline-block text-xs font-semibold text-brand-dark underline" href="${s.url}" target="${s.url.startsWith('http') ? '_blank' : '_self'}" rel="noopener">詳細を見る</a>
       </div>
     `).join('');
