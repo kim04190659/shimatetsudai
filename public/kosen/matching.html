@@ -53,7 +53,7 @@
     <div class="mx-auto max-w-4xl px-5 py-12 text-center">
       <p class="text-sm font-semibold tracking-wide text-brand-dark">教育マッチングサイト</p>
       <h1 class="mt-4 text-2xl font-bold leading-snug text-foreground sm:text-3xl">「これだったらできる」を書くだけで、<br class="hidden sm:block">相性の良い高専の先生が見つかる。</h1>
-      <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-foreground/80">企業の方が、自社の技術・ノウハウ・提供できる教育内容などを自由に書き込むと、パイロット3名（米子高専・角田直輝先生、北九州高専・久池井茂先生、高知高専・千秋元先生）の研究テーマ・社会課題データと照合し、マッチ度の高い順に一覧表示します。他の高専・先生は<a href="teachers.html" class="underline text-brand-dark">先生一覧</a>から今後追加予定です。</p>
+      <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-foreground/80">企業の方が、自社の技術・ノウハウ・提供できる教育内容などを自由に書き込むと、パイロット4名（米子高専・角田直輝先生、北九州高専・久池井茂先生、高知高専・千秋元先生、鹿児島高専・逆瀬川栄一先生）の研究テーマ・社会課題データと照合し、マッチ度の高い順に一覧表示します。他の高専・先生は<a href="teachers.html" class="underline text-brand-dark">先生一覧</a>から今後追加予定です。</p>
     </div>
   </section>
 
@@ -139,12 +139,13 @@
   };
 
   // CR「今回は角田先生・久池井先生の2名限定にし、他の17名分のデータは削除する」対応から拡張。
-  // 2026-09-09に千秋元先生（高知高専）を3人目のパイロットとして追加。
-  // 他16名分の調査データはNotion「🎯 高専教員 教育テーマDB」に保持しており、削除ではなく非表示（将来の拡張候補）。
+  // 2026-09-09に千秋元先生（高知高専）を3人目、逆瀬川栄一先生（鹿児島高専）を4人目のパイロットとして追加。
+  // 他15名分の調査データはNotion「🎯 高専教員 教育テーマDB」に保持しており、削除ではなく非表示（将来の拡張候補）。
   const TEACHERS = [
     {name:"久池井茂先生", school:"北九州高専", tags:["医療・福祉","AI・生成AI","産学連携"], need:"医療・介護現場の共同開発パートナー", url:"case-kuchii.html"},
     {name:"角田直輝先生", school:"米子高専", tags:["キャリア教育","金融教育","産学連携"], need:"金融・キャリア教育の出前講義、投資教材の実務知見", url:"case-yonago.html"},
-    {name:"千秋元先生", school:"高知高専", tags:["防災・インフラ","AI・生成AI","産学連携"], need:"気象・防災データの実務解説、インフラ点検データの共有（仮説・本人未確認）", url:"case-chiaki.html"}
+    {name:"千秋元先生", school:"高知高専", tags:["防災・インフラ","AI・生成AI","産学連携"], need:"気象・防災データの実務解説、インフラ点検データの共有（仮説・本人未確認）", url:"case-chiaki.html"},
+    {name:"逆瀬川栄一先生", school:"鹿児島高専", tags:["物流・DX","産学連携"], need:"物流業界の現場知見の共有、PBLワークショップ「Mission in LOGI-TECH」（2026年11月実施予定・確定済み）へのゲスト講師派遣", url:"case-kagoshima.html"}
   ];
 
   function detectTags(text) {

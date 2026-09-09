@@ -1,5 +1,7 @@
-<title>鹿児島高専 Mission in LOGI-TECH（実施予定）</title>
+<title>鹿児島高専 逆瀬川栄一先生（物流DX×Mission in LOGI-TECH）</title>
 <style>
+  /* CR「60歳前後の熟年層向けUI検証」対応：ルートのfont-sizeを引き上げ、rem基準のクラスを全体的に拡大 */
+  html{ font-size:113%; }
   :root{ --bg:#F2EEE6; --card:#FFFFFF; --ink:#2C2C2B; --muted:#726A5E; --line:#E1DDD3; --blue:#2783DE;
     --warn:#9C6B0B; --warn-bg:#FFF8E8; --good:#4C7A52; --good-bg:#E8F1EC; --bad:#B23B3B; --bad-bg:#FBEAEA;
     --callout-blue-bg:#EFF6FE; --callout-blue-line:#2783DE;
@@ -49,12 +51,12 @@
   a.btn{display:inline-block; margin-top:6px; padding:8px 16px; border-radius:99px; background:var(--blue); color:#fff; text-decoration:none; font-size:.82rem; font-weight:600;}
 </style>
 <div class="shell">
-  <div class="breadcrumb"><a href="index.html">← 次世代高専教育</a> ｜ 先行実践事例</div>
+  <div class="breadcrumb"><a href="index.html">← 次世代高専教育カンファレンス</a> ｜ <a href="teachers.html">先生一覧</a> ｜ 先行実践事例</div>
   <div class="head">
-    <div><h1>Mission in LOGI-TECH</h1><div class="region">鹿児島高専 2類（知能ロボティクスコース・先進エレクトロニクスコース）1年生 ｜ 工学基礎実習</div></div>
+    <div><h1>逆瀬川栄一先生の物流DX教育（Mission in LOGI-TECH）</h1><div class="region">鹿児島工業高等専門学校 2類（知能ロボティクスコース・先進エレクトロニクスコース）担当教員 ｜ 工学基礎実習</div></div>
     <span class="pill">実施予定・準備中</span>
   </div>
-  <p class="lead">「教育マッチングサイト」を通じて、企業人材（NEC・木村好孝／鹿児島高専OB）と高専教員（逆瀬川先生・谷口先生）がつながり、配送業の人材不足をテーマにしたPBLワークショップとして教材化した事例です。2026年11月に実施予定で、以下はNotionに記録されている教育資料・準備状況をそのまま構成し直したものです。</p>
+  <p class="lead">「教育マッチングサイト」を通じて、企業人材（NEC・木村好孝／鹿児島高専OB）と高専教員（逆瀬川先生・谷口先生）がつながり、配送業の人材不足をテーマにしたPBLワークショップとして教材化した事例です。2026年11月に実施予定で、以下はNotionに記録されている教育資料・準備状況をそのまま構成し直したものです。4人のパイロット教員の中で唯一、実施日程・担当者・教材まで確定済みの事例です。</p>
 
   <div class="toc">
     <a href="#purpose">① 教育の目的</a>
@@ -65,6 +67,7 @@
     <a href="#execution">⑥ 実行</a>
     <a href="#success">⑦ 成功事例</a>
     <a href="#failure">⑧ 失敗事例</a>
+    <a href="#curriculum">⑨ 15コマカリキュラム案</a>
   </div>
 
   <div class="stat-grid">
@@ -203,7 +206,37 @@
     </div>
   </section>
 
+  <section id="curriculum" class="block">
+    <p class="section-num">⑨ CURRICULUM（Mission in LOGI-TECHを中核とした半年展開・仮説）</p>
+    <h2>15コマカリキュラム案：物流DX×2類技術×Mission in LOGI-TECH</h2>
+    <p class="subtle">半年15コマ（年間30コマの前半、工学基礎実習の一部）。コマ7・8は<b>2026年11月16日・30日に実施が確定しているMission in LOGI-TECH本体</b>で、それ以外のコマ（1〜6・9〜15）はこの実際のワークショップを中核に、前後の基礎学習・発展ワークを木村・Claudeが仮説として追加したもの。</p>
+    <table>
+      <tr><th>コマ</th><th>担当</th><th>内容</th><th>企業タグ／手伝ってほしいこと</th></tr>
+      <tr><td>1〜2</td><td>先生</td><td>物流の2024年問題の全体像、2類技術（半導体・ロボット・制御・電気電子）との接続</td><td>-</td></tr>
+      <tr><td>3</td><td>企業</td><td>物流現場の課題共有</td><td>物流・運送会社：現場のドライバー不足・積載率低下の実態共有</td></tr>
+      <tr><td>4〜5</td><td>先生</td><td>AI配車最適化・需要予測の基礎、自動運転・倉庫ロボットの基礎技術</td><td>-</td></tr>
+      <tr><td>6</td><td>企業</td><td>倉庫自動化・ロボット導入の実例</td><td>倉庫ロボット・自動化ベンダー：導入効果データの共有</td></tr>
+      <tr><td>7</td><td>企業<br><b>（確定済み）</b></td><td>DAY1｜個人戦：社会問題の理解・企業事例紹介・カードゲーム個人実践・ビジネスプラン作成（2026/11/16実施予定）</td><td>NEC：木村好孝氏（コーポレートIT・AIイノベーション部門 統括部長）</td></tr>
+      <tr><td>8</td><td>企業<br><b>（確定済み）</b></td><td>DAY2｜チーム戦：事業化提案書作成・生成AI診断・投資判断プレゼン（2026/11/30実施予定）</td><td>NEC：木村好孝氏（同上）</td></tr>
+      <tr><td>9</td><td>先生</td><td>Mission in LOGI-TECHの振り返り、技術的リアリティの検証ワーク</td><td>-</td></tr>
+      <tr><td>10</td><td>企業</td><td>自治体・地域物流の視点</td><td>自治体・地域物流連携：買い物難民支援・受け取り拠点の実例紹介</td></tr>
+      <tr><td>11</td><td>先生</td><td>システム思考ワーク：ドライバー・企業・利用者・自治体をつなぐ設計</td><td>-</td></tr>
+      <tr><td>12</td><td>企業</td><td>環境・CO2削減の視点</td><td>環境・カーボンニュートラル関連企業：物流の環境負荷低減の取り組み紹介</td></tr>
+      <tr><td>13</td><td>先生</td><td>各チーム提案のブラッシュアップワーク</td><td>-</td></tr>
+      <tr><td>14</td><td>企業</td><td>別の物流企業からの講評</td><td>大手物流企業（ヤマト運輸等、DAY1で事例紹介済み）：学生提案へのプロ視点の講評</td></tr>
+      <tr><td>15</td><td>先生</td><td>成果発表会・総括</td><td>-</td></tr>
+    </table>
+    <div class="card good">
+      <b>他の3件との違い</b><br>
+      角田先生・久池井先生・千秋先生の15コマ案は研究テーマからの推測ですが、本ページのコマ7・8は日程・担当者・ゲスト講師・教材（カードゲーム29セット印刷済み）まで確定している実際のワークショップです。前後のコマ（1〜6・9〜15）は、この実践を核に半年カリキュラムへ拡張した仮説で、逆瀬川先生への確認が必要です。
+    </div>
+    <div class="card">
+      <b>詳細版・企業への自動生成依頼文</b><br>
+      各コマの学習目標や、企業への具体的な依頼文サンプルは、社内Notion「📅 逆瀬川栄一先生（鹿児島高専）15コマカリキュラム提案」に整理しています（本ページは要点のみの抜粋）。
+    </div>
+  </section>
+
   <footer>
-    出典：Notionページ「🃏 カードゲームで企業活動を学ぶ｜Mission in LOGI-TECH（2類 特別講義）」「1日目 第1部｜自己紹介・NEC紹介・チェックイン」「1日目 第2部｜企業活動と事業化提案の考え方」（教育DX 鹿児島高専 PJ活動ポータル）。掲載内容は2026年9月時点の準備状況・教材内容であり、実施結果ではありません。担当：NEC・鹿児島高専OB 木村好孝。
+    出典：Notionページ「🃏 カードゲームで企業活動を学ぶ｜Mission in LOGI-TECH（2類 特別講義）」「1日目 第1部｜自己紹介・NEC紹介・チェックイン」「1日目 第2部｜企業活動と事業化提案の考え方」（教育DX 鹿児島高専 PJ活動ポータル）。掲載内容は2026年9月時点の準備状況・教材内容であり、実施結果ではありません。担当：NEC・鹿児島高専OB 木村好孝。15コマカリキュラム案（⑨）は2026-09-09にNotionで作成した仮説であり、コマ7・8以外は逆瀬川先生ご本人への確認前です。
   </footer>
 </div>
