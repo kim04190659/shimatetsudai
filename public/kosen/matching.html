@@ -18,9 +18,9 @@
   /*
     「教育マッチングサイト」ツール。
     企業の方が「これだったらできる」という内容を自由記述で入力すると、
-    文中のキーワードを分野タグに変換し、パイロット2名（角田先生・久池井先生）のデータ（研究テーマ×社会課題）と
-    重なりの大きい順にマッチング候補を提示する。他17名分はNotion DBに保持し、CR「今回は角田先生・久池井先生の
-    2名限定にし、他の17名分のデータは削除する」に基づき一時的に非表示。
+    文中のキーワードを分野タグに変換し、パイロットの先生（角田先生・久池井先生・千秋先生・逆瀬川先生ほか、順次追加）のデータ（研究テーマ×社会課題）と
+    重なりの大きい順にマッチング候補を提示する。未パイロットの先生分はNotion DBに保持し、CR「今回は角田先生・久池井先生の
+    2名限定にし、他の17名分のデータは削除する」を起点に段階的に対象を拡大中。
   */
   body{ background:#fdf8f2; color:#4a3f35; font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
   .match-bar{ height:8px; border-radius:999px; background:#f3e6d8; overflow:hidden; }
@@ -53,7 +53,7 @@
     <div class="mx-auto max-w-4xl px-5 py-12 text-center">
       <p class="text-sm font-semibold tracking-wide text-brand-dark">教育マッチングサイト</p>
       <h1 class="mt-4 text-2xl font-bold leading-snug text-foreground sm:text-3xl">「これだったらできる」を書くだけで、<br class="hidden sm:block">相性の良い高専の先生が見つかる。</h1>
-      <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-foreground/80">企業の方が、自社の技術・ノウハウ・提供できる教育内容などを自由に書き込むと、パイロット4名（米子高専・角田直輝先生、北九州高専・久池井茂先生、高知高専・千秋元先生、鹿児島高専・逆瀬川栄一先生）の研究テーマ・社会課題データと照合し、マッチ度の高い順に一覧表示します。他の高専・先生は<a href="teachers.html" class="underline text-brand-dark">先生一覧</a>から今後追加予定です。</p>
+      <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-foreground/80">企業の方が、自社の技術・ノウハウ・提供できる教育内容などを自由に書き込むと、パイロットの先生（米子高専・角田直輝先生、北九州高専・久池井茂先生、高知高専・千秋元先生、鹿児島高専・逆瀬川栄一先生ほか）の研究テーマ・社会課題データと照合し、マッチ度の高い順に一覧表示します。他の高専・先生は<a href="teachers.html" class="underline text-brand-dark">先生一覧</a>から今後追加予定です。</p>
     </div>
   </section>
 
@@ -139,8 +139,8 @@
   };
 
   // CR「今回は角田先生・久池井先生の2名限定にし、他の17名分のデータは削除する」対応から拡張。
-  // 2026-09-09に千秋元先生（高知高専）を3人目、逆瀬川栄一先生（鹿児島高専）を4人目のパイロットとして追加。
-  // 他15名分の調査データはNotion「🎯 高専教員 教育テーマDB」に保持しており、削除ではなく非表示（将来の拡張候補）。
+  // 2026-09-09に千秋元先生（高知高専）・逆瀬川栄一先生（鹿児島高専）をパイロットとして追加。以降も随時追加予定のため人数は明記しない方針（CR対応 2026-09-09）。
+  // 未パイロットの調査データはNotion「🎯 高専教員 教育テーマDB」に保持しており、削除ではなく非表示（将来の拡張候補）。
   const TEACHERS = [
     {name:"久池井茂先生", school:"北九州高専", tags:["医療・福祉","AI・生成AI","産学連携"], need:"医療・介護現場の共同開発パートナー", url:"case-kuchii.html"},
     {name:"角田直輝先生", school:"米子高専", tags:["キャリア教育","金融教育","産学連携"], need:"金融・キャリア教育の出前講義、投資教材の実務知見", url:"case-yonago.html"},

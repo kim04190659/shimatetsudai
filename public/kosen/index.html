@@ -24,13 +24,13 @@
     地域創生HDパートナーズ(public/partners/index.html)と同じデザイントークン・構成を流用。
     しまてつだいの3機能を、高専機構向けに転用した検討中の企画MVP。
     3本柱の並び：①教育コンテンツ作成支援(学校名+先生名→オープンデータから教育提案を生成する一覧ツール)
-              ②教育マッチングサイト(企業の「これだったらできる」自由記述→パイロット4名とマッチング)
+              ②教育マッチングサイト(企業の「これだったらできる」自由記述→パイロットの先生とマッチング)
               ③てつだって(高専版カスタマイズ＝授業実施を記録し自動で実績を積み上げるツール)
     構成：ヘッダー→ヒーロー→3つのツール→3つの輪→JOIN US→ABOUT→CONTACT→フッター
-    関連ページ：content-support.html(教育コンテンツ作成支援・パイロット4名の提案) / matching.html(自由記述マッチング) / tetsudatte.html(実施記録・実績管理)
+    関連ページ：content-support.html(教育コンテンツ作成支援・パイロットの先生の提案) / matching.html(自由記述マッチング) / tetsudatte.html(実施記録・実績管理)
               teachers.html(先生一覧・分室一覧と同じ思想の一覧ページ) / case-yonago.html(米子高専・角田直輝先生) / case-kuchii.html(北九州高専・久池井茂先生) / case-chiaki.html(高知高専・千秋元先生) / case-kagoshima.html(鹿児島高専・逆瀬川栄一先生)
-    CR対応(2026-09-08)：今回は角田先生・久池井先生の2名限定にスコープを絞り、他17名分のデータはNotion DBに保持したまま非表示。「先生」タブを新設。
-    2026-09-09追記：3人目のパイロットとして千秋元先生（高知高専）、4人目のパイロットとして逆瀬川栄一先生（鹿児島高専）を追加。
+    CR対応(2026-09-08)：今回は角田先生・久池井先生に絞ってスコープを絞り、他の先生分のデータはNotion DBに保持したまま非表示。「先生」タブを新設。
+    2026-09-09追記：千秋元先生（高知高専）、逆瀬川栄一先生（鹿児島高専）をパイロットとして順次追加。以降もパイロットの先生は随時追加予定のため、人数は本文中に明記しない方針とする（CR対応 2026-09-09）。
     出典：Notion「🎓 高専機構向け 教育コンテンツプラットフォーム（検討中）」「🎯 高専教員 教育テーマDB（オープンデータ抽出）」「📝 設計メモ｜教育マッチングサイト（4カード構想）と角田直輝先生研究テーマ調査」
   */
   body{ background:#fdf8f2; color:#4a3f35; font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
@@ -78,14 +78,14 @@
         <span class="text-4xl">🧭</span>
         <h3 class="mt-4 text-xl font-bold text-brand-dark">教育コンテンツ作成支援</h3>
         <p class="mt-1 text-sm font-medium text-accent-green">高専機構の企画担当・先生（学校名＋先生名で検索）</p>
-        <p class="mt-3 text-sm leading-relaxed text-foreground/80">学校名と先生の名前を入れると、researchmap等のオープンデータから研究テーマを取得し、「こんな教育をしてほしい」という提案を生成AIが作成。現在はパイロット4名（角田先生・久池井先生・千秋先生・逆瀬川先生）の詳細な15コマ案が並びます</p>
+        <p class="mt-3 text-sm leading-relaxed text-foreground/80">学校名と先生の名前を入れると、researchmap等のオープンデータから研究テーマを取得し、「こんな教育をしてほしい」という提案を生成AIが作成。現在はパイロットの先生（角田先生・久池井先生・千秋先生・逆瀬川先生ほか）の詳細な15コマ案が並びます</p>
         <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-dark">教育提案を見る<span class="transition group-hover:translate-x-1">→</span></span>
       </a>
       <a class="group flex flex-col rounded-2xl border border-brand-soft bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md" href="matching.html">
         <span class="text-4xl">🃏</span>
         <h3 class="mt-4 text-xl font-bold text-brand-dark">教育マッチングサイト</h3>
         <p class="mt-1 text-sm font-medium text-accent-green">企業人材と高専教員をつなぐ</p>
-        <p class="mt-3 text-sm leading-relaxed text-foreground/80">企業の方が「これだったらできる」を自由記述で入力すると、パイロット4名の研究テーマ・社会課題データと照合し、マッチ度の高い順に候補を提示する</p>
+        <p class="mt-3 text-sm leading-relaxed text-foreground/80">企業の方が「これだったらできる」を自由記述で入力すると、パイロットの先生の研究テーマ・社会課題データと照合し、マッチ度の高い順に候補を提示する</p>
         <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-dark">マッチングを試す<span class="transition group-hover:translate-x-1">→</span></span>
       </a>
       <a class="group flex flex-col rounded-2xl border border-brand-soft bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md" href="tetsudatte.html">
@@ -138,7 +138,7 @@
     <div class="overflow-hidden rounded-3xl bg-accent-green/10 px-6 py-12 text-center sm:px-12">
       <p class="text-sm font-semibold tracking-wide text-accent-green">JOIN US</p>
       <h2 class="mt-2 text-2xl font-bold text-foreground">あなたの高専にも、この仕組みを。</h2>
-      <p class="mx-auto mt-4 max-w-2xl leading-relaxed text-foreground/80">現在は、米子高専の角田直輝先生（太陽光発電投資教材を使ったキャリア・金融教育）、北九州高専の久池井茂先生（ロボット・画像処理技術を医療・介護・製造現場に結びつける教育）、高知高専の千秋元先生（天体シミュレーション技術を防災・データサイエンス教育に応用する仮説）、鹿児島高専の逆瀬川栄一先生（物流業界の人材不足をテーマにしたPBLワークショップ「Mission in LOGI-TECH」を核にした授業デザイン）の4名をパイロットとして、15コマカリキュラム案まで詳細に作り込みながら構想を進めています。他の高専・先生の研究テーマも調査済み（<a href="teachers.html" class="underline">先生一覧</a>参照）で、パイロットの検証が進み次第、順次追加していく予定です。高専機構の企画担当の方、各高専の先生、企業人材として関わってみたい方からのご連絡をお待ちしています。</p>
+      <p class="mx-auto mt-4 max-w-2xl leading-relaxed text-foreground/80">現在は、米子高専の角田直輝先生（太陽光発電投資教材を使ったキャリア・金融教育）、北九州高専の久池井茂先生（ロボット・画像処理技術を医療・介護・製造現場に結びつける教育）、高知高専の千秋元先生（天体シミュレーション技術を防災・データサイエンス教育に応用する仮説）、鹿児島高専の逆瀬川栄一先生（物流業界の人材不足をテーマにしたPBLワークショップ「Mission in LOGI-TECH」を核にした授業デザイン）をパイロットとして、15コマカリキュラム案まで詳細に作り込みながら構想を進めています。他の高専・先生の研究テーマも調査済み（<a href="teachers.html" class="underline">先生一覧</a>参照）で、パイロットの検証が進み次第、順次追加していく予定です。高専機構の企画担当の方、各高専の先生、企業人材として関わってみたい方からのご連絡をお待ちしています。</p>
       <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <a class="inline-flex items-center rounded-full bg-accent-green px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90" href="#contact">この企画について問い合わせる</a>
         <a class="inline-flex items-center rounded-full border border-brand bg-white px-6 py-3 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40" href="matching.html">マッチングを試す</a>
