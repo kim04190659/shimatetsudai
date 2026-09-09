@@ -108,8 +108,9 @@
           <input id="teacherEmail" type="email" class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-foreground">資料を添付する（任意・シラバス案等、PDF/Word/画像/テキスト、200MBまで）</label>
-          <input id="teacherDocFile" type="file" accept=".txt,.md,.pdf,.doc,.docx,image/*" class="mt-1 w-full text-xs text-foreground/80 file:mr-3 file:rounded-full file:border-0 file:bg-brand-soft file:px-4 file:py-1.5 file:text-xs file:font-semibold file:text-brand-dark">
+          <label class="block text-xs font-semibold text-foreground">資料を添付する（任意・複数可・シラバス案等、PDF/Word/画像/テキスト、1ファイル200MBまで）</label>
+          <input id="teacherDocFile" type="file" multiple accept=".txt,.md,.pdf,.doc,.docx,image/*" class="mt-1 w-full text-xs text-foreground/80 file:mr-3 file:rounded-full file:border-0 file:bg-brand-soft file:px-4 file:py-1.5 file:text-xs file:font-semibold file:text-brand-dark">
+          <p id="teacherDocFileStatus" class="mt-2 text-xs text-foreground/50">資料をアップロードすると、AIが内容を読み取って上の「こんな授業をしてほしい」欄に自動反映します（複数ファイルをまとめて選択できます）。</p>
         </div>
         <button type="submit" id="teacherSubmitBtn" class="w-full rounded-full bg-brand px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark">登録する</button>
         <p id="teacherFormMsg" class="text-center text-xs"></p>
@@ -177,18 +178,64 @@
   document.getElementById('nameFilter').addEventListener('input', render);
   render();
 
-  // 先生ご自身の登録フォーム送信（/api/kosen/register へPOSTし、Notionに記録する）
-  const teacherForm = document.getElementById('teacherForm');
-  const teacherMsg = document.getElementById('teacherFormMsg');
-  const teacherBtn = document.getElementById('teacherSubmitBtn');
+  // CR「ファイルの内容を読み取って自動反映してほしい。複数ファイルもまとめてアップロードしたい」対応(2026-09-09)：
+  // 資料は複数選択可。選択した時点でVercel Blobにアップロードし、続けてAI(/api/kosen/extract-proposal)に
+  // 内容を読み取らせて、「こんな授業をしてほしい」欄に自動反映する。登録時はアップロード済みのURLを使い回す。
+  const teacherDocFileInput = document.getElementById('teacherDocFile');
+  const teacherDocFileStatus = document.getElementById('teacherDocFileStatus');
+  const DEFAULT_TEACHER_DOC_STATUS = '資料をアップロードすると、AIが内容を読み取って上の「こんな授業をしてほしい」欄に自動反映します（複数ファイルをまとめて選択できます）。';
+  let uploadedTeacherFileRefs = [];
+
   // 資料をVercel Blobに直接アップロードし、公開URLを取得する(Vercelのサーバー関数を経由しないため大きなファイルも扱える)
   async function uploadDocFile(file) {
     const blob = await upload(`kosen/content-support/${Date.now()}-${file.name}`, file, {
       access: 'public',
       handleUploadUrl: '/api/kosen/upload',
     });
-    return { url: blob.url, name: file.name };
+    return { url: blob.url, name: file.name, contentType: file.type };
   }
+
+  teacherDocFileInput.addEventListener('change', async () => {
+    const files = Array.from(teacherDocFileInput.files || []);
+    uploadedTeacherFileRefs = [];
+    if (files.length === 0) {
+      teacherDocFileStatus.textContent = DEFAULT_TEACHER_DOC_STATUS;
+      return;
+    }
+
+    try {
+      teacherDocFileStatus.textContent = `資料をアップロード中…（${files.length}件）`;
+      uploadedTeacherFileRefs = await Promise.all(files.map(uploadDocFile));
+
+      teacherDocFileStatus.textContent = '資料の内容を解析し、反映を準備しています…';
+      const res = await fetch('/api/kosen/extract-proposal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ files: uploadedTeacherFileRefs })
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        teacherDocFileStatus.textContent = `${data.error || '資料の内容は自動で読み取れませんでした。'}（資料自体は登録時に添付されます。よろしければ上の欄にも概要をご記入ください）`;
+        return;
+      }
+
+      const contentEl = document.getElementById('teacherContent');
+      contentEl.value = (contentEl.value ? contentEl.value.trim() + '\n\n' : '') + data.draft;
+
+      const skippedNote = data.skippedFiles && data.skippedFiles.length > 0
+        ? `（「${data.skippedFiles.join('・')}」は自動読み取り未対応のため反映されていません）`
+        : '';
+      teacherDocFileStatus.textContent = `✅ ${files.length}件の資料を解析し、上の欄に反映しました。${skippedNote}`;
+    } catch (err) {
+      teacherDocFileStatus.textContent = `⚠️ 資料のアップロード・解析中にエラーが発生しました（${err.message || err}）。資料自体は登録時に添付されます。`;
+    }
+  });
+
+  // 先生ご自身の登録フォーム送信（/api/kosen/register へPOSTし、Notionに記録する）
+  const teacherForm = document.getElementById('teacherForm');
+  const teacherMsg = document.getElementById('teacherFormMsg');
+  const teacherBtn = document.getElementById('teacherSubmitBtn');
 
   teacherForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -196,15 +243,7 @@
     teacherMsg.textContent = '';
     teacherMsg.className = 'text-center text-xs';
     try {
-      const docFile = document.getElementById('teacherDocFile').files[0];
-      let fileUrl, fileName;
-      if (docFile) {
-        teacherBtn.textContent = '資料をアップロード中…';
-        const uploaded = await uploadDocFile(docFile);
-        fileUrl = uploaded.url;
-        fileName = uploaded.name;
-      }
-
+      // 資料は選択時点で既にアップロード済み(uploadedTeacherFileRefs)のため、ここでは再アップロードしない
       teacherBtn.textContent = '送信中…';
       const res = await fetch('/api/kosen/register', {
         method: 'POST',
@@ -215,8 +254,7 @@
           affiliation: document.getElementById('teacherAffiliation').value,
           content: document.getElementById('teacherContent').value,
           contactEmail: document.getElementById('teacherEmail').value,
-          fileUrl,
-          fileName
+          files: uploadedTeacherFileRefs
         })
       });
       const data = await res.json();
@@ -224,6 +262,8 @@
       teacherMsg.textContent = '✅ 登録しました。ありがとうございます。運営チームが内容を確認します。';
       teacherMsg.className = 'text-center text-xs text-accent-green font-semibold';
       teacherForm.reset();
+      uploadedTeacherFileRefs = [];
+      teacherDocFileStatus.textContent = DEFAULT_TEACHER_DOC_STATUS;
     } catch (err) {
       teacherMsg.textContent = '⚠️ ' + (err.message || '送信中にエラーが発生しました。時間をおいて再度お試しください。');
       teacherMsg.className = 'text-center text-xs text-red-600 font-semibold';

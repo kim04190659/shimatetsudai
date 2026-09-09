@@ -65,9 +65,9 @@
 
       <!-- CR「ドキュメント登録→自動マッチングの連携が未実装」対応：資料アップロード欄。txt/md等テキスト系はそのまま自由記述欄に反映し、マッチングに使う -->
       <div class="mt-4 rounded-lg border border-dashed border-brand-soft bg-background/60 p-3">
-        <label class="block text-xs font-semibold text-foreground">📎 資料をアップロードする（任意・PDF/Word/画像/テキスト、200MBまで）</label>
-        <input id="docFile" type="file" accept=".txt,.md,.pdf,.doc,.docx,image/*" class="mt-2 w-full text-xs text-foreground/80 file:mr-3 file:rounded-full file:border-0 file:bg-brand-soft file:px-4 file:py-1.5 file:text-xs file:font-semibold file:text-brand-dark">
-        <p id="docFileStatus" class="mt-2 text-xs text-foreground/50">テキスト（.txt/.md）は内容を自動で上の欄に反映してマッチングに使います。PDF等は登録時に資料として添付されます（内容の自動読み取りは今後の拡張予定）。</p>
+        <label class="block text-xs font-semibold text-foreground">📎 資料をアップロードする（任意・複数可・PDF/Word/画像/テキスト、1ファイル200MBまで）</label>
+        <input id="docFile" type="file" multiple accept=".txt,.md,.pdf,.doc,.docx,image/*" class="mt-2 w-full text-xs text-foreground/80 file:mr-3 file:rounded-full file:border-0 file:bg-brand-soft file:px-4 file:py-1.5 file:text-xs file:font-semibold file:text-brand-dark">
+        <p id="docFileStatus" class="mt-2 text-xs text-foreground/50">資料をアップロードすると、AIが内容を読み取って上の自由記述欄に自動反映します（複数ファイルをまとめて選択できます）。</p>
       </div>
 
       <div class="mt-4 flex flex-wrap items-center gap-3">
@@ -218,39 +218,16 @@
     document.getElementById('companyContent').value = document.getElementById('freeText').value;
   });
 
-  // CR「ドキュメント登録→自動マッチングの連携が未実装」対応：
-  // 資料アップロード欄。txt/mdはブラウザ上で内容を読み取り自由記述欄に反映してそのままマッチングに使う。
-  // それ以外（PDF/Word/画像）は内容抽出は行わず、登録時にNotionへ添付ファイルとして保存する。
-  let uploadedDocFile = null;
+  // CR「ドキュメント登録→自動マッチングの連携が未実装」「複数ファイルをまとめてアップロードしたい」
+  // 「ファイルの内容を読み取って自動反映してほしい」対応(2026-09-09)：
+  // 資料は複数選択可。選択した時点でVercel Blobにアップロードし、続けてAI(/api/kosen/extract-proposal)に
+  // 内容を読み取らせて、自由記述欄に自動反映する。登録時にはアップロード済みのURLをそのまま使い回す
+  // (二重アップロードを避けるため)。
   const docFileInput = document.getElementById('docFile');
   const docFileStatus = document.getElementById('docFileStatus');
-  const TEXT_LIKE_EXT = ['.txt', '.md'];
-
-  docFileInput.addEventListener('change', () => {
-    const file = docFileInput.files[0];
-    uploadedDocFile = file || null;
-    if (!file) {
-      docFileStatus.textContent = 'テキスト（.txt/.md）は内容を自動で上の欄に反映してマッチングに使います。PDF等は登録時に資料として添付されます（内容の自動読み取りは今後の拡張予定）。';
-      return;
-    }
-    const isTextLike = TEXT_LIKE_EXT.some(ext => file.name.toLowerCase().endsWith(ext));
-    if (isTextLike) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const freeTextEl = document.getElementById('freeText');
-        const extracted = String(reader.result || '').slice(0, 4000);
-        freeTextEl.value = (freeTextEl.value ? freeTextEl.value + '\n\n' : '') + `--- 添付資料「${file.name}」より ---\n` + extracted;
-        docFileStatus.textContent = `「${file.name}」の内容を自由記述欄に反映しました。マッチングを再実行します。`;
-        runMatch();
-      };
-      reader.onerror = () => {
-        docFileStatus.textContent = `「${file.name}」の読み込みに失敗しました。登録時には資料として添付されます。`;
-      };
-      reader.readAsText(file);
-    } else {
-      docFileStatus.textContent = `「${file.name}」は登録時に資料として添付されます。内容の自動読み取りはPDF/Word/画像には未対応のため、可能であれば上の自由記述欄にも概要をご記入ください。`;
-    }
-  });
+  const DEFAULT_DOC_STATUS = '資料をアップロードすると、AIが内容を読み取って上の自由記述欄に自動反映します（複数ファイルをまとめて選択できます）。';
+  // アップロード済みファイルの{url, name, contentType}を保持しておき、登録フォーム送信時にそのまま使う
+  let uploadedFileRefs = [];
 
   // 資料をVercel Blobに直接アップロードし、公開URLを取得する(Vercelのサーバー関数を経由しないため大きなファイルも扱える)
   async function uploadDocFile(file) {
@@ -258,8 +235,49 @@
       access: 'public',
       handleUploadUrl: '/api/kosen/upload',
     });
-    return { url: blob.url, name: file.name };
+    return { url: blob.url, name: file.name, contentType: file.type };
   }
+
+  docFileInput.addEventListener('change', async () => {
+    const files = Array.from(docFileInput.files || []);
+    uploadedFileRefs = [];
+    if (files.length === 0) {
+      docFileStatus.textContent = DEFAULT_DOC_STATUS;
+      return;
+    }
+
+    try {
+      // 1. 選択された全ファイルをVercel Blobにアップロード
+      docFileStatus.textContent = `資料をアップロード中…（${files.length}件）`;
+      uploadedFileRefs = await Promise.all(files.map(uploadDocFile));
+
+      // 2. アップロードした資料の内容をAIに読み取らせ、下書き文章を生成
+      docFileStatus.textContent = '資料の内容を解析し、自由記述欄への反映を準備しています…';
+      const res = await fetch('/api/kosen/extract-proposal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ files: uploadedFileRefs })
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        // 読み取れなかった場合でも、資料自体は登録時にNotionへ添付される
+        docFileStatus.textContent = `${data.error || '資料の内容は自動で読み取れませんでした。'}（資料自体は登録時に添付されます。よろしければ上の欄にも概要をご記入ください）`;
+        return;
+      }
+
+      const freeTextEl = document.getElementById('freeText');
+      freeTextEl.value = (freeTextEl.value ? freeTextEl.value.trim() + '\n\n' : '') + data.draft;
+      runMatch();
+
+      const skippedNote = data.skippedFiles && data.skippedFiles.length > 0
+        ? `（「${data.skippedFiles.join('・')}」は自動読み取り未対応のため反映されていません）`
+        : '';
+      docFileStatus.textContent = `✅ ${files.length}件の資料を解析し、自由記述欄に反映しました。${skippedNote}`;
+    } catch (err) {
+      docFileStatus.textContent = `⚠️ 資料のアップロード・解析中にエラーが発生しました（${err.message || err}）。資料自体は登録時に添付されます。`;
+    }
+  });
 
   // 企業ご自身の登録フォーム送信（/api/kosen/register へPOSTし、Notionに記録する）
   const companyForm = document.getElementById('companyForm');
@@ -271,14 +289,7 @@
     companyMsg.textContent = '';
     companyMsg.className = 'text-center text-xs';
     try {
-      let fileUrl, fileName;
-      if (uploadedDocFile) {
-        companyBtn.textContent = '資料をアップロード中…';
-        const uploaded = await uploadDocFile(uploadedDocFile);
-        fileUrl = uploaded.url;
-        fileName = uploaded.name;
-      }
-
+      // 資料は選択時点で既にアップロード済み(uploadedFileRefs)のため、ここでは再アップロードしない
       companyBtn.textContent = '送信中…';
       const res = await fetch('/api/kosen/register', {
         method: 'POST',
@@ -289,20 +300,19 @@
           affiliation: document.getElementById('companyAffiliation').value,
           content: document.getElementById('companyContent').value,
           contactEmail: document.getElementById('companyEmail').value,
-          fileUrl,
-          fileName
+          files: uploadedFileRefs
         })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || '送信に失敗しました');
-      companyMsg.textContent = uploadedDocFile
+      companyMsg.textContent = uploadedFileRefs.length > 0
         ? '✅ 資料とあわせて登録しました。ありがとうございます。運営チームが内容を確認し、マッチしそうな先生におつなぎします。'
         : '✅ 登録しました。ありがとうございます。運営チームが内容を確認し、マッチしそうな先生におつなぎします。';
       companyMsg.className = 'text-center text-xs text-accent-green font-semibold';
       companyForm.reset();
-      uploadedDocFile = null;
+      uploadedFileRefs = [];
       docFileInput.value = '';
-      docFileStatus.textContent = 'テキスト（.txt/.md）は内容を自動で上の欄に反映してマッチングに使います。PDF等は登録時に資料として添付されます（内容の自動読み取りは今後の拡張予定）。';
+      docFileStatus.textContent = DEFAULT_DOC_STATUS;
     } catch (err) {
       companyMsg.textContent = '⚠️ ' + (err.message || '送信中にエラーが発生しました。時間をおいて再度お試しください。');
       companyMsg.className = 'text-center text-xs text-red-600 font-semibold';

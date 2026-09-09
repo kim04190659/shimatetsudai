@@ -89,9 +89,9 @@ export type KosenRegistrationInput = {
   // CR「ドキュメント登録→自動マッチングの連携が未実装」対応(2026-09-09)。
   // CR「資料アップロードの上限が8MBと小さすぎる（Vercel関数の4.5MBハード制限に起因）」対応(2026-09-XX)で、
   // Notion File Upload APIへの直接送信からVercel Blobのクライアント直接アップロードに切り替えた。
-  // fileUrl(=Vercel Blobの公開URL)を「資料」Filesプロパティに外部リンクとして紐づける。
-  fileUrl?: string;
-  fileName?: string;
+  // CR「複数ファイルをまとめてアップロードしたい」対応(2026-09-09)で単一のfileUrl/fileNameから配列に変更。
+  // 各要素のurl(=Vercel Blobの公開URL)を「資料」Filesプロパティに外部リンクとして紐づける。
+  files?: { url: string; name: string }[];
 };
 
 export type KosenRegistrationResult = {
@@ -103,12 +103,20 @@ export type KosenRegistrationResult = {
  * 次世代高専教育サイト（public/kosen/）の登録フォーム（先生向け「こんな授業をしてほしい」、
  * 企業向け「これだったらできる」）から送信された内容を、Notionの「📥 先生・企業 登録リクエスト」
  * データソースに1件記録する。AIによる自動処理は行わず、対応状況=未確認で記録するのみ。
- * fileUrlが指定された場合、「資料」Filesプロパティに外部リンク(Vercel Blobの公開URL)として紐づける。
+ * filesが指定された場合、「資料」Filesプロパティに複数の外部リンク(Vercel Blobの公開URL)として紐づける。
  */
 export async function logKosenRegistration(
   input: KosenRegistrationInput
 ): Promise<KosenRegistrationResult> {
   const notion = getClient();
+
+  // 添付ファイルは0〜複数件。Notionの「資料」Filesプロパティは1プロパティに複数ファイルを持てるため、
+  // 配列をそのままexternalファイルのリストに変換する。
+  const fileEntries = (input.files ?? []).map((f) => ({
+    type: "external" as const,
+    external: { url: f.url },
+    name: (f.name || f.url).slice(0, 100),
+  }));
 
   const page = await notion.pages.create({
     parent: { data_source_id: KOSEN_REGISTRATION_DATA_SOURCE_ID, type: "data_source_id" },
@@ -119,19 +127,7 @@ export async function logKosenRegistration(
       内容: { rich_text: [{ text: { content: input.content.slice(0, 2000) } }] },
       対応状況: { select: { name: "未確認" } },
       ...(input.contactEmail ? { 連絡先: { email: input.contactEmail } } : {}),
-      ...(input.fileUrl
-        ? {
-            資料: {
-              files: [
-                {
-                  type: "external",
-                  external: { url: input.fileUrl },
-                  name: (input.fileName || input.fileUrl).slice(0, 100),
-                },
-              ],
-            },
-          }
-        : {}),
+      ...(fileEntries.length > 0 ? { 資料: { files: fileEntries } } : {}),
     },
   });
 

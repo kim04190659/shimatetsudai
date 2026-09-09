@@ -15,8 +15,8 @@ type KosenRegisterBody = {
   affiliation: string;
   content: string;
   contactEmail?: string;
-  fileUrl?: string;
-  fileName?: string;
+  // CR「複数ファイルをまとめてアップロードしたい」対応(2026-09-09)で単一ファイルから配列に変更。
+  files?: { url: string; name: string }[];
 };
 
 function isNonEmptyString(value: unknown): value is string {
@@ -26,7 +26,7 @@ function isNonEmptyString(value: unknown): value is string {
 export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as Partial<KosenRegisterBody>;
-    const { type, name, affiliation, content, contactEmail, fileUrl, fileName } = body;
+    const { type, name, affiliation, content, contactEmail, files } = body;
 
     if (type !== "先生" && type !== "企業") {
       return NextResponse.json({ error: "typeは「先生」または「企業」を指定してください" }, { status: 400 });
@@ -44,8 +44,7 @@ export async function POST(req: NextRequest) {
       affiliation,
       content,
       contactEmail: contactEmail || undefined,
-      fileUrl: fileUrl || undefined,
-      fileName: fileName || undefined,
+      files: Array.isArray(files) && files.length > 0 ? files : undefined,
     });
 
     return NextResponse.json({ ok: true, pageId: result.pageId });
