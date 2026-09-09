@@ -477,6 +477,85 @@ export async function submitOpinion(
   });
 }
 
+// ------------------------------------------------------------------
+// 高専サイト「先生ページ 編集モード」用のセル上書きストア。
+// CR「オープンデータで作成した各先生ページを、先生本人が編集できるようにしたい」(2026-09-09)。
+// public/kosen/case-*.html には data-cell-id を付けた要素があり、public/js/kosen-cell-editor.js が
+// 読み込み時にこのDBの内容で上書き表示する。保存先はSupabaseの「セル単位手修正」と同じ考え方だが、
+// 高専サイトはCLAUDE.mdの方針(成果物はNotionに集約)に合わせてNotion DB側に保存する。
+// ------------------------------------------------------------------
+
+const KOSEN_CELL_OVERRIDE_DATA_SOURCE_ID = "9e92db47-f022-4b11-a551-6b6f3ca49049";
+
+export type KosenCellOverride = {
+  slug: string;
+  cellId: string;
+  content: string;
+  editorName: string;
+  updatedAt: string;
+};
+
+/** 指定した先生ページ(slug)の、手修正済みセルを全件取得する(ログイン不要・表示用) */
+export async function getKosenCellOverrides(slug: string): Promise<KosenCellOverride[]> {
+  const notion = getClient();
+  const res = await notion.dataSources.query({
+    data_source_id: KOSEN_CELL_OVERRIDE_DATA_SOURCE_ID,
+    filter: {
+      property: "ページSlug",
+      select: { equals: slug },
+    },
+  });
+
+  return res.results.filter(isFullPage).map((page) => ({
+    slug,
+    cellId: plainTextFromProperty(page.properties["セルID"]),
+    content: plainTextFromProperty(page.properties["内容"]),
+    editorName: plainTextFromProperty(page.properties["編集者名"]),
+    updatedAt: plainTextFromProperty(page.properties["更新日時"]),
+  }));
+}
+
+/** 1セル分の手修正を保存する(既存の(slug, cellId)行があれば上書き=upsert、なければ新規作成) */
+export async function upsertKosenCellOverride(params: {
+  slug: string;
+  cellId: string;
+  content: string;
+  editorName: string;
+}): Promise<void> {
+  const notion = getClient();
+  const nowIso = new Date().toISOString();
+
+  const existing = await notion.dataSources.query({
+    data_source_id: KOSEN_CELL_OVERRIDE_DATA_SOURCE_ID,
+    filter: {
+      and: [
+        { property: "ページSlug", select: { equals: params.slug } },
+        { property: "セルID", rich_text: { equals: params.cellId } },
+      ],
+    },
+    page_size: 1,
+  });
+
+  const properties = {
+    Name: { title: [{ text: { content: `${params.slug}::${params.cellId}` } }] },
+    ページSlug: { select: { name: params.slug } },
+    セルID: { rich_text: [{ text: { content: params.cellId.slice(0, 200) } }] },
+    内容: { rich_text: [{ text: { content: params.content.slice(0, 2000) } }] },
+    編集者名: { rich_text: [{ text: { content: params.editorName.slice(0, 200) } }] },
+    更新日時: { date: { start: nowIso } },
+  };
+
+  const found = existing.results.find(isFullPage);
+  if (found) {
+    await notion.pages.update({ page_id: found.id, properties });
+  } else {
+    await notion.pages.create({
+      parent: { data_source_id: KOSEN_CELL_OVERRIDE_DATA_SOURCE_ID, type: "data_source_id" },
+      properties,
+    });
+  }
+}
+
 /** 補助金・交付金マッチングDB(全団体共通)を、「対象自治体」タグで絞り込んで取得する */
 export async function getFundingMatches(
   fundingDataSourceId: string,
