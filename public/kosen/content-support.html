@@ -128,8 +128,11 @@
 <script type="module">
   // CR「資料アップロードの上限が8MBと小さすぎる」対応(2026-09-09)：
   // Vercelのサーバー関数は4.5MBのボディサイズ制限があるため、ブラウザからVercel Blobへ直接アップロードする
-  // (このAPIを経由しない)。@vercel/blob/client の upload() を使うため、このscriptタグはtype="module"にしている。
-  import { upload } from "https://esm.sh/@vercel/blob@2.8.0/client";
+  // (このAPIを経由しない)。@vercel/blob/client を使うため、このscriptタグはtype="module"にしている。
+  // 2026-09-10: 旧upload()(クライアントトークン方式)はVercelプラットフォーム側のCORS不具合で
+  // アップロードが完了しないことがあったため、署名付きURL方式のuploadPresigned()に切り替えた
+  // (詳細はsrc/app/api/kosen/upload/route.tsのコメント参照)。
+  import { uploadPresigned } from "https://esm.sh/@vercel/blob@2.8.0/client";
 
   // CR「今回は角田先生・久池井先生の2名限定にし、他の17名分のデータは削除する」対応から拡張。
   // 2026-09-09に千秋元先生（高知高専）・逆瀬川栄一先生（鹿児島高専）をパイロットとして追加。以降も随時追加予定のため人数は明記しない方針（CR対応 2026-09-09）。
@@ -189,7 +192,7 @@
   // 資料をVercel Blobに直接アップロードし、公開URLを取得する(Vercelのサーバー関数を経由しないため大きなファイルも扱える)
   // onProgressを渡すと、アップロードの進捗(%)を随時受け取れる(大きいファイルで「止まって見える」問題への対応)。
   async function uploadDocFile(file, onProgress) {
-    const blob = await upload(`kosen/content-support/${Date.now()}-${file.name}`, file, {
+    const blob = await uploadPresigned(`kosen/content-support/${Date.now()}-${file.name}`, file, {
       access: 'public',
       handleUploadUrl: '/api/kosen/upload',
       onUploadProgress: onProgress,
