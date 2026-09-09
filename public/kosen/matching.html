@@ -232,10 +232,24 @@
   // アップロード済みファイルの{url, name, contentType}を保持しておき、登録フォーム送信時にそのまま使う
   let uploadedFileRefs = [];
 
+  // 日本語ファイル名をそのままBlobの保存パス(pathname)に使うと、署名付きURL方式の署名検証で
+  // サーバー側とクライアント側の文字コード解釈がずれて「Blob path does not match the signed
+  // token scope」エラーになることが判明した(2026-09-10、Vercelログで実際に確認)。
+  // 保存パスは半角英数字・記号のみに変換し、元のファイル名は別途(uploadedFileRefsのname)保持して
+  // 表示・Notion登録に使う。
+  function sanitizeForBlobPath(filename) {
+    const dot = filename.lastIndexOf('.');
+    const ext = dot >= 0 ? filename.slice(dot).replace(/[^\w.]/g, '') : '';
+    const base = (dot >= 0 ? filename.slice(0, dot) : filename)
+      .replace(/[^\w-]+/g, '_')
+      .slice(0, 60);
+    return (base || 'file') + ext;
+  }
+
   // 資料をVercel Blobに直接アップロードし、公開URLを取得する(Vercelのサーバー関数を経由しないため大きなファイルも扱える)
   // onProgressを渡すと、アップロードの進捗(%)を随時受け取れる(大きいファイルで「止まって見える」問題への対応)。
   async function uploadDocFile(file, onProgress) {
-    const blob = await uploadPresigned(`kosen/matching/${Date.now()}-${file.name}`, file, {
+    const blob = await uploadPresigned(`kosen/matching/${Date.now()}-${sanitizeForBlobPath(file.name)}`, file, {
       access: 'public',
       handleUploadUrl: '/api/kosen/upload',
       onUploadProgress: onProgress,
