@@ -1,43 +1,60 @@
-// 次世代高専教育サイト（public/kosen/）の資料アップロードAPI
-// CR「ドキュメント登録→自動マッチングの連携が未実装」への対応(2026-09-09)。
-// 先生・企業の登録フォームから送信された資料(PDF/画像/テキスト等)をNotionの File Upload API に
-// アップロードし、file_upload id を返す。この id は続けて /api/kosen/register の fileUploadId に渡し、
-// 「📥 先生・企業 登録リクエスト」DBの「資料」プロパティに添付する。
+// 次世代高専教育サイト（public/kosen/）の資料アップロードAPI。
+// CR「ドキュメント登録→自動マッチングの連携が未実装」への対応(2026-09-09)から拡張。
+//
+// 【背景】当初はブラウザ→このAPI(Vercelのサーバー関数)→Notion File Upload API、という経路で
+// ファイルを中継していたが、Vercelのサーバー関数にはリクエストボディ4.5MBのハード制限があり
+// (2026年現在も変更不可)、実質数MBしかアップロードできなかった。CR「資料アップロードの上限が
+// 8MBと小さすぎる」への対応として、ブラウザがVercel Blob（Hobbyプランで無料枠内・最大5TB/ファイル）
+// に直接アップロードする方式に切り替えた。このAPIはもうファイルの中身を受け取らず、
+// @vercel/blob/client の handleUpload() を使って「アップロード用の署名付きトークン」を発行するだけ。
+// アップロード自体はブラウザ→Vercel Blobで直接行われ、完了後に返るURLを
+// /api/kosen/register の fileUrl に渡してNotionの「資料」プロパティに外部リンクとして保存する。
+import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { NextRequest, NextResponse } from "next/server";
-import { createKosenFileUpload } from "@/lib/notion";
 
 export const runtime = "nodejs";
 
-const MAX_UPLOAD_BYTES = 8 * 1024 * 1024; // 8MB。src/lib/notion.tsのMAX_KOSEN_UPLOAD_BYTESと合わせる
+const MAX_UPLOAD_BYTES = 200 * 1024 * 1024; // 200MB。無認証の公開フォームのため上限は設けるが、100MB程度の資料は十分収まる想定
+const ALLOWED_CONTENT_TYPES = [
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "text/plain",
+  "text/markdown",
+  "image/png",
+  "image/jpeg",
+  "image/webp",
+  "image/gif",
+];
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
+  const body = (await req.json()) as HandleUploadBody;
+
   try {
-    const formData = await req.formData();
-    const file = formData.get("file");
+    const jsonResponse = await handleUpload({
+      body,
+      request: req,
+      onBeforeGenerateToken: async (pathname) => {
+        return {
+          allowedContentTypes: ALLOWED_CONTENT_TYPES,
+          addRandomSuffix: true,
+          maximumSizeInBytes: MAX_UPLOAD_BYTES,
+          tokenPayload: JSON.stringify({ pathname }),
+        };
+      },
+      onUploadCompleted: async ({ blob }) => {
+        // アップロード完了はブラウザ側がURLを受け取ってすぐ/api/kosen/registerに渡すため、
+        // ここでは特に追加処理は不要(ログのみ)。
+        console.log("kosen資料アップロード完了:", blob.url);
+      },
+    });
 
-    if (!(file instanceof File)) {
-      return NextResponse.json({ error: "ファイルが指定されていません" }, { status: 400 });
-    }
-    if (file.size === 0) {
-      return NextResponse.json({ error: "空のファイルはアップロードできません" }, { status: 400 });
-    }
-    if (file.size > MAX_UPLOAD_BYTES) {
-      return NextResponse.json({ error: "ファイルサイズが大きすぎます（8MBまで）" }, { status: 400 });
-    }
-
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const fileUploadId = await createKosenFileUpload(
-      file.name || "資料",
-      file.type || "application/octet-stream",
-      buffer
-    );
-
-    return NextResponse.json({ ok: true, fileUploadId, filename: file.name, contentType: file.type });
+    return NextResponse.json(jsonResponse);
   } catch (err) {
     console.error("kosen/upload error:", err);
     return NextResponse.json(
-      { error: "アップロード中にエラーが発生しました。時間をおいて再度お試しください。" },
-      { status: 500 }
+      { error: err instanceof Error ? err.message : "アップロード中にエラーが発生しました" },
+      { status: 400 }
     );
   }
 }

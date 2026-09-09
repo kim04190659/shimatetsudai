@@ -64,7 +64,7 @@
 
       <!-- CR「ドキュメント登録→自動マッチングの連携が未実装」対応：資料アップロード欄。txt/md等テキスト系はそのまま自由記述欄に反映し、マッチングに使う -->
       <div class="mt-4 rounded-lg border border-dashed border-brand-soft bg-background/60 p-3">
-        <label class="block text-xs font-semibold text-foreground">📎 資料をアップロードする（任意・PDF/Word/画像/テキスト、8MBまで）</label>
+        <label class="block text-xs font-semibold text-foreground">📎 資料をアップロードする（任意・PDF/Word/画像/テキスト、200MBまで）</label>
         <input id="docFile" type="file" accept=".txt,.md,.pdf,.doc,.docx,image/*" class="mt-2 w-full text-xs text-foreground/80 file:mr-3 file:rounded-full file:border-0 file:bg-brand-soft file:px-4 file:py-1.5 file:text-xs file:font-semibold file:text-brand-dark">
         <p id="docFileStatus" class="mt-2 text-xs text-foreground/50">テキスト（.txt/.md）は内容を自動で上の欄に反映してマッチングに使います。PDF等は登録時に資料として添付されます（内容の自動読み取りは今後の拡張予定）。</p>
       </div>
@@ -118,7 +118,12 @@
   </div>
 </footer>
 
-<script>
+<script type="module">
+  // CR「資料アップロードの上限が8MBと小さすぎる」対応(2026-09-09)：
+  // Vercelのサーバー関数は4.5MBのボディサイズ制限があるため、ブラウザからVercel Blobへ直接アップロードする
+  // (このAPIを経由しない)。@vercel/blob/client の upload() を使うため、このscriptタグはtype="module"にしている。
+  import { upload } from "https://esm.sh/@vercel/blob@2.8.0/client";
+
   // タグごとの検出キーワード辞書（自由記述文からタグを推定するための簡易ルール）
   const TAG_KEYWORDS = {
     "物流・DX": ["物流","ロジ","倉庫","配送","DX","デジタル化"],
@@ -246,14 +251,13 @@
     }
   });
 
-  // 資料をNotion File Upload APIに送り、file_upload idを取得する
+  // 資料をVercel Blobに直接アップロードし、公開URLを取得する(Vercelのサーバー関数を経由しないため大きなファイルも扱える)
   async function uploadDocFile(file) {
-    const fd = new FormData();
-    fd.append('file', file);
-    const res = await fetch('/api/kosen/upload', { method: 'POST', body: fd });
-    const data = await res.json();
-    if (!res.ok || !data.ok) throw new Error(data.error || '資料のアップロードに失敗しました');
-    return data.fileUploadId;
+    const blob = await upload(`kosen/matching/${Date.now()}-${file.name}`, file, {
+      access: 'public',
+      handleUploadUrl: '/api/kosen/upload',
+    });
+    return { url: blob.url, name: file.name };
   }
 
   // 企業ご自身の登録フォーム送信（/api/kosen/register へPOSTし、Notionに記録する）
@@ -266,10 +270,12 @@
     companyMsg.textContent = '';
     companyMsg.className = 'text-center text-xs';
     try {
-      let fileUploadId;
+      let fileUrl, fileName;
       if (uploadedDocFile) {
         companyBtn.textContent = '資料をアップロード中…';
-        fileUploadId = await uploadDocFile(uploadedDocFile);
+        const uploaded = await uploadDocFile(uploadedDocFile);
+        fileUrl = uploaded.url;
+        fileName = uploaded.name;
       }
 
       companyBtn.textContent = '送信中…';
@@ -282,7 +288,8 @@
           affiliation: document.getElementById('companyAffiliation').value,
           content: document.getElementById('companyContent').value,
           contactEmail: document.getElementById('companyEmail').value,
-          fileUploadId
+          fileUrl,
+          fileName
         })
       });
       const data = await res.json();

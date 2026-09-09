@@ -107,7 +107,7 @@
           <input id="teacherEmail" type="email" class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-foreground">資料を添付する（任意・シラバス案等、PDF/Word/画像/テキスト、8MBまで）</label>
+          <label class="block text-xs font-semibold text-foreground">資料を添付する（任意・シラバス案等、PDF/Word/画像/テキスト、200MBまで）</label>
           <input id="teacherDocFile" type="file" accept=".txt,.md,.pdf,.doc,.docx,image/*" class="mt-1 w-full text-xs text-foreground/80 file:mr-3 file:rounded-full file:border-0 file:bg-brand-soft file:px-4 file:py-1.5 file:text-xs file:font-semibold file:text-brand-dark">
         </div>
         <button type="submit" id="teacherSubmitBtn" class="w-full rounded-full bg-brand px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark">登録する</button>
@@ -123,7 +123,12 @@
   </div>
 </footer>
 
-<script>
+<script type="module">
+  // CR「資料アップロードの上限が8MBと小さすぎる」対応(2026-09-09)：
+  // Vercelのサーバー関数は4.5MBのボディサイズ制限があるため、ブラウザからVercel Blobへ直接アップロードする
+  // (このAPIを経由しない)。@vercel/blob/client の upload() を使うため、このscriptタグはtype="module"にしている。
+  import { upload } from "https://esm.sh/@vercel/blob@2.8.0/client";
+
   // CR「今回は角田先生・久池井先生の2名限定にし、他の17名分のデータは削除する」対応から拡張。
   // 2026-09-09に千秋元先生（高知高専）・逆瀬川栄一先生（鹿児島高専）をパイロットとして追加。以降も随時追加予定のため人数は明記しない方針（CR対応 2026-09-09）。
   // 未パイロットの調査データはNotion「🎯 高専教員 教育テーマDB」に保持しており、削除ではなく非表示（将来の拡張候補）。
@@ -175,14 +180,13 @@
   const teacherForm = document.getElementById('teacherForm');
   const teacherMsg = document.getElementById('teacherFormMsg');
   const teacherBtn = document.getElementById('teacherSubmitBtn');
-  // CR「ドキュメント登録→自動マッチングの連携が未実装」対応：資料をNotion File Upload APIに送り、file_upload idを取得する
+  // 資料をVercel Blobに直接アップロードし、公開URLを取得する(Vercelのサーバー関数を経由しないため大きなファイルも扱える)
   async function uploadDocFile(file) {
-    const fd = new FormData();
-    fd.append('file', file);
-    const res = await fetch('/api/kosen/upload', { method: 'POST', body: fd });
-    const data = await res.json();
-    if (!res.ok || !data.ok) throw new Error(data.error || '資料のアップロードに失敗しました');
-    return data.fileUploadId;
+    const blob = await upload(`kosen/content-support/${Date.now()}-${file.name}`, file, {
+      access: 'public',
+      handleUploadUrl: '/api/kosen/upload',
+    });
+    return { url: blob.url, name: file.name };
   }
 
   teacherForm.addEventListener('submit', async (e) => {
@@ -192,10 +196,12 @@
     teacherMsg.className = 'text-center text-xs';
     try {
       const docFile = document.getElementById('teacherDocFile').files[0];
-      let fileUploadId;
+      let fileUrl, fileName;
       if (docFile) {
         teacherBtn.textContent = '資料をアップロード中…';
-        fileUploadId = await uploadDocFile(docFile);
+        const uploaded = await uploadDocFile(docFile);
+        fileUrl = uploaded.url;
+        fileName = uploaded.name;
       }
 
       teacherBtn.textContent = '送信中…';
@@ -208,7 +214,8 @@
           affiliation: document.getElementById('teacherAffiliation').value,
           content: document.getElementById('teacherContent').value,
           contactEmail: document.getElementById('teacherEmail').value,
-          fileUploadId
+          fileUrl,
+          fileName
         })
       });
       const data = await res.json();
