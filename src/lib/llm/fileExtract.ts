@@ -14,6 +14,7 @@
 // モデルは既存のAnthropicProviderと同じClaude Haiku(安価・高速)を使う。
 
 import mammoth from "mammoth";
+import { get as getBlob } from "@vercel/blob";
 import { LlmProviderError } from "./types";
 
 const MODEL = "claude-haiku-4-5-20251001";
@@ -69,12 +70,25 @@ function guessKind(name: string, contentType?: string): FileKind {
   return "unsupported";
 }
 
+// アップロード済みの資料をサーバー側で取得する。
+// 素のfetch(url)だと「Blobストアが非公開(private)設定の場合に403で失敗する」ことが
+// 判明したため(2026-09-10、Vercelログで実際に確認)、@vercel/blobの認証付きget()関数を使う。
+// get()はストアの認証情報(このAPIルートが持つBLOB_READ_WRITE_TOKEN/OIDC)を使ってアクセスするため、
+// ストアの公開・非公開設定によらず確実に取得できる。アップロード時にaccess:'public'を指定しているが、
+// 念のためpublic→privateの順に試す。
 async function fetchAsBuffer(url: string, label: string): Promise<Buffer> {
-  const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error(`「${label}」の取得に失敗しました(HTTP ${res.status})`);
+  for (const access of ["public", "private"] as const) {
+    try {
+      const result = await getBlob(url, { access });
+      if (result && result.stream) {
+        const arrayBuffer = await new Response(result.stream).arrayBuffer();
+        return Buffer.from(arrayBuffer);
+      }
+    } catch {
+      // このaccessモードでは取得できなかった。次のモードを試す。
+    }
   }
-  return Buffer.from(await res.arrayBuffer());
+  throw new Error(`「${label}」の取得に失敗しました`);
 }
 
 // 1件のファイルを、Claudeに渡せるcontentブロックに変換する。
