@@ -230,10 +230,12 @@
   let uploadedFileRefs = [];
 
   // 資料をVercel Blobに直接アップロードし、公開URLを取得する(Vercelのサーバー関数を経由しないため大きなファイルも扱える)
-  async function uploadDocFile(file) {
+  // onProgressを渡すと、アップロードの進捗(%)を随時受け取れる(大きいファイルで「止まって見える」問題への対応)。
+  async function uploadDocFile(file, onProgress) {
     const blob = await upload(`kosen/matching/${Date.now()}-${file.name}`, file, {
       access: 'public',
       handleUploadUrl: '/api/kosen/upload',
+      onUploadProgress: onProgress,
     });
     return { url: blob.url, name: file.name, contentType: file.type };
   }
@@ -248,8 +250,18 @@
 
     try {
       // 1. 選択された全ファイルをVercel Blobにアップロード
-      docFileStatus.textContent = `資料をアップロード中…（${files.length}件）`;
-      uploadedFileRefs = await Promise.all(files.map(uploadDocFile));
+      // ファイルごとの進捗(%)をまとめて表示する(200MB近い大きなファイルは時間がかかるため、
+      // 「止まっているように見える」ことを防ぐ目的)。
+      const progressByFile = files.map(() => 0);
+      const renderUploadStatus = () => {
+        const parts = files.map((f, i) => `${f.name}: ${progressByFile[i]}%`).join(' / ');
+        docFileStatus.textContent = `資料をアップロード中…（${files.length}件） ${parts}`;
+      };
+      renderUploadStatus();
+      uploadedFileRefs = await Promise.all(files.map((file, i) => uploadDocFile(file, (evt) => {
+        progressByFile[i] = Math.round(evt.percentage);
+        renderUploadStatus();
+      })));
 
       // 2. アップロードした資料の内容をAIに読み取らせ、下書き文章を生成
       docFileStatus.textContent = '資料の内容を解析し、自由記述欄への反映を準備しています…';
