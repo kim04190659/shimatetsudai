@@ -53,7 +53,7 @@
     <div class="mx-auto max-w-4xl px-5 py-12 text-center">
       <p class="text-sm font-semibold tracking-wide text-brand-dark">教育コンテンツ作成支援</p>
       <h1 class="mt-4 text-2xl font-bold leading-snug text-foreground sm:text-3xl">学校名と先生の名前を入れると、<br class="hidden sm:block">「こんな教育をしてほしい」案が出てくる。</h1>
-      <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-foreground/80">researchmap等のオープンデータから先生の研究テーマを取得し、その研究がどんな社会課題（困りごと）につながるかを分析して、教育提案の下書きを生成AIが作成します。現在は角田直輝先生（米子高専）・久池井茂先生（北九州高専）の2名をパイロットとして、15コマカリキュラム案まで詳細に作り込んでいます。他の高専・先生は<a href="teachers.html" class="underline text-brand-dark">先生一覧</a>から今後追加予定です。</p>
+      <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-foreground/80">researchmap等のオープンデータから先生の研究テーマを取得し、その研究がどんな社会課題（困りごと）につながるかを分析して、教育提案の下書きを生成AIが作成します。現在は角田直輝先生（米子高専）・久池井茂先生（北九州高専）・千秋元先生（高知高専）の3名をパイロットとして、15コマカリキュラム案まで詳細に作り込んでいます。他の高専・先生は<a href="teachers.html" class="underline text-brand-dark">先生一覧</a>から今後追加予定です。</p>
     </div>
   </section>
 
@@ -66,6 +66,7 @@
             <option value="">すべて</option>
             <option value="北九州高専">北九州高専</option>
             <option value="米子高専">米子高専</option>
+            <option value="高知高専">高知高専</option>
           </select>
         </div>
         <div class="sm:col-span-2">
@@ -122,11 +123,13 @@
 </footer>
 
 <script>
-  // CR「今回は角田先生・久池井先生の2名限定にし、他の17名分のデータは削除する」対応。
-  // 他17名分の調査データはNotion「🎯 高専教員 教育テーマDB」に保持しており、削除ではなく非表示（将来の拡張候補）。
+  // CR「今回は角田先生・久池井先生の2名限定にし、他の17名分のデータは削除する」対応から拡張。
+  // 2026-09-09に千秋元先生（高知高専）を3人目のパイロットとして追加。
+  // 他16名分の調査データはNotion「🎯 高専教員 教育テーマDB」に保持しており、削除ではなく非表示（将来の拡張候補）。
   const TEACHERS = [
     {name:"久池井茂先生", school:"北九州高専", dept:"生産デザイン工学科 教授", keywords:"医療現場注射薬自動仕分け、認知症対話AIロボット、中小製造業DX", issue:"医療現場の人手不足、介護・認知症ケアの担い手不足、地方中小製造業のDX人材不足", proposal:"企業との共同プロジェクトで、ロボット・画像処理技術を医療・介護・製造現場に結びつける社会実装型教育（15コマカリキュラム案あり）", tags:["医療・福祉","AI・生成AI","産学連携"], url:"case-kuchii.html"},
-    {name:"角田直輝先生", school:"米子高専", dept:"情報システム部門 教授", keywords:"産学連携、アントレプレナーシップ教育、金融教育、太陽光発電投資教材", issue:"技術者が専門技術だけでなく、キャリア形成・金融リテラシーを持たないまま社会に出てしまう課題", proposal:"太陽光発電投資教材を使った、専門科目とキャリア・金融教育を統合する授業デザイン（15コマカリキュラム案あり）", tags:["キャリア教育","金融教育","産学連携"], url:"case-yonago.html"}
+    {name:"角田直輝先生", school:"米子高専", dept:"情報システム部門 教授", keywords:"産学連携、アントレプレナーシップ教育、金融教育、太陽光発電投資教材", issue:"技術者が専門技術だけでなく、キャリア形成・金融リテラシーを持たないまま社会に出てしまう課題", proposal:"太陽光発電投資教材を使った、専門科目とキャリア・金融教育を統合する授業デザイン（15コマカリキュラム案あり）", tags:["キャリア教育","金融教育","産学連携"], url:"case-yonago.html"},
+    {name:"千秋元先生", school:"高知高専", dept:"ソーシャルデザイン工学科 准教授", keywords:"天体シミュレーション、初代星形成、超新星爆発、大規模数値計算", issue:"（仮説・本人未確認）高知県の防災課題に対し、大規模データ・シミュレーションを扱える人材が地域に不足している", proposal:"天体シミュレーションで培った大規模数値計算・データ解析の技術を、防災・インフラの社会課題予測に応用する教育（仮説・15コマカリキュラム案あり）", tags:["防災・インフラ","AI・生成AI","産学連携"], url:"case-chiaki.html"}
   ];
 
   const cardList = document.getElementById('cardList');

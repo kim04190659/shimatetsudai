@@ -1,0 +1,195 @@
+<title>高知高専 千秋元先生（天体シミュレーション×防災・データサイエンス）</title>
+<style>
+  /* CR「60歳前後の熟年層向けUI検証」対応：ルートのfont-sizeを引き上げ、rem基準のクラスを全体的に拡大 */
+  html{ font-size:113%; }
+  :root{ --bg:#F2EEE6; --card:#FFFFFF; --ink:#2C2C2B; --muted:#726A5E; --line:#E1DDD3; --blue:#2783DE;
+    --good:#4C7A52; --good-bg:#E8F1EC; --bad:#B23B3B; --bad-bg:#FBEAEA;
+    --callout-blue-bg:#EFF6FE; --callout-blue-line:#2783DE;
+    --shadow:0 1px 2px rgba(44,44,43,.05), 0 8px 22px rgba(44,44,43,.06); }
+  *{box-sizing:border-box;}
+  body{ background:var(--bg); color:var(--ink); line-height:1.75; margin:0;
+    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
+  .shell{max-width:960px; margin:0 auto; padding:26px 22px 60px;}
+  .breadcrumb{font-size:.78rem; color:var(--muted); margin-bottom:14px;}
+  .breadcrumb a{color:var(--blue); text-decoration:none;}
+  .head{display:flex; justify-content:space-between; align-items:flex-start; gap:14px;}
+  h1{font-size:1.55rem; margin:0;}
+  .region{font-size:.85rem; color:var(--muted); margin-top:2px;}
+  .pill{font-size:.74rem; font-weight:700; padding:4px 12px; border-radius:99px; background:var(--good-bg); color:var(--good); white-space:nowrap;}
+  .pill.warn{background:var(--bad-bg); color:var(--bad);}
+  .lead{color:var(--muted); font-size:.9rem; max-width:76ch; margin:12px 0 24px;}
+  h2{font-size:1.15rem; margin:0 0 4px;}
+  .section-num{font-size:.72rem; font-weight:700; color:var(--blue); letter-spacing:.04em;}
+  section.block{scroll-margin-top:76px; margin-top:40px; padding-top:8px; border-top:1px solid var(--line);}
+  .subtle{color:var(--muted); font-size:.86rem; margin:6px 0 14px;}
+  .stat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:8px;}
+  @media (max-width:700px){ .stat-grid{grid-template-columns:repeat(2,1fr);} }
+  .stat{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow);}
+  .stat-label{font-size:.72rem; color:var(--muted);}
+  .stat-value{font-size:1.05rem; font-weight:700; margin-top:2px;}
+  .card{background:var(--callout-blue-bg); border-left:4px solid var(--callout-blue-line); border-radius:12px; padding:16px 18px; font-size:.87rem; color:var(--ink); margin:14px 0;}
+  .card.good{background:var(--good-bg); border-left-color:var(--good);}
+  .card.warn{background:var(--bad-bg); border-left-color:var(--bad);}
+  table{width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; font-size:.85rem; margin:10px 0;}
+  th,td{padding:10px 14px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top;}
+  th{background:#F7F4EE; color:var(--muted); font-weight:600;}
+  tr:last-child td{border-bottom:none;}
+  .card-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:16px 0;}
+  @media (max-width:700px){ .card-grid{grid-template-columns:repeat(2,1fr);} }
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; box-shadow:var(--shadow); text-align:center;}
+  .mini-mark{font-size:1.3rem;}
+  .mini-name{font-size:.8rem; font-weight:700; margin-top:4px;}
+  .mini-desc{font-size:.73rem; color:var(--muted); margin-top:4px;}
+  .toc{display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 8px; padding:14px; background:var(--card); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow);}
+  .toc a{font-size:.76rem; color:var(--blue); text-decoration:none; background:var(--callout-blue-bg); padding:4px 10px; border-radius:99px;}
+  footer{margin-top:36px; padding-top:16px; border-top:1px solid var(--line); font-size:.74rem; color:var(--muted);}
+</style>
+<div class="shell">
+  <div class="breadcrumb"><a href="index.html">← 次世代高専教育カンファレンス</a> ｜ <a href="teachers.html">先生一覧</a> ｜ 教育コンテンツ作成支援 事例</div>
+  <div class="head">
+    <div><h1>千秋元先生の天体シミュレーション×社会実装教育（仮説）</h1><div class="region">高知工業高等専門学校 ソーシャルデザイン工学科 准教授</div></div>
+    <span class="pill warn">確度：低い仮説（本人未確認）</span>
+  </div>
+  <p class="lead">「教育コンテンツ作成支援」の3人目の事例として、researchmap（researchmap.jp/gen_chiaki）に公開されている千秋元先生の研究活動を整理しました。角田先生・久池井先生の2件とは異なり、研究テーマ（天体物理学の数値シミュレーション）と教育活動の接続はresearchmap上で確認できず、木村・Claudeが「ソーシャルデザイン工学科への着任」という経歴から立てた仮説です。確度が低いことを前提にご覧ください。</p>
+
+  <div class="toc">
+    <a href="#purpose">① 教育の目的（仮説）</a>
+    <a href="#company">② 経歴</a>
+    <a href="#problem">③ 問題提起（仮説）</a>
+    <a href="#activity">④ 教育活動の4要素（仮説）</a>
+    <a href="#value">⑤ 社会価値創造（仮説）</a>
+    <a href="#execution">⑥ 実行</a>
+    <a href="#success">⑦ 成功事例</a>
+    <a href="#failure">⑧ 課題・留意点</a>
+    <a href="#curriculum">⑨ 15コマカリキュラム案（仮説）</a>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-label">所属</div><div class="stat-value">高知高専 ソーシャルデザイン工学科</div></div>
+    <div class="stat"><div class="stat-label">専門</div><div class="stat-value">天体物理学（数値シミュレーション）</div></div>
+    <div class="stat"><div class="stat-label">研究の軸</div><div class="stat-value">初代星形成・超新星爆発の大規模計算</div></div>
+    <div class="stat"><div class="stat-label">学位</div><div class="stat-value">博士（理学）東京大学・2016年</div></div>
+  </div>
+
+  <section id="purpose" class="block">
+    <p class="section-num">① PURPOSE（仮説）</p>
+    <h2>教育の目的（仮説）</h2>
+    <p class="subtle">天体シミュレーションで培った「大量データ・数値計算から未知の現象を予測する」技術を、ソーシャルデザイン工学科という社会実装志向の学科の中で、地域の社会課題予測に応用する教育、という仮説を立てています。<b>本人未確認の推測</b>です。</p>
+    <div class="card-grid">
+      <div class="mini"><div class="mini-mark">🛰️</div><div class="mini-name">大量データからの予測</div><div class="mini-desc">突発天体観測（トランジェント検出）の考え方を防災データに応用</div></div>
+      <div class="mini"><div class="mini-mark">🌊</div><div class="mini-name">防災・インフラ課題</div><div class="mini-desc">南海トラフ地震・豪雨災害など高知県の地域課題（仮説）</div></div>
+      <div class="mini"><div class="mini-mark">📊</div><div class="mini-name">データサイエンス人材育成</div><div class="mini-desc">高知高専の「数理・データサイエンス・AI教育プログラム」との接続可能性</div></div>
+      <div class="mini"><div class="mini-mark">🎓</div><div class="mini-name">理論から社会実装へ</div><div class="mini-desc">理論物理出身者が社会実装系の学科で教える立場をどう活かすか</div></div>
+    </div>
+  </section>
+
+  <section id="company" class="block">
+    <p class="section-num">② BACKGROUND</p>
+    <h2>経歴</h2>
+    <p class="subtle">東京大学で物理学の博士号を取得後、甲南大学・ジョージア工科大学（JSPS海外特別研究員）・東北大学・国立天文台フェローを経て、2022年5月に高知高専ソーシャルデザイン工学科助教に着任、2025年4月に准教授へ昇任。一貫して初代星（Population III星）形成・超新星爆発・金属欠乏星形成の大規模数値シミュレーション研究に従事。現在は基盤研究(S)「次世代大規模探査を用いた突発天体観測で明らかにする宇宙の進化」（2024〜2029年度）の共同研究者。</p>
+    <div class="card good">
+      <b>確認できた実績</b><br>
+      論文29本・国際学会招待講演複数。専門は数値シミュレーションによる初代天体形成研究で、国立天文台・東北大学等でのキャリアを持つ。
+    </div>
+    <div class="card warn">
+      <b>裏取りができなかった点（要：千秋先生への最優先確認事項）</b><br>
+      高知高専ソーシャルデザイン工学科での具体的な担当科目・教育活動・出前授業等の実績は、researchmap上に記載がありませんでした（掲載されている授業経験は着任前の明治学院大学「コンピュータリテラシー2」1件のみ）。本ページの教育テーマは、着任先の学科名から立てた仮説であり、角田先生・久池井先生の2件と比べて確度が大きく劣ります。
+    </div>
+  </section>
+
+  <section id="problem" class="block">
+    <p class="section-num">③ PROBLEM（仮説）</p>
+    <h2>問題提起（仮説）</h2>
+    <div class="card warn">
+      <b>仮説の前提</b><br>
+      高知県は南海トラフ地震・豪雨災害等の防災課題を抱える地域であり、大規模データ・シミュレーションを扱える人材が地域に不足している、という仮説を置いています。千秋先生ご自身がこの課題意識をお持ちかは未確認です。
+    </div>
+  </section>
+
+  <section id="activity" class="block">
+    <p class="section-num">④ ACTIVITY（仮説）</p>
+    <h2>教育活動の4要素（マッチングサイトの4カードと対応・仮説）</h2>
+    <table>
+      <tr><th>カード</th><th>千秋先生の場合（仮説）</th></tr>
+      <tr><td>♥ ペルソナ</td><td>高知高専 ソーシャルデザイン工学科の学生</td></tr>
+      <tr><td>♦ 提供する価値</td><td>天体シミュレーションで培った大規模数値計算・データ解析手法を、防災・インフラ分野に応用する教育（仮説）</td></tr>
+      <tr><td>♠ 技術</td><td>数値シミュレーション、大規模データ解析、不確実性・シナリオ評価</td></tr>
+      <tr><td>♣ パートナー</td><td>気象・防災テック企業、インフラ点検・センサーメーカー、地元自治体・防災関連企業（いずれも仮説）</td></tr>
+    </table>
+  </section>
+
+  <section id="value" class="block">
+    <p class="section-num">⑤ SOCIAL VALUE（仮説）</p>
+    <h2>社会価値創造（仮説）</h2>
+    <table>
+      <tr><th>相手</th><th>価値の例（仮説）</th></tr>
+      <tr><td>学生</td><td>最先端の天体物理シミュレーション手法を、身近な防災・インフラ課題に応用する体験ができる</td></tr>
+      <tr><td>気象・防災・インフラ企業</td><td>学生との接点を通じて、データ活用人材の育成・将来の採用につながる</td></tr>
+      <tr><td>高知県・地元自治体</td><td>防災DX・データ活用人材の地域内での育成</td></tr>
+      <tr><td>高専機構全体</td><td>理論科学（天文学）から社会実装への転身という、他に例の少ないキャリアモデルの提示</td></tr>
+    </table>
+  </section>
+
+  <section id="execution" class="block">
+    <p class="section-num">⑥ EXECUTION</p>
+    <h2>実行</h2>
+    <div class="card">
+      <b>研究実績</b><br>
+      初代星形成・超新星爆発・直接崩壊ブラックホール形成等をテーマに、国立天文台のスーパーコンピュータ等を用いた大規模数値シミュレーション研究を継続。基盤研究(S)の共同研究者として、次世代の大規模天体探査プロジェクトにも参画している。
+    </div>
+    <div class="card warn">
+      <b>教育活動の実行実績は未確認</b><br>
+      高知高専での具体的な教育実践（出前授業・PBL・地域連携等）はresearchmap上で確認できませんでした。ご本人への確認が必須です。
+    </div>
+  </section>
+
+  <section id="success" class="block">
+    <p class="section-num">⑦ SUCCESS</p>
+    <h2>成功事例</h2>
+    <table>
+      <tr><th>成果</th><th>内容</th></tr>
+      <tr><td>研究実績</td><td>論文29本、国際会議での招待講演多数（天体物理学分野）</td></tr>
+      <tr><td>大型研究費への参画</td><td>基盤研究(S)「次世代大規模探査を用いた突発天体観測で明らかにする宇宙の進化」共同研究者（2024〜2029年度）</td></tr>
+      <tr><td>キャリアの幅</td><td>国立天文台・東北大学・ジョージア工科大学等、国内外の第一線研究機関でのキャリア</td></tr>
+    </table>
+  </section>
+
+  <section id="failure" class="block">
+    <p class="section-num">⑧ CAUTION</p>
+    <h2>課題・留意点（成功事例のみに偏らないための正直な整理）</h2>
+    <div class="card warn">
+      <b>本ページで最も留意すべき点</b><br>
+      本ページの「教育の目的」「問題提起」「社会価値創造」は、いずれも研究テーマそのものではなく、「ソーシャルデザイン工学科への着任」という経歴のみから木村・Claudeが立てた仮説です。角田先生・久池井先生の2件とは異なり、教育活動としての裏付けが取れていません。千秋先生への確認では、まず「そもそもこの方向性（防災・データサイエンス応用）で関心をお持ちか」から伺う必要があります。
+    </div>
+  </section>
+
+  <section id="curriculum" class="block">
+    <p class="section-num">⑨ CURRICULUM（仮説・千秋先生への確認前）</p>
+    <h2>15コマカリキュラム案：天体シミュレーション×防災・データサイエンス教育</h2>
+    <p class="subtle">半年15コマ（年間30コマの前半）。シミュレーションの基礎理論→データから社会課題を読み解く→現場での検証→地域接続の順に構成。<b>全て千秋先生への確認前の仮説</b>で、他の2件よりも確度が低いことを前提とする。</p>
+    <table>
+      <tr><th>コマ</th><th>担当</th><th>内容</th><th>企業タグ／手伝ってほしいこと</th></tr>
+      <tr><td>1〜2</td><td>先生</td><td>シミュレーションとは何か、大量データから「変化」を見つける技術の基礎</td><td>-</td></tr>
+      <tr><td>3</td><td>企業</td><td>気象・防災データを扱う実務の実例</td><td>気象・防災テック企業：観測データの収集・監視フローの解説</td></tr>
+      <tr><td>4〜5</td><td>先生</td><td>数値シミュレーションの基本（離散化）、不確実性とシナリオ分析</td><td>-</td></tr>
+      <tr><td>6</td><td>企業</td><td>インフラ点検・センサーデータの実例</td><td>インフラ点検・センサーメーカー：劣化予測モデルの実例紹介</td></tr>
+      <tr><td>7</td><td>先生</td><td>高知県の地域特性と防災データ（南海トラフ・豪雨災害）</td><td>-</td></tr>
+      <tr><td>8</td><td>企業</td><td>防災シミュレーション・ハザードマップ制作の現場</td><td>防災コンサル・自治体シンクタンク：制作プロセスの紹介、公開データの案内</td></tr>
+      <tr><td>9</td><td>先生</td><td>ワーク①：簡易シミュレーションモデルの構築</td><td>-</td></tr>
+      <tr><td>10</td><td>企業</td><td>実データを使ったケーススタディ提供</td><td>気象・防災テック企業（コマ3とは別事例）：モデル検証用データの提供</td></tr>
+      <tr><td>11</td><td>先生</td><td>ワーク②：モデル改良とシナリオ評価</td><td>-</td></tr>
+      <tr><td>12</td><td>企業</td><td>学生モデルへのフィードバック・講評</td><td>インフラ・防災系企業：プロ視点での講評</td></tr>
+      <tr><td>13</td><td>先生</td><td>振り返り：シミュレーション×社会実装の統合理論</td><td>-</td></tr>
+      <tr><td>14</td><td>企業</td><td>地域における防災DX・データ活用の実例紹介</td><td>地元自治体・地域防災関連企業（高知県内）：地元で働く技術者社員の紹介</td></tr>
+      <tr><td>15</td><td>先生</td><td>成果発表会・総括</td><td>-</td></tr>
+    </table>
+    <div class="card">
+      <b>詳細版・企業への自動生成依頼文</b><br>
+      各コマの学習目標や、企業への具体的な依頼文サンプルは、社内Notion「📅 千秋元先生（高知高専） 15コマカリキュラム提案」に整理しています（本ページは要点のみの抜粋）。
+    </div>
+  </section>
+
+  <footer>
+    出典：researchmap「千秋 元 (Gen Chiaki)」（https://researchmap.jp/gen_chiaki）、高知工業高等専門学校 ソーシャルデザイン工学科公式サイト。2026年9月にWeb公開情報を調査。本ページは千秋先生ご本人への確認を経たものではなく、公開情報からの整理（特に教育活動部分は経歴からの推測）です。掲載内容に誤りがあれば訂正します。15コマカリキュラム案は2026-09-09にNotionで作成した仮説であり、先生ご本人への確認前です。
+  </footer>
+</div>
