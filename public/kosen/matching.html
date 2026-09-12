@@ -320,6 +320,10 @@
                   }
                 }
                 ccsRender();
+                // カードを選ぶたびに即座にマッチ度を再計算する（企業属性カードUI用）
+                if (typeof window.runKosenMatch === 'function') {
+                  window.runKosenMatch();
+                }
               });
 
               row.appendChild(card);
@@ -452,12 +456,57 @@
   // CR「今回は角田先生・久池井先生の2名限定にし、他の17名分のデータは削除する」対応から拡張。
   // 2026-09-09に千秋元先生（高知高専）・逆瀬川栄一先生（鹿児島高専）をパイロットとして追加。以降も随時追加予定のため人数は明記しない方針（CR対応 2026-09-09）。
   // 未パイロットの調査データはNotion「🎯 高専教員 教育テーマDB」に保持しており、削除ではなく非表示（将来の拡張候補）。
+  //
+  // CR「先生側にも企業側と同じ業種・職種タグを追加。ただし学科・地区はコマ(授業)単位ではなく
+  //     先生・学校のプロフィール単位で持つ」対応(2026-09-12)。
+  // department/regionは、企業側の③④と同じ13区分に、先生の公開情報（ご所属・研究内容）から
+  // 一旦マッピングした「暫定値」。★先生ご本人への確認前の仮説であり、正確な値は要確認。
   const TEACHERS = [
-    {name:"久池井茂先生", school:"北九州高専", tags:["医療・福祉","AI・生成AI","産学連携"], need:"医療・介護現場の共同開発パートナー", url:"case-kuchii.html"},
-    {name:"角田直輝先生", school:"米子高専", tags:["キャリア教育","金融教育","産学連携"], need:"金融・キャリア教育の出前講義、投資教材の実務知見", url:"case-yonago.html"},
-    {name:"千秋元先生", school:"高知高専", tags:["防災・インフラ","AI・生成AI","産学連携"], need:"気象・防災データの実務解説、インフラ点検データの共有（仮説・本人未確認）", url:"case-chiaki.html"},
-    {name:"逆瀬川栄一先生", school:"鹿児島高専", tags:["物流・DX","産学連携"], need:"物流業界の現場知見の共有、PBLワークショップ「Mission in LOGI-TECH」（2026年11月実施予定・確定済み）へのゲスト講師派遣", url:"case-kagoshima.html"}
+    {id:"case-kuchii", name:"久池井茂先生", school:"北九州高専", tags:["医療・福祉","AI・生成AI","産学連携"], need:"医療・介護現場の共同開発パートナー", url:"case-kuchii.html", department:"生産デザイン工学科（複合系）", region:"九州"},
+    {id:"case-yonago", name:"角田直輝先生", school:"米子高専", tags:["キャリア教育","金融教育","産学連携"], need:"金融・キャリア教育の出前講義、投資教材の実務知見", url:"case-yonago.html", department:"情報工学科", region:"中国"},
+    {id:"case-chiaki", name:"千秋元先生", school:"高知高専", tags:["防災・インフラ","AI・生成AI","産学連携"], need:"気象・防災データの実務解説、インフラ点検データの共有（仮説・本人未確認）", url:"case-chiaki.html", department:"土木工学科・都市システム工学科", region:"四国"},
+    {id:"case-kagoshima", name:"逆瀬川栄一先生", school:"鹿児島高専", tags:["物流・DX","産学連携"], need:"物流業界の現場知見の共有、PBLワークショップ「Mission in LOGI-TECH」（2026年11月実施予定・確定済み）へのゲスト講師派遣", url:"case-kagoshima.html", department:"機械工学科・ロボット工学系", region:"九州"}
   ];
+
+  // 各先生の15コマカリキュラムのうち、企業の協力が必要なコマ（表の「企業」担当行）だけを抜粋。
+  // industryTags/jobtypeTagsは、企業側①③の13区分から、各コマの「企業タグ／手伝ってほしいこと」
+  // (case-*.htmlのカリキュラム表に記載)をもとに割り当てた「暫定マッピング」。
+  // ★正本はcase-*.htmlのカリキュラム表。内容を変更する場合は、必ずそちらも合わせて更新すること。
+  const KOMA_DATA = {
+    "case-kuchii": [
+      {content:"医療現場のヒューマンエラー実態・注射薬仕分けの課題", raw:"医療機器ベンダー・病院DX担当：現場のヒューマンエラー事例共有", industryTags:["医療・福祉"], jobtypeTags:["SE・システムエンジニア"]},
+      {content:"自動仕分けロボットの実装例", raw:"医療ロボットメーカー：デモ・技術解説", industryTags:["医療・福祉","製造業"], jobtypeTags:["研究・開発（R&D）"]},
+      {content:"認知症ケア現場の担い手不足の実態", raw:"介護施設：現場の実態・導入経緯の共有", industryTags:["医療・福祉"], jobtypeTags:["現場エンジニア・技術者（施工・保守）"]},
+      {content:"実際の対話ロボット導入例・効果検証", raw:"介護ロボットメーカー：導入効果データの共有", industryTags:["医療・福祉","製造業"], jobtypeTags:["研究・開発（R&D）"]},
+      {content:"DX人材不足の実態・現場課題", raw:"地元中小製造業：経営課題を率直に共有", industryTags:["製造業"], jobtypeTags:["経営者・役員"]},
+      {content:"中小企業向けDX導入の提案実例", raw:"製造業向けDXベンダー・SIer（NEC等）：提案実例の共有・学生提案への講評", industryTags:["情報通信業（IT・ソフトウェア）"], jobtypeTags:["SE・システムエンジニア","技術営業（プリセールス）"]}
+    ],
+    "case-yonago": [
+      {content:"実際の発電所運営・収益構造の実例", raw:"再エネデベロッパー：発電所の実データ公開・現場解説", industryTags:["エネルギー・電力・ガス"], jobtypeTags:["現場エンジニア・技術者（施工・保守）"]},
+      {content:"資産形成相談の現場・金融教育の実例", raw:"金融機関・J-FLEC認定講師：資産形成・リスク管理の講義", industryTags:["金融業・保険業"], jobtypeTags:["営業"]},
+      {content:"技術者のキャリアパス実例", raw:"エンジニア採用・人材会社：キャリア分岐事例の紹介", industryTags:["サービス業（コンサル・専門サービス等）"], jobtypeTags:["営業"]},
+      {content:"現場データを使ったケーススタディ提供", raw:"発電事業者：モデル検証用の現場データ提供", industryTags:["エネルギー・電力・ガス"], jobtypeTags:["現場エンジニア・技術者（施工・保守）"]},
+      {content:"学生の投資判断へのフィードバック・講評", raw:"金融機関：投資判断シミュレーションへの講評", industryTags:["金融業・保険業"], jobtypeTags:["管理部門（人事・総務・経理・法務等）"]},
+      {content:"地域における再エネ×キャリアの実例紹介", raw:"地元エネルギー企業：地元で働く技術者社員の紹介", industryTags:["エネルギー・電力・ガス"], jobtypeTags:["現場エンジニア・技術者（施工・保守）"]}
+    ],
+    "case-chiaki": [
+      {content:"気象・防災データを扱う実務の実例", raw:"気象・防災テック企業：観測データの収集・監視フローの解説", industryTags:["情報通信業（IT・ソフトウェア）"], jobtypeTags:["SE・システムエンジニア"]},
+      {content:"インフラ点検・センサーデータの実例", raw:"インフラ点検・センサーメーカー：劣化予測モデルの実例紹介", industryTags:["建設業","製造業"], jobtypeTags:["研究・開発（R&D）"]},
+      {content:"防災シミュレーション・ハザードマップ制作の現場", raw:"防災コンサル・自治体シンクタンク：制作プロセスの紹介、公開データの案内", industryTags:["サービス業（コンサル・専門サービス等）","公務・行政関連"], jobtypeTags:["研究・開発（R&D）"]},
+      {content:"実データを使ったケーススタディ提供", raw:"気象・防災テック企業（コマ3とは別事例）：モデル検証用データの提供", industryTags:["情報通信業（IT・ソフトウェア）"], jobtypeTags:["研究・開発（R&D）"]},
+      {content:"学生モデルへのフィードバック・講評", raw:"インフラ・防災系企業：プロ視点での講評", industryTags:["建設業"], jobtypeTags:["現場エンジニア・技術者（施工・保守）"]},
+      {content:"地域における防災DX・データ活用の実例紹介", raw:"地元自治体・地域防災関連企業（高知県内）：地元で働く技術者社員の紹介", industryTags:["公務・行政関連"], jobtypeTags:["現場エンジニア・技術者（施工・保守）"]}
+    ],
+    "case-kagoshima": [
+      {content:"物流現場の課題共有", raw:"物流・運送会社：現場のドライバー不足・積載率低下の実態共有", industryTags:["運輸業・物流業"], jobtypeTags:["現場エンジニア・技術者（施工・保守）"]},
+      {content:"倉庫自動化・ロボット導入の実例", raw:"倉庫ロボット・自動化ベンダー：導入効果データの共有", industryTags:["製造業"], jobtypeTags:["研究・開発（R&D）"]},
+      {content:"DAY1｜個人戦：社会問題の理解・企業事例紹介・カードゲーム個人実践・ビジネスプラン作成（2026/11/16実施予定・確定済み）", raw:"NEC：木村好孝氏（コーポレートIT・AIイノベーション部門 統括部長）", industryTags:["情報通信業（IT・ソフトウェア）"], jobtypeTags:["経営者・役員"]},
+      {content:"DAY2｜チーム戦：事業化提案書作成・生成AI診断・投資判断プレゼン（2026/11/30実施予定・確定済み）", raw:"NEC：木村好孝氏（同上）", industryTags:["情報通信業（IT・ソフトウェア）"], jobtypeTags:["経営者・役員"]},
+      {content:"自治体・地域物流の視点", raw:"自治体・地域物流連携：買い物難民支援・受け取り拠点の実例紹介", industryTags:["公務・行政関連","運輸業・物流業"], jobtypeTags:["管理部門（人事・総務・経理・法務等）"]},
+      {content:"環境・CO2削減の視点", raw:"環境・カーボンニュートラル関連企業：物流の環境負荷低減の取り組み紹介", industryTags:["エネルギー・電力・ガス"], jobtypeTags:["研究・開発（R&D）"]},
+      {content:"別の物流企業からの講評", raw:"大手物流企業（ヤマト運輸等、DAY1で事例紹介済み）：学生提案へのプロ視点の講評", industryTags:["運輸業・物流業"], jobtypeTags:["現場エンジニア・技術者（施工・保守）"]}
+    ]
+  };
 
   function detectTags(text) {
     const hits = [];
@@ -467,14 +516,98 @@
     return hits;
   }
 
-  // CR「生成AIによる意味的マッチング・組み合わせ理由文が未実装」対応の第一歩：
-  // 完全な意味理解ではないが、重なったタグをもとに「なぜこの組み合わせが良さそうか」を一文で言語化する。
-  function reasonText(s) {
-    if (s.overlap.length === 0) {
-      return 'まだ重なる分野タグは見つかっていませんが、参考候補として表示しています。';
+  // CR「先生のこのコマに対して何%マッチするかを、職種/業種・教育内容・場所や学科の
+  //     3軸をうまく配分して計算したい」対応(2026-09-12)。
+  //
+  // 【重みの考え方】
+  //   ・コンテンツ(教育内容)＝45%：授業のテーマと会社の得意分野が合っているかどうかが、
+  //     協力の「質」を最も左右するため、3軸のうち最も重く配分。
+  //   ・職種・業種(属性)＝35%：CRで最初に挙げられた観点。話してほしい立場・専門性の人かどうかは
+  //     コンテンツの次に重要だが、同じ業種・職種でなくても代替が利きやすいため僅かに軽め。
+  //   ・場所・学科＝20%：オンライン対応や「どこでも対応可能」を選べば実質的に解消できる
+  //     ロジスティクス寄りの要素のため、3軸の中では最も軽い比重にしている。
+  //   （合計100%。会社側がまだカードを選んでいない軸は0%ではなく50%＝中立点として扱い、
+  //     カードを選ぶほどスコアの精度が上がっていく設計にしている）
+  const MATCH_WEIGHTS = { attr: 0.35, content: 0.45, location: 0.20 };
+
+  // ①業種・②職種の一致度（0〜1）。コマ側に指定が無い軸は「制約なし」として満点扱いにする。
+  function computeAttrScore(company, koma) {
+    const industryReq = koma.industryTags || [];
+    const jobtypeReq = koma.jobtypeTags || [];
+
+    let industrySub = 1;
+    if (industryReq.length > 0) {
+      industrySub = !company.industry ? 0.5 : (industryReq.includes(company.industry) ? 1 : 0);
     }
-    const tagList = s.overlap.join('・');
-    return `入力文の内容と「${tagList}」の分野で重なりが見つかりました。${s.name}が求めている「${s.need}」に、御社の知見が活かせそうです。`;
+
+    let jobtypeSub = 1;
+    if (jobtypeReq.length > 0) {
+      if (!company.jobtype || company.jobtype.length === 0) {
+        jobtypeSub = 0.5;
+      } else {
+        const overlap = company.jobtype.filter(j => jobtypeReq.includes(j));
+        jobtypeSub = Math.min(1, overlap.length / jobtypeReq.length);
+      }
+    }
+
+    return (industrySub + jobtypeSub) / 2;
+  }
+
+  // 教育内容の一致度（0〜1）。自由記述欄からのキーワード検出タグを、
+  // コマの内容テキスト＋先生の分野タグ（既存の3タグ）の両方と突き合わせる。
+  function computeContentScore(company, teacher, koma) {
+    const companyDetected = detectTags(company.freeText || '');
+    const komaDetected = detectTags(koma.content || '');
+    const referenceTags = Array.from(new Set([...komaDetected, ...teacher.tags]));
+    if (companyDetected.length === 0 || referenceTags.length === 0) return 0.5; // 判定材料が無い場合は中立点
+    const overlap = companyDetected.filter(t => referenceTags.includes(t));
+    return Math.min(1, overlap.length / referenceTags.length);
+  }
+
+  // 場所・学科の一致度（0〜1）。会社が「オンラインのみ」「どこでも対応可能」を選んでいれば
+  // 地域のミスマッチは実質解消されるとみなし満点にする。
+  function computeLocationScore(company, teacher) {
+    const region = company.region || [];
+    let regionSub = 0.5;
+    if (region.length > 0) {
+      const anywhereOk = region.includes('どこでも対応可能（訪問含む）') || region.includes('オンラインのみ対応可');
+      regionSub = (anywhereOk || region.includes(teacher.region)) ? 1 : 0;
+    }
+
+    const department = company.department || [];
+    let deptSub = 0.5;
+    if (department.length > 0) {
+      deptSub = department.includes(teacher.department) ? 1 : 0;
+    }
+
+    return (regionSub + deptSub) / 2;
+  }
+
+  // 3軸を重み付け合成して、コマ単位のマッチ度(%)を算出する
+  function computeMatchScore(company, teacher, koma) {
+    const attr = computeAttrScore(company, koma);
+    const content = computeContentScore(company, teacher, koma);
+    const location = computeLocationScore(company, teacher);
+    const total = attr * MATCH_WEIGHTS.attr + content * MATCH_WEIGHTS.content + location * MATCH_WEIGHTS.location;
+    return {
+      total: Math.round(total * 100),
+      attr: Math.round(attr * 100),
+      content: Math.round(content * 100),
+      location: Math.round(location * 100)
+    };
+  }
+
+  // CR「生成AIによる意味的マッチング・組み合わせ理由文が未実装」対応の第一歩：
+  // 完全な意味理解ではないが、内訳スコアをもとに「なぜこの組み合わせが良さそうか」を一文で言語化する。
+  function reasonText(teacher, koma, breakdown) {
+    const parts = [];
+    if (breakdown.attr >= 60) parts.push('ご希望の業種・職種');
+    if (breakdown.content >= 60) parts.push('教育内容のテーマ');
+    if (breakdown.location >= 60) parts.push('学科・地域');
+    if (parts.length === 0) {
+      return 'まだ重なりが少ないですが、参考候補として表示しています。上のカードを選ぶとマッチ度の精度が上がります。';
+    }
+    return `${parts.join('・')}が合っているため、${teacher.name}の「${koma.content}」というコマに、御社が協力できそうです。`;
   }
 
   function runMatch() {
@@ -484,38 +617,79 @@
       ? '検出タグ：' + detected.map(t => `<span class="tagchip hit">${t}</span>`).join(' ')
       : '検出タグ：なし（もう少し具体的なキーワードを入れてみてください）';
 
-    const scored = TEACHERS.map(t => {
-      const overlap = t.tags.filter(tag => detected.includes(tag));
-      const score = detected.length ? Math.round((overlap.length / t.tags.length) * 100) : 0;
-      return { ...t, overlap, score };
-    }).sort((a, b) => b.score - a.score);
+    // 上のカード選択（①企業種別・②業務種別・③学科・④地区）を取得する。まだ選んでいない軸は空扱い。
+    const cardSelections = window.getCardSelections ? window.getCardSelections() : {};
+    const company = {
+      freeText: text,
+      industry: cardSelections.industry || null,
+      jobtype: Array.isArray(cardSelections.jobtype) ? cardSelections.jobtype : [],
+      department: Array.isArray(cardSelections.department) ? cardSelections.department : [],
+      region: Array.isArray(cardSelections.region) ? cardSelections.region : []
+    };
+
+    // 各先生について、企業の協力が必要なコマの中から最もマッチ度が高いコマを1つ選ぶ
+    const scored = TEACHERS.map(teacher => {
+      const komas = KOMA_DATA[teacher.id] || [];
+      let best = null;
+      komas.forEach(koma => {
+        const breakdown = computeMatchScore(company, teacher, koma);
+        if (!best || breakdown.total > best.breakdown.total) {
+          best = { koma, breakdown };
+        }
+      });
+      return { teacher, best };
+    }).filter(s => s.best !== null)
+      .sort((a, b) => b.best.breakdown.total - a.best.breakdown.total);
 
     const results = document.getElementById('results');
-    const top = scored.filter(s => s.score > 0);
+    const top = scored.filter(s => s.best.breakdown.total >= 40);
     document.getElementById('resultLabel').textContent = top.length
-      ? `マッチ候補 ${top.length}件（全${TEACHERS.length}件中）`
-      : 'マッチする候補が見つかりませんでした。文章の中に技術分野や協力できる内容を具体的に書いてみてください。';
+      ? `マッチ候補 ${top.length}件（全${scored.length}件中）`
+      : 'マッチする候補が見つかりませんでした。上のカードや自由記述をもう少し具体的にしてみてください。';
 
-    results.innerHTML = (top.length ? top : scored.slice(0, 3)).map(s => `
+    const list = top.length ? top : scored.slice(0, 3);
+
+    results.innerHTML = list.map(({ teacher, best }) => {
+      const { koma, breakdown } = best;
+      return `
       <div class="rounded-2xl border border-brand-soft bg-card p-5 shadow-sm">
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div>
-            <p class="font-bold text-brand-dark">${s.name}<span class="ml-2 text-xs font-normal text-foreground/50">${s.school}</span></p>
-            <p class="mt-1 text-xs text-foreground/60">先生が求めている協力：${s.need}</p>
+            <p class="font-bold text-brand-dark">${teacher.name}<span class="ml-2 text-xs font-normal text-foreground/50">${teacher.school}</span></p>
+            <p class="mt-1 text-xs text-foreground/60">対象コマ：${koma.content}</p>
+            <p class="mt-1 text-xs text-foreground/60">企業タグ：${koma.raw}</p>
           </div>
-          <p class="text-lg font-bold text-brand">${s.score}%</p>
+          <p class="text-lg font-bold text-brand">${breakdown.total}%</p>
         </div>
-        <div class="match-bar mt-3"><div class="match-fill" style="width:${s.score}%"></div></div>
+        <div class="match-bar mt-3"><div class="match-fill" style="width:${breakdown.total}%"></div></div>
+        <div class="mt-3 grid grid-cols-3 gap-2 text-center">
+          <div>
+            <p class="text-[10px] text-foreground/50">職種・業種（35%）</p>
+            <p class="text-sm font-semibold text-brand-dark">${breakdown.attr}%</p>
+          </div>
+          <div>
+            <p class="text-[10px] text-foreground/50">教育内容（45%）</p>
+            <p class="text-sm font-semibold text-brand-dark">${breakdown.content}%</p>
+          </div>
+          <div>
+            <p class="text-[10px] text-foreground/50">場所・学科（20%）</p>
+            <p class="text-sm font-semibold text-brand-dark">${breakdown.location}%</p>
+          </div>
+        </div>
         <div class="mt-3 flex flex-wrap gap-1.5">
-          ${s.tags.map(tag => `<span class="tagchip ${s.overlap.includes(tag) ? 'hit' : ''}">${tag}</span>`).join('')}
+          ${teacher.tags.map(tag => `<span class="tagchip ${detected.includes(tag) ? 'hit' : ''}">${tag}</span>`).join('')}
         </div>
-        <p class="mt-3 rounded-lg bg-accent-green/10 px-3 py-2 text-xs leading-relaxed text-foreground/80">🤝 ${reasonText(s)}</p>
-        <a class="mt-3 inline-block text-xs font-semibold text-brand-dark underline" href="${s.url}" target="${s.url.startsWith('http') ? '_blank' : '_self'}" rel="noopener">詳細を見る</a>
+        <p class="mt-3 rounded-lg bg-accent-green/10 px-3 py-2 text-xs leading-relaxed text-foreground/80">🤝 ${reasonText(teacher, koma, breakdown)}</p>
+        <a class="mt-3 inline-block text-xs font-semibold text-brand-dark underline" href="${teacher.url}" target="${teacher.url.startsWith('http') ? '_blank' : '_self'}" rel="noopener">詳細を見る</a>
       </div>
-    `).join('');
+    `;
+    }).join('');
   }
 
   document.getElementById('matchBtn').addEventListener('click', runMatch);
+  // カードを選んだ瞬間にもマッチ度を再計算できるよう、グローバルに公開しておく
+  // （カード選択UI側のクリックハンドラから window.runKosenMatch() として呼び出す）
+  window.runKosenMatch = runMatch;
   runMatch();
 
   // 「上の入力欄の内容をコピー」ボタン

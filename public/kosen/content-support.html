@@ -28,6 +28,117 @@
   body{ background:#fdf8f2; color:#4a3f35; font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
   h1,h2,h3{ text-wrap:balance; }
   .tagchip{ font-size:11px; padding:3px 9px; border-radius:999px; background:#f7e0cf; color:#c96f42; }
+
+  /* CR: 先生側にも企業側と同じ「業種・職種」カードタグを追加、
+     および「所属学科・対応地区」をプロフィール情報として追加（トランプ風デザイン）。
+     matching.htmlの企業向けカード選択UIと同じCSS。 */
+  .ccs-section {
+    margin-top: 4px;
+    padding: 16px;
+    border: 1px dashed #e0c8ae;
+    border-radius: 12px;
+    background: #fffaf4;
+  }
+  .ccs-section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #c96f42;
+    margin-bottom: 2px;
+  }
+  .ccs-section-hint {
+    font-size: 11.5px;
+    color: #888;
+    margin-bottom: 14px;
+  }
+  .ccs-category {
+    margin-bottom: 16px;
+  }
+  .ccs-category:last-child {
+    margin-bottom: 0;
+  }
+  .ccs-category-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #222;
+  }
+  .ccs-category-hint {
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 8px;
+  }
+  .ccs-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  @media (max-width: 900px) {
+    .ccs-row {
+      flex-wrap: wrap;
+      overflow-x: visible;
+    }
+  }
+  .ccs-card {
+    position: relative;
+    flex: 1 0 78px;
+    min-width: 78px;
+    max-width: 110px;
+    height: 112px;
+    border: 2px solid #d8d8d8;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #ffffff 0%, #fdf8f2 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    text-align: center;
+    padding: 6px 4px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
+  }
+  .ccs-card-corner {
+    position: absolute;
+    top: 5px;
+    left: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.1;
+    font-size: 10px;
+    font-weight: 700;
+    color: #b0a89e;
+  }
+  .ccs-card-suit { font-size: 9px; }
+  .ccs-card-emoji { font-size: 22px; line-height: 1; }
+  .ccs-card-label { font-size: 10.5px; line-height: 1.25; }
+  .ccs-card:hover {
+    border-color: #e08a5b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(224,138,91,0.2);
+  }
+  .ccs-card.selected {
+    border-color: #c96f42;
+    background: linear-gradient(180deg, #fff3e8 0%, #f7e0cf 100%);
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(201,111,66,0.3);
+  }
+  .ccs-card.selected .ccs-card-corner { color: #c96f42; }
+  .ccs-card.other-card { border-style: dashed; }
+  .ccs-other-input {
+    margin-top: 8px;
+    display: none;
+    width: 100%;
+    max-width: 400px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+  .ccs-other-input.show { display: block; }
 </style>
 
 <header class="sticky top-0 z-50 border-b border-brand-soft bg-background/90 backdrop-blur">
@@ -99,10 +210,54 @@
           <label class="block text-xs font-semibold text-foreground">ご所属（高専名・学科等）</label>
           <input id="teacherAffiliation" type="text" required class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground">
         </div>
+
+        <!-- CR: 先生・学校のプロフィール情報として「所属学科」「対応地区」を追加。
+             企業側の④学科・⑤地区と同じカードで、マッチング時にはコマ単位ではなく先生プロフィール単位で比較する。 -->
+        <section id="teacher-profile-selector" class="ccs-section">
+          <p class="ccs-section-title">🏫 学校について教えてください（プロフィール情報）</p>
+          <p class="ccs-section-hint">これは「こんな授業をしてほしい」の内容とは別に、先生・学校のプロフィールとして1回だけ登録される情報です。</p>
+
+          <div class="ccs-category" data-category="department">
+            <div class="ccs-category-title">所属学科（1つ選択）</div>
+            <div class="ccs-category-hint">最も近い学科を1枚選んでください</div>
+            <div class="ccs-row" data-select-mode="single"></div>
+            <input type="text" class="ccs-other-input" placeholder="その他の場合はご記入ください">
+          </div>
+
+          <div class="ccs-category" data-category="region">
+            <div class="ccs-category-title">対応可能な地区（複数選択可）</div>
+            <div class="ccs-category-hint">訪問・オンラインで対応できる地域を選んでください（複数可）</div>
+            <div class="ccs-row" data-select-mode="multi"></div>
+            <input type="text" class="ccs-other-input" placeholder="その他の場合はご記入ください">
+          </div>
+        </section>
+
         <div>
           <label class="block text-xs font-semibold text-foreground">こんな授業をしてほしい（ご希望の内容）</label>
           <textarea id="teacherContent" rows="4" required class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground" placeholder="例：地元企業と連携して、防災×ドローン測量の実践授業をしてほしい"></textarea>
         </div>
+
+        <!-- CR: 企業側の①企業種別・②業務種別と同じカードで、この授業に協力してほしい
+             企業の業種・職種を選べるようにする（＝この授業(コマ)の「企業タグ」を構造化したもの）。 -->
+        <section id="teacher-tag-selector" class="ccs-section">
+          <p class="ccs-section-title">🃏 この授業に協力してほしい企業について教えてください</p>
+          <p class="ccs-section-hint">上の「こんな授業をしてほしい」に合わせて、来てほしい企業の業種・職種のカードを選んでください（両方とも複数選択できます）</p>
+
+          <div class="ccs-category" data-category="industry">
+            <div class="ccs-category-title">ご希望の業種（複数選択可）</div>
+            <div class="ccs-category-hint">この授業に協力してほしい企業の業種を選んでください（複数可）</div>
+            <div class="ccs-row" data-select-mode="multi"></div>
+            <input type="text" class="ccs-other-input" placeholder="その他の場合はご記入ください">
+          </div>
+
+          <div class="ccs-category" data-category="jobtype">
+            <div class="ccs-category-title">ご希望の職種（複数選択可）</div>
+            <div class="ccs-category-hint">来てほしい担当者の職種を選んでください（複数可）</div>
+            <div class="ccs-row" data-select-mode="multi"></div>
+            <input type="text" class="ccs-other-input" placeholder="その他の場合はご記入ください">
+          </div>
+        </section>
+
         <div>
           <label class="block text-xs font-semibold text-foreground">連絡先メールアドレス（任意）</label>
           <input id="teacherEmail" type="email" class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground">
@@ -133,6 +288,129 @@
   // アップロードが完了しないことがあったため、署名付きURL方式のuploadPresigned()に切り替えた
   // (詳細はsrc/app/api/kosen/upload/route.tsのコメント参照)。
   import { uploadPresigned } from "https://esm.sh/@vercel/blob@2.8.0/client";
+
+  // CR「先生側にも、企業側と同じ業種・職種カードタグを追加してほしい。
+  //     ただし学科・地区はカリキュラム(コマ)単位ではなく、先生・学校のプロフィール単位で持つ」対応(2026-09-12)。
+  // matching.htmlの企業向けカード選択UIと同じカード定義（絵文字・トランプ風の番号/マーク）を、
+  // 先生登録フォームでも使えるように、生成ロジックを再利用可能な関数にしている。
+  // 1ページの中で「学校プロフィール用（学科・地区）」「授業タグ用（業種・職種）」の
+  // 2つの独立したカード選択インスタンスを作る。
+  const CCS_CARD_DATA = {
+    industry: [
+      ["製造業", "🏭"], ["金融業・保険業", "💰"], ["情報通信業（IT・ソフトウェア）", "💻"], ["建設業", "🏗️"],
+      ["運輸業・物流業", "🚚"], ["医療・福祉", "🏥"], ["エネルギー・電力・ガス", "⚡"], ["農林水産業", "🌾"],
+      ["教育・学習支援業", "📚"], ["公務・行政関連", "🏛️"], ["小売業・卸売業", "🛒"],
+      ["サービス業（コンサル・専門サービス等）", "🤝"], ["その他", "❓"]
+    ],
+    jobtype: [
+      ["経営者・役員", "👔"], ["営業", "📈"], ["技術営業（プリセールス）", "🎯"], ["研究・開発（R&D）", "🔬"],
+      ["SE・システムエンジニア", "💻"], ["現場エンジニア・技術者（施工・保守）", "🔧"],
+      ["生産・製造現場（オペレーター）", "⚙️"], ["品質管理・生産管理", "✅"], ["購買・調達", "📦"],
+      ["マーケティング・広報", "📣"], ["管理部門（人事・総務・経理・法務等）", "🗂️"],
+      ["カスタマーサポート・CS", "🎧"], ["その他", "❓"]
+    ],
+    department: [
+      ["機械工学科・ロボット工学系", "🤖"], ["電気電子工学科", "🔌"], ["電子制御工学科", "🎛️"], ["情報工学科", "💻"],
+      ["建築学科", "🏛️"], ["土木工学科・都市システム工学科", "🌉"], ["物質工学科（化学系）", "🧪"],
+      ["生物工学科", "🧬"], ["経営情報学科", "📊"], ["環境工学科", "🌱"], ["生産デザイン工学科（複合系）", "🎨"],
+      ["商船学科", "⚓"], ["その他", "❓"]
+    ],
+    region: [
+      ["北海道", "❄️"], ["東北", "🌾"], ["関東", "🗼"], ["北陸", "🏔️"], ["中部・東海", "🗻"], ["近畿", "⛩️"],
+      ["中国", "🌉"], ["四国", "🍊"], ["九州", "🌋"], ["沖縄", "🏝️"], ["オンラインのみ対応可", "💻"],
+      ["どこでも対応可能（訪問含む）", "🚗"], ["その他", "❓"]
+    ]
+  };
+  const CCS_SUITS = { industry: "♠", jobtype: "♥", department: "♦", region: "♣" };
+
+  // カード選択UIのインスタンスを1つ作る。rootId配下の [data-category] を見つけて、
+  // それぞれのカテゴリのカードを描画する。戻り値のgetSelections()で選択結果を取得できる。
+  function createCcsSelector(rootId) {
+    const root = document.getElementById(rootId);
+    const state = {};
+    root.querySelectorAll('.ccs-category').forEach(categoryEl => {
+      const key = categoryEl.dataset.category;
+      const mode = categoryEl.querySelector('.ccs-row').dataset.selectMode;
+      state[key] = mode === 'single' ? null : new Set();
+    });
+
+    function isOtherLabel(label) { return label === 'その他'; }
+
+    function render() {
+      root.querySelectorAll('.ccs-category').forEach(categoryEl => {
+        const key = categoryEl.dataset.category;
+        const row = categoryEl.querySelector('.ccs-row');
+        const otherInput = categoryEl.querySelector('.ccs-other-input');
+        const mode = row.dataset.selectMode;
+        const suit = CCS_SUITS[key];
+        row.innerHTML = '';
+
+        CCS_CARD_DATA[key].forEach(([label, emoji], index) => {
+          const card = document.createElement('div');
+          card.className = 'ccs-card' + (isOtherLabel(label) ? ' other-card' : '');
+          const rank = index + 1;
+          card.innerHTML =
+            '<span class="ccs-card-corner">' + rank + '<span class="ccs-card-suit">' + suit + '</span></span>' +
+            '<span class="ccs-card-emoji">' + emoji + '</span>' +
+            '<span class="ccs-card-label">' + label + '</span>';
+
+          const isSelected = mode === 'single' ? state[key] === label : state[key].has(label);
+          if (isSelected) card.classList.add('selected');
+
+          card.addEventListener('click', () => {
+            if (mode === 'single') {
+              state[key] = (state[key] === label) ? null : label;
+            } else {
+              if (state[key].has(label)) state[key].delete(label); else state[key].add(label);
+            }
+            render();
+          });
+
+          row.appendChild(card);
+        });
+
+        const otherSelected = mode === 'single' ? state[key] === 'その他' : state[key].has('その他');
+        otherInput.classList.toggle('show', otherSelected);
+      });
+    }
+
+    function getSelections() {
+      const result = {};
+      root.querySelectorAll('.ccs-category').forEach(categoryEl => {
+        const key = categoryEl.dataset.category;
+        const mode = categoryEl.querySelector('.ccs-row').dataset.selectMode;
+        const otherInput = categoryEl.querySelector('.ccs-other-input');
+        const otherText = otherInput.value.trim();
+        if (mode === 'single') {
+          result[key] = state[key] === 'その他' && otherText ? otherText : state[key];
+        } else {
+          const values = Array.from(state[key]);
+          result[key] = values.includes('その他') && otherText
+            ? values.filter(v => v !== 'その他').concat(otherText)
+            : values;
+        }
+      });
+      return result;
+    }
+
+    function reset() {
+      root.querySelectorAll('.ccs-category').forEach(categoryEl => {
+        const key = categoryEl.dataset.category;
+        const mode = categoryEl.querySelector('.ccs-row').dataset.selectMode;
+        state[key] = mode === 'single' ? null : new Set();
+      });
+      root.querySelectorAll('.ccs-other-input').forEach(el => { el.value = ''; });
+      render();
+    }
+
+    render();
+    return { getSelections, reset };
+  }
+
+  // 「所属学科」「対応地区」＝先生・学校のプロフィール情報（コマごとではなく1回だけ）
+  const teacherProfileSelector = createCcsSelector('teacher-profile-selector');
+  // 「ご希望の業種」「ご希望の職種」＝この授業(コマ)の企業タグに相当する情報
+  const teacherTagSelector = createCcsSelector('teacher-tag-selector');
 
   // CR「今回は角田先生・久池井先生の2名限定にし、他の17名分のデータは削除する」対応から拡張。
   // 2026-09-09に千秋元先生（高知高専）・逆瀬川栄一先生（鹿児島高専）をパイロットとして追加。以降も随時追加予定のため人数は明記しない方針（CR対応 2026-09-09）。
@@ -282,7 +560,10 @@
           affiliation: document.getElementById('teacherAffiliation').value,
           content: document.getElementById('teacherContent').value,
           contactEmail: document.getElementById('teacherEmail').value,
-          files: uploadedTeacherFileRefs
+          files: uploadedTeacherFileRefs,
+          // CR: 先生・学校のプロフィール情報（学科・地区）と、この授業の企業タグ（業種・職種）
+          teacherProfile: teacherProfileSelector.getSelections(),
+          cardSelections: teacherTagSelector.getSelections()
         })
       });
       const data = await res.json();
@@ -290,6 +571,8 @@
       teacherMsg.textContent = '✅ 登録しました。ありがとうございます。運営チームが内容を確認します。';
       teacherMsg.className = 'text-center text-xs text-accent-green font-semibold';
       teacherForm.reset();
+      teacherProfileSelector.reset();
+      teacherTagSelector.reset();
       uploadedTeacherFileRefs = [];
       teacherDocFileStatus.textContent = DEFAULT_TEACHER_DOC_STATUS;
     } catch (err) {

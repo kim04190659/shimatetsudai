@@ -12,10 +12,23 @@ export const runtime = "nodejs";
 // CR「matching.htmlに企業属性カード選択UIを追加」対応(2026-09-12)：
 // 企業種別(単一選択)・業務種別/対応学科/対応地区(複数選択可)の4カテゴリ。
 // https://app.notion.com/p/3d9960a91e2381d3ad0ce93826ac43c1
-type KosenCardSelections = {
+type KosenCompanyCardSelections = {
   industry?: string | null;
   jobtype?: string[];
   department?: string[];
+  region?: string[];
+};
+
+// CR「先生側にも企業側と同じ業種・職種タグを追加。学科・地区はコマではなくプロフィール単位で」対応(2026-09-12)。
+// 先生が「この授業に協力してほしい企業」として選ぶ業種・職種（どちらも複数選択可）。
+type KosenTeacherTagSelections = {
+  industry?: string[];
+  jobtype?: string[];
+};
+
+// 先生・学校のプロフィール情報（1回だけ登録。授業(コマ)ごとではない）。
+type KosenTeacherProfile = {
+  department?: string | null;
   region?: string[];
 };
 
@@ -27,17 +40,20 @@ type KosenRegisterBody = {
   contactEmail?: string;
   // CR「複数ファイルをまとめてアップロードしたい」対応(2026-09-09)で単一ファイルから配列に変更。
   files?: { url: string; name: string }[];
-  // 企業属性カード選択（type="企業"のときのみ意味を持つ。先生登録では未使用）
-  cardSelections?: KosenCardSelections | null;
+  // 企業属性カード選択（type="企業"のとき）／授業の希望業種・職種タグ（type="先生"のとき）
+  cardSelections?: KosenCompanyCardSelections | KosenTeacherTagSelections | null;
+  // 先生・学校のプロフィール情報（type="先生"のときのみ意味を持つ）
+  teacherProfile?: KosenTeacherProfile | null;
 };
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-// カード選択の内容を、Notionの「内容」欄に追記できる読みやすいテキストに整形する。
-// Notion側に専用プロパティを追加していないため、現状は「内容」欄の末尾にまとめて記録する。
-function formatCardSelections(selections: KosenCardSelections | null | undefined): string {
+// 企業のカード選択（①企業種別・②業務種別・③学科・④地区）を、Notionの「内容」欄に
+// 追記できる読みやすいテキストに整形する。Notion側に専用プロパティを追加していないため、
+// 現状は「内容」欄の末尾にまとめて記録する。
+function formatCompanyCardSelections(selections: KosenCompanyCardSelections | null | undefined): string {
   if (!selections) return "";
   const lines: string[] = [];
   if (isNonEmptyString(selections.industry)) {
@@ -56,10 +72,40 @@ function formatCardSelections(selections: KosenCardSelections | null | undefined
   return `\n\n【企業属性（カード選択）】\n${lines.join("\n")}`;
 }
 
+// 先生が選んだ「この授業に協力してほしい企業の業種・職種」を整形する。
+function formatTeacherTagSelections(selections: KosenTeacherTagSelections | null | undefined): string {
+  if (!selections) return "";
+  const lines: string[] = [];
+  if (Array.isArray(selections.industry) && selections.industry.length > 0) {
+    lines.push(`ご希望の業種: ${selections.industry.join("、")}`);
+  }
+  if (Array.isArray(selections.jobtype) && selections.jobtype.length > 0) {
+    lines.push(`ご希望の職種: ${selections.jobtype.join("、")}`);
+  }
+  if (lines.length === 0) return "";
+  return `\n\n【この授業に協力してほしい企業（カード選択）】\n${lines.join("\n")}`;
+}
+
+// 先生・学校のプロフィール情報（所属学科・対応地区）を整形する。
+// これは授業(コマ)ごとの情報ではなく、先生・学校について1回だけ登録される情報のため、
+// 「内容」欄ではなく別セクションとして分かるように整形する。
+function formatTeacherProfile(profile: KosenTeacherProfile | null | undefined): string {
+  if (!profile) return "";
+  const lines: string[] = [];
+  if (isNonEmptyString(profile.department)) {
+    lines.push(`所属学科: ${profile.department}`);
+  }
+  if (Array.isArray(profile.region) && profile.region.length > 0) {
+    lines.push(`対応可能な地区: ${profile.region.join("、")}`);
+  }
+  if (lines.length === 0) return "";
+  return `\n\n【学校プロフィール（カード選択）】\n${lines.join("\n")}`;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as Partial<KosenRegisterBody>;
-    const { type, name, affiliation, content, contactEmail, files, cardSelections } = body;
+    const { type, name, affiliation, content, contactEmail, files, cardSelections, teacherProfile } = body;
 
     if (type !== "先生" && type !== "企業") {
       return NextResponse.json({ error: "typeは「先生」または「企業」を指定してください" }, { status: 400 });
@@ -71,10 +117,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "連絡先の形式が正しくありません" }, { status: 400 });
     }
 
-    // カード選択（企業属性）は、既存の「内容」欄の末尾にテキストとして追記する形でNotionに記録する
+    // カード選択・プロフィール情報は、既存の「内容」欄の末尾にテキストとして追記する形でNotionに記録する
     // （Notion側のプロパティ追加は行っていないため、まずは既存カラムの範囲内で対応）。
-    const cardSelectionsText = type === "企業" ? formatCardSelections(cardSelections) : "";
-    const combinedContent = (content + cardSelectionsText).slice(0, 2000);
+    const cardSelectionsText =
+      type === "企業"
+        ? formatCompanyCardSelections(cardSelections as KosenCompanyCardSelections | null | undefined)
+        : formatTeacherTagSelections(cardSelections as KosenTeacherTagSelections | null | undefined);
+    const teacherProfileText = type === "先生" ? formatTeacherProfile(teacherProfile) : "";
+    const combinedContent = (content + cardSelectionsText + teacherProfileText).slice(0, 2000);
 
     const result = await logKosenRegistration({
       type,
