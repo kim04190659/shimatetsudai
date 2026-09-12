@@ -200,6 +200,16 @@ export const branches: Branch[] = [
         cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-yakushima-route-model/cards",
         cardGameLabel: "しまのみんな会議で意見を出す",
       },
+      {
+        title: "入域料の「使途限定」問題を世界の事例からどう解くか(屋久島観光協会 提起)",
+        status: "議論中",
+        summary:
+          "縄文杉に「特定自然観光資源」を指定すると、入域料の使途がその区域内に限定される懸念があります。屋久島は既に年間約6,000万円の任意協力金を条例で集めており、この既存モデルとの両立をどう設計するかが論点です。屋久島観光協会 荒木会長が提起し、米国NPS・ケニアKWS・コスタリカSINACなど世界7カ国8事例を整理しました。",
+        dashboardUrl: "/case-studies/yakushima-nyuikiryo-earmarking-dss.html",
+        dashboardLabel: "意思決定支援ダッシュボードを見る",
+        cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-yakushima-nyuikiryo-earmarking/cards",
+        cardGameLabel: "しまのみんな会議で意見を出す",
+      },
     ],
   },
   {

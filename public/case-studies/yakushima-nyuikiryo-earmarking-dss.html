@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>屋久島観光協会 意思決定支援 | 入域料の「使途限定」問題を世界の事例からどう解くか</title>
+<style>
+:root{--ink:#2C2C2B;--muted:#7D7A75;--line:#E6E5E3;--soft:#F9F8F7;--blue:#2783DE;--blueSoft:#E5F2FC;--green:#46A171;--greenSoft:#E8F1EC;--orange:#D5803B;--orangeSoft:#FBEBDE;--red:#E56458;--redSoft:#FCE9E7;--purple:#7A5CCF;--purpleSoft:#EEE9FB;--gray:#B9B6B0;--graySoft:#F1F0EE}
+*{box-sizing:border-box}
+body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.5}
+.app{max-width:1200px;margin:0 auto;background:#fff;min-height:100vh}
+.hero{padding:24px 28px 14px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:800}
+.breadcrumb{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--muted);margin-bottom:8px}
+.breadcrumb .step{padding:3px 9px;border-radius:999px;background:var(--soft);border:1px solid var(--line)}
+.breadcrumb .step.here{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:800}
+.title{font-size:26px;font-weight:900;margin:6px 0 4px}
+.subtitle{color:var(--muted);font-size:13px}
+.decision{border:2px solid #9ac9ef;border-radius:14px;background:#fbfdff;padding:14px;margin-top:14px}
+.badge{display:inline-block;background:var(--blueSoft);color:#165c9d;border-radius:8px;padding:6px 10px;font-weight:900;font-size:12px}
+.decision p{margin:8px 0 0;font-size:13px}
+.decisionQ{border:2px solid var(--blue);background:#fbfdff;border-radius:14px;padding:14px 16px;margin-top:10px}
+.decisionQ b{font-size:15px}
+.decisionQ .metaRow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;font-size:11.5px}
+.decisionQ .metaRow div{border:1px solid var(--line);border-radius:8px;padding:8px;background:#fff}
+.decisionQ .metaRow em{display:block;font-style:normal;color:var(--muted);font-size:10.5px;margin-bottom:2px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px}
+.kpi b{font-size:20px;display:block}
+.kpi span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.tabs{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 28px;z-index:5;display:flex;gap:8px;overflow:auto}
+.tabs button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;white-space:nowrap;font-size:13px}
+.tabs button.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.tabGroupPrimary{border-color:#8fc9a8!important;background:var(--greenSoft)!important}
+.tabGroupDetail{border-color:#a9c3ea!important;background:var(--blueSoft)!important}
+.tabGroupRef{border-color:#d8d5cf!important;background:var(--soft)!important}
+.tabs button.active.tabGroupPrimary,.tabs button.active.tabGroupDetail,.tabs button.active.tabGroupRef{background:var(--blue)!important;border-color:var(--blue)!important;color:#fff!important}
+.tabLegend{display:flex;gap:14px;flex-wrap:wrap;padding:6px 28px 10px;font-size:11px;color:var(--muted);background:rgba(255,255,255,.95)}
+.tabLegend span{display:inline-flex;align-items:center;gap:5px}
+.tabLegend .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.dotPrimary{background:var(--green)}
+.dotDetail{background:var(--blue)}
+.dotRef{background:var(--gray)}
+.panel{display:none;padding:20px 28px 36px}
+.panel.active{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.card{border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px}
+.card h3{margin:0 0 10px;font-size:16px}
+.callout{border-left:5px solid var(--blue);background:var(--blueSoft);border-radius:10px;padding:10px;margin:8px 0;font-size:13px}
+.ok{border-left-color:var(--green);background:var(--greenSoft)}
+.warn{border-left-color:var(--orange);background:var(--orangeSoft)}
+.risk{border-left-color:var(--red);background:var(--redSoft)}
+.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top;text-align:left}
+th{background:var(--soft);font-weight:900}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;border-radius:999px;padding:3px 8px;font-size:10.5px;font-weight:800}
+.pblue{background:var(--blueSoft);color:#165c9d}
+.pgreen{background:var(--greenSoft);color:#1f6b46}
+.porange{background:var(--orangeSoft);color:#93501a}
+.pred{background:var(--redSoft);color:#a13327}
+.ppurple{background:var(--purpleSoft);color:#4b3494}
+.measureCard{border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.measureCard b{font-size:14.5px}
+.outlookRow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;font-size:12px}
+.outlookRow div{border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--soft)}
+.outlookRow div em{display:block;font-style:normal;color:var(--muted);font-size:10.5px;margin-bottom:2px}
+.stakeGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stakeCard{border:1px solid var(--line);border-radius:12px;padding:12px}
+.stakeCard b{font-size:13.5px}
+.stakeCard p{font-size:12.5px;color:#4a453f;margin:6px 0 0}
+.footNote{font-size:11.5px;color:var(--muted);margin-top:18px}
+.a3Grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.mini{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.mini h4{margin:0 0 8px;font-size:13px}
+.mini ul{margin:0;padding-left:16px;font-size:12px;line-height:1.55}
+.mini li{margin:3px 0}
+.kidBox{border:2px solid #F0C56B;background:#FFF8E8;border-radius:14px;padding:14px 16px;margin-top:14px}
+.kidBox b{font-size:13px}
+.kidBox p{margin:8px 0 0;font-size:14.5px;line-height:1.7;color:#4a3f28}
+.wizard{margin:14px 0 0;padding:14px 16px;border:2px solid #9ac9ef;border-radius:14px;background:#fbfdff}
+.wizard.wizardDone{display:none}
+.wizardQ{margin:0 0 10px;font-size:13.5px;font-weight:800;color:var(--ink)}
+.wizardBtns{display:flex;flex-wrap:wrap;gap:8px}
+.wizardBtn{border:1px solid var(--blue);background:#fff;color:#165c9d;border-radius:999px;padding:9px 14px;font-weight:800;font-size:13px;cursor:pointer}
+.wizardBtn:hover{background:var(--blueSoft)}
+.wizardSkip{display:block;margin:10px 0 0;border:none;background:none;color:var(--muted);font-size:11.5px;text-decoration:underline;cursor:pointer;padding:0}
+.tldr{border:2px solid #46A171;background:var(--greenSoft);border-radius:12px;padding:12px 14px;margin:0 0 14px}
+.tldr b{font-size:14px}
+.reasonBox{margin:10px 0 14px}
+.reasonBox summary{cursor:pointer;font-weight:800;font-size:12.5px;color:#165c9d}
+.reasonBox ul{margin:8px 0 0;padding-left:18px;font-size:12.5px}
+.reasonBox li{margin:4px 0}
+.nextStep{border-left:5px solid var(--purple);background:var(--purpleSoft);border-radius:10px;padding:10px 12px;margin-top:16px;font-size:13px}
+.radarWrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:0 0 16px;padding:14px 16px;border:2px solid var(--purple);background:var(--purpleSoft);border-radius:14px}
+.radarNotes{flex:1;min-width:220px;font-size:12.5px}
+.radarNotes li{margin:4px 0}
+.routeGuide{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.routeGuide .r{flex:1;min-width:150px;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--soft);font-size:12px}
+.routeGuide .r b{display:block;font-size:13px;margin-bottom:4px}
+.confGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:14px 0}
+.confCard{border-radius:12px;padding:12px;font-size:12.5px}
+.confCard.done{border:1px solid var(--green);background:var(--greenSoft)}
+.confCard.pending{border:1px solid var(--orange);background:var(--orangeSoft)}
+.confCard.missing{border:1px solid var(--gray);background:var(--graySoft)}
+.confCard b{display:block;margin-bottom:6px;font-size:13px}
+.confCard ul{margin:0;padding-left:16px}
+.confCard li{margin:3px 0}
+.coiBox{border:2px solid var(--red);background:var(--redSoft);border-radius:14px;padding:14px 16px;margin:14px 0}
+.coiBox b{font-size:14px}
+.actionStrip{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;padding:12px 14px;border:1px dashed var(--line);border-radius:12px;background:var(--soft)}
+.actionStrip button{border:1px solid var(--blue);background:#fff;color:#165c9d;border-radius:8px;padding:8px 12px;font-size:12.5px;font-weight:800;cursor:not-allowed;opacity:.7}
+.actionStrip .note{width:100%;font-size:11px;color:var(--muted);margin-top:4px}
+.personaGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.personaCard{border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;transition:border-color .15s}
+.personaCard:hover{border-color:var(--blue)}
+.personaCard b{font-size:14px;display:block;margin-bottom:6px}
+.personaCard p{font-size:12.5px;color:#4a453f;margin:0}
+.personaDetail{display:none;margin-top:14px;border:2px solid var(--blue);border-radius:12px;padding:14px;background:#fbfdff}
+.personaDetail.active{display:block}
+.posMapWrap{position:relative;width:100%;max-width:480px;margin:10px auto;border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--soft)}
+.posMapWrap svg{width:100%;height:auto;display:block}
+.posLegend{display:flex;gap:12px;flex-wrap:wrap;font-size:11.5px;margin-top:8px;justify-content:center}
+.posLegend span{display:inline-flex;align-items:center;gap:4px}
+.posLegend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.journeyTrack{display:flex;gap:6px;margin:14px 0;overflow:auto}
+.journeyTrack .stage{flex:1;min-width:120px;text-align:center;padding:12px 8px;border-radius:10px;border:1px solid var(--line);background:var(--soft);font-size:12px}
+.journeyTrack .stage.current{border:2px solid var(--blue);background:var(--blueSoft);font-weight:800}
+.journeyTrack .stage b{display:block;font-size:16px;margin-bottom:4px}
+.historyCard{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+.historyCard b{font-size:13.5px}
+.historyCard .metaRow{display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:6px}
+@media(max-width:900px){.grid2,.grid3,.stakeGrid,.outlookRow,.a3Grid,.decisionQ .metaRow,.confGrid,.personaGrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body data-dashboard-slug="yakushima-nyuikiryo-earmarking-dss" data-issue-page-id="3d9960a9-1e23-8131-aa2b-ca15e2e022d6">
+<div class="app">
+<div class="hero">
+  <span class="eyebrow">意思決定支援PoC ｜ 鹿児島県熊毛郡 屋久島町 屋久島観光協会</span>
+  <div class="breadcrumb">
+    <span class="step here">① 方針判断(この画面)</span>
+    <span class="step">② 詳細分析</span>
+    <span class="step">③ 実行計画</span>
+  </div>
+  <div class="title">入域料の「使途限定（earmarking）」問題を世界の事例からどう解くか</div>
+  <div class="subtitle">縄文杉に「特定自然観光資源」を指定すると、入域料の使途がその区域内に限定される。屋久島は既に年間約6,000万円の任意協力金を集めており、この仕組みとの両立をどう設計するかが論点です。屋久島観光協会 荒木政孝会長が、未来のシマ共創会議2026の追加テーマ候補として提起しました。</div>
+  <div class="kidBox">
+    <b>🌱 かんたんに言うと</b>
+    <p data-cell-id="kidbox-explanation">縄文杉だけを特別なルールで守ろうとすると、そこで集めたお金がそのすぐ近くでしか使えなくなってしまうかもしれません。でも屋久島には、もう何年も前から「山に登る人からお金を協力してもらって、島全体の登山道やトイレを直す」という仕組みがすでにあります。この2つのやり方をどう組み合わせるかを考えるための資料です。世界の国立公園でも同じような悩みがあり、いくつかの解決方法が見つかっているので、それを参考にしています。</p>
+  </div>
+  <div class="decision">
+    <span class="badge">📝 現在のステータス：議論中(事例整理フェーズ)</span>
+    <p data-cell-id="decision-status">本論点は2026年9月11日、屋久島観光協会 荒木会長が「未来のシマ共創会議2026」の追加テーマ候補として提起しました。松原さんから「世界の事例を調べてみては」という指示を受け、本ダッシュボードで7カ国8事例を整理しています。屋久島観光協会・屋久島町との正式な合意形成はこれから始まる段階で、このシートは特定の案を推奨するものではありません。</p>
+  </div>
+  <div class="decisionQ">
+    <b>🎯 今回、決めるべき問いは何か</b>
+    <p data-cell-id="decisionq-text" style="margin:8px 0 0;font-size:13px">「縄文杉に特定自然観光資源を指定する場合、入域料の使途をどう設計すれば、①エリア内保全の実効性と②島全体の保全財源の両方を満たせるか」— 宮島モデル(法定外普通税で全島財源化)／FLREAモデル(法定配分比率で強制クロス補助)／SINAC・KWSモデル(保全基金による一元プール)のどれを軸に、環境省・総務省との協議を進めるか。</p>
+    <div class="metaRow">
+      <div><em>決断者</em><span data-cell-id="decisionq-who">屋久島観光協会(荒木会長)＋屋久島町＋環境省・総務省(制度協議先)</span></div>
+      <div><em>締切</em><span data-cell-id="decisionq-deadline">明確な期限は未設定。短期(〜2026年内)にFLREAモデルの協議着手が目安</span></div>
+      <div><em>不可逆性</em><span data-cell-id="decisionq-reversibility">中〜高(条例・制度設計は一度決めると変更に手間がかかる。ただし「特定自然観光資源」自体の指定タイミングとは切り離して議論可能)</span></div>
+      <div><em>影響範囲</em><span data-cell-id="decisionq-scope">屋久島全島の登山道・保全財源、山岳部保全利用協議会、観光事業者、屋久島町財政</span></div>
+    </div>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><b>約6,000万円</b><span>現行 入山協力金(年間)</span></div>
+    <div class="kpi"><b>約5万人</b><span>年間協力者数(収納率約8割)</span></div>
+    <div class="kpi"><b>7カ国8事例</b><span>本ダッシュボードで整理した世界の類似事例</span></div>
+    <div class="kpi"><b>3,000万円</b><span>2024年発覚の元職員横領事件(要ガバナンス強化)</span></div>
+  </div>
+  <div class="callout warn" style="margin-top:14px">
+    <b>📎 関連する既存論点について</b>
+    <p style="margin-top:6px">屋久島観光協会からは別途「地域主体で航路を支える新モデル」という論点も提起されています(共創ワークショップ9〜10月開催)。本論点はそれとは別に、「入域料という既存の財源の使途設計」という保全財源に特化した論点として独立して整理しています。</p>
+  </div>
+</div>
+
+<div class="wizard" id="wizard">
+  <p class="wizardQ">今日、何について確認したいですか？</p>
+  <div class="wizardBtns">
+    <button type="button" class="wizardBtn" data-goto="summary">✅ 結論だけ知りたい(30秒)</button>
+    <button type="button" class="wizardBtn" data-goto="proposal">💡 検討中の選択肢を見たい(3分)</button>
+    <button type="button" class="wizardBtn" data-goto="cases">🌏 世界の事例を見たい</button>
+    <button type="button" class="wizardBtn" data-goto="raw">🗣️ 元になった事実・出典を見たい(15分)</button>
+  </div>
+  <button type="button" class="wizardSkip" id="wizardSkip">すべてのタブを自分で見る →</button>
+</div>
+
+<nav class="tabs">
+  <button class="tabBtn tabGroupPrimary active" data-tab="summary">決断まとめ</button>
+  <button class="tabBtn tabGroupPrimary" data-tab="persona">立場別</button>
+  <button class="tabBtn tabGroupDetail" data-tab="premise">屋久島町の視点</button>
+  <button class="tabBtn tabGroupDetail" data-tab="proposal">提案</button>
+  <button class="tabBtn tabGroupDetail" data-tab="forecast">将来予測</button>
+  <button class="tabBtn tabGroupDetail" data-tab="positions">立場地図</button>
+  <button class="tabBtn tabGroupDetail" data-tab="journey">進捗</button>
+  <button class="tabBtn tabGroupRef" data-tab="cases">事例</button>
+  <button class="tabBtn tabGroupRef" data-tab="funding">補助金</button>
+  <button class="tabBtn tabGroupPrimary" data-tab="raw">生データ</button>
+  <button class="tabBtn tabGroupPrimary" data-tab="meetingnotes">🗒️ 議事メモ</button>
+  <button class="tabBtn tabGroupRef" data-tab="history">📜 履歴</button>
+</nav>
+<div class="tabLegend">
+  <span><i class="dot dotPrimary"></i>まず見る</span>
+  <span><i class="dot dotDetail"></i>くわしく検討</span>
+  <span><i class="dot dotRef"></i>参考</span>
+</div>
+
+<section class="panel active" id="panel-summary">
+  <div class="tldr">
+    <b data-cell-id="summary-tldr">✅ 要するに：縄文杉を「特定自然観光資源」に指定すると入域料の使途がその区域内に限定される懸念があります。屋久島は既に年間約6,000万円の任意協力金を条例で集めており、この既存の仕組みとの両立が課題です。世界の類似事例(米国NPS・ケニアKWS・コスタリカSINAC・ブータン・ヴェネツィア・宮島訪問税)を調べた結果、①earmarkingを避ける設計(宮島モデル)、②earmarkingを認めた上でクロス補助を制度化する設計(FLREAモデル・SINAC/KWSモデル)、の2系統の解決策が見えています。次の一手は、短期でFLREAモデル(法定配分比率)の使途拡張可否を環境省・総務省と協議することです。</b>
+  </div>
+  <details class="reasonBox">
+    <summary>▼ なぜそう言えるか(根拠)を見る</summary>
+    <ul>
+      <li data-cell-id="reason-1">屋久島は既に条例に基づく入山協力金(年間約6,000万円・協力者約5万人)を運用しており、新制度との「二重構造」を整理する必要がある</li>
+      <li data-cell-id="reason-2">西表島の先例では、特定自然観光資源制度は「利用調整(立入制限)」が主眼で財源機能は限定的であり、財源を大きく取るには別スキームとの組み合わせが必要と分かっている</li>
+      <li data-cell-id="reason-3">米国NPS(FLREA)・ケニアKWS・コスタリカSINACなど、複数の国が「集めた場所と使う場所のミスマッチ」を制度で解決した実例を持っている</li>
+      <li data-cell-id="reason-4">2026-09-11の定例会議で松原さんから「事例に基づかないと国は動かせない」との指摘があり、本ダッシュボードで初めて体系的な事例整理を行った</li>
+    </ul>
+  </details>
+
+  <h3 style="margin-top:18px;font-size:15px">🧭 30秒/3分/15分ルートガイド</h3>
+  <div class="routeGuide">
+    <div class="r"><b>⏱ 30秒</b>上のtldrだけ読めばOK</div>
+    <div class="r"><b>☕ 3分</b>下の「▼もっと詳しく見る」を開いてトレードオフ比較まで＋「提案」タブの3パターン比較</div>
+    <div class="r"><b>📚 15分</b>「事例」「屋久島町の視点」「生データ」まで含めて全体を確認</div>
+  </div>
+
+  <details class="reasonBox">
+    <summary>▼ もっと詳しく見る(3分〜15分向け：トレードオフ比較・信頼度・論点の背景・将来予測など)</summary>
+
+  <h3 style="margin-top:18px;font-size:15px">3パターンのトレードオフ比較(たたき台)</h3>
+  <p style="font-size:12px;color:var(--muted);margin:0 0 8px">◎○△は、下の「提案」タブの記述をもとにした定性的な目安であり、点数化されたスコアではありません。環境省・総務省との協議を経て更新します。</p>
+  <div class="tradeoffWrap tableWrap">
+    <table>
+      <thead><tr><th>比較軸</th><th>パターン1 宮島モデル(法定外普通税)</th><th>パターン2 FLREAモデル(法定配分比率)</th><th>パターン3 SINAC/KWSモデル(保全基金)</th></tr></thead>
+      <tbody>
+        <tr><td>使途柔軟性</td><td data-cell-id="tradeoff-flex-1"><span class="pill pgreen">◎ 島全体</span></td><td data-cell-id="tradeoff-flex-2"><span class="pill porange">△(条例次第・要確認)</span></td><td data-cell-id="tradeoff-flex-3"><span class="pill pgreen">◎ 基金裁量</span></td></tr>
+        <tr><td>制度化までの期間</td><td data-cell-id="tradeoff-time-1"><span class="pill porange">1〜2年(総務相同意)</span></td><td data-cell-id="tradeoff-time-2"><span class="pill pgreen">◎ 最短(条例改正のみ)</span></td><td data-cell-id="tradeoff-time-3"><span class="pill pred">△ 2〜3年(法人設立)</span></td></tr>
+        <tr><td>環境省との整合</td><td data-cell-id="tradeoff-env-1"><span class="pill pblue">○ 独立スキーム</span></td><td data-cell-id="tradeoff-env-2"><span class="pill pgreen">◎ 制度活用に前向き</span></td><td data-cell-id="tradeoff-env-3"><span class="pill pblue">○ 基金が受け皿に</span></td></tr>
+        <tr><td>ガバナンス強化(横領事件対策)</td><td data-cell-id="tradeoff-gov-1"><span class="pill pblue">○ 市税として監査</span></td><td data-cell-id="tradeoff-gov-2"><span class="pill pblue">○ 使途規定明確化</span></td><td data-cell-id="tradeoff-gov-3"><span class="pill pgreen">◎ 独立理事会・監事</span></td></tr>
+        <tr><td>実現可能性(3年内)</td><td data-cell-id="tradeoff-feas-1"><span class="pill pblue">○</span></td><td data-cell-id="tradeoff-feas-2"><span class="pill pgreen">◎</span></td><td data-cell-id="tradeoff-feas-3"><span class="pill porange">△</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin-top:18px;font-size:15px">情報の信頼度別に見る(確定/保留/未収集)</h3>
+  <div class="confGrid">
+    <div class="confCard done">
+      <b>✅ 確定(実測・一次情報あり)</b>
+      <ul>
+        <li data-cell-id="conf-done-1">屋久島の現行入山協力金の実績(年間約6,000万円・協力者約5万人・収納率約8割)</li>
+        <li data-cell-id="conf-done-2">2024年に発覚した元職員による横領事件(約3,000万円、要ガバナンス強化)</li>
+        <li data-cell-id="conf-done-3">西表島の特定自然観光資源制度は財源機能が限定的という先例</li>
+        <li data-cell-id="conf-done-4">米国NPS FLREA・ケニアKWS・コスタリカSINAC・ブータンSDF・ヴェネツィア入場料・宮島訪問税の制度概要(いずれも公式資料で確認)</li>
+      </ul>
+    </div>
+    <div class="confCard pending">
+      <b>🕓 保留(方向性はあるが未確定)</b>
+      <ul>
+        <li data-cell-id="conf-pending-1">「特定自然観光資源」の手数料使途を条例でどこまで拡張できるかの法的解釈</li>
+        <li data-cell-id="conf-pending-2">環境省・総務省との協議の見通し</li>
+        <li data-cell-id="conf-pending-3">屋久島観光協会・屋久島町・林野庁・ガイド組合など関係者間の配分ルール合意</li>
+      </ul>
+    </div>
+    <div class="confCard missing">
+      <b>❌ 未収集</b>
+      <ul>
+        <li data-cell-id="conf-missing-1">屋久島観光協会・屋久島町の関係者への正式なヒアリング(PositionRecord)。本論点はまだ提起・事例整理段階</li>
+        <li data-cell-id="conf-missing-2">各パターンを採用した場合の屋久島における具体的な財政影響試算</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="coiBox">
+    <b>⏳ 今、決めずに先送りした場合に起きうること(Cost of Inaction)</b>
+    <p data-cell-id="coi-text" style="margin-top:6px">具体的な金額での試算はまだできません(基礎データ不足のため未算出)。ただし、①縄文杉への特定自然観光資源指定の検討が進むほど「使途限定」の設計を後回しにするリスクが高まること、②2024年の横領事件のようなガバナンス課題を放置すると、新財源の信頼性そのものが揺らぐこと、の2点は言えます。事例整理を先送りするほど、環境省・総務省との協議に必要な「他国でも同様の課題を解決した実績がある」という説得材料の準備が遅れます。</p>
+  </div>
+
+  <div class="card">
+    <h3>論点の整理：なぜ今、使途設計の検討が必要か</h3>
+    <div class="grid2">
+      <div class="callout risk">
+        <b>きっかけとなった懸念</b>
+        <ul style="margin:6px 0 0;padding-left:18px">
+          <li>縄文杉に特定自然観光資源を指定すると、入域料の使途がそのエリア内に限定される可能性がある</li>
+          <li>既に年間約6,000万円を集めている任意協力金モデルとの二重構造・不整合が生じうる</li>
+          <li>「別の協力金を…」という単純な追加案は、財源が分散するだけで解決にならない(松原さんの指摘)</li>
+        </ul>
+      </div>
+      <div class="callout ok">
+        <b>この論点の強み</b>
+        <ul style="margin:6px 0 0;padding-left:18px">
+          <li>屋久島は既に条例に基づく徴収・二階建て運用(白谷雲水峡の別協力金)の実装経験を持つ</li>
+          <li>財政学では「使途限定財源(earmarking/ring-fencing)」として既知の設計課題であり、世界に参照できる解決策が複数ある</li>
+          <li>「屋久島が特殊」ではなく「保全財源設計の普遍的な課題を解いている」というポジショニングを取れる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:18px;font-size:15px">この論点の全体像(A3サマリー)</h3>
+  <div class="radarWrap">
+    <svg id="radarChart" width="180" height="180" viewBox="0 0 180 180"></svg>
+    <div class="radarNotes">
+      <b>📡 情報充足度診断(AIによる自己レビュー・2026-09-12時点)</b>
+      <ul id="radarWeakPoints">
+        <li><b>財政(30点):</b> <span data-cell-id="radar-note-finance">現行の徴収額(6,000万円)は分かるが、各パターンを採用した場合の屋久島における具体的な財政影響・配分試算はまだない。</span></li>
+        <li><b>行政実務(25点):</b> <span data-cell-id="radar-note-admin">特定自然観光資源の使途規定を条例でどこまで拡張できるかの法的解釈が未確認。環境省・総務省との協議はこれから。</span></li>
+        <li><b>りとけい現場(20点):</b> <span data-cell-id="radar-note-ritokei">荒木会長本人・屋久島観光協会・屋久島町への正式なヒアリングはまだ行っていない。本ダッシュボードは公開情報・事例調査に基づく仮の整理。</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="a3Grid">
+    <div class="mini">
+      <h4>📊 判断材料ハイライト</h4>
+      <ul>
+        <li data-cell-id="mini-material-1">屋久島は既に年間約6,000万円・協力者約5万人の入山協力金を運用中</li>
+        <li data-cell-id="mini-material-2">西表島の先例は「利用調整」が主眼で財源機能は限定的</li>
+        <li data-cell-id="mini-material-3">2024年に約3,000万円の横領事件が発覚し、ガバナンス強化も同時に必要</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>💡 検討中の選択肢ハイライト</h4>
+      <ul>
+        <li data-cell-id="mini-options-1">パターン1：宮島モデル(法定外普通税で全島財源化)</li>
+        <li data-cell-id="mini-options-2">パターン2：FLREAモデル(法定配分比率で強制クロス補助)</li>
+        <li data-cell-id="mini-options-3">パターン3：SINAC/KWSモデル(保全基金による一元プール)</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>📈 将来予測ハイライト</h4>
+      <ul>
+        <li data-cell-id="mini-forecast-1">各パターンの屋久島における財政影響は<b>未算出</b>(PoC概算すら現時点では作成できていない)</li>
+        <li data-cell-id="mini-forecast-2"><span class="pill porange">PoC概算</span> 現行6,000万円を基準に、配分比率次第でエリア外への充当額が変わる、という定性的な見立てのみ</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>🗣️ 現時点で分かっている声</h4>
+      <ul>
+        <li data-cell-id="mini-voice-1">松原さん：縄文杉に特定自然観光資源を設定すると他が傷んでいく懸念。別の協力金の追加は破綻すると指摘</li>
+        <li data-cell-id="mini-voice-2">松原さん：圧倒的に事例集めができていない。事例に基づかないと国は動かせないと指摘</li>
+        <li data-cell-id="mini-voice-3">荒木会長本人・屋久島町からの正式なヒアリングはまだ行っていない</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>🌍 類似事例ハイライト</h4>
+      <ul>
+        <li data-cell-id="mini-cases-1"><span class="pill pgreen">実装済</span> 米国NPS FLREA：法律で80%現地留保＋20%横断配分を規定</li>
+        <li data-cell-id="mini-cases-2"><span class="pill pgreen">実装済</span> コスタリカSINAC：全国の入場料を一つの基金でプール</li>
+        <li data-cell-id="mini-cases-3"><span class="pill pgreen">実装済</span> 廿日市市 宮島訪問税：目的税ではなく普通税として設計</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>💰 補助金・交付金ハイライト</h4>
+      <ul>
+        <li data-cell-id="mini-funding-1"><span class="pill porange">要確認</span> 環境省 国立公園満喫プロジェクト関連予算：保全体制強化の財源候補</li>
+        <li data-cell-id="mini-funding-2"><span class="pill porange">要確認</span> 観光庁 地域一体となった観光産業効率化支援事業：受入体制整備の財源候補(次回公募をウォッチ)</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h4>✅ 現時点の結論・次の一手</h4>
+      <ul>
+        <li data-cell-id="mini-conclusion-1">特定パターンへの合意はまだ形成されていない。世界7カ国8事例の整理を完了した段階</li>
+        <li data-cell-id="mini-conclusion-2">次の一手：①短期(〜2026年内)にFLREAモデルの使途拡張可否を環境省・総務省と協議、②中期に宮島モデルを廿日市市への実務ヒアリングで並行検討、③長期にSINAC/KWSモデルへの移行を検討</li>
+        <li data-cell-id="mini-conclusion-3">屋久島観光協会・屋久島町への正式なヒアリングは今後実施予定</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin-top:18px;font-size:15px">🧭 屋久島町の目指す姿との関わり</h3>
+  <p style="font-size:12px;color:var(--muted);margin:6px 0 10px">プラットフォームの活用主体である屋久島町が、総合振興計画で掲げる目標との関わり(詳細は「屋久島町の視点」タブを参照)。</p>
+  <div class="tableWrap">
+    <table>
+      <thead><tr><th>屋久島町の目標</th><th>この論点の影響方向</th></tr></thead>
+      <tbody>
+        <tr><td>基本理念：自然と共に生きる知恵と多様な集落の文化がとけあい、人々の営みが循環・持続していくまち</td><td data-cell-id="impact-1"><span class="pill pgreen">追い風</span> 入域料の使途設計は、まさに「自然保全と暮らしの両立」を財源面から支える仕組みそのもの</td></tr>
+        <tr><td>基本目標：限られた財源で最大の効果を発揮し、住民・集落・行政が協働するまちづくり</td><td data-cell-id="impact-2"><span class="pill pgreen">追い風</span> クロス補助・基金プールの発想は「限られた財源の最大活用」という目標と直接一致する</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="footNote">出典：屋久島町 第二次振興計画(まちづくりミーティング資料等より基本理念・基本目標を確認)</p>
+  </details>
+
+  <div class="nextStep">
+    <b>🌱 厳しい前提の中でも、まず1つ試すなら：</b>
+    <p data-cell-id="next-step" style="margin:6px 0 0">米国NPSの80/20ルール(FLREAモデル)を比較参照資料として、「特定自然観光資源の手数料使途を条例でどこまで拡張できるか」を環境省・総務省に打診してみることです。条例改正のみで着手できる可能性があり、3パターンの中で最も早く動き出せます。</p>
+  </div>
+
+  <div class="actionStrip">
+    <button type="button" disabled>パターン1を推す</button>
+    <button type="button" disabled>パターン2を推す</button>
+    <button type="button" disabled>パターン3を推す</button>
+    <button type="button" disabled>📄 決断メモを書き出す</button>
+    <span class="note">※ これらのボタンは現在デモ表示のみです(v1)。実際の意思表明・記録機能は別途ChangeRequestとして検討します。</span>
+  </div>
+</section>
+
+<section class="panel" id="panel-persona">
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">立場によって気になるポイントは違います。近いものを選ぶと、関連する内容の要約が表示されます(新しい事実が増えるわけではなく、他タブの内容の要約です)。</p>
+  <div class="personaGrid">
+    <div class="personaCard" data-persona="araki">
+      <b>🧑‍💼 屋久島観光協会 荒木政孝会長</b>
+      <p data-cell-id="persona-card-araki">論点を提起した本人。既存の入山協力金モデルとの両立を一番気にしている立場。</p>
+    </div>
+    <div class="personaCard" data-persona="town">
+      <b>🏛️ 屋久島町 担当者</b>
+      <p data-cell-id="persona-card-town">条例改正・環境省や総務省との協議、ガバナンス強化(横領事件対策)を気にしている立場。</p>
+    </div>
+    <div class="personaCard" data-persona="guide">
+      <b>🥾 登山ガイド・保全利用協議会</b>
+      <p data-cell-id="persona-card-guide">現場で協力金を集め、登山道・トイレの維持を担っている立場。財源が実際にどこへ使われるかを気にしている。</p>
+    </div>
+    <div class="personaCard" data-persona="resident">
+      <b>🏠 屋久島の住民</b>
+      <p data-cell-id="persona-card-resident">新しい制度が増えることで負担や混乱が生じないか、既存の協力金と何が変わるのかを気にしている立場。</p>
+    </div>
+  </div>
+
+  <div class="personaDetail" id="persona-araki">
+    <b>🧑‍💼 荒木会長の方へ</b>
+    <p data-cell-id="persona-detail-araki" style="margin-top:8px;font-size:13px">「決断まとめ」タブのトレードオフ比較(パターン1〜3の使途柔軟性・実現可能性)と、「提案」タブの3パターンの詳しい説明が参考になります。「事例」タブのケニアKWS・コスタリカSINACの記載は、屋久島が既にやってきた「縄文杉収入で他ルートを守る」という構造が「破綻」ではなく「保全財源設計の王道」であることの根拠になります。</p>
+  </div>
+  <div class="personaDetail" id="persona-town">
+    <b>🏛️ 屋久島町 担当者の方へ</b>
+    <p data-cell-id="persona-detail-town" style="margin-top:8px;font-size:13px">「屋久島町の視点」タブに、総合振興計画の基本理念との関わりを整理しています。「補助金」タブの環境省・観光庁関連の候補と、「提案」タブのパターン2(条例改正のみで着手可能)を優先的にご確認ください。</p>
+  </div>
+  <div class="personaDetail" id="persona-guide">
+    <b>🥾 登山ガイド・保全利用協議会の方へ</b>
+    <p data-cell-id="persona-detail-guide" style="margin-top:8px;font-size:13px">「生データ」タブに現行の使途範囲(トイレし尿搬出・登山道・登山バス・事務費)をまとめています。「事例」タブのケニアKWS(現場フィールドステーションへの横断配分)は、現場の維持体制を考えるうえで参考になります。</p>
+  </div>
+  <div class="personaDetail" id="persona-resident">
+    <b>🏠 屋久島の住民の方へ</b>
+    <p data-cell-id="persona-detail-resident" style="margin-top:8px;font-size:13px">この論点は、新しい負担を住民に求めるものではなく、既にある入山協力金(登山者からの任意徴収)の「使い道の設計」を考えるものです。「決断まとめ」タブのtldrで全体像を確認できます。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-premise">
+  <div class="card">
+    <h3>屋久島町の目標との関わり</h3>
+    <p style="font-size:12.5px;color:var(--muted)">このタブは、プラットフォームの活用主体である屋久島町のリーダー発言・公式サイトが掲げる目標・理念を確認し、その観点からこの論点の結果がどう影響するかを整理します。</p>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>屋久島町 第二次振興計画の指標・理念</th><th>この論点への関わり</th></tr></thead>
+        <tbody>
+          <tr><td>基本理念：「悠久の流れの中で、自然と共に生きる知恵と多様な集落の文化がとけあい、人々の営みが循環・持続していくまち」</td><td data-cell-id="premise-goal-vision">入域料の使途設計は、自然保全と地域の暮らし・観光を両立させる財源面の土台であり、この理念を具体化する手段の一つ</td></tr>
+          <tr><td>基本目標：「加速する人口減少・少子高齢化に備え、限られた財源で最大の効果を発揮し、住民・集落・行政が協働するまちづくり」</td><td data-cell-id="premise-goal-jinko">クロス補助・基金プール型の設計は「限られた財源をどう最大限に活かすか」という目標そのものに直結する</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footNote">出典：屋久島町第二次振興計画・まちづくりミーティング資料(屋久島町公式サイト)</p>
+    <div class="callout warn" style="margin-top:10px"><b>前提条件：</b><span data-cell-id="premise-callout">屋久島町は財政規模が限られる中で、観光による環境負荷への対応と保全財源の確保を同時に求められている。入域料の使途設計は、単なる制度論ではなく、限られた財源をどう最大限に活かすかという町の基本目標そのものに関わる論点として扱う必要がある。</span></div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>本論点固有の背景</h3>
+    <ul style="font-size:13px">
+      <li>縄文杉への「特定自然観光資源」指定検討と、既存の入山協力金条例(H27議決・H29施行)との整合</li>
+      <li>2024年に発覚した元職員による横領事件(約3,000万円)を受けたガバナンス強化の必要性</li>
+      <li>屋久島観光協会・屋久島町・林野庁・環境省・ガイド組合など多数の関係者が絡む論点</li>
+      <li>屋久島観光協会・屋久島町との正式なヒアリングはこれから(2026年9月時点で事例整理段階)</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel" id="panel-proposal">
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">以下は、世界の類似事例をもとに整理した「屋久島に応用できる設計パターン」です。環境省・総務省との協議、屋久島観光協会・屋久島町でのヒアリングを経て、内容は更新されます。特定の案を推奨するものではありません。</p>
+  <div class="measureCard">
+    <b>パターン1 宮島モデル：法定外「普通税」で全島財源化</b>
+    <p data-cell-id="proposal-1-desc" style="font-size:13px;margin:6px 0 0">縄文杉には特定自然観光資源制度を適用しつつ、財源としては「屋久島訪問税」的な法定外普通税を新設。使途は条例で「屋久島の観光行政需要全般」と広く設計し、島全体の登山道・トイレ・港湾・電線地中化に配分する。先行事例：宮島訪問税(廿日市市)・ブータンSDF。法的根拠は地方税法第5条第3項。</p>
+    <div class="outlookRow">
+      <div><em>短期</em><span data-cell-id="proposal-1-short">総務相への同意手続きの要否確認、船会社等との徴収オペレーション調整に着手できる</span></div>
+      <div><em>中期</em><span data-cell-id="proposal-1-mid">1〜2年程度で制度化される見込み(宮島訪問税の実績を参照)</span></div>
+      <div><em>長期</em><span data-cell-id="proposal-1-long">使途柔軟性は高いが、徴収オペレーション(港湾・空港等)の負担が課題として残る</span></div>
+    </div>
+  </div>
+  <div class="measureCard">
+    <b>パターン2 FLREAモデル：法定配分比率で強制クロス補助</b>
+    <p data-cell-id="proposal-2-desc" style="font-size:13px;margin:6px 0 0">特定自然観光資源として縄文杉で徴収した入域料の使途を、条例で「◯%は縄文杉エリア内、◯%は他ルート整備等」と法定比率化する。米国NPSの80/20ルールが直接の参照点。前提として「特定自然観光資源」の手数料使途を条例で拡張できるかの法的確認が必要。</p>
+    <div class="outlookRow">
+      <div><em>短期</em><span data-cell-id="proposal-2-short">条例改正のみで着手できる可能性があり、3パターンの中で最も早く動き出せる</span></div>
+      <div><em>中期</em><span data-cell-id="proposal-2-mid">環境省との使途範囲協議が必要だが、環境省は制度活用に前向きな姿勢とみられる</span></div>
+      <div><em>長期</em><span data-cell-id="proposal-2-long">既存の入山協力金との役割分担(二重構造の整理)が引き続き課題</span></div>
+    </div>
+  </div>
+  <div class="measureCard">
+    <b>パターン3 SINAC/KWSモデル：屋久島保全基金による一元プール</b>
+    <p data-cell-id="proposal-3-desc" style="font-size:13px;margin:6px 0 0">現行の山岳部協力金、白谷の森林協力金、新たな入域料等をすべて「屋久島自然保全基金」(独立法人・特別会計)にプール。理事会(町・観光協会・林野庁・環境省・ガイド組合)が年次で配分を決定。先行事例：コスタリカSINAC・ケニアKWS。副次効果として、2024年の横領事件のようなガバナンスリスクを構造的に低減できる。</p>
+    <div class="outlookRow">
+      <div><em>短期</em><span data-cell-id="proposal-3-short">制度設計の検討に着手する段階(法人設立には時間がかかる)</span></div>
+      <div><em>中期</em><span data-cell-id="proposal-3-mid">既存協力金・新規入域料を一元化することで、使途の柔軟性と透明性が高まる</span></div>
+      <div><em>長期</em><span data-cell-id="proposal-3-long">2〜3年程度の制度設計期間が必要だが、独立理事会・監事によるガバナンス強化を最も期待できる</span></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>3パターンを比較(たたき台)</h3>
+    <div class="grid3">
+      <div class="card"><span class="pill pblue">パターン1</span><h3 style="margin-top:8px">宮島モデル</h3><p data-cell-id="proposal-compare-1" style="font-size:12.5px">使途柔軟性は最も高いが、総務相同意など制度化に1〜2年かかり、徴収オペレーション負担も大きい。</p></div>
+      <div class="card"><span class="pill porange">パターン2</span><h3 style="margin-top:8px">FLREAモデル</h3><p data-cell-id="proposal-compare-2" style="font-size:12.5px">条例改正のみで最短で着手できる。ただし使途拡張の法的解釈次第という不確実性が残る。</p></div>
+      <div class="card"><span class="pill pgreen">パターン3</span><h3 style="margin-top:8px">SINAC/KWSモデル</h3><p data-cell-id="proposal-compare-3" style="font-size:12.5px">ガバナンス強化効果は最も高いが、法人設立に2〜3年かかり、実現可能性は3パターン中で最も慎重な評価。</p></div>
+    </div>
+    <p class="footNote">※ この比較は環境省・総務省との協議、屋久島観光協会・屋久島町でのヒアリングのたたき台として作成した仮のものです。実際の評価は今後の協議・ヒアリングを経て更新します。</p>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>推奨される検討ステップ(たたき台)</h3>
+    <ol style="margin:0 0 0 20px;padding:0;font-size:13px;line-height:1.9">
+      <li data-cell-id="steps-short"><strong>短期(〜2026年内)：</strong>パターン2(FLREAモデル)で、特定自然観光資源指定の際の「使途規定を条例でどこまで拡張できるか」を環境省・総務省と協議。米国NPSの80/20ルールを比較参照資料として提示する。</li>
+      <li data-cell-id="steps-mid"><strong>中期(〜2027年)：</strong>パターン1(宮島モデル)を並行検討。廿日市市に実務ヒアリングし、船会社・空港での徴収オペレーション調整に着手する。</li>
+      <li data-cell-id="steps-long"><strong>長期(〜2028年)：</strong>パターン3(SINAC/KWSモデル)へ移行し、横領事件で顕在化したガバナンス課題を構造的に解決。既存協力金・新規入域料を一元プール化する。</li>
+    </ol>
+  </div>
+</section>
+
+<section class="panel" id="panel-forecast">
+  <div class="card">
+    <h3>屋久島の入山協力金の推移</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">現行制度(H29施行)の実績値です。この論点固有の将来予測モデル(パターン別の財政影響試算)は、まだ作成できていません。</p>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>指標</th><th>現状値</th><th>備考</th></tr></thead>
+        <tbody>
+          <tr><td>年間徴収額</td><td>約6,000万円</td><td>日帰り1,000円・宿泊2,000円の任意徴収</td></tr>
+          <tr><td>年間協力者数</td><td>約5万人</td><td>収納率は約8割</td></tr>
+          <tr><td>白谷雲水峡 別協力金</td><td>800円</td><td>森林環境整備推進協力金(既に二階建て運用の実績)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn" style="margin-top:10px">
+      <b>📎 この論点固有の財政影響について(未算出)</b>
+      <p data-cell-id="forecast-poc-caveat" style="margin-top:6px">パターン1〜3それぞれについて、屋久島で採用した場合の具体的な配分額・財政影響は、現時点ではまだ試算できていません。実在しないデータをもとに仮の金額を書くと、かえって議論の土台を誤らせるため、ここでは「未算出」と正直に記載します。</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>経済効果(パターン別の財政影響)</h3>
+    <div class="callout risk">
+      <b>❌ 現時点では算出できません</b>
+      <p data-cell-id="forecast-economic-status" style="margin-top:6px">各パターンの配分比率・制度設計が定まっていないため、屋久島町・屋久島観光協会・保全利用協議会それぞれの財政的な影響を試算するための基礎データが、現時点ではまだ揃っていません。</p>
+    </div>
+    <p data-cell-id="forecast-next" style="font-size:12.5px;color:var(--muted);margin-top:10px">環境省・総務省との協議でどのパターンを深掘りするかが定まり次第、具体的な財政影響・経済効果の試算に着手する想定です。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-positions">
+  <div class="callout warn">
+    <b>🗒️ 想定サンプルです(実データ未収集)</b>
+    <p data-cell-id="posmap-caveat" style="margin-top:6px">本論点は2026年9月11日に提起されたばかりの「議論中」段階で、屋久島観光協会・屋久島町など関係者への正式なヒアリングはまだ行っていません。以下は、一般的な利害関係の構造から推測した「想定・サンプル」の配置です。実際のヒアリングを経て実データに差し替えます。</p>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3 data-cell-id="posmap-title">合意形成の現在地(想定・サンプル)</h3>
+    <div class="posMapWrap">
+      <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <line x1="20" y1="150" x2="280" y2="150" stroke="#E6E5E3" stroke-width="1"/>
+        <line x1="150" y1="20" x2="150" y2="280" stroke="#E6E5E3" stroke-width="1"/>
+        <text x="150" y="14" font-size="10" text-anchor="middle" fill="#7D7A75">積極的に関わりたい</text>
+        <text x="150" y="294" font-size="10" text-anchor="middle" fill="#7D7A75">様子見・慎重</text>
+        <text x="16" y="150" font-size="10" text-anchor="end" fill="#7D7A75" transform="rotate(-90 16 150)">現状維持寄り</text>
+        <text x="284" y="150" font-size="10" text-anchor="start" fill="#7D7A75" transform="rotate(-90 284 150)">制度見直し寄り</text>
+        <circle cx="205" cy="95" r="8" fill="#7A5CCF"/>
+        <text x="217" y="99" font-size="9" fill="#2C2C2B">荒木会長(観光協会・想定)</text>
+        <circle cx="165" cy="200" r="8" fill="#2783DE"/>
+        <text x="177" y="204" font-size="9" fill="#2C2C2B">屋久島町 担当者(想定)</text>
+        <circle cx="150" cy="150" r="8" fill="#46A171"/>
+        <text x="162" y="154" font-size="9" fill="#2C2C2B">保全利用協議会(想定)</text>
+        <circle cx="130" cy="180" r="8" fill="#D5803B"/>
+        <text x="142" y="184" font-size="9" fill="#2C2C2B">住民(想定)</text>
+      </svg>
+      <div class="posLegend">
+        <span><i style="background:#7A5CCF"></i>観光協会</span>
+        <span><i style="background:#2783DE"></i>行政</span>
+        <span><i style="background:#46A171"></i>保全利用協議会</span>
+        <span><i style="background:#D5803B"></i>住民</span>
+      </div>
+    </div>
+    <p class="footNote">配置は想定・サンプルです(ワークショップ後、実データに差し替え予定)。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-journey">
+  <div class="card">
+    <h3>この論点の意思決定ジャーニー(現在地)</h3>
+    <div class="journeyTrack">
+      <div class="stage current"><b>①</b>情報収集</div>
+      <div class="stage"><b>②</b>対話・検討</div>
+      <div class="stage"><b>③</b>決断</div>
+      <div class="stage"><b>④</b>実行</div>
+      <div class="stage"><b>⑤</b>振り返り</div>
+    </div>
+    <p data-cell-id="journey-current" style="font-size:12.5px;color:var(--muted)">①情報収集の段階です。2026-09-11の定例会議での問題提起を受け、世界7カ国8事例の整理を完了しました。次は屋久島観光協会・屋久島町への正式なヒアリングと、環境省・総務省との協議準備に進みます。</p>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>③決断に進む前のチェックリスト(未達成)</h3>
+    <ul style="font-size:13px">
+      <li data-cell-id="journey-checklist-1">☐ 「特定自然観光資源」の手数料使途を条例でどこまで拡張できるかの法的確認(環境省・総務省)</li>
+      <li data-cell-id="journey-checklist-2">☐ 屋久島観光協会・屋久島町・保全利用協議会への正式なヒアリング</li>
+      <li data-cell-id="journey-checklist-3">☐ 廿日市市への宮島訪問税の実務ヒアリング</li>
+      <li data-cell-id="journey-checklist-4">☐ 3パターンそれぞれの屋久島における財政影響試算</li>
+    </ul>
+    <p class="footNote">チェックが揃うまでは「③決断」段階には進まない想定です。</p>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>振り返り(まだ実施していません)</h3>
+    <p data-cell-id="journey-retro" style="font-size:12.5px;color:var(--muted)">③決断・④実行を経た後、数ヶ月後・1年後の振り返りをここに記録する予定です。現時点では実行段階に達していないため、記載内容はありません。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-cases">
+  <div class="card">
+    <h3>国内外の類似事例：earmarking問題を各国はどう解いたか</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">財政学でいう「使途限定財源(earmarking／ring-fencing／hypothecation)」問題として、7カ国8事例を整理しました。A. earmarkingを避けた設計、B. earmarkingを認めた上でクロス補助を制度化した設計、C. 日本の類似制度(現状)、の3グループに分けています。</p>
+
+    <h4 style="font-size:13.5px;margin:14px 0 8px">A. Earmarkingを避けた設計(一般会計・法定外普通税・独立基金)</h4>
+    <div class="measureCard">
+      <span class="pill pgreen">実装済</span>
+      <b>🇯🇵 宮島訪問税(広島県廿日市市)</b>
+      <p data-cell-id="cases-a1-desc" style="font-size:13px;margin:6px 0 0">2023年10月開始。1回100円(年間パス500円)を船会社経由で徴収。廿日市市条例で「宮島への来訪により発生・増幅する行政需要」への対応と規定し、目的税ではなく法定外「普通税」として、使途を宮島全体に広く設計している。</p>
+      <div class="callout ok" style="margin-top:8px"><b>屋久島への示唆：</b><span data-cell-id="cases-a1-note">あえて「普通税」で導入することで、使途を島全体(トイレ・登山道・弥山展望台・電線地中化)に配分可能。目的税・エリア限定料の縛りを回避した先行事例。</span></div>
+    </div>
+    <div class="measureCard">
+      <span class="pill pgreen">実装済</span>
+      <b>🇧🇹 ブータン SDF(Sustainable Development Fee)</b>
+      <p data-cell-id="cases-a2-desc" style="font-size:13px;margin:6px 0 0">1日あたり100米ドル。憲法第14条で全ての税・料金は「Consolidated Account(統合会計)」に入ると規定。5カ年計画で教育・医療・自然保護・文化財修復に横断的に配分し、earmarkingを憲法レベルで否定した設計。</p>
+      <div class="callout ok" style="margin-top:8px"><b>屋久島への示唆：</b><span data-cell-id="cases-a2-note">「集めた場所＝使う場所」の縛りを最初から作らない発想。政府の統合会計に入れて計画的に配分する方が、機動的で不祥事も防ぎやすい。</span></div>
+    </div>
+    <div class="measureCard">
+      <span class="pill pblue">実装済</span>
+      <b>🇮🇹 ヴェネツィア入場料(Contributo di Accesso)</b>
+      <p data-cell-id="cases-a3-desc" style="font-size:13px;margin:6px 0 0">2024年〜、1回5ユーロ。市長は「収入目的ではなく観光客の集中緩和(decongesting)が目的」と明言。使途は市議会が決定し、市の一般会計を通して観光管理・住民生活支援に配分される。</p>
+      <div class="callout ok" style="margin-top:8px"><b>屋久島への示唆：</b><span data-cell-id="cases-a3-note">「保全財源」と「オーバーツーリズム制御」は分けて設計してよい、という視点。制御目的であれば使途は柔軟でよい。</span></div>
+    </div>
+
+    <h4 style="font-size:13.5px;margin:18px 0 8px">B. Earmarkingを認めた上で「クロス補助」を制度化した設計</h4>
+    <div class="measureCard">
+      <span class="pill pgreen">実装済</span>
+      <b>🇺🇸 米国 国立公園 FLREA(Federal Lands Recreation Enhancement Act)</b>
+      <p data-cell-id="cases-b1-desc" style="font-size:13px;margin:6px 0 0">2004年〜。法律で「徴収した公園に最低80%を留保、残り20%は料金を集めていない・少額しか集められない公園に配分」と明記。earmarkingを認めつつ、法定比率で必ずクロス補助が発生する仕組み。</p>
+      <div class="callout ok" style="margin-top:8px"><b>屋久島への示唆：</b><span data-cell-id="cases-b1-note">「特定自然観光資源」で徴収した場合も、法令・条例で「◯%は他の登山道整備等にも充当」と明記できれば、縄文杉集中と全島保全を両立できる。80/20は具体的な参照点。</span></div>
+    </div>
+    <div class="measureCard">
+      <span class="pill pgreen">実装済</span>
+      <b>🇰🇪 ケニア野生生物公社(KWS)</b>
+      <p data-cell-id="cases-b2-desc" style="font-size:13px;margin:6px 0 0">トップ5公園(アンボセリ・ナクル・ナイロビ・ツァボ東西)が全パーク収入の73%を稼ぎ、150以上の他フィールドステーション・野生動物対応ユニットを補助。KWSが単一組織として全国を運用し、明示的なクロス補助が既定路線になっている。</p>
+      <div class="callout ok" style="margin-top:8px"><b>屋久島への示唆：</b><span data-cell-id="cases-b2-note">「縄文杉収入で他ルートを守る」は屋久島が既にやってきたこと。ケニアはこれを国家レベルで正当化・制度化した先行事例で、この構造が「破綻」ではなく「保全財源設計の王道」であることの根拠になる。</span></div>
+    </div>
+    <div class="measureCard">
+      <span class="pill pgreen">実装済</span>
+      <b>🇨🇷 コスタリカ SINAC(国立公園保全地域庁)</b>
+      <p data-cell-id="cases-b3-desc" style="font-size:13px;margin:6px 0 0">全29国立公園＋58野生生物保護区の入場料を「国立公園基金(Fondo de Parques Nacionales)」で一元管理。人気パーク(Manuel Antonio、Corcovado等)の収入を、全国土30%を占める保護区群のレンジャー給与・維持に横断配分。2025年には将来収入を証券化する法案も可決。</p>
+      <div class="callout ok" style="margin-top:8px"><b>屋久島への示唆：</b><span data-cell-id="cases-b3-note">複数の徴収拠点を一つの基金にプールし、専門ボードが配分を決める仕組み。屋久島でも「屋久島自然保全基金」的な独立勘定を作れば同様の運用が可能。</span></div>
+    </div>
+    <div class="measureCard">
+      <span class="pill pblue">実装済</span>
+      <b>🇪🇨 ガラパゴス国立公園</b>
+      <p data-cell-id="cases-b4-desc" style="font-size:13px;margin:6px 0 0">2024年改定、入園料200米ドル。配分比率が制度で明示：国立公園40%／自治体20%／州政府10%／INGALA(諸島研)10%／海洋保護区5%／検疫5%／NPS5%／国軍5%。全て法令で規定。</p>
+      <div class="callout ok" style="margin-top:8px"><b>屋久島への示唆：</b><span data-cell-id="cases-b4-note">「使途限定」を単に一箇所ではなく「複数受益者の配分表」として設計する発想。屋久島町・観光協会・林野庁・環境省・ガイド組合の間で明確な%配分ルールを条例化できる。</span></div>
+    </div>
+
+    <h4 style="font-size:13.5px;margin:18px 0 8px">C. 日本の類似制度(現状)</h4>
+    <div class="measureCard">
+      <span class="pill porange">要注意(財源機能は限定的)</span>
+      <b>🇯🇵 西表島 特定自然観光資源(竹富町・エコツーリズム推進法)</b>
+      <p data-cell-id="cases-c1-desc" style="font-size:13px;margin:6px 0 0">R7.3〜、ヒナイ川・古見岳・浦内川源流・テドウ山など5フィールドを立入制限指定。事前承認制＋認定ガイド同行必須。事務手数料徴収はあるが財源額は限定的で、環境省・竹富町は別途「入域料の導入検討」を並行している。</p>
+      <div class="callout warn" style="margin-top:8px"><b>屋久島への示唆：</b><span data-cell-id="cases-c1-note">「特定自然観光資源」制度は本来「利用調整＝立入制限」の道具。財源を大きく取るには「別スキーム(入域料条例／法定外税)」との組み合わせが必要、というのが西表の教訓。</span></div>
+    </div>
+    <div class="measureCard">
+      <span class="pill pgreen">実装済(既存)</span>
+      <b>🇯🇵 屋久島の現行制度(世界自然遺産屋久島山岳部環境保全協力金)</b>
+      <p data-cell-id="cases-c2-desc" style="font-size:13px;margin:6px 0 0">H27町議会議決、H29施行。日帰り1,000円・宿泊2,000円を任意徴収、年間約6,000万円。使途は山小屋トイレし尿搬出・登山道・登山バス・事務費・その他山岳部保全と条例で規定。加えて白谷雲水峡には「森林環境整備推進協力金」800円が別建てで存在。</p>
+      <div class="callout ok" style="margin-top:8px"><b>屋久島への示唆：</b><span data-cell-id="cases-c2-note">実は屋久島は既に「二階建て運用」の実装経験を持つ。この経験を活かして、特定自然観光資源制度と組み合わせた三階建て(法定入域料＋条例協力金＋任意寄付)も設計可能。</span></div>
+    </div>
+    <p class="footNote">※ 掲載情報は各国公式資料・報道に基づく整理です(出典は「生データ」タブ・footer参照)。実際の政策検討には一次情報での確認をお願いします。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-funding">
+  <div class="card">
+    <h3>活用できる補助金・交付金(候補)</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">現時点では、この論点に特化した補助金・交付金マッチングDBの登録候補はまだ多くありません。関連しうる既存制度の候補を挙げていますが、対象・要件は必ず一次情報でご確認ください。</p>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>制度名</th><th>所管</th><th>概要</th><th>マッチ理由</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>地域一体となった観光産業の効率化支援事業</b><br><span class="pill porange">自治体・団体向け</span></td>
+            <td>観光庁</td>
+            <td data-cell-id="funding-1-desc">地域一体となった観光産業の生産性向上・効率化の取組を支援。補助率1/2、上限5,000万円。</td>
+            <td data-cell-id="funding-1-reason">世界自然遺産を抱える屋久島の環境配慮型受入体制整備(保全財源の使途設計と連動する基盤整備)に活用できる可能性がある。過去の公募は締切済みのため、次回公募をウォッチする位置づけ。</td>
+          </tr>
+          <tr>
+            <td><b>国立公園満喫プロジェクト関連予算(要確認)</b><br><span class="pill porange">要確認</span></td>
+            <td>環境省</td>
+            <td data-cell-id="funding-2-desc">国立公園の保全と利用の両立を進める環境省の施策群。具体的な補助メニュー・要件は一次情報で要確認。</td>
+            <td data-cell-id="funding-2-reason">特定自然観光資源の使途設計を環境省と協議する際、関連する既存予算枠を併せて確認する価値がある。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。申請にあたっては町・県・国の一次情報を必ずご確認ください。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-raw">
+  <div class="card">
+    <h3>屋久島の意思決定に効く数字</h3>
+    <div class="stakeGrid">
+      <div class="stakeCard">
+        <b>現行 入山協力金(年間)</b>
+        <p>約6,000万円。条例に基づく任意徴収。収納率約8割。</p>
+      </div>
+      <div class="stakeCard">
+        <b>日帰り／宿泊の料金</b>
+        <p>1,000円／2,000円(屋久島山岳部保全利用協議会)。</p>
+      </div>
+      <div class="stakeCard">
+        <b>年間協力者</b>
+        <p>約5万人(縄文杉・宮之浦岳など山岳部利用者)。</p>
+      </div>
+      <div class="stakeCard">
+        <b>白谷雲水峡 別協力金</b>
+        <p>800円(森林環境整備推進協力金)。既に二階建て運用の実績。</p>
+      </div>
+      <div class="stakeCard">
+        <b>現行の使途範囲</b>
+        <p>山岳部全体：トイレし尿搬出／登山道／登山バス／事務費。</p>
+      </div>
+      <div class="stakeCard">
+        <b>2024年に発覚した課題</b>
+        <p>元職員による約3,000万円の横領事件(要ガバナンス強化)。</p>
+      </div>
+    </div>
+    <p class="footNote">出典：<a href="http://yakushima-tozan.com/kyouryokukin/" target="_blank" rel="noopener">屋久島山岳部保全利用協議会</a></p>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>本論点に関する議事メモ(2026-09-11)</h3>
+    <div class="stakeGrid">
+      <div class="stakeCard">
+        <b>2026-09-11 定例会議</b>
+        <p data-cell-id="raw-meeting-1">松原：縄文杉に特定自然観光資源を設定するとそのエリアでしか財源が使えなくなる。他が傷んでいく懸念。別の協力金を…という提案は破綻する。</p>
+      </div>
+      <div class="stakeCard">
+        <b>2026-09-11 定例会議</b>
+        <p data-cell-id="raw-meeting-2">松原：圧倒的に事例集めができていない。事例に基づかないと国は動かせない。</p>
+      </div>
+      <div class="stakeCard">
+        <b>2026-09-11 松原・後続指示</b>
+        <p data-cell-id="raw-meeting-3">松原：この問題を意思決定するには、世界中の事例でも同じようなことがあるかどうか調べてみてもよいのではないか？→本ダッシュボードで7カ国8事例を整理。財政学ではearmarking／ring-fencing問題として既知の設計課題であることを確認。</p>
+      </div>
+    </div>
+    <p class="footNote">出典：しまてつだい分室(りとけい分室)2026-09-11定例会議録。生の議事メモ全文は「🗒️ 議事メモ」タブでも確認できます。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-meetingnotes">
+  <div class="card">
+    <h3>🗒️ 議事メモ</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">ワークショップ・会議の議事録や議事メモを、右下の「編集モード」から誰でも直接登録できます。登録された内容は、しまてつだいダッシュボードエージェントが確認し、必要な内容を各タブ(決断まとめ・立場地図など)に反映します。反映済みのメモには「✅ 反映済み」バッジが付きます。</p>
+    <div id="meeting-notes-list">読み込み中…</div>
+  </div>
+</section>
+
+<section class="panel" id="panel-history">
+  <div class="card">
+    <h3>📜 過去のダッシュボード</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">改版のたびに、このタブへ要約を追加します。「決断まとめ」タブは特に変化が分かりにくいため、直前バージョンについては「▼ 全文を見る」から当時のタブ全体をそのまま確認できます(古いバージョンほど要約のみになります)。</p>
+    <div class="historyCard">
+      <b>v1(初版・12タブ構成・2026-09-12)</b>
+      <p style="font-size:12.5px;margin:8px 0 0">屋久島観光協会 荒木会長が2026-09-11の定例会議で提起した論点(縄文杉への特定自然観光資源指定に伴う入域料の使途限定問題)について、添付資料と世界7カ国8事例をもとに初版を作成。標準の12タブ構成(決断まとめ・立場別・屋久島町の視点・提案・将来予測・立場地図・進捗・事例・補助金・生データ・議事メモ・履歴)で構築。ステークホルダーへの正式なヒアリングはまだ行っていないため、「立場地図」タブは想定サンプル。</p>
+      <div class="metaRow">
+        <span>更新日：2026-09-12</span>
+        <span>反映元：添付資料(AIによる事前調査)＋2026-09-11定例会議の議事メモ</span>
+        <span>更新者：Claude(エージェント)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+<script>
+function switchTab(tabName){
+  document.querySelectorAll('.tabBtn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  var btn = document.querySelector('.tabBtn[data-tab="' + tabName + '"]');
+  if (btn) btn.classList.add('active');
+  var panel = document.getElementById('panel-' + tabName);
+  if (panel) panel.classList.add('active');
+}
+document.querySelectorAll('.tabBtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    switchTab(btn.dataset.tab);
+  });
+});
+// 5軸レーダーチャートを描画する共通関数。0-100のスコアを渡す。
+function renderRadar(svgId, scores){
+  var axes = [
+    {key:'finance', label:'財政'}, {key:'life', label:'住民生活'},
+    {key:'admin', label:'行政実務'}, {key:'expert', label:'専門家'},
+    {key:'ritokei', label:'りとけい現場'}
+  ];
+  var cx=90, cy=90, r=70, svg=document.getElementById(svgId);
+  if (!svg) return;
+  var pt = function(i, val){
+    var ang = -Math.PI/2 + i * (2*Math.PI/5);
+    var rad = r * (val/100);
+    return [cx + rad*Math.cos(ang), cy + rad*Math.sin(ang)];
+  };
+  var rings = '';
+  [0.25,0.5,0.75,1].forEach(function(f){
+    var pts = axes.map(function(a,i){ return pt(i, f*100).join(','); }).join(' ');
+    rings += '<polygon points="'+pts+'" fill="none" stroke="#ddd" stroke-width="1"/>';
+  });
+  var dataPts = axes.map(function(a,i){ return pt(i, scores[a.key]||0).join(','); }).join(' ');
+  var labels = axes.map(function(a,i){
+    var p = pt(i, 118);
+    return '<text x="'+p[0]+'" y="'+p[1]+'" font-size="9" text-anchor="middle" fill="#7D7A75">'+a.label+'</text>';
+  }).join('');
+  svg.innerHTML = rings + '<polygon points="'+dataPts+'" fill="#7A5CCF55" stroke="#7A5CCF" stroke-width="2"/>' + labels;
+}
+renderRadar('radarChart', {finance:30, life:35, admin:25, expert:30, ritokei:20});
+(function(){
+  var wizard = document.getElementById('wizard');
+  var wizardSkip = document.getElementById('wizardSkip');
+  document.querySelectorAll('.wizardBtn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      switchTab(btn.dataset.goto);
+      wizard.classList.add('wizardDone');
+    });
+  });
+  if (wizardSkip) wizardSkip.addEventListener('click', function(){ wizard.classList.add('wizardDone'); });
+})();
+(function(){
+  // 「立場別」タブ：ペルソナカードをクリックすると該当の解説を表示する
+  document.querySelectorAll('.personaCard').forEach(function(card){
+    card.addEventListener('click', function(){
+      document.querySelectorAll('.personaDetail').forEach(function(d){ d.classList.remove('active'); });
+      var detail = document.getElementById('persona-' + card.dataset.persona);
+      if (detail) detail.classList.add('active');
+    });
+  });
+})();
+</script>
+<script src="/js/dashboard-cell-editor.js"></script>
+</body>
+</html>
