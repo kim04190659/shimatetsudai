@@ -1,0 +1,143 @@
+<title>コンプライアンス・ナレッジ｜地域創生HDパートナーズ</title>
+<style>
+  /*
+    CR「コンプライアンス・ナレッジ機能の追加」(林さん提案、2026-09-10対応)。
+    「代理店支援＋本部統制＋コンプライアンス」を一体化する構想の中核機能。
+    本部から代理店へ、法令・営業ルール・苦情対応事例・FAQを正式に還元する読み取り専用ページ。
+    デザイントークンは他のパートナーズハブ内ツールページ(agencies.html/dashboard.html)と揃えている。
+  */
+  :root{
+    --bg:#F2EEE6; --card:#FFFFFF; --card-soft:#F9F8F7;
+    --ink:#2C2C2B; --muted:#726A5E; --line:#E1DDD3;
+    --blue:#2783DE; --terracotta:#C96F42; --green:#7A9A7E;
+    --callout-peach-bg:#FBEBDE; --callout-peach-line:#C96F42;
+    --status-good:#4C7A52; --status-good-bg:#E8F1EC;
+    --status-warn:#9C6B0B; --status-warn-bg:#FFF8E8;
+    --shadow:0 1px 2px rgba(44,44,43,.05), 0 8px 22px rgba(44,44,43,.06);
+  }
+  *{box-sizing:border-box;}
+  body{ background:var(--bg); color:var(--ink); line-height:1.75; margin:0;
+    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
+  .shell{max-width:980px; margin:0 auto; padding:30px 22px 60px;}
+  .back{font-size:.82rem; color:var(--blue); text-decoration:none;}
+  .eyebrow{font-size:.78rem; color:var(--terracotta); font-weight:600; margin-top:18px;}
+  h1{font-size:1.6rem; margin:6px 0 10px;}
+  .lead{color:var(--muted); font-size:.92rem; max-width:64ch; margin-bottom:8px;}
+  .note{background:var(--callout-peach-bg); border-left:4px solid var(--callout-peach-line); border-radius:8px; padding:12px 15px; font-size:.84rem; margin:18px 0 20px;}
+  .rule-note{background:var(--card-soft); border:1px solid var(--line); border-radius:10px; padding:14px 16px; font-size:.82rem; color:var(--muted); margin-bottom:26px;}
+  .rule-note b{color:var(--ink);}
+
+  .controls{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px;}
+  .controls select, .controls input{
+    font:inherit; font-size:.85rem; background:var(--card); color:var(--ink);
+    border:1px solid var(--line); border-radius:8px; padding:9px 12px; box-shadow:var(--shadow);
+  }
+  .controls input{flex:1; min-width:200px;}
+
+  #countLabel{font-size:.8rem; color:var(--muted); margin-bottom:14px;}
+
+  .k-card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 20px; box-shadow:var(--shadow); margin-bottom:14px;}
+  .k-top{display:flex; flex-wrap:wrap; align-items:center; gap:8px; justify-content:space-between;}
+  .k-title{font-size:1.02rem; font-weight:700;}
+  .tag-row{display:flex; flex-wrap:wrap; gap:6px;}
+  .tag{font-size:.7rem; font-weight:700; padding:3px 10px; border-radius:99px; white-space:nowrap;}
+  .tag-cat{background:var(--callout-peach-bg); color:var(--terracotta);}
+  .tag-review-ok{background:var(--status-good-bg); color:var(--status-good);}
+  .tag-review-ai{background:var(--status-warn-bg); color:var(--status-warn);}
+  .k-body{font-size:.88rem; color:var(--ink); margin-top:10px; white-space:pre-wrap;}
+  .k-updated{font-size:.74rem; color:var(--muted); margin-top:10px;}
+
+  footer{margin-top:36px; padding-top:16px; border-top:1px solid var(--line); font-size:.74rem; color:var(--muted);}
+</style>
+
+<div class="shell">
+  <a class="back" href="index.html">← パートナーズハブ トップに戻る</a>
+  <p class="eyebrow">COMPLIANCE &amp; KNOWLEDGE</p>
+  <h1>📚 コンプライアンス・ナレッジ</h1>
+  <p class="lead">本部から代理店の皆さまへ、法令・営業ルール・苦情対応事例・FAQを正式に還元する場所です。日々の営業で「これで合っているか」と迷ったときに、まずここを確認してください。</p>
+
+  <div class="rule-note">
+    <b>🤖 AI起草(参考)</b> のラベルが付いた項目は、生成AIが下書きしたもので、まだ本部の最終確認が済んでいません。参考情報としてご覧ください。<br>
+    <b>✅ 本部確認済み</b> のラベルが付いた項目は、本部担当者が内容を確認済みです。実務ではこちらを優先してください。<br>
+    このラベルの運用は、CR「AIの判断と人間の最終判断の切り分け」の取り決めに基づいています(AIは提案・整理まで、最終判断は人が行います)。
+  </div>
+
+  <div class="note">⚠️ このページの内容は、地域創生HDパートナーズ向けの提案・打ち合わせ用に作成したデモンストレーション用のサンプルです。実在の法令解釈・社内規程を保証するものではありません。本格導入の際は、貴社の法務・コンプライアンス部門による確認のうえでご利用ください。</div>
+
+  <div class="controls">
+    <select id="categoryFilter">
+      <option value="">すべての分類</option>
+      <option value="法令・規制">法令・規制</option>
+      <option value="営業ルール">営業ルール</option>
+      <option value="苦情対応事例">苦情対応事例</option>
+      <option value="FAQ">FAQ</option>
+    </select>
+    <input id="searchInput" type="text" placeholder="キーワードで検索(例：クーリングオフ、インセンティブ)">
+  </div>
+
+  <p id="countLabel">読み込み中…</p>
+  <div id="list"></div>
+
+  <footer>地域創生ホールディングス 地域創生HDパートナーズ / コンプライアンス・ナレッジ機能 2026-09-12作成</footer>
+</div>
+
+<script>
+  // Notionの「📚 コンプライアンス・ナレッジ（地域創生HDパートナーズ）」DBから
+  // Status=公開の項目一覧を取得して表示する(認証不要・読み取り専用)。
+  let allItems = [];
+
+  function categoryOrder(cat) {
+    return ['法令・規制', '営業ルール', '苦情対応事例', 'FAQ'].indexOf(cat);
+  }
+
+  function reviewTagHtml(reviewStatus) {
+    if (reviewStatus === '本部確認済み') {
+      return '<span class="tag tag-review-ok">✅ 本部確認済み</span>';
+    }
+    return '<span class="tag tag-review-ai">🤖 AI起草(参考)</span>';
+  }
+
+  function render() {
+    const category = document.getElementById('categoryFilter').value;
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+
+    const filtered = allItems.filter(item => {
+      const matchCategory = !category || item.category === category;
+      const matchQ = !q || (item.title + ' ' + item.body).toLowerCase().includes(q);
+      return matchCategory && matchQ;
+    }).sort((a, b) => categoryOrder(a.category) - categoryOrder(b.category));
+
+    document.getElementById('countLabel').textContent = `${filtered.length}件 / 全${allItems.length}件`;
+
+    document.getElementById('list').innerHTML = filtered.map(item => `
+      <div class="k-card">
+        <div class="k-top">
+          <div class="k-title">${item.title}</div>
+          <div class="tag-row">
+            <span class="tag tag-cat">${item.category}</span>
+            ${reviewTagHtml(item.reviewStatus)}
+          </div>
+        </div>
+        <div class="k-body">${item.body}</div>
+        <div class="k-updated">最終更新日：${item.updatedAt || '未設定'}</div>
+      </div>
+    `).join('') || '<p style="color:var(--muted); font-size:.85rem;">該当するナレッジが見つかりませんでした。</p>';
+  }
+
+  async function load() {
+    try {
+      const res = await fetch('/api/partners/compliance');
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || '取得に失敗しました');
+      allItems = data.items || [];
+      render();
+    } catch (err) {
+      document.getElementById('countLabel').textContent = '';
+      document.getElementById('list').innerHTML = `<p style="color:var(--muted); font-size:.85rem;">⚠️ ナレッジの読み込みに失敗しました(${err.message || err})。時間をおいて再度お試しください。</p>`;
+    }
+  }
+
+  document.getElementById('categoryFilter').addEventListener('change', render);
+  document.getElementById('searchInput').addEventListener('input', render);
+  load();
+</script>

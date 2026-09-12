@@ -556,3 +556,42 @@ export async function getFundingMatches(
     sourceUrl: urlFromProperty(page.properties["出典URL"]),
   }));
 }
+
+// ------------------------------------------------------------------
+// 地域創生HDパートナーズ「コンプライアンス・ナレッジ」機能
+// CR「コンプライアンス・ナレッジ機能の追加」(林さん提案、2026-09-10対応)。
+// 本部から代理店へ、法令・営業ルール・苦情対応事例・FAQを正式に還元する読み取り専用の一覧機能。
+// CR「AIの判断と人間の最終判断の切り分け」の運用ルール(覚書①)に合わせて、
+// 各ナレッジには ReviewStatus(「AI起草(参考)」/「本部確認済み」) のラベルを必ず付与する。
+// 「Status=公開」の行だけを、認証なしで/partners/compliance.htmlに表示する(読み取り専用・編集画面は今回のスコープ外)。
+// ------------------------------------------------------------------
+
+const PARTNERS_COMPLIANCE_DATA_SOURCE_ID = "462dfc2d-821d-4398-9e77-18abd0ed4e22";
+
+export type ComplianceKnowledgeItem = {
+  title: string;
+  category: string; // 法令・規制 / 営業ルール / 苦情対応事例 / FAQ
+  body: string;
+  reviewStatus: string; // AI起草(参考) / 本部確認済み
+  updatedAt: string;
+};
+
+/** 「Status=公開」のコンプライアンス・ナレッジを全件取得する(表示用・ログイン不要) */
+export async function getPublishedComplianceKnowledge(): Promise<ComplianceKnowledgeItem[]> {
+  const notion = getClient();
+  const res = await notion.dataSources.query({
+    data_source_id: PARTNERS_COMPLIANCE_DATA_SOURCE_ID,
+    filter: {
+      property: "Status",
+      select: { equals: "公開" },
+    },
+  });
+
+  return res.results.filter(isFullPage).map((page) => ({
+    title: plainTextFromProperty(page.properties["Title"]),
+    category: plainTextFromProperty(page.properties["Category"]),
+    body: plainTextFromProperty(page.properties["Body"]),
+    reviewStatus: plainTextFromProperty(page.properties["ReviewStatus"]),
+    updatedAt: plainTextFromProperty(page.properties["UpdatedAt"]),
+  }));
+}

@@ -43,6 +43,7 @@
       <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="#">ホーム</a>
       <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="#about">会社概要</a>
       <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="agencies.html">代理店一覧</a>
+      <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="compliance.html">コンプライアンス・ナレッジ</a>
       <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="#contact">お問い合わせ</a>
     </nav>
   </div>
@@ -59,13 +60,14 @@
     </div>
   </section>
 
-  <!-- 3つのツール（トップメッセージのすぐ次に配置） -->
+  <!-- 4つのツール（トップメッセージのすぐ次に配置） -->
+  <!-- CR「コンプライアンス・ナレッジ機能の追加」対応(2026-09-12)：4つ目のツールカードとしてcompliance.htmlを追加。 -->
   <section id="tools" class="mx-auto max-w-5xl px-5 py-16">
     <div class="text-center">
-      <h2 class="text-2xl font-bold text-foreground">私たちが届ける3つのツール</h2>
+      <h2 class="text-2xl font-bold text-foreground">私たちが届ける4つのツール</h2>
       <p class="mt-2 text-sm text-foreground/70">それぞれ異なる立場の方に寄り添うツールを開発しています</p>
     </div>
-    <div class="mt-10 grid gap-6 sm:grid-cols-3">
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       <a class="group flex flex-col rounded-2xl border border-brand-soft bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md" href="https://shimatetsudai-tetsudatte.vercel.app/" target="_blank" rel="noopener">
         <span class="text-4xl">🤝</span>
         <h3 class="mt-4 text-xl font-bold text-brand-dark">てつだって</h3>
@@ -87,6 +89,39 @@
         <p class="mt-3 text-sm leading-relaxed text-foreground/80">カードを選ぶだけで、パートナーズ全体の未来をいっしょに考えられる</p>
         <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-dark">やまびこでんきの事例を見る<span class="transition group-hover:translate-x-1">→</span></span>
       </a>
+      <a class="group flex flex-col rounded-2xl border border-brand-soft bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md" href="compliance.html">
+        <span class="text-4xl">📚</span>
+        <h3 class="mt-4 text-xl font-bold text-brand-dark">コンプライアンス・ナレッジ</h3>
+        <p class="mt-1 text-sm font-medium text-accent-green">代理店の皆さま・HD本部の方</p>
+        <p class="mt-3 text-sm leading-relaxed text-foreground/80">法令・営業ルール・苦情対応事例・FAQを、本部から正式に還元する一覧です</p>
+        <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-dark">ナレッジを見る<span class="transition group-hover:translate-x-1">→</span></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 安心してご利用いただくために：CR「安心材料（3点）をパートナーズホームページに掲載」対応(2026-09-10確定文)。
+       出典：運用ルール覚書（β版）①③⑤を、代理店・HD本部の両方に分かりやすい言葉に噛み砕いたもの。
+       ②(知的財産権・開発主体の整理)は契約・帰属に関わる内部事項のため、方針通りここには掲載しない。 -->
+  <section class="mx-auto max-w-5xl px-5 py-16">
+    <div class="text-center">
+      <h2 class="text-2xl font-bold text-foreground">安心してご利用いただくために</h2>
+    </div>
+    <div class="mt-10 grid gap-6 sm:grid-cols-3">
+      <div class="flex flex-col rounded-2xl border border-brand-soft bg-card p-6 shadow-sm">
+        <span class="text-3xl">🤖</span>
+        <h3 class="mt-4 text-lg font-bold text-foreground">AIはあくまで「提案」まで。最終判断はいつも人が行います</h3>
+        <p class="mt-3 text-sm leading-relaxed text-foreground/80">本サービスのAIは、情報の整理やご提案づくりをお手伝いします。代理店としての意思決定や本部への報告は、必ず人の目で確認したうえで行われます。</p>
+      </div>
+      <div class="flex flex-col rounded-2xl border border-brand-soft bg-card p-6 shadow-sm">
+        <span class="text-3xl">🔒</span>
+        <h3 class="mt-4 text-lg font-bold text-foreground">代理店ごとの情報は、他の代理店と共有されません</h3>
+        <p class="mt-3 text-sm leading-relaxed text-foreground/80">ご入力いただいた情報は代理店ごとに分けて管理し、他の代理店から見えることはありません。全体で共有する場合も、どの代理店か分からない形（匿名化した事例）としてのみ扱います。</p>
+      </div>
+      <div class="flex flex-col rounded-2xl border border-brand-soft bg-card p-6 shadow-sm">
+        <span class="text-3xl">🛡️</span>
+        <h3 class="mt-4 text-lg font-bold text-foreground">個人情報は厳重に管理し、AIの学習には使用しません</h3>
+        <p class="mt-3 text-sm leading-relaxed text-foreground/80">ご担当者様の連絡先などの個人情報は適切に管理しています。生成AIへの入力内容が、AIの学習データとして使われることはありません。</p>
+      </div>
     </div>
   </section>
 
@@ -211,6 +246,7 @@
           <li>てつだって</li>
           <li>意思決定支援</li>
           <li>代理店のみんな会議</li>
+          <li>コンプライアンス・ナレッジ</li>
         </ul>
       </div>
       <div>
