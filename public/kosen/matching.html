@@ -32,25 +32,42 @@
   /* CR: 企業属性カード選択UI（company-card-selector.html由来）
      https://app.notion.com/p/3d9960a91e2381d3ad0ce93826ac43c1
      しまのみんな会議カードゲームと同じ「1カテゴリ13枚」の発想。
-     .ccs-card.selected の色だけ、このページのブランドカラー(brand/brand-dark)に合わせて調整。 */
+     2026-09-12追記：トランプ風の見た目（左上に番号・マーク、中央に絵文字）に変更。
+     配置場所も、企業登録フォームの中から「資料アップロード欄のすぐ下」に移動した。 */
   .ccs-section {
-    margin-top: 32px;
-    padding-top: 24px;
-    border-top: 1px solid #e0e0e0;
+    margin-top: 20px;
+    padding: 16px;
+    border: 1px dashed #e0c8ae;
+    border-radius: 12px;
+    background: #fffaf4;
+  }
+  .ccs-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #c96f42;
+    margin-bottom: 2px;
+  }
+  .ccs-section-hint {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 16px;
   }
   .ccs-category {
-    margin-bottom: 28px;
+    margin-bottom: 20px;
+  }
+  .ccs-category:last-child {
+    margin-bottom: 0;
   }
   .ccs-category-title {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     margin-bottom: 4px;
     color: #222;
   }
   .ccs-category-hint {
-    font-size: 12px;
+    font-size: 11.5px;
     color: #888;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
   /* PC前提：13枚が横一列に並ぶ。画面幅が足りない場合のみ折り返す */
   .ccs-row {
@@ -66,34 +83,63 @@
       overflow-x: visible;
     }
   }
+  /* トランプ風カード：左上に番号＋マーク、中央に絵文字、下にラベル */
   .ccs-card {
-    flex: 1 0 90px;
-    min-width: 90px;
-    max-width: 130px;
-    height: 120px;
+    position: relative;
+    flex: 1 0 84px;
+    min-width: 84px;
+    max-width: 120px;
+    height: 128px;
     border: 2px solid #d8d8d8;
     border-radius: 10px;
-    background: #fff;
+    background: linear-gradient(180deg, #ffffff 0%, #fdf8f2 100%);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 4px;
     text-align: center;
-    font-size: 12.5px;
-    line-height: 1.35;
-    padding: 6px;
+    padding: 6px 5px;
     cursor: pointer;
     user-select: none;
     transition: all 0.15s ease;
   }
+  .ccs-card-corner {
+    position: absolute;
+    top: 5px;
+    left: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.1;
+    font-size: 11px;
+    font-weight: 700;
+    color: #b0a89e;
+  }
+  .ccs-card-suit {
+    font-size: 10px;
+  }
+  .ccs-card-emoji {
+    font-size: 26px;
+    line-height: 1;
+  }
+  .ccs-card-label {
+    font-size: 11.5px;
+    line-height: 1.3;
+  }
   .ccs-card:hover {
     border-color: #e08a5b;
     transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(224,138,91,0.2);
   }
   .ccs-card.selected {
     border-color: #c96f42;
-    background: #f7e0cf;
+    background: linear-gradient(180deg, #fff3e8 0%, #f7e0cf 100%);
     font-weight: 600;
-    box-shadow: 0 2px 6px rgba(201,111,66,0.25);
+    box-shadow: 0 2px 8px rgba(201,111,66,0.3);
+  }
+  .ccs-card.selected .ccs-card-corner {
+    color: #c96f42;
   }
   .ccs-card.other-card {
     border-style: dashed;
@@ -153,6 +199,178 @@
         <p id="docFileStatus" class="mt-2 text-xs text-foreground/50">資料をアップロードすると、AIが内容を読み取って上の自由記述欄に自動反映します（複数ファイルをまとめて選択できます）。</p>
       </div>
 
+      <!-- CR: 企業属性カード選択 UI（company-card-selector.htmlより追加・トランプ風デザインに変更）
+           https://app.notion.com/p/3d9960a91e2381d3ad0ce93826ac43c1
+           ドキュメント登録欄のすぐ下に配置。登録時にwindow.getCardSelections()で
+           選択内容を取得し、企業登録フォーム(companyForm)の送信データに含める。 -->
+      <section id="company-card-selector" class="ccs-section">
+        <p class="ccs-section-title">🃏 貴社について、カードを選んで教えてください</p>
+        <p class="ccs-section-hint">トランプのように、当てはまるカードを選んでください（①は1枚、②〜④は複数枚選択できます）</p>
+
+        <div class="ccs-category" data-category="industry">
+          <div class="ccs-category-title">① 企業種別（1つ選択）</div>
+          <div class="ccs-category-hint">貴社の事業に最も近いものを1枚選んでください</div>
+          <div class="ccs-row" data-select-mode="single"></div>
+          <input type="text" class="ccs-other-input" placeholder="その他の場合はご記入ください">
+        </div>
+
+        <div class="ccs-category" data-category="jobtype">
+          <div class="ccs-category-title">② 業務種別（複数選択可）</div>
+          <div class="ccs-category-hint">高専生に見せられる立場・職種を選んでください（複数可）</div>
+          <div class="ccs-row" data-select-mode="multi"></div>
+          <input type="text" class="ccs-other-input" placeholder="その他の場合はご記入ください">
+        </div>
+
+        <div class="ccs-category" data-category="department">
+          <div class="ccs-category-title">③ 対応可能な学科（複数選択可）</div>
+          <div class="ccs-category-hint">対応・相性が良いと思う学科を選んでください（複数可）</div>
+          <div class="ccs-row" data-select-mode="multi"></div>
+          <input type="text" class="ccs-other-input" placeholder="その他の場合はご記入ください">
+        </div>
+
+        <div class="ccs-category" data-category="region">
+          <div class="ccs-category-title">④ 対応可能な地区（複数選択可）</div>
+          <div class="ccs-category-hint">訪問・オンラインで対応できる地域を選んでください（複数可）</div>
+          <div class="ccs-row" data-select-mode="multi"></div>
+          <input type="text" class="ccs-other-input" placeholder="その他の場合はご記入ください">
+        </div>
+      </section>
+
+      <script>
+      (function () {
+        // 確定した52枚（4カテゴリ×13枚、各カテゴリ13枚目は「その他」）
+        // 内容の正本はNotion。変更する場合はNotion側を先に更新してからここも合わせること。
+        // トランプ風の見た目にするため、各カードに絵文字アイコンと、カテゴリ固有のマーク(♠♥♦♣)、
+        // 通し番号(トランプのランクのようなもの)を持たせている。
+        // [ラベル, 絵文字] の組で持つ。
+        const CCS_CARD_DATA = {
+          industry: [
+            ["製造業", "🏭"], ["金融業・保険業", "💰"], ["情報通信業（IT・ソフトウェア）", "💻"], ["建設業", "🏗️"],
+            ["運輸業・物流業", "🚚"], ["医療・福祉", "🏥"], ["エネルギー・電力・ガス", "⚡"], ["農林水産業", "🌾"],
+            ["教育・学習支援業", "📚"], ["公務・行政関連", "🏛️"], ["小売業・卸売業", "🛒"],
+            ["サービス業（コンサル・専門サービス等）", "🤝"], ["その他", "❓"]
+          ],
+          jobtype: [
+            ["経営者・役員", "👔"], ["営業", "📈"], ["技術営業（プリセールス）", "🎯"], ["研究・開発（R&D）", "🔬"],
+            ["SE・システムエンジニア", "💻"], ["現場エンジニア・技術者（施工・保守）", "🔧"],
+            ["生産・製造現場（オペレーター）", "⚙️"], ["品質管理・生産管理", "✅"], ["購買・調達", "📦"],
+            ["マーケティング・広報", "📣"], ["管理部門（人事・総務・経理・法務等）", "🗂️"],
+            ["カスタマーサポート・CS", "🎧"], ["その他", "❓"]
+          ],
+          department: [
+            ["機械工学科・ロボット工学系", "🤖"], ["電気電子工学科", "🔌"], ["電子制御工学科", "🎛️"], ["情報工学科", "💻"],
+            ["建築学科", "🏛️"], ["土木工学科・都市システム工学科", "🌉"], ["物質工学科（化学系）", "🧪"],
+            ["生物工学科", "🧬"], ["経営情報学科", "📊"], ["環境工学科", "🌱"], ["生産デザイン工学科（複合系）", "🎨"],
+            ["商船学科", "⚓"], ["その他", "❓"]
+          ],
+          region: [
+            ["北海道", "❄️"], ["東北", "🌾"], ["関東", "🗼"], ["北陸", "🏔️"], ["中部・東海", "🗻"], ["近畿", "⛩️"],
+            ["中国", "🌉"], ["四国", "🍊"], ["九州", "🌋"], ["沖縄", "🏝️"], ["オンラインのみ対応可", "💻"],
+            ["どこでも対応可能（訪問含む）", "🚗"], ["その他", "❓"]
+          ]
+        };
+
+        // カテゴリごとにトランプのマーク(スート)を割り当て、カードの左上に表示する
+        const CCS_SUITS = { industry: "♠", jobtype: "♥", department: "♦", region: "♣" };
+
+        const ccsState = {
+          industry: null,       // 単一選択: 文字列 or null
+          jobtype: new Set(),   // 複数選択: Set
+          department: new Set(),
+          region: new Set()
+        };
+
+        function ccsIsOtherLabel(label) {
+          return label === "その他";
+        }
+
+        function ccsRender() {
+          document.querySelectorAll('#company-card-selector .ccs-category').forEach(categoryEl => {
+            const key = categoryEl.dataset.category;
+            const row = categoryEl.querySelector('.ccs-row');
+            const otherInput = categoryEl.querySelector('.ccs-other-input');
+            const mode = row.dataset.selectMode; // single | multi
+            const suit = CCS_SUITS[key];
+            row.innerHTML = '';
+
+            CCS_CARD_DATA[key].forEach(([label, emoji], index) => {
+              const card = document.createElement('div');
+              card.className = 'ccs-card' + (ccsIsOtherLabel(label) ? ' other-card' : '');
+
+              // トランプ風レイアウト：左上に番号＋マーク、中央に絵文字、下にラベル
+              const rank = index + 1;
+              card.innerHTML =
+                '<span class="ccs-card-corner">' + rank + '<span class="ccs-card-suit">' + suit + '</span></span>' +
+                '<span class="ccs-card-emoji">' + emoji + '</span>' +
+                '<span class="ccs-card-label">' + label + '</span>';
+
+              const isSelected = mode === 'single'
+                ? ccsState[key] === label
+                : ccsState[key].has(label);
+              if (isSelected) card.classList.add('selected');
+
+              card.addEventListener('click', () => {
+                if (mode === 'single') {
+                  ccsState[key] = (ccsState[key] === label) ? null : label;
+                } else {
+                  if (ccsState[key].has(label)) {
+                    ccsState[key].delete(label);
+                  } else {
+                    ccsState[key].add(label);
+                  }
+                }
+                ccsRender();
+              });
+
+              row.appendChild(card);
+            });
+
+            // 「その他」が選択されているかどうかで自由記述欄の表示を切替
+            const otherSelected = mode === 'single'
+              ? ccsState[key] === 'その他'
+              : ccsState[key].has('その他');
+            otherInput.classList.toggle('show', otherSelected);
+          });
+        }
+
+        // 企業登録フォーム(companyForm)の送信時にこの関数を呼び、既存の登録データに追加する
+        window.getCardSelections = function () {
+          const categoryEls = document.querySelectorAll('#company-card-selector .ccs-category');
+          const result = {};
+          categoryEls.forEach(categoryEl => {
+            const key = categoryEl.dataset.category;
+            const mode = categoryEl.querySelector('.ccs-row').dataset.selectMode;
+            const otherInput = categoryEl.querySelector('.ccs-other-input');
+            const otherText = otherInput.value.trim();
+
+            if (mode === 'single') {
+              result[key] = ccsState[key] === 'その他' && otherText
+                ? otherText
+                : ccsState[key];
+            } else {
+              const values = Array.from(ccsState[key]);
+              result[key] = values.includes('その他') && otherText
+                ? values.filter(v => v !== 'その他').concat(otherText)
+                : values;
+            }
+          });
+          return result;
+        };
+
+        // 登録成功後にカード選択をリセットするための関数（companyForm.reset()だけではカードの見た目は戻らないため）
+        window.resetCardSelections = function () {
+          ccsState.industry = null;
+          ccsState.jobtype = new Set();
+          ccsState.department = new Set();
+          ccsState.region = new Set();
+          document.querySelectorAll('#company-card-selector .ccs-other-input').forEach(el => { el.value = ''; });
+          ccsRender();
+        };
+
+        ccsRender();
+      })();
+      </script>
+
       <div class="mt-4 flex flex-wrap items-center gap-3">
         <button id="matchBtn" class="rounded-full bg-brand px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark">マッチングする</button>
         <span id="detectedTags" class="text-xs text-foreground/60"></span>
@@ -185,161 +403,6 @@
           <textarea id="companyContent" rows="4" required class="mt-1 w-full rounded-lg border border-brand-soft px-3 py-2 text-sm text-foreground" placeholder="上の入力欄と同じ内容を使う場合は「上の内容をコピー」ボタンをご利用ください"></textarea>
           <button type="button" id="copyFreeTextBtn" class="mt-1 text-xs font-semibold text-brand-dark underline">↑ 上の入力欄の内容をコピー</button>
         </div>
-
-        <!-- CR: 企業属性カード選択 UI（company-card-selector.htmlより追加）
-             https://app.notion.com/p/3d9960a91e2381d3ad0ce93826ac43c1 -->
-        <section id="company-card-selector" class="ccs-section">
-
-          <div class="ccs-category" data-category="industry">
-            <div class="ccs-category-title">① 企業種別（1つ選択）</div>
-            <div class="ccs-category-hint">貴社の事業に最も近いものを1枚選んでください</div>
-            <div class="ccs-row" data-select-mode="single"></div>
-            <input type="text" class="ccs-other-input" placeholder="その他の場合はご記入ください">
-          </div>
-
-          <div class="ccs-category" data-category="jobtype">
-            <div class="ccs-category-title">② 業務種別（複数選択可）</div>
-            <div class="ccs-category-hint">高専生に見せられる立場・職種を選んでください（複数可）</div>
-            <div class="ccs-row" data-select-mode="multi"></div>
-            <input type="text" class="ccs-other-input" placeholder="その他の場合はご記入ください">
-          </div>
-
-          <div class="ccs-category" data-category="department">
-            <div class="ccs-category-title">③ 対応可能な学科（複数選択可）</div>
-            <div class="ccs-category-hint">対応・相性が良いと思う学科を選んでください（複数可）</div>
-            <div class="ccs-row" data-select-mode="multi"></div>
-            <input type="text" class="ccs-other-input" placeholder="その他の場合はご記入ください">
-          </div>
-
-          <div class="ccs-category" data-category="region">
-            <div class="ccs-category-title">④ 対応可能な地区（複数選択可）</div>
-            <div class="ccs-category-hint">訪問・オンラインで対応できる地域を選んでください（複数可）</div>
-            <div class="ccs-row" data-select-mode="multi"></div>
-            <input type="text" class="ccs-other-input" placeholder="その他の場合はご記入ください">
-          </div>
-
-        </section>
-
-        <script>
-        (function () {
-          // 確定した52枚（4カテゴリ×13枚、各と13枚目は「その他」）
-          // 内容の正本はNotion。変更する場合はNotion側を先に更新してからここも合わせること。
-          const CCS_CARD_DATA = {
-            industry: [
-              "製造業", "金融業・保険業", "情報通信業（IT・ソフトウェア）", "建設業",
-              "運輸業・物流業", "医療・福祉", "エネルギー・電力・ガス", "農林水産業",
-              "教育・学習支援業", "公務・行政関連", "小売業・卸売業",
-              "サービス業（コンサル・専門サービス等）", "その他"
-            ],
-            jobtype: [
-              "経営者・役員", "営業", "技術営業（プリセールス）", "研究・開発（R&D）",
-              "SE・システムエンジニア", "現場エンジニア・技術者（施工・保守）",
-              "生産・製造現場（オペレーター）", "品質管理・生産管理", "購買・調達",
-              "マーケティング・広報", "管理部門（人事・総務・経理・法務等）",
-              "カスタマーサポート・CS", "その他"
-            ],
-            department: [
-              "機械工学科・ロボット工学系", "電気電子工学科", "電子制御工学科", "情報工学科",
-              "建築学科", "土木工学科・都市システム工学科", "物質工学科（化学系）",
-              "生物工学科", "経営情報学科", "環境工学科", "生産デザイン工学科（複合系）",
-              "商船学科", "その他"
-            ],
-            region: [
-              "北海道", "東北", "関東", "北陸", "中部・東海", "近畿", "中国", "四国",
-              "九州", "沖縄", "オンラインのみ対応可", "どこでも対応可能（訪問含む）", "その他"
-            ]
-          };
-
-          const ccsState = {
-            industry: null,       // 単一選択: 文字列 or null
-            jobtype: new Set(),   // 複数選択: Set
-            department: new Set(),
-            region: new Set()
-          };
-
-          function ccsIsOtherLabel(label) {
-            return label === "その他";
-          }
-
-          function ccsRender() {
-            document.querySelectorAll('#company-card-selector .ccs-category').forEach(categoryEl => {
-              const key = categoryEl.dataset.category;
-              const row = categoryEl.querySelector('.ccs-row');
-              const otherInput = categoryEl.querySelector('.ccs-other-input');
-              const mode = row.dataset.selectMode; // single | multi
-              row.innerHTML = '';
-
-              CCS_CARD_DATA[key].forEach(label => {
-                const card = document.createElement('div');
-                card.className = 'ccs-card' + (ccsIsOtherLabel(label) ? ' other-card' : '');
-                card.textContent = label;
-
-                const isSelected = mode === 'single'
-                  ? ccsState[key] === label
-                  : ccsState[key].has(label);
-                if (isSelected) card.classList.add('selected');
-
-                card.addEventListener('click', () => {
-                  if (mode === 'single') {
-                    ccsState[key] = (ccsState[key] === label) ? null : label;
-                  } else {
-                    if (ccsState[key].has(label)) {
-                      ccsState[key].delete(label);
-                    } else {
-                      ccsState[key].add(label);
-                    }
-                  }
-                  ccsRender();
-                });
-
-                row.appendChild(card);
-              });
-
-              // 「その他」が選択されているかどうかで自由記述欄の表示を切替
-              const otherSelected = mode === 'single'
-                ? ccsState[key] === 'その他'
-                : ccsState[key].has('その他');
-              otherInput.classList.toggle('show', otherSelected);
-            });
-          }
-
-          // 企業登録フォームの送信時にこの関数を呼び、既存の登録データに追加する
-          window.getCardSelections = function () {
-            const categoryEls = document.querySelectorAll('#company-card-selector .ccs-category');
-            const result = {};
-            categoryEls.forEach(categoryEl => {
-              const key = categoryEl.dataset.category;
-              const mode = categoryEl.querySelector('.ccs-row').dataset.selectMode;
-              const otherInput = categoryEl.querySelector('.ccs-other-input');
-              const otherText = otherInput.value.trim();
-
-              if (mode === 'single') {
-                result[key] = ccsState[key] === 'その他' && otherText
-                  ? otherText
-                  : ccsState[key];
-              } else {
-                const values = Array.from(ccsState[key]);
-                result[key] = values.includes('その他') && otherText
-                  ? values.filter(v => v !== 'その他').concat(otherText)
-                  : values;
-              }
-            });
-            return result;
-          };
-
-          // 登録成功後にカード選択をリセットするための関数（companyForm.reset()だけではカードの見た目は戻らないため）
-          window.resetCardSelections = function () {
-            ccsState.industry = null;
-            ccsState.jobtype = new Set();
-            ccsState.department = new Set();
-            ccsState.region = new Set();
-            document.querySelectorAll('#company-card-selector .ccs-other-input').forEach(el => { el.value = ''; });
-            ccsRender();
-          };
-
-          ccsRender();
-        })();
-        </script>
 
         <div>
           <label class="block text-xs font-semibold text-foreground">連絡先メールアドレス（任意）</label>
