@@ -77,9 +77,61 @@ tr:last-child td{border-bottom:0}
 .reasonBox li{margin:4px 0}
 .nextStep{border-left:5px solid var(--purple);background:var(--purpleSoft);border-radius:10px;padding:10px 12px;margin-top:16px;font-size:13px}
 @media(max-width:900px){.grid2,.grid3,.stakeGrid,.outlookRow,.a3Grid{grid-template-columns:1fr}}
+
+/* --- 左右の折りたたみパネル(質問チャット/資料投入エリア) ---
+   2026-09-13 鯨本さん(離島経済新聞社)からの依頼で /tools/dashboard-draft に実装したものと
+   同じ考え方を、静的HTMLの案件ダッシュボードにも適用したもの。
+   デスクトップでは左右にstickyな columns として並べ、スマホ幅では縦積みにする。 */
+.layout{display:flex;align-items:flex-start;max-width:1800px;margin:0 auto}
+.appWrap{flex:1;min-width:0}
+.sidePanel{flex:none;width:280px;background:#fff;position:sticky;top:0;max-height:100vh;overflow-y:auto;font-size:13px}
+.sidePanel.left{border-right:1px solid var(--line)}
+.sidePanel.right{border-left:1px solid var(--line)}
+.sidePanel.collapsed{width:44px;overflow:hidden}
+.sidePanel .panelToggle{position:sticky;top:0;width:100%;background:var(--soft);border:none;border-bottom:1px solid var(--line);padding:12px 14px;font-weight:800;font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px;text-align:left;color:var(--ink)}
+.sidePanel.collapsed .panelToggle{writing-mode:vertical-rl;text-orientation:mixed;height:100%;justify-content:flex-start;padding:14px 6px}
+.sidePanel.collapsed .panelBody{display:none}
+.sidePanel .panelBody{padding:14px}
+.chatLog{max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.chatMsg{border-radius:10px;padding:8px 10px;font-size:12.5px;line-height:1.5;max-width:92%}
+.chatMsg.user{align-self:flex-end;background:var(--blue);color:#fff}
+.chatMsg.ai{align-self:flex-start;background:var(--soft);border:1px solid var(--line)}
+.chatMsg.hint{color:var(--muted);font-size:11.5px}
+.sidePanel input[type=text],.sidePanel textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px;font-family:inherit;box-sizing:border-box}
+.sidePanel textarea{resize:vertical}
+.sidePanel label{display:block;font-size:11px;font-weight:800;color:var(--muted);margin:0 0 4px}
+.sidePanel .field{margin-bottom:10px}
+.sidePanel button.primaryBtn{width:100%;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:10px;font-weight:800;font-size:12.5px;cursor:pointer}
+.sidePanel button.primaryBtn:disabled{opacity:.5;cursor:default}
+.sidePanel .chatRow{display:flex;gap:6px}
+.sidePanel .chatRow input{flex:1}
+.sidePanel .chatRow button{flex:none;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:0 14px;font-weight:800;font-size:12px;cursor:pointer}
+.sidePanel .errMsg{color:var(--red);font-size:11.5px;margin-top:6px}
+@media(max-width:900px){
+  .layout{display:block}
+  .sidePanel{position:static;width:100%;max-height:none;border:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sidePanel.collapsed{width:100%}
+  .sidePanel.collapsed .panelToggle{writing-mode:horizontal-tb;height:auto;padding:12px 14px}
+}
 </style>
 </head>
 <body>
+<div class="layout">
+  <aside class="sidePanel left" id="leftPanel">
+    <button type="button" class="panelToggle" id="leftToggle">💬 ダッシュボードに質問する <span id="leftToggleIcon">▲</span></button>
+    <div class="panelBody" id="leftBody">
+      <div class="chatLog" id="chatLog">
+        <p class="chatMsg hint">この論点(祝島「部活動を島で自給する」)について、気になることを質問できます。(例:「懸念点は?」)</p>
+      </div>
+      <div class="chatRow">
+        <input type="text" id="chatInput" placeholder="質問を入力…">
+        <button type="button" id="chatSend">送信</button>
+      </div>
+      <p class="errMsg" id="chatErr" style="display:none">回答の生成に失敗しました。時間をおいて再度お試しください。</p>
+    </div>
+  </aside>
+
+  <div class="appWrap" id="appWrap">
 <div class="app">
 <div class="hero">
   <span class="eyebrow">意思決定支援PoC ｜ 認定NPO法人 離島経済新聞社(りとけい) ｜ 未来のシマ共創会議2026 テーマオーナー案件</span>
@@ -122,6 +174,7 @@ tr:last-child td{border-bottom:0}
   <button class="tabBtn" data-tab="cases">国内外の類似事例</button>
   <button class="tabBtn" data-tab="funding">活用できる補助金・交付金</button>
   <button class="tabBtn" data-tab="raw">生データ（補足）</button>
+  <button class="tabBtn" data-tab="aidraft">📝 資料投入の下書き</button>
 </nav>
 
 <section class="panel active" id="panel-summary">
@@ -387,6 +440,32 @@ tr:last-child td{border-bottom:0}
   </div>
 </section>
 
+<section class="panel" id="panel-aidraft">
+  <div class="card">
+    <h3>📝 資料投入エリアからの下書き</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">右側の「資料投入エリア」にワークショップの議事録やヒアリングメモを貼り付けて反映すると、ここにAIの下書きが表示されます。</p>
+    <div id="aiDraftBody" style="white-space:pre-wrap;font-size:13px;line-height:1.7">右側の資料投入エリアから、まだ何も反映されていません。</div>
+  </div>
+</section>
+
+</div>
+  </div>
+
+  <aside class="sidePanel right" id="rightPanel">
+    <button type="button" class="panelToggle" id="rightToggle">📥 資料投入エリア <span id="rightToggleIcon">▲</span></button>
+    <div class="panelBody" id="rightBody">
+      <div class="field">
+        <label for="genTitle">論点のタイトル</label>
+        <input type="text" id="genTitle" value="祝島「部活動の場を島で自給する」には？">
+      </div>
+      <div class="field">
+        <label for="genNotes">議事録・ヒアリングメモなど(貼り付け)</label>
+        <textarea id="genNotes" rows="8" placeholder="共創ワークショップの議事録やメモをここに貼り付けてください"></textarea>
+      </div>
+      <button type="button" class="primaryBtn" id="genSubmit">この内容をダッシュボードに反映する</button>
+      <p class="errMsg" id="genErr" style="display:none">生成中にエラーが発生しました。時間をおいて再度お試しください。</p>
+    </div>
+  </aside>
 </div>
 <script>
 function switchTab(tabName){
@@ -412,6 +491,116 @@ document.querySelectorAll('.tabBtn').forEach(function(btn){
     });
   });
   if (wizardSkip) wizardSkip.addEventListener('click', function(){ wizard.classList.add('wizardDone'); });
+})();
+
+// --- 左右パネルの折りたたみ ---
+// 2026-09-13 鯨本さん(離島経済新聞社)からの依頼で、/tools/dashboard-draft と同じ
+// 「質問チャット(左)」「資料投入エリア(右)」を、この祝島ダッシュボードにも実装したもの。
+(function(){
+  function bindToggle(panelId, toggleId, iconId){
+    var panel = document.getElementById(panelId);
+    var toggle = document.getElementById(toggleId);
+    var icon = document.getElementById(iconId);
+    if (!panel || !toggle) return;
+    toggle.addEventListener('click', function(){
+      var collapsed = panel.classList.toggle('collapsed');
+      if (icon) icon.textContent = collapsed ? '▼' : '▲';
+    });
+  }
+  bindToggle('leftPanel', 'leftToggle', 'leftToggleIcon');
+  bindToggle('rightPanel', 'rightToggle', 'rightToggleIcon');
+})();
+
+// --- 右: 資料投入エリア → ダッシュボードに反映 ---
+(function(){
+  var submitBtn = document.getElementById('genSubmit');
+  var errEl = document.getElementById('genErr');
+  var aiDraftBody = document.getElementById('aiDraftBody');
+  if (!submitBtn) return;
+  submitBtn.addEventListener('click', async function(){
+    var issueTitle = document.getElementById('genTitle').value.trim();
+    var sourceNotes = document.getElementById('genNotes').value.trim();
+    if (!sourceNotes) return;
+    errEl.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = '反映中…(30秒ほど)';
+    try {
+      var res = await fetch('/api/issue-summary', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ issueTitle: issueTitle, sourceNotes: sourceNotes })
+      });
+      if (!res.ok) throw new Error('request failed');
+      var data = await res.json();
+      window.__iwaishimaDashboardDraft = data.draft;
+      aiDraftBody.textContent = data.draft;
+      switchTab('aidraft');
+    } catch (e) {
+      errEl.style.display = 'block';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'この内容をダッシュボードに反映する';
+    }
+  });
+})();
+
+// --- 左: 質問チャット ---
+(function(){
+  var log = document.getElementById('chatLog');
+  var input = document.getElementById('chatInput');
+  var sendBtn = document.getElementById('chatSend');
+  var errEl = document.getElementById('chatErr');
+  if (!sendBtn) return;
+
+  function appendMsg(role, text){
+    var div = document.createElement('div');
+    div.className = 'chatMsg ' + role;
+    div.textContent = text;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function currentDashboardContent(){
+    // 「議論まとめ」タブの本文を質問の文脈として使う。
+    // 資料投入エリアからAI下書きが反映されている場合は、それも合わせて渡す。
+    var summary = document.getElementById('panel-summary');
+    var base = summary ? summary.innerText : '';
+    if (window.__iwaishimaDashboardDraft) {
+      base += '\n\n---\n【資料投入エリアからの下書き】\n' + window.__iwaishimaDashboardDraft;
+    }
+    return base;
+  }
+
+  async function send(){
+    var q = input.value.trim();
+    if (!q) return;
+    errEl.style.display = 'none';
+    appendMsg('user', q);
+    input.value = '';
+    sendBtn.disabled = true;
+    try {
+      var res = await fetch('/api/dashboard-chat', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          issueTitle: '祝島「部活動の場を島で自給する」には？',
+          dashboardContent: currentDashboardContent(),
+          question: q
+        })
+      });
+      if (!res.ok) throw new Error('request failed');
+      var data = await res.json();
+      appendMsg('ai', data.draft);
+    } catch (e) {
+      errEl.style.display = 'block';
+    } finally {
+      sendBtn.disabled = false;
+    }
+  }
+  sendBtn.addEventListener('click', send);
+  input.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') send();
+  });
 })();
 </script>
 </body>
