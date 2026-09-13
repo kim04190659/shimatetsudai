@@ -118,16 +118,18 @@ tr:last-child td{border-bottom:0}
 <body>
 <div class="layout">
   <aside class="sidePanel left" id="leftPanel">
-    <button type="button" class="panelToggle" id="leftToggle">💬 ダッシュボードに質問する <span id="leftToggleIcon">▲</span></button>
+    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▲</span></button>
     <div class="panelBody" id="leftBody">
-      <div class="chatLog" id="chatLog">
-        <p class="chatMsg hint">この論点(祝島「部活動を島で自給する」)について、気になることを質問できます。(例:「懸念点は?」)</p>
+      <div class="field">
+        <label for="genTitle">論点のタイトル</label>
+        <input type="text" id="genTitle" value="祝島「部活動の場を島で自給する」には？">
       </div>
-      <div class="chatRow">
-        <input type="text" id="chatInput" placeholder="質問を入力…">
-        <button type="button" id="chatSend">送信</button>
+      <div class="field">
+        <label for="genNotes">議事録・ヒアリングメモなど(貼り付け)</label>
+        <textarea id="genNotes" rows="8" placeholder="共創ワークショップの議事録やメモをここに貼り付けてください"></textarea>
       </div>
-      <p class="errMsg" id="chatErr" style="display:none">回答の生成に失敗しました。時間をおいて再度お試しください。</p>
+      <button type="button" class="primaryBtn" id="genSubmit">この内容をダッシュボードに反映する</button>
+      <p class="errMsg" id="genErr" style="display:none">生成中にエラーが発生しました。時間をおいて再度お試しください。</p>
     </div>
   </aside>
 
@@ -452,18 +454,16 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <aside class="sidePanel right" id="rightPanel">
-    <button type="button" class="panelToggle" id="rightToggle">📥 資料投入エリア <span id="rightToggleIcon">▲</span></button>
+    <button type="button" class="panelToggle" id="rightToggle">💬 ダッシュボードに質問する <span id="rightToggleIcon">▲</span></button>
     <div class="panelBody" id="rightBody">
-      <div class="field">
-        <label for="genTitle">論点のタイトル</label>
-        <input type="text" id="genTitle" value="祝島「部活動の場を島で自給する」には？">
+      <div class="chatLog" id="chatLog">
+        <p class="chatMsg hint">この論点(祝島「部活動を島で自給する」)について、気になることを質問できます。(例:「懸念点は?」)</p>
       </div>
-      <div class="field">
-        <label for="genNotes">議事録・ヒアリングメモなど(貼り付け)</label>
-        <textarea id="genNotes" rows="8" placeholder="共創ワークショップの議事録やメモをここに貼り付けてください"></textarea>
+      <div class="chatRow">
+        <input type="text" id="chatInput" placeholder="質問を入力…">
+        <button type="button" id="chatSend">送信</button>
       </div>
-      <button type="button" class="primaryBtn" id="genSubmit">この内容をダッシュボードに反映する</button>
-      <p class="errMsg" id="genErr" style="display:none">生成中にエラーが発生しました。時間をおいて再度お試しください。</p>
+      <p class="errMsg" id="chatErr" style="display:none">回答の生成に失敗しました。時間をおいて再度お試しください。</p>
     </div>
   </aside>
 </div>

@@ -13,8 +13,8 @@ export default function DashboardDraftPage() {
       <h1 className="mt-2 text-3xl font-bold text-foreground">意思決定支援ダッシュボード</h1>
       <p className="mt-2 text-sm font-medium text-accent-green">{SITE_TAGLINE}</p>
       <p className="mt-4 max-w-3xl leading-relaxed text-foreground/80">
-        右の「資料投入エリア」に議事録やヒアリングメモの文章を貼り付けると、AIが論点整理の下書きを作成し、
-        中央のダッシュボードに反映します。左の「質問エリア」では、反映された内容について気になることを
+        左の「資料投入エリア」に議事録やヒアリングメモの文章を貼り付けると、AIが論点整理の下書きを作成し、
+        中央のダッシュボードに反映します。右の「質問エリア」では、反映された内容について気になることを
         その場で質問できます。音声・PDFファイルをそのままアップロードする機能は現在準備中です。
         まずはテキストとして貼り付けてお試しください。
       </p>

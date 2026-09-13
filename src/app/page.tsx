@@ -1,17 +1,14 @@
 import Image from "next/image";
-import { getAllBranches } from "@/lib/branches";
+import Link from "next/link";
 import { PARTNER_NAME, SITE_NAME, SITE_TAGLINE } from "@/lib/partner";
-import HomeTabs from "@/components/HomeTabs";
 
 // 2026-09-13 鯨本さん(離島経済新聞社)からの依頼で、ホームページ全体を
 // 「意思決定支援」に絞ったシンプルな1画面に作り直した。
+// 2026-09-13(追加依頼) タブによる機能紹介はやめ、
+// 「離島経済新聞社がなぜこのサービスを作ろうと思ったか」をシンプルに伝えるページに変更。
 // 旧ホームにあった「てつだって」「しまのみんな会議」の紹介、拠点スタッフ募集、
 // 私たちの考え方などの節は、/tools・/contact・/about に譲り、ここでは扱わない。
 export default function Home() {
-  const branches = getAllBranches()
-    .slice(0, 4)
-    .map((b) => ({ slug: b.slug, name: b.name, tagline: b.tagline }));
-
   return (
     <div>
       <section className="bg-gradient-to-b from-brand-soft/70 to-background">
@@ -36,8 +33,39 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-4xl px-5 py-14">
-        <HomeTabs branches={branches} />
+      <section className="mx-auto max-w-2xl px-5 py-14">
+        <p className="text-xs font-semibold text-brand-dark">なぜ、このサービスを作ったのか</p>
+        <div className="mt-4 space-y-4 leading-relaxed text-foreground/80">
+          <p>
+            {PARTNER_NAME}は、全国420の有人離島を取材・発信でつないできました。取材を続ける中で見えてきたのは、
+            多くの島が「話し合いたいことはあるのに、資料をまとめたり論点を整理したりする余力がない」という
+            共通の課題です。
+          </p>
+          <p>
+            会議のたびに一から資料を作り、意見を整理する作業は、ただでさえ人手の限られる島にとって
+            大きな負担になっています。その負担を減らし、対話と意思決定そのものに時間を使えるように
+            するためのツールとして、{SITE_NAME}は作られました。
+          </p>
+          <p>
+            議事録やメモを貼り付けるだけでAIが論点整理の下書きを作り、その内容について気になることは
+            その場で質問できます。難しい操作を覚えなくても、資料を投入して質問するだけで使える形を
+            目指しています。
+          </p>
+        </div>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link
+            href="/tools/dashboard-draft"
+            className="inline-flex items-center gap-1 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark"
+          >
+            ダッシュボードを試す →
+          </Link>
+          <Link
+            href="/branches"
+            className="inline-flex items-center gap-1 rounded-full border border-brand-soft bg-white px-5 py-2.5 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40"
+          >
+            分室の実例を見る →
+          </Link>
+        </div>
       </section>
     </div>
   );
