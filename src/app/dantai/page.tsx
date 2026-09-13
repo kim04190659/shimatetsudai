@@ -5,7 +5,7 @@ import { getAllKankoukyoukaiBranches } from "@/lib/kankoukyoukai";
 import { PARTNER_NAME } from "@/lib/partner";
 
 export const metadata: Metadata = {
-  title: `団体支援 | ${PARTNER_NAME} しまてつだい分室`,
+  title: `団体支援 | ${PARTNER_NAME} シマの北極星分室`,
 };
 
 export default function DantaiPage() {
@@ -18,7 +18,7 @@ export default function DantaiPage() {
       <section className="bg-gradient-to-b from-brand-soft/70 to-background">
         <div className="mx-auto max-w-5xl px-5 py-16 text-center sm:py-24">
           <p className="text-sm font-semibold tracking-wide text-brand-dark">
-            しまてつだい 団体支援
+            シマの北極星 団体支援
           </p>
           <h1 className="mt-4 text-3xl font-bold leading-snug text-foreground sm:text-4xl">
             地域に根ざした団体の
@@ -99,7 +99,7 @@ export default function DantaiPage() {
             <p className="text-2xl">🗂️</p>
             <h3 className="mt-3 text-base font-bold text-foreground">合意形成プラットフォーム</h3>
             <p className="mt-2 text-sm leading-relaxed text-foreground/70">
-              しまてつだい分室と同じ8DB構造(Stakeholder・Issue・PositionRecordなど)を使い、
+              シマの北極星分室と同じ8DB構造(Stakeholder・Issue・PositionRecordなど)を使い、
               会員(事業者・住民)・自治体・金融機関などの関係者を整理します。
             </p>
           </div>
@@ -107,7 +107,7 @@ export default function DantaiPage() {
             <p className="text-2xl">🤝</p>
             <h3 className="mt-3 text-base font-bold text-foreground">自治体との連携</h3>
             <p className="mt-2 text-sm leading-relaxed text-foreground/70">
-              商工会・観光協会・自治会などは、自治体と住民・会員の間に立つ組織です。しまてつだい分室の
+              商工会・観光協会・自治会などは、自治体と住民・会員の間に立つ組織です。シマの北極星分室の
               自治体向けの取り組みとも、データや論点をつなげていける設計を目指しています。
             </p>
           </div>

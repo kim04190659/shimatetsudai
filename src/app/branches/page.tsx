@@ -6,7 +6,7 @@ import { getKankoukyoukaiBySlug } from "@/lib/kankoukyoukai";
 import { PARTNER_NAME } from "@/lib/partner";
 
 export const metadata: Metadata = {
-  title: `分室一覧 | ${PARTNER_NAME} しまてつだい分室`,
+  title: `分室一覧 | ${PARTNER_NAME} シマの北極星分室`,
 };
 
 export default function BranchesPage() {

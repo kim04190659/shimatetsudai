@@ -4,7 +4,7 @@ import { getAllBranches } from "@/lib/branches";
 import { PARTNER_NAME } from "@/lib/partner";
 
 export const metadata: Metadata = {
-  title: `自治体支援 | ${PARTNER_NAME} しまてつだい分室`,
+  title: `自治体支援 | ${PARTNER_NAME} シマの北極星分室`,
 };
 
 export default function JichitaiPage() {
@@ -14,7 +14,7 @@ export default function JichitaiPage() {
       <section className="bg-gradient-to-b from-brand-soft/70 to-background">
         <div className="mx-auto max-w-5xl px-5 py-16 text-center sm:py-24">
           <p className="text-sm font-semibold tracking-wide text-brand-dark">
-            しまてつだい 自治体支援
+            シマの北極星 自治体支援
           </p>
           <h1 className="mt-4 text-3xl font-bold leading-snug text-foreground sm:text-4xl">
             住民の声とデータで、

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PARTNER_NAME } from "@/lib/partner";
+import { PARTNER_NAME, SITE_NAME } from "@/lib/partner";
 
 const navItems = [
   { href: "/", label: "ホーム" },
@@ -15,13 +15,13 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-brand-soft bg-background/90 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3 sm:px-5 sm:py-4">
         <Link href="/" className="flex shrink-0 items-center gap-2">
-          <span className="text-xl sm:text-2xl">🌾</span>
+          <span className="text-xl sm:text-2xl">⭐</span>
           <span className="leading-tight">
             <span className="block text-[10px] font-semibold text-accent-green sm:text-xs">
               {PARTNER_NAME}
             </span>
             <span className="block whitespace-nowrap text-sm font-bold tracking-wide text-brand-dark sm:text-lg">
-              しまてつだい分室
+              {SITE_NAME}
             </span>
           </span>
         </Link>

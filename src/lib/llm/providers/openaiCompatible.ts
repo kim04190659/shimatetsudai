@@ -1,7 +1,7 @@
 // OpenAI互換API(POST {baseUrl}/chat/completions)形式でLLMを呼び出す共通プロバイダー。
 // vLLM等の自前ホスティングにも、さくらのAI Engineのようなマネージドサービスにも使える。
 
-import { SUMMARY_SYSTEM_PROMPT, buildSummaryUserPrompt } from "../prompt";
+import { getSystemPrompt, buildSummaryUserPrompt } from "../prompt";
 import { LlmProviderError, type LlmProvider, type SummaryInput, type SummaryOutput } from "../types";
 
 type OpenAiCompatibleConfig = {
@@ -34,7 +34,7 @@ export function createOpenAiCompatibleProvider(config: OpenAiCompatibleConfig): 
             model: config.model,
             max_tokens: 1024,
             messages: [
-              { role: "system", content: SUMMARY_SYSTEM_PROMPT },
+              { role: "system", content: getSystemPrompt(input.mode) },
               { role: "user", content: buildSummaryUserPrompt(input) },
             ],
           }),

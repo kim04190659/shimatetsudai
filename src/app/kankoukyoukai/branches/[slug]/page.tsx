@@ -23,7 +23,7 @@ export async function generateMetadata(
   const { slug } = await props.params;
   const branch = getKankoukyoukaiBySlug(slug);
   return {
-    title: branch ? `${branch.name} | ${PARTNER_NAME} しまてつだい 観光協会支援` : "観光協会分室",
+    title: branch ? `${branch.name} | ${PARTNER_NAME} シマの北極星 観光協会支援` : "観光協会分室",
   };
 }
 
@@ -180,7 +180,7 @@ export default async function KankoukyoukaiBranchDetailPage(
 
       <div className="mt-12 rounded-2xl border border-accent-green/30 bg-accent-green/5 p-6">
         <p className="text-sm leading-relaxed text-foreground/80">
-          この観光協会との連携は、しまてつだい分室の「意思決定支援」の仕組みを土台に検討しています。
+          この観光協会との連携は、シマの北極星分室の「意思決定支援」の仕組みを土台に検討しています。
         </p>
         <Link
           href="/contact"

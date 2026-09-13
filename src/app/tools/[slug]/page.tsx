@@ -14,7 +14,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { slug } = await props.params;
   const tool = getToolBySlug(slug);
-  return { title: tool ? `${tool.name} | ${PARTNER_NAME} しまてつだい分室` : "ツール" };
+  return { title: tool ? `${tool.name} | ${PARTNER_NAME} シマの北極星分室` : "ツール" };
 }
 
 export default async function ToolDetailPage(props: PageProps<"/tools/[slug]">) {

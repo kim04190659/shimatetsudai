@@ -7,6 +7,7 @@ import { getKankoukyoukaiBySlug } from "@/lib/kankoukyoukai";
 import { getRegionalGoalBySlug } from "@/lib/regionalGoal";
 import { PARTNER_NAME } from "@/lib/partner";
 import OpinionForm from "@/components/OpinionForm";
+import PaidSupportOptions from "@/components/PaidSupportOptions";
 import BranchPasswordGate from "@/components/BranchPasswordGate";
 import { cookies } from "next/headers";
 import { getBranchPasswordHash } from "@/lib/tenants";
@@ -26,7 +27,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { slug } = await props.params;
   const branch = getBranchBySlug(slug);
-  return { title: branch ? `${branch.name} | ${PARTNER_NAME} しまてつだい分室` : "分室" };
+  return { title: branch ? `${branch.name} | ${PARTNER_NAME} シマの北極星分室` : "分室" };
 }
 
 const statusStyle: Record<string, string> = {
@@ -37,7 +38,7 @@ const statusStyle: Record<string, string> = {
   保留: "bg-gray-100 text-gray-600",
 };
 
-function IssueList({ issues }: { issues: BranchIssue[] }) {
+function IssueList({ issues, branchName }: { issues: BranchIssue[]; branchName: string }) {
   return (
     <div className="mt-6 space-y-4">
       {issues.map((issue) => (
@@ -78,6 +79,11 @@ function IssueList({ issues }: { issues: BranchIssue[] }) {
           {issue.opinionTenantSlug && (
             <OpinionForm tenantSlug={issue.opinionTenantSlug} />
           )}
+          <PaidSupportOptions
+            branchName={branchName}
+            issueTitle={issue.title}
+            issueSummary={issue.summary}
+          />
           {issue.pastDashboards && issue.pastDashboards.length > 0 && (
             <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
               <span className="text-xs text-foreground/50">過去のバージョン:</span>
@@ -304,7 +310,7 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
         <p className="mt-2 text-sm leading-relaxed text-foreground/70">
           拠点スタッフが住民・役場・議会と話しながら、困りごとを1つずつ、話し合いのテーブルに乗せていきます。
         </p>
-        <IssueList issues={branch.issues} />
+        <IssueList issues={branch.issues} branchName={branch.name} />
       </div>
 
       {/* 商工会の取り組み */}
@@ -322,7 +328,7 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
             会員事業者の経営者・商工会職員と話しながら、経営に関わる困りごとを話し合っています。
           </p>
           {shoukoukai.issues.length > 0 ? (
-            <IssueList issues={shoukoukai.issues} />
+            <IssueList issues={shoukoukai.issues} branchName={shoukoukai.name} />
           ) : (
             <div className="mt-6 rounded-2xl border border-dashed border-brand-soft bg-card p-6 text-sm leading-relaxed text-foreground/60">
               現在、登録されている話し合いはまだありません。
@@ -352,7 +358,7 @@ export default async function BranchDetailPage(props: PageProps<"/branches/[slug
             観光事業者・観光協会職員と話しながら、観光に関わる困りごとを話し合っています。
           </p>
           {kankoukyoukai.issues.length > 0 ? (
-            <IssueList issues={kankoukyoukai.issues} />
+            <IssueList issues={kankoukyoukai.issues} branchName={kankoukyoukai.name} />
           ) : (
             <div className="mt-6 rounded-2xl border border-dashed border-brand-soft bg-card p-6 text-sm leading-relaxed text-foreground/60">
               現在、登録されている話し合いはまだありません。

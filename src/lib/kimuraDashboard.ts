@@ -90,7 +90,7 @@ function propNumber(prop: NotionProperty | undefined): number {
 
 export type KimuraRequestItem = {
   title: string; // 依頼内容
-  stance: string; // 立場(NEC/同窓会/学会/高専教育DX/離島経済新聞社/しまてつだい)
+  stance: string; // 立場(NEC/同窓会/学会/高専教育DX/離島経済新聞社/シマの北極星)
   priority: string; // 優先度(高/中/低)
   status: string; // 状態(未着手/進行中/完了)
   dueDate: string; // 締切(YYYY-MM-DD、未設定なら空文字)

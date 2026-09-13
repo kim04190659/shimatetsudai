@@ -3,7 +3,7 @@ import Link from "next/link";
 import { PARTNER_NAME } from "@/lib/partner";
 
 export const metadata: Metadata = {
-  title: `私たちの考え方 | ${PARTNER_NAME} しまてつだい分室`,
+  title: `私たちの考え方 | ${PARTNER_NAME} シマの北極星分室`,
   description:
     "自治体・商工会・観光協会など、それぞれの利害で意思決定する複数の機関を、生成AIが横断的に支え、地域全体の最適に近づける仕組みについて。",
 };

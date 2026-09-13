@@ -2,7 +2,7 @@
 // 自治体向けの branches.ts (src/lib/branches.ts) と同じ考え方で、
 // 商工会という「地域の中小企業が集まる協議会」単位のページを管理する。
 //
-// しまてつだい分室の8DB合意形成プラットフォーム(Stakeholder/Issue/PositionRecordなど)を
+// シマの北極星分室の8DB合意形成プラットフォーム(Stakeholder/Issue/PositionRecordなど)を
 // 流用し、対象を「住民」から「会員事業者の経営者」に置き換えて運用する想定。
 // 実データはNotion側で管理し、このファイルは公開用のまとめとして手動で反映する。
 //
@@ -51,7 +51,7 @@ export const shoukoukaiBranches: ShoukoukaiBranch[] = [
     name: "屋久島町商工会",
     tagline: "鹿児島県熊毛郡屋久島町",
     description:
-      "宮之浦本所(旧上屋久町エリア)と安房支所(旧屋久島町エリア)の2拠点で、地域事業者の経営改善普及事業(記帳指導・経営相談など)を行う商工会です。しまてつだい分室が屋久島町ですでに進めている自治体向けの取り組みを土台に、会員事業者の経営者向け意思決定支援を検討しているパイロット候補です。",
+      "宮之浦本所(旧上屋久町エリア)と安房支所(旧屋久島町エリア)の2拠点で、地域事業者の経営改善普及事業(記帳指導・経営相談など)を行う商工会です。シマの北極星分室が屋久島町ですでに進めている自治体向けの取り組みを土台に、会員事業者の経営者向け意思決定支援を検討しているパイロット候補です。",
     status: "準備中",
     stats: [
       { label: "会員事業者数", value: "約490社(地域事業者782社中、2021年度時点)" },
@@ -65,7 +65,7 @@ export const shoukoukaiBranches: ShoukoukaiBranch[] = [
         title: "自然災害（台風等）への事業継続力（BCP）強化",
         status: "提起",
         summary:
-          "屋久島町商工会と屋久島町が共同で策定した「事業継続力強化支援計画」(令和6〜9年度)と、令和8年(2026年)台風6号の実際の対応事例にもとづく論点です。しまてつだいとして直接ヒアリングして確認した内容ではなく、Notion上のステータスは「提起」のままです。",
+          "屋久島町商工会と屋久島町が共同で策定した「事業継続力強化支援計画」(令和6〜9年度)と、令和8年(2026年)台風6号の実際の対応事例にもとづく論点です。シマの北極星として直接ヒアリングして確認した内容ではなく、Notion上のステータスは「提起」のままです。",
         dashboardUrl: "/case-studies/yakushima-shokokai-bcp-dss.html",
         dashboardLabel: "意思決定支援ダッシュボードを見る",
         cardGameUrl: "https://shimatetsudai-issue-cardgame.vercel.app/games/issue-yakushima-shokokai-bcp/cards",

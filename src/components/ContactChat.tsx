@@ -7,7 +7,7 @@ type ChatMessage = { role: "user" | "assistant"; content: string };
 const INITIAL_MESSAGE: ChatMessage = {
   role: "assistant",
   content:
-    "こんにちは。しまてつだい分室のお問い合わせ窓口です。サービスのこと、拠点スタッフのこと、取材のことなど、気になることを何でもご記入ください。",
+    "こんにちは。シマの北極星分室のお問い合わせ窓口です。サービスのこと、拠点スタッフのこと、取材のことなど、気になることを何でもご記入ください。",
 };
 
 export default function ContactChat() {

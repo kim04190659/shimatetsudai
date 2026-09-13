@@ -4,7 +4,7 @@ import ContactChat from "@/components/ContactChat";
 import DashboardTrialForm from "@/components/DashboardTrialForm";
 
 export const metadata: Metadata = {
-  title: `お問い合わせ | ${PARTNER_NAME} しまてつだい分室`,
+  title: `お問い合わせ | ${PARTNER_NAME} シマの北極星分室`,
 };
 
 export default function ContactPage() {

@@ -4,7 +4,7 @@ import { getAllKankoukyoukaiBranches } from "@/lib/kankoukyoukai";
 import { PARTNER_NAME } from "@/lib/partner";
 
 export const metadata: Metadata = {
-  title: `観光協会分室一覧 | ${PARTNER_NAME} しまてつだい 観光協会支援`,
+  title: `観光協会分室一覧 | ${PARTNER_NAME} シマの北極星 観光協会支援`,
 };
 
 const statusStyle: Record<string, string> = {
@@ -24,7 +24,7 @@ export default function KankoukyoukaiBranchesPage() {
       <h1 className="mt-2 text-3xl font-bold text-foreground">観光協会分室一覧</h1>
       <p className="mt-4 leading-relaxed text-foreground/80">
         観光協会ごとに分室ページを作り、会員事業者・観光協会職員と話しながら論点を1つずつ登録していきます。
-        しまてつだい分室(自治体向け・商工会向け)と同じ仕組みで、観光協会が増えるたびにこのページにも追加されていきます。
+        シマの北極星分室(自治体向け・商工会向け)と同じ仕組みで、観光協会が増えるたびにこのページにも追加されていきます。
       </p>
 
       {allKankoukyoukaiBranches.length === 0 ? (

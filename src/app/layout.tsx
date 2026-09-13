@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { PARTNER_NAME } from "@/lib/partner";
+import { PARTNER_NAME, SITE_NAME, SITE_TAGLINE } from "@/lib/partner";
 
 export const metadata: Metadata = {
-  title: `${PARTNER_NAME} しまてつだい分室`,
-  description: `${PARTNER_NAME}の分室。てつだって・意思決定支援・カードゲームなど、暮らしと地域に寄り添うツールを開発しています。`,
+  title: `${SITE_NAME} | ${PARTNER_NAME}`,
+  description: `${SITE_NAME}は、${PARTNER_NAME}が提供する${SITE_TAGLINE}。話し合いの資料や意見をもとに、意思決定を後押しします。`,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

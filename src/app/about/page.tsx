@@ -3,11 +3,11 @@ import Link from "next/link";
 import { PARTNER_NAME } from "@/lib/partner";
 
 export const metadata: Metadata = {
-  title: `会社概要 | ${PARTNER_NAME} しまてつだい分室`,
+  title: `会社概要 | ${PARTNER_NAME} シマの北極星分室`,
 };
 
 const facts: { label: string; value: string }[] = [
-  { label: "名称", value: `${PARTNER_NAME} しまてつだい分室(仮)` },
+  { label: "名称", value: `${PARTNER_NAME} シマの北極星分室(仮)` },
   { label: "運営", value: PARTNER_NAME },
   { label: "位置づけ", value: `${PARTNER_NAME}の分室` },
   { label: "活動内容", value: "支援ツール・意思決定支援ツール・教育向けカードゲームの企画開発" },
@@ -23,7 +23,7 @@ export default function AboutPage() {
       <p className="text-sm font-semibold text-brand-dark">ABOUT US</p>
       <h1 className="mt-2 text-3xl font-bold text-foreground">会社概要</h1>
       <p className="mt-6 leading-relaxed text-foreground/80">
-        「しまてつだい分室」は、{PARTNER_NAME}の分室として、地域に寄り添うツールを開発しています。
+        「シマの北極星分室」は、{PARTNER_NAME}の分室として、地域に寄り添うツールを開発しています。
         20代から40代の女性が中心となって活動し、それぞれの視点を活かしながら、
         「聞こえにくさ」「意思決定」「学び」という3つのテーマでツールを届けています。
       </p>
@@ -56,7 +56,7 @@ export default function AboutPage() {
       <div className="mt-12 rounded-2xl border border-accent-green/30 bg-accent-green/5 p-6">
         <h2 className="text-xl font-bold text-foreground">目指す姿</h2>
         <p className="mt-3 text-sm leading-relaxed text-foreground/80">
-          しまてつだい分室は、全国の自治体それぞれに拠点スタッフを置くことを目指しています。
+          シマの北極星分室は、全国の自治体それぞれに拠点スタッフを置くことを目指しています。
           地元をよく知る女性たちが、自分の暮らすまちで、まちの人のために働く。
           そんな小さな拠点が全国に広がることで、離島や地方の暮らしをより丁寧に支えられると考えています。
         </p>

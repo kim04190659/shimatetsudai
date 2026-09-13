@@ -4,7 +4,7 @@ import { getAllShoukoukaiBranches } from "@/lib/shoukoukai";
 import { PARTNER_NAME } from "@/lib/partner";
 
 export const metadata: Metadata = {
-  title: `商工会分室一覧 | ${PARTNER_NAME} しまてつだい 商工会支援`,
+  title: `商工会分室一覧 | ${PARTNER_NAME} シマの北極星 商工会支援`,
 };
 
 const statusStyle: Record<string, string> = {
@@ -24,7 +24,7 @@ export default function ShoukoukaiBranchesPage() {
       <h1 className="mt-2 text-3xl font-bold text-foreground">商工会分室一覧</h1>
       <p className="mt-4 leading-relaxed text-foreground/80">
         商工会ごとに分室ページを作り、会員事業者の経営者・商工会職員と話しながら論点を1つずつ登録していきます。
-        しまてつだい分室(自治体向け)と同じ仕組みで、商工会が増えるたびにこのページにも追加されていきます。
+        シマの北極星分室(自治体向け)と同じ仕組みで、商工会が増えるたびにこのページにも追加されていきます。
       </p>
 
       {allShoukoukaiBranches.length === 0 ? (

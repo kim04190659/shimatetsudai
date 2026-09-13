@@ -4,7 +4,7 @@ import ToolCard from "@/components/ToolCard";
 import { PARTNER_NAME } from "@/lib/partner";
 
 export const metadata: Metadata = {
-  title: `事業紹介 | ${PARTNER_NAME} しまてつだい分室`,
+  title: `事業紹介 | ${PARTNER_NAME} シマの北極星分室`,
 };
 
 export default function ToolsPage() {
@@ -13,7 +13,7 @@ export default function ToolsPage() {
       <p className="text-sm font-semibold text-brand-dark">OUR TOOLS</p>
       <h1 className="mt-2 text-3xl font-bold text-foreground">事業紹介</h1>
       <p className="mt-4 max-w-2xl leading-relaxed text-foreground/80">
-        しまてつだい分室では、それぞれ異なる立場の方に寄り添う3つのツールを開発しています。
+        シマの北極星分室では、それぞれ異なる立場の方に寄り添う3つのツールを開発しています。
       </p>
       <div className="mt-10 grid gap-6 sm:grid-cols-3">
         {tools.map((tool) => (

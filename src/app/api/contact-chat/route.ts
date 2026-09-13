@@ -21,7 +21,7 @@ function buildKnowledgeBase(): string {
     })
     .join("\n");
 
-  return `${PARTNER_NAME} しまてつだい分室は、離島や地方の暮らしと社会に寄り添うツールを開発している会社です。
+  return `${PARTNER_NAME} シマの北極星分室は、離島や地方の暮らしと社会に寄り添うツールを開発している会社です。
 20〜40代の女性が中心となって活動する分室です。
 
 # 提供している事業
@@ -86,7 +86,7 @@ const RESPONSE_TOOL = {
   },
 };
 
-const SYSTEM_PROMPT = `あなたは${PARTNER_NAME} しまてつだい分室の公式サイトに設置された、お問い合わせ対応チャットです。
+const SYSTEM_PROMPT = `あなたは${PARTNER_NAME} シマの北極星分室の公式サイトに設置された、お問い合わせ対応チャットです。
 以下の知識をもとに、訪問者からの質問にその場で丁寧に回答してください。
 
 ${buildKnowledgeBase()}

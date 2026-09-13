@@ -23,7 +23,7 @@ export async function generateMetadata(
   const { slug } = await props.params;
   const branch = getShoukoukaiBySlug(slug);
   return {
-    title: branch ? `${branch.name} | ${PARTNER_NAME} しまてつだい 商工会支援` : "商工会分室",
+    title: branch ? `${branch.name} | ${PARTNER_NAME} シマの北極星 商工会支援` : "商工会分室",
   };
 }
 
@@ -180,7 +180,7 @@ export default async function ShoukoukaiBranchDetailPage(
 
       <div className="mt-12 rounded-2xl border border-accent-green/30 bg-accent-green/5 p-6">
         <p className="text-sm leading-relaxed text-foreground/80">
-          この商工会との連携は、しまてつだい分室の「意思決定支援」の仕組みを土台に検討しています。
+          この商工会との連携は、シマの北極星分室の「意思決定支援」の仕組みを土台に検討しています。
         </p>
         <Link
           href="/contact"

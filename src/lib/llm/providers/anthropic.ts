@@ -1,7 +1,7 @@
 // これまで通り、Claude(Anthropic API)を使うプロバイダー。
 // Tanuki等の国産モデルで結果が思わしくない場合に、いつでもここへ戻せるようにするための「安全な既定値」。
 
-import { SUMMARY_SYSTEM_PROMPT, buildSummaryUserPrompt } from "../prompt";
+import { getSystemPrompt, buildSummaryUserPrompt } from "../prompt";
 import { LlmProviderError, type LlmProvider, type SummaryInput, type SummaryOutput } from "../types";
 
 const MODEL = "claude-haiku-4-5-20251001";
@@ -27,7 +27,7 @@ export class AnthropicProvider implements LlmProvider {
         body: JSON.stringify({
           model: MODEL,
           max_tokens: 1024,
-          system: SUMMARY_SYSTEM_PROMPT,
+          system: getSystemPrompt(input.mode),
           messages: [{ role: "user", content: buildSummaryUserPrompt(input) }],
         }),
       });

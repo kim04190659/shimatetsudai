@@ -10,6 +10,9 @@ export type SummaryInput = {
   sourceNotes: string;
   // 関連する地域指標名(あれば)。例: ["社会増減(転入-転出)", "町内総生産額"]
   relatedIndicators?: string[];
+  // 生成する下書きの種類。省略時は"a3"(A3意思決定支援シート下書き)。
+  // "letterDraft" は、決定事項からritokei.com「読者だより」向けの一人称の記事下書きを作る(有料オプション②用)。
+  mode?: "a3" | "letterDraft";
 };
 
 export type SummaryOutput = {

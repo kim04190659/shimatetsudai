@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { tools } from "@/lib/tools";
 import ToolCard from "@/components/ToolCard";
-import { PARTNER_NAME } from "@/lib/partner";
+import { PARTNER_NAME, SITE_NAME, SITE_TAGLINE } from "@/lib/partner";
 
 export default function Home() {
   return (
@@ -10,16 +10,19 @@ export default function Home() {
       <section className="bg-gradient-to-b from-brand-soft/70 to-background">
         <div className="mx-auto max-w-5xl px-5 py-16 text-center sm:py-24">
           <p className="text-sm font-semibold tracking-wide text-brand-dark">
-            {PARTNER_NAME} しまてつだい分室
+            {PARTNER_NAME} {SITE_NAME}
           </p>
           <h1 className="mt-4 text-3xl font-bold leading-snug text-foreground sm:text-4xl">
-            島の暮らしと、人と人との
+            島の「北極星」を、
             <br className="hidden sm:block" />
-            「あいだ」を、そっとてつだう。
+            みんなで見つける。
           </h1>
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-brand-soft/60 px-4 py-1.5 text-sm font-semibold text-brand-dark">
+            {SITE_TAGLINE}
+          </p>
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-foreground/80">
-            聞こえにくさに寄り添うツール、みんなの意見を聞くツール、島の未来をみんなで決めるツール。
-            あなたの島の暮らしに、そっと寄り添う3つの道具を、{PARTNER_NAME}の分室として届けています。
+            話し合いの資料や意見を持ち寄れば、AIが論点を整理し、意思決定を後押しします。
+            聞こえにくさに寄り添うツール、みんなの意見を聞くツールも、同じ仕組みの上で使えます。
           </p>
           <p className="mx-auto mt-3 max-w-2xl text-sm font-medium text-accent-green">
             各地の島や自治体に、地元に住む女性が拠点スタッフとして関わっています。
@@ -61,6 +64,12 @@ export default function Home() {
               className="mt-4 inline-flex items-center justify-center gap-1 rounded-full border border-brand bg-white px-5 py-2.5 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40"
             >
               意思決定支援を見る
+            </Link>
+            <Link
+              href="/tools/dashboard-draft"
+              className="mt-2 inline-flex items-center justify-center gap-1 text-xs font-semibold text-brand-dark underline underline-offset-2 hover:opacity-80"
+            >
+              資料からたたき台を作ってみる →
             </Link>
           </div>
           <div className="flex flex-col rounded-2xl border border-brand-soft bg-card p-6 text-center">
@@ -161,7 +170,7 @@ export default function Home() {
               あなたのまちにも、てつだいの拠点を。
             </h2>
             <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-foreground/80">
-              しまてつだい分室では、自治体ごとに拠点スタッフとして活動する女性を募集しています。
+              シマの北極星分室では、自治体ごとに拠点スタッフとして活動する女性を募集しています。
               自分の暮らすまちで、まちのために働く。そんな選択肢を、全国の地域に広げていきたいと考えています。
             </p>
           </div>
@@ -213,7 +222,7 @@ export default function Home() {
         <div className="mx-auto max-w-3xl px-5 py-16 text-center">
           <h2 className="text-2xl font-bold text-foreground">わたしたちについて</h2>
           <p className="mt-4 leading-relaxed text-foreground/80">
-            しまてつだい分室は、{PARTNER_NAME}の分室として、20代から40代の女性が中心となって活動しています。
+            シマの北極星分室は、{PARTNER_NAME}の分室として、20代から40代の女性が中心となって活動しています。
             島や地方に暮らす方々の声に耳を傾け、日々の生活や地域の意思決定、教育の現場に、
             小さくても確かな「てつだい」を届けることを大切にしています。
           </p>
