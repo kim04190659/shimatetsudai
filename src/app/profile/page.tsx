@@ -161,6 +161,18 @@ export default function ProfilePage() {
           </a>
         </div>
       </div>
+
+      {/* 本人用の意思決定支援ダッシュボード(/dashboard/kimura)への入口。
+          パスワード保護つきのページなので、リンクを公開しても第三者は
+          中身を見られない。目立たせすぎないよう、小さい文字・控えめな色にしている。 */}
+      <div className="mt-8 text-right">
+        <a
+          href="/dashboard/kimura"
+          className="text-xs text-foreground/40 hover:text-foreground/70 hover:underline"
+        >
+          本人用ダッシュボード →
+        </a>
+      </div>
     </div>
   );
 }
