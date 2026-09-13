@@ -9,25 +9,25 @@
 // その下が何をしているか説明が書いてあります。
 // コメントは画面には表示されません。
 //
-// 直したいとき/、下の ROLES 配列や TAGLINE の文字列を書き換えるだけで
-// 画面に反映されます。 レアアウトの仕組み（JSX・className）は
+// 直したいときは、下の ROLES 配列や TAGLINE の文字列を書き換えるだけで
+// 画面に反映されます。レイアウトの仕組み（JSX・className）は
 // 基本的に触らなくて大丈夫です。
 
 import type { Metadata } from "next";
 
-// このブージのタイトルル説明（ブラウザのタブや検索結果に使わる）
+// このページのタイトル・説明文（ブラウザのタブや検索結果に使われる）
 export const metadata: Metadata = {
   title: "木村吉孝｜Yoshitaka Kimura",
   description:
-    "NEC・鹿児島高専同窓会・サービス学会・高専教育DX・離島経済新聞社・しまていだい。玪数の立場で社会譪題解汌に取り組む木村吉孝のプロフィールページ。",
+    "NEC・鹿児島高専同窓会・サービス学会・高専教育DX・離島経済新聞社・しまてつだい。複数の立場で社会課題解決に取り組む木村吉孝のプロフィールページ。",
 };
 
-// 一言キャッチ。実際の言莱に��き換うください。
+// 一言キャッチ。実際の言葉に置き換えてください。
 const TAGLINE =
-  "縮む社会にWell-Beingを届ける。NECの本業とAIを軸に、6つの立場で社会課題に向き合ってぁてます。";
+  "縮む社会にWell-Beingを届ける。NECの本業とAIを軸に、6つの立場で社会課題に向き合っています。";
 
-// 6つの立場カードのデータ。1件が1h儶のカードに対応します。
-// href が無い項目は「TODO」として空欄のままにしていぽす。
+// 6つの立場カードのデータ。1件が1枚のカードに対応します。
+// href が無い項目は「TODO」として空欄のままにしています。
 type Role = {
   label: string; // カード左上の小さなラベル（例：「本業」）
   title: string; // カードの見出し（役職名など）
@@ -162,7 +162,7 @@ export default function ProfilePage() {
             className="rounded-full border border-brand-soft px-4 py-2 text-sm text-foreground hover:border-brand-dark hover:text-brand-dark"
           >
             メールで連絡する
-        </a>
+          </a>
         </div>
       </div>
     </div>
