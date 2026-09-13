@@ -1,12 +1,13 @@
 import Link from "next/link";
+import Image from "next/image";
 import { PARTNER_NAME, SITE_NAME } from "@/lib/partner";
 
+// 2026-09-13 鯨本さん(離島経済新聞社)からの依頼で、ヘッダーのロゴを
+// 絵文字+テキストから離島経済新聞社の実ロゴ画像に変更し、ナビも
+// 「意思決定支援」中心の3項目にしぼった。
 const navItems = [
   { href: "/", label: "ホーム" },
-  { href: "/about", label: "会社概要" },
-  { href: "/jichitai", label: "自治体支援" },
-  { href: "/dantai", label: "団体支援" },
-  { href: "/branches", label: "分室" },
+  { href: "/branches", label: "分室一覧" },
   { href: "/contact", label: "お問い合わせ" },
 ];
 
@@ -15,14 +16,15 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-brand-soft bg-background/90 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3 sm:px-5 sm:py-4">
         <Link href="/" className="flex shrink-0 items-center gap-2">
-          <span className="text-xl sm:text-2xl">⭐</span>
-          <span className="leading-tight">
-            <span className="block text-[10px] font-semibold text-accent-green sm:text-xs">
-              {PARTNER_NAME}
-            </span>
-            <span className="block whitespace-nowrap text-sm font-bold tracking-wide text-brand-dark sm:text-lg">
-              {SITE_NAME}
-            </span>
+          <Image
+            src="/partners/ritokei-shimbunsha-logo.png"
+            alt={PARTNER_NAME}
+            width={140}
+            height={36}
+            className="h-6 w-auto sm:h-7"
+          />
+          <span className="block whitespace-nowrap text-sm font-bold tracking-wide text-brand-dark sm:text-lg">
+            {SITE_NAME}
           </span>
         </Link>
         <nav className="flex gap-2 text-xs sm:gap-6 sm:text-base">
