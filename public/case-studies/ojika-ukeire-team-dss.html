@@ -33,16 +33,6 @@ body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMa
 .tabs{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 28px;z-index:5;display:flex;gap:8px;overflow:auto}
 .tabs button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;white-space:nowrap;font-size:13px}
 .tabs button.active{background:var(--blue);border-color:var(--blue);color:#fff}
-.tabGroupPrimary{border-color:#8fc9a8!important;background:var(--greenSoft)!important}
-.tabGroupDetail{border-color:#a9c3ea!important;background:var(--blueSoft)!important}
-.tabGroupRef{border-color:#d8d5cf!important;background:var(--soft)!important}
-.tabs button.active.tabGroupPrimary,.tabs button.active.tabGroupDetail,.tabs button.active.tabGroupRef{background:var(--blue)!important;border-color:var(--blue)!important;color:#fff!important}
-.tabLegend{display:flex;gap:14px;flex-wrap:wrap;padding:6px 28px 10px;font-size:11px;color:var(--muted);background:rgba(255,255,255,.95)}
-.tabLegend span{display:inline-flex;align-items:center;gap:5px}
-.tabLegend .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
-.dotPrimary{background:var(--green)}
-.dotDetail{background:var(--blue)}
-.dotRef{background:var(--gray)}
 .panel{display:none;padding:20px 28px 36px}
 .panel.active{display:block}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -74,11 +64,6 @@ tr:last-child td{border-bottom:0}
 .stakeCard b{font-size:13.5px}
 .stakeCard p{font-size:12.5px;color:#4a453f;margin:6px 0 0}
 .footNote{font-size:11.5px;color:var(--muted);margin-top:18px}
-.a3Grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.mini{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
-.mini h4{margin:0 0 8px;font-size:13px}
-.mini ul{margin:0;padding-left:16px;font-size:12px;line-height:1.55}
-.mini li{margin:3px 0}
 .kidBox{border:2px solid #F0C56B;background:#FFF8E8;border-radius:14px;padding:14px 16px;margin-top:14px}
 .kidBox b{font-size:13px}
 .kidBox p{margin:8px 0 0;font-size:14.5px;line-height:1.7;color:#4a3f28}
@@ -89,16 +74,6 @@ tr:last-child td{border-bottom:0}
 .wizardBtn{border:1px solid var(--blue);background:#fff;color:#165c9d;border-radius:999px;padding:9px 14px;font-weight:800;font-size:13px;cursor:pointer}
 .wizardBtn:hover{background:var(--blueSoft)}
 .wizardSkip{display:block;margin:10px 0 0;border:none;background:none;color:var(--muted);font-size:11.5px;text-decoration:underline;cursor:pointer;padding:0}
-.tldr{border:2px solid #46A171;background:var(--greenSoft);border-radius:12px;padding:12px 14px;margin:0 0 14px}
-.tldr b{font-size:14px}
-.tldrGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;font-size:11.5px}
-.tldrGrid div{border:1px solid #b9dcc4;border-radius:8px;padding:8px;background:#fff}
-.tldrGrid em{display:block;font-style:normal;color:var(--muted);font-size:10.5px;margin-bottom:2px}
-.reasonBox{margin:10px 0 14px}
-.reasonBox summary{cursor:pointer;font-weight:800;font-size:12.5px;color:#165c9d}
-.reasonBox ul{margin:8px 0 0;padding-left:18px;font-size:12.5px}
-.reasonBox li{margin:4px 0}
-.nextStep{border-left:5px solid var(--purple);background:var(--purpleSoft);border-radius:10px;padding:10px 12px;margin-top:16px;font-size:13px}
 .radarWrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:0 0 16px;padding:14px 16px;border:2px solid var(--purple);background:var(--purpleSoft);border-radius:14px}
 .radarNotes{flex:1;min-width:220px;font-size:12.5px}
 .radarNotes li{margin:4px 0}
@@ -106,42 +81,63 @@ tr:last-child td{border-bottom:0}
 .traceWrap b{font-size:13px}
 .traceWrap ul{margin:8px 0 0;padding-left:18px}
 .traceWrap li{margin:4px 0}
-.routeGuide{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
-.routeGuide .r{flex:1;min-width:150px;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--soft);font-size:12px}
-.routeGuide .r b{display:block;font-size:13px;margin-bottom:4px}
-.confGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:14px 0}
-.confCard{border-radius:12px;padding:12px;font-size:12.5px}
-.confCard.done{border:1px solid var(--green);background:var(--greenSoft)}
-.confCard.pending{border:1px solid var(--orange);background:var(--orangeSoft)}
-.confCard.missing{border:1px solid var(--gray);background:var(--graySoft)}
-.confCard b{display:block;margin-bottom:6px;font-size:13px}
-.confCard ul{margin:0;padding-left:16px}
-.confCard li{margin:3px 0}
-.coiBox{border:2px solid var(--red);background:var(--redSoft);border-radius:14px;padding:14px 16px;margin:14px 0}
-.coiBox b{font-size:14px}
-.actionStrip{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;padding:12px 14px;border:1px dashed var(--line);border-radius:12px;background:var(--soft)}
-.actionStrip button{border:1px solid var(--blue);background:#fff;color:#165c9d;border-radius:8px;padding:8px 12px;font-size:12.5px;font-weight:800;cursor:not-allowed;opacity:.7}
-.actionStrip .note{width:100%;font-size:11px;color:var(--muted);margin-top:4px}
-.personaGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.personaCard{border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;transition:border-color .15s}
-.personaCard:hover{border-color:var(--blue)}
-.personaCard b{font-size:14px;display:block;margin-bottom:6px}
-.personaCard p{font-size:12.5px;color:#4a453f;margin:0}
-.personaDetail{display:none;margin-top:14px;border:2px solid var(--blue);border-radius:12px;padding:14px;background:#fbfdff}
-.personaDetail.active{display:block}
-.posMapWrap{position:relative;width:100%;max-width:480px;margin:10px auto;border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--soft)}
-.posMapWrap svg{width:100%;height:auto;display:block}
-.posLegend{display:flex;gap:12px;flex-wrap:wrap;font-size:11.5px;margin-top:8px;justify-content:center}
-.posLegend span{display:inline-flex;align-items:center;gap:4px}
-.posLegend i{width:10px;height:10px;border-radius:50%;display:inline-block}
-.journeyTrack{display:flex;gap:6px;margin:14px 0;overflow:auto}
-.journeyTrack .stage{flex:1;min-width:120px;text-align:center;padding:12px 8px;border-radius:10px;border:1px solid var(--line);background:var(--soft);font-size:12px}
-.journeyTrack .stage.current{border:2px solid var(--blue);background:var(--blueSoft);font-weight:800}
-.journeyTrack .stage b{display:block;font-size:16px;margin-bottom:4px}
+.discussBox{border:2px solid var(--purple);background:var(--purpleSoft);border-radius:14px;padding:14px 16px;margin:0 0 16px}
+.discussBox b{font-size:14px}
+.discussBox p{margin:8px 0 0;font-size:13px;line-height:1.7}
 .historyCard{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
 .historyCard b{font-size:13.5px}
 .historyCard .metaRow{display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:6px}
-@media(max-width:900px){.grid2,.grid3,.stakeGrid,.outlookRow,.a3Grid,.decisionQ .metaRow,.confGrid,.personaGrid,.tldrGrid{grid-template-columns:1fr}}
+
+/* --- タブ1「決断まとめ」用の5部品(意思決定支援ダッシュボード作成エージェント3・
+   添付3shima_dashboards.htmlから移植したシンプル版コンポーネント) --- */
+.highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.hl{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff}
+.hl h4{margin:0 0 6px;font-size:12.5px;color:var(--muted);font-weight:700;letter-spacing:.03em}
+.hl ul{margin:0;padding-left:16px;font-size:12.5px;line-height:1.55}
+.hl li{margin:3px 0}
+.hl.green h4{color:#3d8560}
+.hl.orange h4{color:#b56a2a}
+.hl.purple h4{color:#5d47a3}
+.hl.red h4{color:#c14a3e}
+.hl.gray h4{color:#8a877f}
+
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
+.opt{border:2px solid var(--line);border-radius:12px;padding:14px;background:#fff}
+.opt.A{border-color:var(--green);background:var(--greenSoft)}
+.opt.B{border-color:var(--orange);background:var(--orangeSoft)}
+.opt.C{border-color:var(--purple);background:var(--purpleSoft)}
+.opt .tag{display:inline-block;padding:3px 8px;border-radius:6px;font-size:10.5px;font-weight:800;letter-spacing:.05em;margin-bottom:8px}
+.opt.A .tag{background:var(--green);color:#fff}
+.opt.B .tag{background:var(--orange);color:#fff}
+.opt.C .tag{background:var(--purple);color:#fff}
+.opt h4{margin:0 0 6px;font-size:14px;font-weight:900}
+.opt p{margin:4px 0;font-size:12.5px;line-height:1.55}
+.opt ul{margin:6px 0 0;padding-left:18px;font-size:12px;line-height:1.55}
+
+.voices{display:grid;gap:8px;margin-top:8px}
+.voice{border-left:4px solid var(--blue);background:var(--blueSoft);border-radius:6px;padding:10px 14px;font-size:13px;line-height:1.6}
+.voice .who{display:block;font-size:11.5px;color:var(--muted);margin-bottom:2px;font-weight:700}
+.voice.oppose{border-left-color:var(--red);background:var(--redSoft)}
+.voice.support{border-left-color:var(--green);background:var(--greenSoft)}
+.voice.pending{border-left-color:var(--orange);background:var(--orangeSoft)}
+.voice.minority{border-left-color:var(--purple);background:var(--purpleSoft)}
+
+.evidence-list{display:grid;gap:8px;margin-top:8px}
+.ev{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:#fff;font-size:12.5px;display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:start}
+.ev .lv{padding:2px 7px;border-radius:4px;font-size:10px;font-weight:800;height:fit-content}
+.ev .lv.L1{background:var(--greenSoft);color:#2f6f4d}
+.ev .lv.L2{background:var(--blueSoft);color:#165c9d}
+.ev .lv.L3{background:var(--orangeSoft);color:#8f5623}
+.ev .lv.L5{background:var(--graySoft);color:#605d57}
+.ev .src{font-size:11px;color:var(--muted)}
+
+.timeline{margin-top:10px;padding-left:0;list-style:none;position:relative}
+.timeline::before{content:"";position:absolute;left:14px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.timeline li{position:relative;padding:8px 8px 8px 40px;font-size:13px;line-height:1.55}
+.timeline li::before{content:"";position:absolute;left:8px;top:14px;width:14px;height:14px;border-radius:50%;background:var(--blue);border:3px solid #fff;box-shadow:0 0 0 1px var(--blue)}
+.timeline li b{color:var(--blue)}
+
+@media(max-width:900px){.grid2,.grid3,.stakeGrid,.outlookRow,.decisionQ .metaRow,.highlights,.opts{grid-template-columns:1fr}}
 
 /* --- 左右の折りたたみパネル(資料投入エリア/質問チャット) ---
    2026-09-13 鯨本さん(離島経済新聞社)からの依頼で /tools/dashboard-draft に実装したものと
@@ -206,7 +202,7 @@ tr:last-child td{border-bottom:0}
   <div class="appWrap" id="appWrap">
 <div class="app">
 <div class="hero">
-  <span class="eyebrow">意思決定支援PoC ｜ 長崎県北松浦郡 小値賀町(小値賀島) ｜ りとけい「未来のシマ共創会議2026」テーマオーナー案件 ｜ 北極星指標統合版(エージェント2・試験導入)</span>
+  <span class="eyebrow">意思決定支援PoC ｜ 長崎県北松浦郡 小値賀町(小値賀島) ｜ りとけい「未来のシマ共創会議2026」テーマオーナー案件 ｜ 6タブ・シンプル構成版(エージェント3・試験導入)</span>
   <div class="breadcrumb">
     <span class="step here">① 方針判断(この画面)</span>
     <span class="step">② 詳細分析</span>
@@ -240,11 +236,11 @@ tr:last-child td{border-bottom:0}
   </div>
   <div class="northStar">
     <b>🌟 北極星指標：ふるさと留学生の完遂率(留学開始〜卒業/満了までの継続率)</b>
-    <p data-cell-id="northstar-status" style="margin:6px 0 0">現時点では正式な算出前(基礎データ収集中)。補助指標として、①受入実績数(累計21名・現行12名体制)、②受入体制人数(ハウスマスター16名)、③地域住民の関与度(行事・ボランティア参加、想定・未算出)、④北松西高校の在籍者数への影響、の4つをあわせて追う。ゴールを1つの問いに集約するGQM方式にもとづく指標設計(2026-09-14確定)。</p>
+    <p data-cell-id="northstar-status-hero" style="margin:6px 0 0">現時点では正式な算出前(基礎データ収集中)です。指標の内訳・レーダーチャート・「今日議論すべきこと」は「🌟 北極星指標」タブをご覧ください。</p>
   </div>
   <div class="callout warn" style="margin-top:14px">
     <b>📎 この論点の位置づけについて</b>
-    <p style="margin-top:6px">本論点はりとけいが主催する「未来のシマ共創会議2026」のテーマオーナー案件(全国の島々から公募)です。りとけい分室のページに、他のテーマオーナー案件と合わせて掲載しています。また本ページは、意思決定支援ダッシュボード作成エージェント2(北極星指標統合版)の最初の試験適用対象です。</p>
+    <p style="margin-top:6px">本論点はりとけいが主催する「未来のシマ共創会議2026」のテーマオーナー案件(全国の島々から公募)です。りとけい分室のページに、他のテーマオーナー案件と合わせて掲載しています。また本ページは、意思決定支援ダッシュボード作成エージェント3(6タブ・シンプル構成版)の最初の試験適用対象です。</p>
   </div>
 </div>
 
@@ -252,156 +248,175 @@ tr:last-child td{border-bottom:0}
   <p class="wizardQ">今日、何について確認したいですか？</p>
   <div class="wizardBtns">
     <button type="button" class="wizardBtn" data-goto="summary">✅ 結論だけ知りたい(30秒)</button>
-    <button type="button" class="wizardBtn" data-goto="proposal">💡 検討中の選択肢を見たい(3分)</button>
-    <button type="button" class="wizardBtn" data-goto="persona">🙋 自分の立場から見たい</button>
-    <button type="button" class="wizardBtn" data-goto="raw">🗣️ 元になった事実・出典を見たい(15分)</button>
+    <button type="button" class="wizardBtn" data-goto="northstar">🌟 何を議論すべきか見たい</button>
+    <button type="button" class="wizardBtn" data-goto="proposal">💡 提案の中身を見たい</button>
+    <button type="button" class="wizardBtn" data-goto="raw">🗣️ 元になった事実・議事録を見たい</button>
   </div>
   <button type="button" class="wizardSkip" id="wizardSkip">すべてのタブを自分で見る →</button>
 </div>
 
 <nav class="tabs">
-  <button class="tabBtn tabGroupPrimary active" data-tab="summary">決断まとめ</button>
-  <button class="tabBtn tabGroupPrimary" data-tab="persona">立場別</button>
-  <button class="tabBtn tabGroupDetail" data-tab="premise">小値賀町の視点</button>
-  <button class="tabBtn tabGroupDetail" data-tab="proposal">提案</button>
-  <button class="tabBtn tabGroupDetail" data-tab="forecast">将来予測</button>
-  <button class="tabBtn tabGroupDetail" data-tab="positions">立場地図</button>
-  <button class="tabBtn tabGroupDetail" data-tab="journey">進捗</button>
-  <button class="tabBtn tabGroupRef" data-tab="cases">事例</button>
-  <button class="tabBtn tabGroupRef" data-tab="funding">補助金</button>
-  <button class="tabBtn tabGroupPrimary" data-tab="raw">生データ</button>
-  <button class="tabBtn tabGroupPrimary" data-tab="aidraft">📝 資料投入の下書き</button>
-  <button class="tabBtn tabGroupPrimary" data-tab="meetingnotes">🗒️ 議事メモ</button>
-  <button class="tabBtn tabGroupRef" data-tab="history">📜 履歴</button>
+  <button class="tabBtn active" data-tab="summary">📋 決断まとめ</button>
+  <button class="tabBtn" data-tab="northstar">🌟 北極星指標</button>
+  <button class="tabBtn" data-tab="proposal">💡 提案と評価</button>
+  <button class="tabBtn" data-tab="cases">🌍 事例</button>
+  <button class="tabBtn" data-tab="raw">🗒️ 議事録・投入データ</button>
+  <button class="tabBtn" data-tab="history">📜 過去のまとめ</button>
 </nav>
-<div class="tabLegend">
-  <span><i class="dot dotPrimary"></i>まず見る</span>
-  <span><i class="dot dotDetail"></i>くわしく検討</span>
-  <span><i class="dot dotRef"></i>参考</span>
-</div>
 
 <section class="panel active" id="panel-summary">
-  <div class="tldr">
-    <b data-cell-id="summary-tldr">✅ 要するに：ふるさと留学生の完遂率(北極星指標)はまだ算出できていませんが、現行10名(定員12名)・ハウスマスター16名という体制は、地域住民との直接交流が少なく「受け入れがハウスマスターに集中している」状態です。まず着手すべきは、地域住民が無理なく関われる小さな役割(体験プログラムの手伝いなど)を切り出し、コーディネーター機能を強化することです。</b>
-    <div class="tldrGrid">
-      <div><em>現在値/状態</em>留学生10名(定員12名)、ハウスマスター16名(高齢者率60%超)。受け入れの担い手が高齢化・一部集中している</div>
-      <div><em>比較対象</em>過去7年間の累計受け入れは21名。単年の在籍者数は定員に対しなお余地があるが、担い手側の頭数が先に不足しつつある</div>
-      <div><em>原因</em>受け入れ役割が寮(ハウスマスター)に集中し、地域住民が留学生と直接交流する仕組み・情報発信が届く経路が未整備</div>
-      <div><em>次のアクション</em>地域住民が参加できる小さな役割を1つ切り出し、10/1のワークショップで具体化する</div>
-    </div>
-  </div>
-  <details class="reasonBox">
-    <summary>▼ なぜそう言えるか(根拠)を見る</summary>
-    <ul>
-      <li data-cell-id="reason-1">2026/9/10のオンラインワークショップで、地域住民の関わりが「奥ゆかしさもあって消極的」で、留学生と地域住民が直接交流する機会が少ないことが課題として共有された</li>
-      <li data-cell-id="reason-2">情報発信(SNS・説明会・パンフレット)が、本当に必要な家庭に届いているか把握できていないという指摘があった</li>
-      <li data-cell-id="reason-3">県立高校であるため、町の取り組みと学校側の連携に壁があるという指摘があった</li>
-      <li data-cell-id="reason-4">「高校存続を目的にすること自体が大人の都合ではないか。まず子供が満足する学び・体験のカリキュラムを作ることが先」という参加者からの重要な問いかけがあった</li>
-    </ul>
-  </details>
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 14px">このタブは、参加者が30秒〜3分で全体像をつかめるよう、5つのセクションを上から順に読むだけのシンプル構成にしています(意思決定支援ダッシュボード作成エージェント3)。詳しい根拠・提案の詳細・議事録は他のタブに整理しています。</p>
 
-  <h3 style="margin-top:18px;font-size:15px">🧭 30秒/3分/15分ルートガイド</h3>
-  <div class="routeGuide">
-    <div class="r"><b>⏱ 30秒</b>上のtldrだけ読めばOK</div>
-    <div class="r"><b>☕ 3分</b>下の「▼もっと詳しく見る」を開いてトレードオフ比較まで＋「提案」タブの3つの方向性比較</div>
-    <div class="r"><b>📚 15分</b>「立場地図」「進捗」「生データ」まで含めて全体を確認</div>
-  </div>
-
-  <details class="reasonBox">
-    <summary>▼ もっと詳しく見る(3分〜15分向け：トレードオフ比較・信頼度・情報充足度診断・決定の跡・目標対比など)</summary>
-
-  <h3 style="margin-top:18px;font-size:15px">3つの方向性のトレードオフ比較(たたき台)</h3>
-  <p style="font-size:12px;color:var(--muted);margin:0 0 8px">◎○△は、下の「提案」タブの記述をもとにした定性的な目安であり、点数化されたスコアではありません。共創ワークショップでの議論を経て更新します。</p>
-  <div class="tradeoffWrap tableWrap">
-    <table>
-      <thead><tr><th>比較軸</th><th>案A 地域住民の役割を小さく切り出す</th><th>案B コーディネーター機能を新設・強化</th><th>案C 情報発信の届け方を見直す</th></tr></thead>
-      <tbody>
-        <tr><td>着手しやすさ</td><td data-cell-id="tradeoff-ease-a"><span class="pill pgreen">◎(既存の体験プログラムに役割を1つ足すだけで始められる)</span></td><td data-cell-id="tradeoff-ease-b"><span class="pill porange">△(担い手・財源の確保が必要)</span></td><td data-cell-id="tradeoff-ease-c"><span class="pill pblue">○(既存のSNS・説明会の見直しから着手できる)</span></td></tr>
-        <tr><td>ハウスマスター負担の軽減</td><td data-cell-id="tradeoff-load-a"><span class="pill pgreen">◎(役割分担が直接効く)</span></td><td data-cell-id="tradeoff-load-b"><span class="pill pgreen">◎(仲介機能があるとハウスマスターの負担が最も減る)</span></td><td data-cell-id="tradeoff-load-c"><span class="pill porange">△(直接の負担軽減にはならない)</span></td></tr>
-        <tr><td>地域との一体感の醸成</td><td data-cell-id="tradeoff-community-a"><span class="pill pgreen">◎(直接交流が生まれる)</span></td><td data-cell-id="tradeoff-community-b"><span class="pill pblue">○(間接的に後押しする)</span></td><td data-cell-id="tradeoff-community-c"><span class="pill porange">△(発信を届けるだけでは一体感には直結しにくい)</span></td></tr>
-        <tr><td>継続性(高齢化する地域での持続可能性)</td><td data-cell-id="tradeoff-sustain-a"><span class="pill porange">△(小さな役割でも担い手の高齢化は続く)</span></td><td data-cell-id="tradeoff-sustain-b"><span class="pill pgreen">◎(仕組み化できれば属人化を防げる)</span></td><td data-cell-id="tradeoff-sustain-c"><span class="pill pblue">○(情報が届く家庭が増えれば新しい担い手にもつながりうる)</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3 style="margin-top:18px;font-size:15px">情報の信頼度別に見る(確定/保留/未収集)</h3>
-  <div class="confGrid">
-    <div class="confCard done">
-      <b>✅ 確定(実測・一次情報あり)</b>
+  <h3>①この論点の全体像(A3サマリー)</h3>
+  <div class="highlights">
+    <div class="hl">
+      <h4>📊 判断材料ハイライト</h4>
       <ul>
-        <li>小値賀島の人口2,082人(令和7年4月末)、高齢化率52.1%、年少人口8.8%</li>
-        <li>ふるさと留学制度「地下丸」は7年間運営、累計21名を受け入れ</li>
-        <li>現在の留学生は10名(男子3・女子6＋孫留学1)、寮の受け入れ定員は12名</li>
-        <li>ハウスマスターは16名、高齢者率60%以上</li>
-        <li data-cell-id="conf-done-workshop">2026/9/10オンラインワークショップ(第1回)で、テーマオーナー(牧尾さん)・小値賀町教育委員会(吉岡さん)から発表、参加者との質疑応答を実施</li>
+        <li data-cell-id="mini-material-1">受け入れがハウスマスター16名に集中し、高齢者率60%以上で負担が偏っている</li>
+        <li data-cell-id="mini-material-2">地域住民の関わりは消極的で、直接交流の機会が少ない</li>
+        <li data-cell-id="mini-material-3">情報発信が本当に必要な家庭に届いているか把握できていない</li>
+        <li data-cell-id="mini-material-4">県立高校のため、町の取り組みと学校側の連携に壁がある</li>
       </ul>
     </div>
-    <div class="confCard pending">
-      <b>🕓 保留(方向性はあるが未確定)</b>
+    <div class="hl green">
+      <h4>💡 検討中の選択肢ハイライト</h4>
       <ul>
-        <li data-cell-id="conf-pending-1">案A/B/Cのどれから着手するか(10/1ワークショップで検討)</li>
-        <li data-cell-id="conf-pending-2">コーディネーター機能を新設する場合の担い手・財源</li>
-        <li data-cell-id="conf-pending-3">北松西高校(県立)と町の取り組みとの連携の壁をどう乗り越えるか</li>
-        <li data-cell-id="conf-pending-4">「高校存続」と「子供が満足する学び・体験」のどちらを目的の軸に置くか</li>
+        <li data-cell-id="mini-options-1">案A：地域住民が関われる小さな役割を体験プログラムから切り出す</li>
+        <li data-cell-id="mini-options-2">案B：受け入れの仲介役となるコーディネーター機能を新設・強化する</li>
+        <li data-cell-id="mini-options-3">案C：情報発信(SNS・説明会・パンフレット)の届け方を見直す</li>
       </ul>
     </div>
-    <div class="confCard missing">
-      <b>❌ 未収集</b>
+    <div class="hl orange">
+      <h4>📈 将来予測ハイライト</h4>
       <ul>
-        <li data-cell-id="conf-missing-1">留学生本人・保護者への正式なヒアリング(9/10は関係者中心の発表・質疑)</li>
-        <li data-cell-id="conf-missing-2">地域住民の受け入れ意向の定量的な把握(アンケート等)</li>
-        <li data-cell-id="conf-missing-3">北極星指標(ふるさと留学生の完遂率)の算出に必要な卒業/満了・途中帰島の実績データ</li>
+        <li data-cell-id="mini-forecast-1">県教育委員会の基準で高校1学年12人以上を維持できないと統廃合の対象となる</li>
+        <li data-cell-id="mini-forecast-2"><span class="pill porange">PoC概算</span> 北極星指標(完遂率)・案ごとの効果試算はまだできていない</li>
+        <li data-cell-id="mini-forecast-3">受け入れ体制の疲弊を放置した場合の将来影響は基礎データ不足のため<b>未算出</b></li>
+      </ul>
+    </div>
+    <div class="hl purple">
+      <h4>🗣️ 現時点で分かっている声</h4>
+      <ul>
+        <li data-cell-id="mini-voice-1">テーマオーナー(牧尾さん)：単発体験で終わらせず「収穫して食べるまで」のストーリー性を重視したい</li>
+        <li data-cell-id="mini-voice-2">小値賀町教育委員会(吉岡さん)：情報発信が必要な家庭に届いているか把握できていない</li>
+        <li data-cell-id="mini-voice-3">ワークショップ参加者：「高校存続を目的にすること自体が大人の都合ではないか」という問いかけ</li>
+      </ul>
+    </div>
+    <div class="hl red">
+      <h4>🌍 類似事例ハイライト</h4>
+      <ul>
+        <li data-cell-id="mini-cases-1"><span class="pill porange">要検証</span> 他の離島留学地域(渡名喜・家島等)での受け入れチーム事例</li>
+        <li data-cell-id="mini-cases-2"><span class="pill porange">要検証</span> 離島留学における地域おこし協力隊の継続的サポート体制事例</li>
+      </ul>
+    </div>
+    <div class="hl gray">
+      <h4>✅ 現時点の結論・次の一手</h4>
+      <ul>
+        <li data-cell-id="mini-conclusion-1">まず案Aから着手し、既存の体験プログラムに地域住民が関われる小さな役割を1つ切り出すことに関係者の意見が集まりつつある</li>
+        <li data-cell-id="mini-conclusion-2">次の一手：①10/1ワークショップまでに切り出せる役割の候補をリストアップ、②他離島の受け入れチーム事例を情報収集、③北極星指標の算出に必要な実績データを整理</li>
+        <li data-cell-id="mini-conclusion-3">留学生本人・保護者への正式なヒアリングは10月の共創ワークショップでさらに進める</li>
       </ul>
     </div>
   </div>
 
-  <div class="coiBox">
-    <b>⏳ 今、決めずに先送りした場合に起きうること(Cost of Inaction)</b>
-    <p data-cell-id="coi-text" style="margin-top:6px">具体的な金額や年数での試算はまだできません(基礎データ不足のため未算出)。ただし、県教育委員会の基準で高校1学年12人以上を維持できないと統廃合の対象となるため、受け入れ体制の疲弊(ハウスマスターへの負担集中)が続くほど、留学生確保のペース(現状:毎年3名以上を目標)が落ち込み、学年定員を割り込むリスクが高まります。</p>
+  <h3 style="margin-top:20px">②案のトレードオフ比較(たたき台)</h3>
+  <p style="font-size:12px;color:var(--muted);margin:0 0 8px">強み・弱み・着手しやすさは、下の「提案と評価」タブの記述をもとにした定性的な目安です。共創ワークショップでの議論を経て更新します。詳しい短中期長期の見通しは「提案と評価」タブをご覧ください。</p>
+  <div class="opts">
+    <div class="opt A">
+      <span class="tag">案A</span>
+      <h4>地域住民が関われる小さな役割を切り出す</h4>
+      <p data-cell-id="opt-a-summary">既存の体験プログラム(かんころ餅づくり・魚釣り・磯体験など)の中に、地域住民が「受け入れ役」として関われる小さな役割を1つ切り出す案。</p>
+      <ul>
+        <li data-cell-id="opt-a-strength">強み：既存プログラムに足すだけで始められ、ハウスマスターの負担軽減にも直接効く</li>
+        <li data-cell-id="opt-a-weakness">弱み：小さな役割でも担い手の高齢化そのものは続く</li>
+        <li data-cell-id="opt-a-ease">着手しやすさ：<span class="pill pgreen">◎</span></li>
+      </ul>
+    </div>
+    <div class="opt B">
+      <span class="tag">案B</span>
+      <h4>コーディネーター機能を新設・強化する</h4>
+      <p data-cell-id="opt-b-summary">地域おこし協力隊等が仲介役となり、ハウスマスターと地域住民・学校の間をつなぐコーディネーター機能を設ける案。</p>
+      <ul>
+        <li data-cell-id="opt-b-strength">強み：ハウスマスターの負担を最も直接的に軽減でき、属人化も防げる</li>
+        <li data-cell-id="opt-b-weakness">弱み：担い手・財源の確保という壁があり、着手までに時間がかかる</li>
+        <li data-cell-id="opt-b-ease">着手しやすさ：<span class="pill porange">△</span></li>
+      </ul>
+    </div>
+    <div class="opt C">
+      <span class="tag">案C</span>
+      <h4>情報発信の届け方を見直す</h4>
+      <p data-cell-id="opt-c-summary">情報発信(SNS・説明会・パンフレット)が本当に必要な家庭に届いているか把握できていない課題を踏まえ、発信チャネル・内容を見直す案。</p>
+      <ul>
+        <li data-cell-id="opt-c-strength">強み：既存のSNS・説明会の棚卸しから着手でき、中長期の担い手づくりにも効く</li>
+        <li data-cell-id="opt-c-weakness">弱み：直接のハウスマスター負担軽減にはならない</li>
+        <li data-cell-id="opt-c-ease">着手しやすさ：<span class="pill pblue">○</span></li>
+      </ul>
+    </div>
   </div>
+
+  <h3 style="margin-top:20px">③ステークホルダーの意見について</h3>
+  <p style="font-size:12px;color:var(--muted);margin:0 0 8px" data-cell-id="voices-caveat">2026/9/10のオンラインワークショップ(関係者中心)での発表・質疑をもとにした声です。留学生本人・保護者や地域住民本人への正式なヒアリング(PositionRecord)はまだ実施しておらず、想定を含みます。</p>
+  <div class="voices">
+    <div class="voice support">
+      <span class="who">🏠 テーマオーナー 牧尾儀信さん(ちかまる寮ハウスマスター・小値賀町ふるさと留学協議会会長)</span>
+      単発体験で終わらせず「収穫して食べるまで」のストーリー性を重視したい。島まるごとで子どもを迎える受け入れチームにしたい。
+    </div>
+    <div class="voice pending">
+      <span class="who">🏫 小値賀町教育委員会 吉岡さん</span>
+      情報発信(SNS・説明会・パンフレット)が本当に必要な家庭に届いているか把握できていない。県立高校であるため、町の取り組みと学校側の連携に壁がある。
+    </div>
+    <div class="voice minority">
+      <span class="who">🙋 ワークショップ参加者(氏名非公開)</span>
+      「高校存続を目的にすること自体が大人の都合ではないか。まず子供が満足する学び・体験のカリキュラムを作ることが先」という問いかけ。
+    </div>
+    <div class="voice pending">
+      <span class="who">🛏️ 寮母・ハウスマスター(想定・16名)</span>
+      正式なヒアリングはまだだが、高齢者率60%以上で日々の受け入れを担っており、負担が最も集中している立場と考えられる。
+    </div>
+  </div>
+
+  <h3 style="margin-top:20px">④元になった事実・出典(EvidenceRecord)</h3>
+  <div class="evidence-list">
+    <div class="ev"><span class="lv L1">L1</span><span><b>小値賀町(小値賀島)の人口・高齢化率</b>：人口2,082人(令和7年4月末)、高齢化率52.1%、年少人口8.8%(186人)</span><span class="src">町公式資料</span></div>
+    <div class="ev"><span class="lv L2">L2</span><span><b>北松西高校の学年定員基準</b>：県教育委員会の基準で学年12人以上を維持しないと統廃合の対象となる</span><span class="src">牧尾さん・吉岡さん発言(9/10ワークショップ)</span></div>
+    <div class="ev"><span class="lv L2">L2</span><span><b>離島留学制度「地下丸」の運営実績</b>：7年間運営、累計21名受け入れ。現在の留学生は10名(男子3・女子6＋孫留学1)、寮の受け入れ定員は12名</span><span class="src">テーマオーナー運営データ</span></div>
+    <div class="ev"><span class="lv L2">L2</span><span><b>受け入れ体制(ハウスマスター)</b>：16名(高齢者率60%以上)。年間20回以上の体験プログラムを実施</span><span class="src">テーマオーナー運営データ</span></div>
+    <div class="ev"><span class="lv L3">L3</span><span><b>地域住民の関わりの現状</b>：奥ゆかしさもあって消極的で、留学生と地域住民が直接交流する機会がまだ少ない</span><span class="src">9/10オンラインワークショップの質疑応答</span></div>
+    <div class="ev"><span class="lv L5">L5</span><span><b>他地域の受け入れサポート事例(紹介情報)</b>：離島留学は全国的に事例が増えており、成功している自治体は地域おこし協力隊が仲介役を担うケースが多いと紹介</span><span class="src">橋本さん(りとけい記者)からの情報提供</span></div>
+  </div>
+
+  <h3 style="margin-top:20px">⑤合意形成の現在地(想定・ロードマップ)</h3>
+  <ol class="timeline">
+    <li data-cell-id="timeline-step1"><b>STEP1(9/10・実施済み)</b>：第1回オンラインワークショップ実施。受け入れ実績(累計21名・現行10名/定員12名)、ハウスマスター16名の運営体制の実測値を確認</li>
+    <li data-cell-id="timeline-step2"><b>STEP2(〜10/1)</b>：地域住民との一体感の醸成・コーディネーター機能・情報発信の届け方の3論点を、第2回オンラインワークショップでさらに議論</li>
+    <li data-cell-id="timeline-step3"><b>STEP3(〜10/23)</b>：対面セッションで、案A/B/Cのうちどこから着手するか方向性を仮決め</li>
+    <li data-cell-id="timeline-step4"><b>STEP4(以降)</b>：北極星指標(完遂率)の算出に必要な卒業/満了・途中帰島の実績データを整理し、他離島の受け入れチーム事例を一次情報で確認</li>
+    <li data-cell-id="timeline-step5"><b>STEP5(以降)</b>：留学生本人・保護者、地域住民本人への正式なヒアリング(PositionRecord)を実施し、想定サンプルを実データに置き換える</li>
+  </ol>
+</section>
+
+<section class="panel" id="panel-northstar">
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 14px">北極星指標(ゴールを1つの問いに集約するGQM方式)と、その充足度を5軸で自己診断したレーダーチャートです。「今日、ここを議論してください」ボックスで、次に埋めるべき情報を明示します。</p>
 
   <div class="card">
-    <h3>論点の整理：なぜ「島まるごとの受け入れチーム」が必要か</h3>
-    <div class="grid2">
-      <div class="callout risk">
-        <b>きっかけとなった出来事</b>
-        <ul style="margin:6px 0 0;padding-left:18px">
-          <li>受け入れがハウスマスター16名(高齢者率60%以上)に集中し、負担が偏っている</li>
-          <li>地域住民の関わりは消極的で、留学生と直接交流する機会が少ない</li>
-          <li>情報発信が本当に必要な家庭に届いているか把握できていない</li>
-        </ul>
-      </div>
-      <div class="callout ok">
-        <b>島にある地域資源</b>
-        <ul style="margin:6px 0 0;padding-left:18px">
-          <li>年間20回以上の体験プログラム(かんころ餅づくり、魚釣り、磯体験でのウニ漁等)がすでに実施されている</li>
-          <li>「収穫して食べるまで」のストーリー性を重視する運営ノウハウが蓄積されている</li>
-          <li>世界遺産(旧野首教会)を含む景勝地があり「日本で最も美しい村」連合加盟という地域ブランドがある</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <h3>共創ワークショップの位置づけ</h3>
-    <div class="tableWrap">
-      <table>
-        <thead><tr><th>日程</th><th>形式</th><th>内容</th></tr></thead>
-        <tbody>
-          <tr><td>9月10日</td><td>オンライン(第1回)</td><td>テーマオーナー(牧尾さん)・教育委員会(吉岡さん)からの発表、論点の共有(実施済み)</td></tr>
-          <tr><td>10月1日</td><td>オンライン(第2回)</td><td>地域との一体感の醸成・コーディネーター機能・情報発信の届け方をさらに議論</td></tr>
-          <tr><td>10月23日</td><td>対面</td><td>テーマオーナー・参加者・専門家を交えた議論、共創セッションでの発表</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="footNote">テーマオーナー：小値賀町教育委員会／ちかまる寮ハウスマスター 牧尾儀信さん(小値賀町ふるさと留学協議会会長)。参加はPeatixで受付。詳細・最新情報は<a href="https://ritokei.com/forum/shimakaigi2026_theme04_ojika" target="_blank" rel="noopener">りとけいフォーラムの元記事</a>でご確認ください。</p>
+    <h3>🌟 北極星指標：ふるさと留学生の完遂率</h3>
+    <p data-cell-id="northstar-status" style="margin:6px 0 0;font-size:13px">現時点では正式な算出前(基礎データ収集中)。留学開始〜卒業/満了までの継続率を、共創ワークショップ進行中の現時点ではまだ算出できていません。</p>
   </div>
 
-  <h3 style="margin-top:18px;font-size:15px">この論点の全体像(A3サマリー)</h3>
+  <h3 style="margin-top:18px">補助指標</h3>
+  <div class="kpis" style="margin-top:8px">
+    <div class="kpi"><b>21名</b><span>受入実績数(累計)・現行10名/定員12名</span></div>
+    <div class="kpi"><b>16名</b><span>受入体制人数(ハウスマスター・高齢者率60%以上)</span></div>
+    <div class="kpi"><b data-cell-id="northstar-sub-3">想定・未算出</b><span>地域住民の関与度(行事・ボランティア参加)</span></div>
+    <div class="kpi"><b data-cell-id="northstar-sub-4">未算出</b><span>北松西高校の在籍者数への影響(学年12人以上基準)</span></div>
+  </div>
+
+  <h3 style="margin-top:18px">情報充足度レーダー(新5軸)</h3>
   <div class="radarWrap">
     <svg id="radarChart" width="180" height="180" viewBox="0 0 180 180"></svg>
     <div class="radarNotes">
-      <b>📡 情報充足度診断(北極星指標専用5軸・2026-09-15時点)</b>
-      <p style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">この5軸は「評価する人の立場」ではなく「何を根拠にしているか」で分解した、意思決定支援ダッシュボード作成エージェント2の新レーダーです(小値賀島が試験第1号)。</p>
+      <b>📡 情報充足度診断(2026-09-15時点)</b>
+      <p style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">この5軸は「評価する人の立場」ではなく「何を根拠にしているか」で分解したレーダーです(小値賀島が試験第1号)。</p>
       <ul id="radarWeakPoints">
         <li><b>当事者の声 Legitimacy(30点):</b> <span data-cell-id="radar-note-legitimacy">寮母・ハウスマスター・地域住民への正式なヒアリング(PositionRecord)はまだなく、9/10ワークショップでの発言のみ。</span></li>
         <li><b>外部知見の広さ Evidence(20点):</b> <span data-cell-id="radar-note-evidence">他の離島留学地域(渡名喜・家島等)での受け入れチーム事例の確認がまだできていない。</span></li>
@@ -412,6 +427,11 @@ tr:last-child td{border-bottom:0}
     </div>
   </div>
 
+  <div class="discussBox">
+    <b>🗣️ 今日、ここを議論してください</b>
+    <p data-cell-id="discuss-box-text">情報充足度が最も低いのは「外部知見の広さ Evidence(20点)」です。他の離島留学地域(渡名喜・家島等)や地域おこし協力隊のサポート体制事例を、まだ一次情報で確認できていません。次いで「当事者の声 Legitimacy(30点)」も、寮母・ハウスマスター・地域住民への正式なヒアリングが未実施です。次のワークショップ(10/1・10/23)では、①他離島事例の一次情報確認、②地域住民・ハウスマスター本人への聞き取り、の2点を優先してください。</p>
+  </div>
+
   <div class="traceWrap">
     <b>🧵 決定の跡(Decision Trace)</b>
     <p style="font-size:11.5px;color:var(--muted);margin:4px 0 0">北極星ハイライトの結論が、どのデータ・いつの追加・どの発言から生まれたかを辿れる記録(小値賀島で試験導入)。</p>
@@ -420,163 +440,27 @@ tr:last-child td{border-bottom:0}
       <li>2026-09-10 第1回オンラインワークショップ：テーマオーナー・教育委員会からの発表、受け入れ体制(ハウスマスター16名・留学生10名)の実測値を確認</li>
       <li>2026-09-13 離島経済新聞社 鯨本さんの依頼により、ワークショップのアーカイブ動画要約を議事メモタブに追加</li>
       <li>2026-09-15 意思決定支援ダッシュボード作成エージェント2(北極星指標統合版)を適用し、12タブ構成・新5軸レーダー・北極星指標ヘッダーへ全面刷新</li>
+      <li>2026-09-15 意思決定支援ダッシュボード作成エージェント3(6タブ・シンプル構成版)を適用し、12タブを6タブへ統合。北極星指標・レーダー・決定の跡をこの独立タブへ切り出し</li>
     </ul>
   </div>
 
-  <div class="a3Grid">
-    <div class="mini">
-      <h4>📊 判断材料ハイライト</h4>
-      <ul>
-        <li data-cell-id="mini-material-1">受け入れがハウスマスター16名に集中し、高齢者率60%以上で負担が偏っている</li>
-        <li data-cell-id="mini-material-2">地域住民の関わりは消極的で、直接交流の機会が少ない</li>
-        <li data-cell-id="mini-material-3">情報発信が本当に必要な家庭に届いているか把握できていない</li>
-        <li data-cell-id="mini-material-4">県立高校のため、町の取り組みと学校側の連携に壁がある</li>
-      </ul>
-    </div>
-    <div class="mini">
-      <h4>💡 検討中の選択肢ハイライト</h4>
-      <ul>
-        <li data-cell-id="mini-options-1">案A：地域住民が関われる小さな役割を体験プログラムから切り出す</li>
-        <li data-cell-id="mini-options-2">案B：受け入れの仲介役となるコーディネーター機能を新設・強化する</li>
-        <li data-cell-id="mini-options-3">案C：情報発信(SNS・説明会・パンフレット)の届け方を見直す</li>
-      </ul>
-    </div>
-    <div class="mini">
-      <h4>📈 将来予測ハイライト</h4>
-      <ul>
-        <li data-cell-id="mini-forecast-1">県教育委員会の基準で高校1学年12人以上を維持できないと統廃合の対象となる</li>
-        <li data-cell-id="mini-forecast-2"><span class="pill porange">PoC概算</span> 北極星指標(完遂率)・案ごとの効果試算はまだできていない</li>
-        <li data-cell-id="mini-forecast-3">受け入れ体制の疲弊を放置した場合の将来影響は基礎データ不足のため<b>未算出</b></li>
-      </ul>
-    </div>
-    <div class="mini">
-      <h4>🗣️ 現時点で分かっている声</h4>
-      <ul>
-        <li data-cell-id="mini-voice-1">テーマオーナー(牧尾さん)：単発体験で終わらせず「収穫して食べるまで」のストーリー性を重視したい</li>
-        <li data-cell-id="mini-voice-2">小値賀町教育委員会(吉岡さん)：情報発信が必要な家庭に届いているか把握できていない</li>
-        <li data-cell-id="mini-voice-3">ワークショップ参加者：「高校存続を目的にすること自体が大人の都合ではないか」という問いかけ</li>
-      </ul>
-    </div>
-    <div class="mini">
-      <h4>🌍 類似事例ハイライト</h4>
-      <ul>
-        <li data-cell-id="mini-cases-1"><span class="pill porange">要検証</span> 他の離島留学地域(渡名喜・家島等)での受け入れチーム事例</li>
-        <li data-cell-id="mini-cases-2"><span class="pill porange">要検証</span> 離島留学における地域おこし協力隊の継続的サポート体制事例</li>
-      </ul>
-    </div>
-    <div class="mini">
-      <h4>💰 補助金・交付金ハイライト</h4>
-      <ul>
-        <li data-cell-id="mini-funding-1"><span class="pill porange">中</span> 離島留学・地域みらい留学関連の国の支援制度：コーディネーター機能整備の財源候補</li>
-        <li data-cell-id="mini-funding-2"><span class="pill porange">中</span> 過疎地域持続的発展支援交付金：地域住民の受け入れ参加を後押しする財源候補</li>
-      </ul>
-    </div>
-    <div class="mini">
-      <h4>✅ 現時点の結論・次の一手</h4>
-      <ul>
-        <li data-cell-id="mini-conclusion-1">まず案Aから着手し、既存の体験プログラムに地域住民が関われる小さな役割を1つ切り出すことに関係者の意見が集まりつつある</li>
-        <li data-cell-id="mini-conclusion-2">次の一手：①10/1ワークショップまでに切り出せる役割の候補をリストアップ、②他離島の受け入れチーム事例を情報収集、③北極星指標の算出に必要な実績データを整理</li>
-        <li data-cell-id="mini-conclusion-3">留学生本人・保護者への正式なヒアリングは10月の共創ワークショップでさらに進める</li>
-      </ul>
-    </div>
-  </div>
-
-  <h3 style="margin-top:18px;font-size:15px">🧭 小値賀町の目指す姿との関わり</h3>
-  <p style="font-size:12px;color:var(--muted);margin:6px 0 10px">プラットフォームの活用主体である小値賀町が掲げる目標との関わり(詳細は「小値賀町の視点」タブを参照)。</p>
-  <div class="tableWrap">
-    <table>
-      <thead><tr><th>小値賀町の目標</th><th>この論点の影響方向</th></tr></thead>
-      <tbody>
-        <tr><td>北松西高校の存続(学年定員12人以上の維持)</td><td data-cell-id="impact-1"><span class="pill pgreen">追い風</span> 受け入れ体制の強化は、留学生確保のペース(年3名以上目標)を安定させ、定員維持に直接寄与しうる</td></tr>
-        <tr><td>地域住民が主体的に関わるまちづくり</td><td data-cell-id="impact-2"><span class="pill pgreen">追い風</span> 「島まるごとの受け入れチーム」は、地域住民の役割分担そのものが目標に合致する</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p class="footNote">出典：小値賀町(小値賀島) 人口・高齢化率(町公式資料)。教育委員会の方針に関する一次情報は今後Web検索・ヒアリングで補強予定。</p>
-  </details>
-
-  <div class="nextStep">
-    <b>🌱 厳しい前提の中でも、まず1つ試すなら：</b>
-    <p data-cell-id="next-step" style="margin:6px 0 0">既存の体験プログラム(かんころ餅づくり・魚釣り・磯体験など)のうち1つを選び、地域住民が「受け入れ役」として関わる小さな枠を試験的に作ってみることです。コーディネーター機能の本格整備を待たずに、今ある資源で試せる一手です。</p>
-  </div>
-
-  <div class="actionStrip">
-    <button type="button" disabled>案Aを推す</button>
-    <button type="button" disabled>案Bを推す</button>
-    <button type="button" disabled>案Cを推す</button>
-    <button type="button" disabled>📄 決断メモを書き出す</button>
-    <span class="note">※ これらのボタンは現在デモ表示のみです(v1)。実際の意思表明・記録機能は別途ChangeRequestとして検討します。</span>
-  </div>
-</section>
-
-<section class="panel" id="panel-persona">
-  <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">立場によって気になるポイントは違います。近いものを選ぶと、関連する内容の要約が表示されます(新しい事実が増えるわけではなく、他タブの内容の要約です)。</p>
-  <div class="personaGrid">
-    <div class="personaCard" data-persona="makio">
-      <b>🏠 テーマオーナー 牧尾儀信さん</b>
-      <p data-cell-id="persona-card-makio">ちかまる寮ハウスマスター・小値賀町ふるさと留学協議会会長。受け入れを「島まるごと」の体制に広げたいという立場。</p>
-    </div>
-    <div class="personaCard" data-persona="kyoiku">
-      <b>🏫 小値賀町教育委員会(吉岡さん)</b>
-      <p data-cell-id="persona-card-kyoiku">情報発信の届け方・県立高校との連携を気にしている立場。</p>
-    </div>
-    <div class="personaCard" data-persona="housemaster">
-      <b>🛏️ 寮母・ハウスマスター</b>
-      <p data-cell-id="persona-card-housemaster">現在16名(高齢者率60%以上)で日々の受け入れを担う、最も負担が集中している立場。</p>
-    </div>
-    <div class="personaCard" data-persona="student">
-      <b>🎒 離島留学生とその保護者</b>
-      <p data-cell-id="persona-card-student">実際に何が変わるのか、自分が何を体験できるのかを気にしている立場。</p>
-    </div>
-  </div>
-
-  <div class="personaDetail" id="persona-makio">
-    <b>🏠 牧尾さんの方へ</b>
-    <p data-cell-id="persona-detail-makio" style="margin-top:8px;font-size:13px">「決断まとめ」タブのトレードオフ比較(案A/B/Cの着手しやすさ・ハウスマスター負担の軽減)と、「提案」タブの3つの方向性の詳しい説明が参考になります。「国内外の類似事例」タブは「要検証」タグ付きのため、共創ワークショップまでに一次情報での確認をおすすめします。</p>
-  </div>
-  <div class="personaDetail" id="persona-kyoiku">
-    <b>🏫 教育委員会の方へ</b>
-    <p data-cell-id="persona-detail-kyoiku" style="margin-top:8px;font-size:13px">「小値賀町の視点」タブに、町の目標との関わりを整理しています。「決断まとめ」タブ末尾の「小値賀町の目指す姿との関わり」表、「補助金」タブの離島留学関連の国の支援制度もあわせてご確認ください。</p>
-  </div>
-  <div class="personaDetail" id="persona-housemaster">
-    <b>🛏️ 寮母・ハウスマスターの方へ</b>
-    <p data-cell-id="persona-detail-housemaster" style="margin-top:8px;font-size:13px">「決断まとめ」タブの信頼度別カード(保留：コーディネーター機能の担い手・財源)と、「進捗」タブのチェックリストが、次に何を確認すべきかの参考になります。負担軽減が最も期待できるのは案Bです(トレードオフ比較参照)。</p>
-  </div>
-  <div class="personaDetail" id="persona-student">
-    <b>🎒 留学生・保護者の方へ</b>
-    <p data-cell-id="persona-detail-student" style="margin-top:8px;font-size:13px">「提案」タブに3つの方向性それぞれの内容を分かりやすくまとめています。「決断まとめ」タブ末尾の「まず1つ試すなら」に、体験プログラムを通じた地域住民との交流という具体的な次の一手を書いています。ご意見がある場合は共創ワークショップへの参加をご検討ください。</p>
-  </div>
-</section>
-
-<section class="panel" id="panel-premise">
-  <div class="card">
-    <h3>小値賀町の目標との関わり</h3>
-    <p style="font-size:12.5px;color:var(--muted)">このタブは、プラットフォームの活用主体である小値賀町のリーダー発言・公式サイトが掲げる目標・理念を確認し、その観点からこの論点の結果がどう影響するかを整理します(出典：小値賀町(小値賀島) 人口・高齢化率(町公式資料))。</p>
+  <div class="card" style="margin-top:14px">
+    <h3>🧭 小値賀町の目指す姿との関わり(要約)</h3>
+    <p style="font-size:12px;color:var(--muted);margin:0 0 10px">プラットフォームの活用主体である小値賀町が掲げる目標との関わりの要約です(出典：小値賀町(小値賀島) 人口・高齢化率、町公式資料)。</p>
     <div class="tableWrap">
       <table>
-        <thead><tr><th>小値賀町の指標・方針</th><th>この論点への関わり</th></tr></thead>
+        <thead><tr><th>小値賀町の目標</th><th>この論点の影響方向</th></tr></thead>
         <tbody>
-          <tr><td>北松西高校の存続(県教育委員会基準：学年12人以上)</td><td data-cell-id="premise-goal-kosen">受け入れ体制が疲弊し留学生確保のペースが落ちると、学年定員を割り込み統廃合の議論に直結する。「島まるごとの受け入れチーム」はこの目標の土台そのもの</td></tr>
-          <tr><td>人口減少・高齢化への対応(人口2,082人・高齢化率52.1%)</td><td data-cell-id="premise-goal-jinko">留学生の受け入れは、年少人口(8.8%)の少なさを直接補う数少ない施策の1つであり、地域住民が主体的に関わることは高齢化する地域の担い手づくりにもつながりうる</td></tr>
+          <tr><td>北松西高校の存続(学年定員12人以上の維持)</td><td data-cell-id="impact-1"><span class="pill pgreen">追い風</span> 受け入れ体制の強化は、留学生確保のペース(年3名以上目標)を安定させ、定員維持に直接寄与しうる</td></tr>
+          <tr><td>地域住民が主体的に関わるまちづくり</td><td data-cell-id="impact-2"><span class="pill pgreen">追い風</span> 「島まるごとの受け入れチーム」は、地域住民の役割分担そのものが目標に合致する</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="footNote">出典：<a href="https://app.notion.com/p/3cb960a91e2381e6b145eff815fea9f2" target="_blank" rel="noopener">小値賀町(小値賀島) 人口・高齢化率(町公式資料)</a>。総合計画・教育委員会方針の一次情報での確認は今後の課題。</p>
-    <div class="callout warn" style="margin-top:10px"><b>前提条件：</b><span data-cell-id="premise-callout">小値賀町はほぼ島全体で構成されるため、町統計＝島統計とみなせる。財源は基本的に町・国の支援制度に依存し、大規模な自主財源は見込みにくい。</span></div>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <h3>本論点固有の背景</h3>
-    <ul style="font-size:13px">
-      <li>離島留学制度「地下丸」を7年間運営し、累計21名を受け入れ</li>
-      <li>現在の留学生は10名(男子3・女子6＋孫留学1)、寮の受け入れ定員は12名</li>
-      <li>ハウスマスターは16名(高齢者率60%以上)で運営</li>
-      <li>年間20回以上の体験プログラム(かんころ餅づくり、魚釣り、磯体験でのウニ漁等)を実施</li>
-    </ul>
   </div>
 </section>
 
 <section class="panel" id="panel-proposal">
-  <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">以下は、牧尾さん・吉岡さんの発言と2026年9月10日のオンラインワークショップでの意見をもとに整理した「検討の選択肢」です。共創ワークショップでの議論を経て、内容は更新されます。特定の案を推奨するものではありません。</p>
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">以下は、牧尾さん・吉岡さんの発言と2026年9月10日のオンラインワークショップでの意見をもとに整理した「検討の選択肢」とそのトレードオフ比較です。共創ワークショップでの議論を経て、内容は更新されます。特定の案を推奨するものではありません。</p>
   <div class="measureCard">
     <b>案A 地域住民が関われる小さな役割を切り出す</b>
     <p data-cell-id="proposal-a-desc" style="font-size:13px;margin:6px 0 0">既存の体験プログラム(かんころ餅づくり、魚釣り、磯体験でのウニ漁等)の中に、地域住民が「受け入れ役」として関われる小さな役割を1つ切り出す案。奥ゆかしさから消極的になりがちな住民でも、負担の小さい役割からなら参加しやすい。</p>
@@ -604,19 +488,25 @@ tr:last-child td{border-bottom:0}
       <div><em>長期</em><span data-cell-id="proposal-c-long">学校側との連携の壁を越える継続的な関係づくりにつながる</span></div>
     </div>
   </div>
+
   <div class="card" style="margin-top:14px">
-    <h3>3つの選択肢を比較(たたき台)</h3>
-    <div class="grid3">
-      <div class="card"><span class="pill pblue">案A</span><h3 style="margin-top:8px">小さな役割の切り出し</h3><p data-cell-id="proposal-compare-a" style="font-size:12.5px">最も着手しやすく、現時点で関係者の意見が集まりつつある案。</p></div>
-      <div class="card"><span class="pill porange">案B</span><h3 style="margin-top:8px">コーディネーター新設</h3><p data-cell-id="proposal-compare-b" style="font-size:12.5px">負担軽減効果は最大だが、担い手・財源の確保が壁になる。</p></div>
-      <div class="card"><span class="pill pgreen">案C</span><h3 style="margin-top:8px">情報発信の見直し</h3><p data-cell-id="proposal-compare-c" style="font-size:12.5px">着手はしやすいが、直接の負担軽減にはならない。中長期の担い手づくりに効く。</p></div>
+    <h3>3つの方向性のトレードオフ比較(たたき台)</h3>
+    <p style="font-size:12px;color:var(--muted);margin:0 0 8px">◎○△は、上の各案の記述をもとにした定性的な目安であり、点数化されたスコアではありません。共創ワークショップでの議論を経て更新します。</p>
+    <div class="tradeoffWrap tableWrap">
+      <table>
+        <thead><tr><th>比較軸</th><th>案A 地域住民の役割を小さく切り出す</th><th>案B コーディネーター機能を新設・強化</th><th>案C 情報発信の届け方を見直す</th></tr></thead>
+        <tbody>
+          <tr><td>着手しやすさ</td><td data-cell-id="tradeoff-ease-a"><span class="pill pgreen">◎(既存の体験プログラムに役割を1つ足すだけで始められる)</span></td><td data-cell-id="tradeoff-ease-b"><span class="pill porange">△(担い手・財源の確保が必要)</span></td><td data-cell-id="tradeoff-ease-c"><span class="pill pblue">○(既存のSNS・説明会の見直しから着手できる)</span></td></tr>
+          <tr><td>ハウスマスター負担の軽減</td><td data-cell-id="tradeoff-load-a"><span class="pill pgreen">◎(役割分担が直接効く)</span></td><td data-cell-id="tradeoff-load-b"><span class="pill pgreen">◎(仲介機能があるとハウスマスターの負担が最も減る)</span></td><td data-cell-id="tradeoff-load-c"><span class="pill porange">△(直接の負担軽減にはならない)</span></td></tr>
+          <tr><td>地域との一体感の醸成</td><td data-cell-id="tradeoff-community-a"><span class="pill pgreen">◎(直接交流が生まれる)</span></td><td data-cell-id="tradeoff-community-b"><span class="pill pblue">○(間接的に後押しする)</span></td><td data-cell-id="tradeoff-community-c"><span class="pill porange">△(発信を届けるだけでは一体感には直結しにくい)</span></td></tr>
+          <tr><td>継続性(高齢化する地域での持続可能性)</td><td data-cell-id="tradeoff-sustain-a"><span class="pill porange">△(小さな役割でも担い手の高齢化は続く)</span></td><td data-cell-id="tradeoff-sustain-b"><span class="pill pgreen">◎(仕組み化できれば属人化を防げる)</span></td><td data-cell-id="tradeoff-sustain-c"><span class="pill pblue">○(情報が届く家庭が増えれば新しい担い手にもつながりうる)</span></td></tr>
+        </tbody>
+      </table>
     </div>
     <p class="footNote">※ この比較は共創ワークショップでの議論のたたき台として作成した仮のものです。実際の評価はワークショップでの議論・ヒアリングを経て更新します。</p>
   </div>
-</section>
 
-<section class="panel" id="panel-forecast">
-  <div class="card">
+  <div class="card" style="margin-top:14px">
     <h3>小値賀島の人口・高齢化の推移と、留学生受け入れの目標</h3>
     <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">町公式資料が示す現状値です。この論点固有の将来予測モデルは、まだ作成できていません。</p>
     <div class="tableWrap">
@@ -630,223 +520,127 @@ tr:last-child td{border-bottom:0}
       </table>
     </div>
     <div class="callout warn" style="margin-top:10px">
-      <b>📎 この論点固有の効果について(未算出)</b>
-      <p data-cell-id="forecast-poc-caveat" style="margin-top:6px">「島まるごとの受け入れチーム」づくりが、北極星指標(ふるさと留学生の完遂率)や北松西高校の定員維持にどの程度の効果を持つかは、共創ワークショップ進行中の現時点ではまだ試算できていません。実在しないデータをもとに仮の数値を書くと、かえって議論の土台を誤らせるため、ここでは「未算出」と正直に記載します。</p>
-    </div>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <h3>受け入れ体制の効果(案A/B/C別)</h3>
-    <div class="callout risk">
-      <b>❌ 現時点では算出できません</b>
-      <p data-cell-id="forecast-economic-status" style="margin-top:6px">案ごとの担い手数・運営費がまだ固まっていないため、完遂率や地域負担への影響を試算するための基礎データが、共創ワークショップ進行中の現時点ではまだ揃っていません。</p>
+      <b>📎 案ごとの効果について(未算出)</b>
+      <p data-cell-id="forecast-poc-caveat" style="margin-top:6px">「島まるごとの受け入れチーム」づくりが、北極星指標(ふるさと留学生の完遂率)や北松西高校の定員維持にどの程度の効果を持つかは、共創ワークショップ進行中の現時点ではまだ試算できていません。案ごとの担い手数・運営費もまだ固まっていません。実在しないデータをもとに仮の数値を書くと、かえって議論の土台を誤らせるため、ここでは「未算出」と正直に記載します。</p>
     </div>
     <p data-cell-id="forecast-next" style="font-size:12.5px;color:var(--muted);margin-top:10px">共創ワークショップ(10月)で方向性が固まり次第、北極星指標(完遂率)の実績データ整理と、案ごとの効果試算に着手する想定です。</p>
   </div>
 </section>
 
-<section class="panel" id="panel-positions">
-  <div class="callout warn">
-    <b>🗒️ 想定サンプルです(実データではありません)</b>
-    <p data-cell-id="posmap-caveat" style="margin-top:6px">本論点はまだ「提起」段階で、ステークホルダーへの正式なヒアリング(PositionRecord)を実施していません。以下は、9/10のオンラインワークショップでの発表・質疑をもとにした想定の立場配置です。ワークショップでの正式なヒアリングを経て、実データに差し替えます。</p>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <h3 data-cell-id="posmap-title">合意形成の現在地(想定・9/10時点)</h3>
-    <div class="posMapWrap">
-      <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-        <line x1="20" y1="150" x2="280" y2="150" stroke="#E6E5E3" stroke-width="1"/>
-        <line x1="150" y1="20" x2="150" y2="280" stroke="#E6E5E3" stroke-width="1"/>
-        <text x="150" y="14" font-size="10" text-anchor="middle" fill="#7D7A75">積極的に関わりたい</text>
-        <text x="150" y="294" font-size="10" text-anchor="middle" fill="#7D7A75">様子見・慎重</text>
-        <text x="16" y="150" font-size="10" text-anchor="end" fill="#7D7A75" transform="rotate(-90 16 150)">案A寄り(役割切り出し)</text>
-        <text x="284" y="150" font-size="10" text-anchor="start" fill="#7D7A75" transform="rotate(-90 284 150)">案B寄り(仕組み化)</text>
-        <circle cx="200" cy="90" r="8" fill="#7A5CCF"/>
-        <text x="212" y="94" font-size="9" fill="#2C2C2B">牧尾さん(テーマオーナー)</text>
-        <circle cx="130" cy="200" r="8" fill="#2783DE"/>
-        <text x="142" y="204" font-size="9" fill="#2C2C2B">教育委員会(吉岡さん)</text>
-        <circle cx="170" cy="130" r="8" fill="#D5803B"/>
-        <text x="182" y="134" font-size="9" fill="#2C2C2B">ハウスマスター(想定)</text>
-        <circle cx="190" cy="160" r="8" fill="#46A171"/>
-        <text x="202" y="164" font-size="9" fill="#2C2C2B">地域住民(想定・消極的)</text>
-      </svg>
-      <div class="posLegend">
-        <span><i style="background:#7A5CCF"></i>テーマオーナー</span>
-        <span><i style="background:#2783DE"></i>行政</span>
-        <span><i style="background:#D5803B"></i>ハウスマスター</span>
-        <span><i style="background:#46A171"></i>地域住民</span>
-      </div>
-    </div>
-    <p class="footNote">配置は2026/9/10のオンラインワークショップの議事メモをもとにした想定サンプルです。共創ワークショップ本番後、留学生・保護者・地域住民を含む実データに置き換えます。</p>
-  </div>
-</section>
-
-<section class="panel" id="panel-journey">
-  <div class="card">
-    <h3>この論点の意思決定ジャーニー(現在地)</h3>
-    <div class="journeyTrack">
-      <div class="stage current"><b>①</b>情報収集</div>
-      <div class="stage"><b>②</b>対話・検討</div>
-      <div class="stage"><b>③</b>決断</div>
-      <div class="stage"><b>④</b>実行</div>
-      <div class="stage"><b>⑤</b>振り返り</div>
-    </div>
-    <p data-cell-id="journey-current" style="font-size:12.5px;color:var(--muted)">①情報収集はおおむね完了し、9/10のオンラインワークショップ(第1回)を経て②対話・検討フェーズへの移行が始まっています。10/1・10/23の共創ワークショップでさらに議論を深めます。</p>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <h3>③決断に進む前のチェックリスト(未達成)</h3>
-    <ul style="font-size:13px">
-      <li data-cell-id="journey-checklist-1">☐ 地域住民が関われる小さな役割の候補を、既存の体験プログラムからリストアップする</li>
-      <li data-cell-id="journey-checklist-2">☐ 他の離島留学地域(渡名喜・家島等)の受け入れチーム・コーディネーター事例を情報収集する</li>
-      <li data-cell-id="journey-checklist-3">☐ 北極星指標(ふるさと留学生の完遂率)の算出に必要な卒業/満了・途中帰島の実績データを整理する</li>
-      <li data-cell-id="journey-checklist-4">☐ 留学生本人・保護者への正式なヒアリング(9/10は関係者中心の発表・質疑のみ)</li>
-      <li data-cell-id="journey-checklist-5">☐ 10月1日までに、地域住民との一体感の醸成・コーディネーター機能・情報発信の3論点を整理する</li>
-    </ul>
-    <p class="footNote">チェックが揃うまでは「③決断」段階には進まない想定です。</p>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <h3>振り返り(まだ実施していません)</h3>
-    <p data-cell-id="journey-retro" style="font-size:12.5px;color:var(--muted)">③決断・④実行を経た後、数ヶ月後・1年後の振り返りをここに記録する予定です。現時点では実行段階に達していないため、記載内容はありません。</p>
-  </div>
-</section>
-
 <section class="panel" id="panel-cases">
   <div class="card">
-    <h3>国内外の類似事例</h3>
-    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">離島留学・受け入れ体制づくりに関連する、広く知られている事例です。掲載情報は要検証を含みます。</p>
-    <div class="measureCard">
-      <span class="pill porange">要検証</span>
-      <b>離島留学における地域おこし協力隊のサポート体制</b>
-      <p data-cell-id="cases-1-desc" style="font-size:13px;margin:6px 0 0">橋本さん(りとけい記者)によれば、離島留学は全国的に事例が増えており、成功している自治体は受け入れ家庭への継続的なサポート体制を整えている。具体的には地域おこし協力隊がその役割を担うケースが多いと紹介されている。</p>
-      <div class="callout warn" style="margin-top:8px"><b>取り扱いの注意：</b><span data-cell-id="cases-1-note">紹介ベースの情報であり、具体的な自治体名・制度の詳細は共創ワークショップまでに一次情報での確認が必要。</span></div>
-    </div>
-    <div class="measureCard">
-      <span class="pill porange">要検証</span>
-      <b>他の離島留学地域(渡名喜・家島等)での受け入れチーム事例</b>
-      <p data-cell-id="cases-2-desc" style="font-size:13px;margin:6px 0 0">しまてつだいが扱う他のプラットフォーム(渡名喜村・家島)でも、地域全体での受け入れ・見守り体制が論点になっている。プラットフォーム内の知見を横展開できる可能性があるが、具体的な比較はまだ行っていない。</p>
-      <div class="callout warn" style="margin-top:8px"><b>本論点への示唆：</b><span data-cell-id="cases-2-note">小値賀島の強みは、すでに7年間・21名の受け入れ実績とノウハウ(体験プログラム設計)があること。ゼロからではなく、既存の仕組みに役割を足す発想が現実的。</span></div>
-    </div>
-    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。実際の政策検討には一次情報での確認をお願いします。</p>
+    <h3>✅ 成功事例</h3>
+    <p data-cell-id="cases-success-caveat" style="font-size:12.5px;color:var(--muted);margin:0 0 10px">現時点で一次情報により確認できている「成功事例」はまだありません。下の事例はいずれも紹介ベースの「要検証」段階です。共創ワークショップまでに一次情報での確認ができたものから、このセクションに追記します。</p>
   </div>
-</section>
+  <h3 style="margin-top:18px">⚠️ 失敗事例・要注意事例(いずれも要検証)</h3>
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">離島留学・受け入れ体制づくりに関連する、広く知られている事例です。「失敗」と確定しているわけではなく、掲載情報は要検証を含みます。</p>
+  <div class="measureCard">
+    <span class="pill porange">要検証</span>
+    <b>離島留学における地域おこし協力隊のサポート体制</b>
+    <p data-cell-id="cases-1-desc" style="font-size:13px;margin:6px 0 0">橋本さん(りとけい記者)によれば、離島留学は全国的に事例が増えており、成功している自治体は受け入れ家庭への継続的なサポート体制を整えている。具体的には地域おこし協力隊がその役割を担うケースが多いと紹介されている。</p>
+    <div class="callout warn" style="margin-top:8px"><b>取り扱いの注意：</b><span data-cell-id="cases-1-note">紹介ベースの情報であり、具体的な自治体名・制度の詳細は共創ワークショップまでに一次情報での確認が必要。サポート体制が整っていない場合に受け入れが立ち行かなくなった事例(失敗側)も、一次情報が取れ次第あわせて確認する。</span></div>
+  </div>
+  <div class="measureCard">
+    <span class="pill porange">要検証</span>
+    <b>他の離島留学地域(渡名喜・家島等)での受け入れチーム事例</b>
+    <p data-cell-id="cases-2-desc" style="font-size:13px;margin:6px 0 0">しまてつだいが扱う他のプラットフォーム(渡名喜村・家島)でも、地域全体での受け入れ・見守り体制が論点になっている。プラットフォーム内の知見を横展開できる可能性があるが、具体的な比較はまだ行っていない。</p>
+    <div class="callout warn" style="margin-top:8px"><b>本論点への示唆：</b><span data-cell-id="cases-2-note">小値賀島の強みは、すでに7年間・21名の受け入れ実績とノウハウ(体験プログラム設計)があること。ゼロからではなく、既存の仕組みに役割を足す発想が現実的。</span></div>
+  </div>
+  <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。実際の政策検討には一次情報での確認をお願いします。</p>
 
-<section class="panel" id="panel-funding">
-  <div class="card">
-    <h3>活用できる補助金・交付金(候補)</h3>
-    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">一般的に知られている制度から、離島留学・地域コミュニティ活動に関連が高いと考えられる候補です。金額・締切等は必ず一次情報でご確認ください。</p>
-    <div class="tableWrap">
-      <table>
-        <thead><tr><th>制度名(候補)</th><th>所管(想定)</th><th>概要</th><th>マッチ理由</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><b>地域みらい留学・離島留学関連の国の支援制度</b><br><span class="pill porange">自治体向け</span></td>
-            <td>文部科学省・こども家庭庁 等</td>
-            <td data-cell-id="funding-1-desc">離島・過疎地域への留学生受け入れ、地域と学校の連携強化を支援する制度群。</td>
-            <td data-cell-id="funding-1-reason">コーディネーター機能(案B)の担い手確保を制度面から後押しできる可能性がある。共創ワークショップまでに対象要件を確認する。</td>
-          </tr>
-          <tr>
-            <td><b>過疎地域持続的発展支援交付金</b><br><span class="pill porange">自治体向け</span></td>
-            <td>総務省</td>
-            <td data-cell-id="funding-2-desc">過疎地域における生活環境の整備やコミュニティ活動を支援。</td>
-            <td data-cell-id="funding-2-reason">地域住民が受け入れに関わる仕組み(案A)の運営費の一部を補完できる可能性がある。共創ワークショップまでに対象要件を確認する。</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。申請にあたっては国・県・町の一次情報を必ずご確認ください。</p>
+  <h3 style="margin-top:18px">活用できる補助金・交付金(候補)</h3>
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">一般的に知られている制度から、離島留学・地域コミュニティ活動に関連が高いと考えられる候補です。金額・締切等は必ず一次情報でご確認ください。</p>
+  <div class="tableWrap">
+    <table>
+      <thead><tr><th>制度名(候補)</th><th>所管(想定)</th><th>概要</th><th>マッチ理由</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>地域みらい留学・離島留学関連の国の支援制度</b><br><span class="pill porange">自治体向け</span></td>
+          <td>文部科学省・こども家庭庁 等</td>
+          <td data-cell-id="funding-1-desc">離島・過疎地域への留学生受け入れ、地域と学校の連携強化を支援する制度群。</td>
+          <td data-cell-id="funding-1-reason">コーディネーター機能(案B)の担い手確保を制度面から後押しできる可能性がある。共創ワークショップまでに対象要件を確認する。</td>
+        </tr>
+        <tr>
+          <td><b>過疎地域持続的発展支援交付金</b><br><span class="pill porange">自治体向け</span></td>
+          <td>総務省</td>
+          <td data-cell-id="funding-2-desc">過疎地域における生活環境の整備やコミュニティ活動を支援。</td>
+          <td data-cell-id="funding-2-reason">地域住民が受け入れに関わる仕組み(案A)の運営費の一部を補完できる可能性がある。共創ワークショップまでに対象要件を確認する。</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+  <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。申請にあたっては国・県・町の一次情報を必ずご確認ください。</p>
 </section>
 
 <section class="panel" id="panel-raw">
-  <div class="card">
-    <h3>元になった事実・出典(EvidenceRecord)</h3>
-    <div class="stakeGrid">
-      <div class="stakeCard">
-        <b>📊 オープンデータ：小値賀島(小値賀町)の人口・高齢化率</b>
-        <p>人口2,082人(令和7年4月末)、高齢化率52.1%、年少人口(0-14歳)8.8%(186人)。小値賀町はほぼ島全体で構成されるため町統計＝島統計とみなせる。子どもの居場所づくり・受け入れチーム施策の対象人口規模を示す基礎データとして使用。<a href="https://app.notion.com/p/3cb960a91e2381e6b145eff815fea9f2" target="_blank" rel="noopener">出典：小値賀町(小値賀島) 人口・高齢化率(町公式資料)</a></p>
-      </div>
-      <div class="stakeCard">
-        <b>離島留学制度「地下丸(ちかまる)」の運営実績</b>
-        <p>7年間運営、累計21名を受け入れ。現在の留学生は10名(男子3・女子6＋孫留学1)。学生寮「ちかまる寮」(女子)と新設の男子寮に、計12名を受け入れられる体制がある。</p>
-      </div>
-      <div class="stakeCard">
-        <b>受け入れ体制(ハウスマスター)</b>
-        <p>ハウスマスター16名(高齢者率60%以上)で運営。年間20回以上の体験プログラム(かんころ餅づくり、魚釣り、磯体験でのウニ漁等)を実施し、単発体験で終わらせず「収穫して食べるまで」のストーリー性を重視している。</p>
-      </div>
-      <div class="stakeCard">
-        <b>北松西高校の学年定員基準</b>
-        <p>県教育委員会の基準で高校1学年12人以上を維持しないと統廃合の対象となる。離島留学制度「地下丸」で留学生を毎年3人以上確保したいという目標がある。</p>
-      </div>
-      <div class="stakeCard">
-        <b>地域住民の関わりの現状</b>
-        <p>地域住民の関わりは奥ゆかしさもあって消極的で、留学生と地域住民が直接交流する機会がまだ少ないことが、9/10ワークショップで課題として共有された。</p>
-      </div>
-      <div class="stakeCard">
-        <b>他地域の受け入れサポート事例(紹介情報)</b>
-        <p>橋本さん(りとけい記者)によれば、離島留学は全国的に事例が増えており、成功している自治体は受け入れ家庭への継続的なサポート体制を整えている。具体的には地域おこし協力隊がその役割を担うケースが多いと紹介された。</p>
-      </div>
-    </div>
-    <p class="footNote">出典：<a href="https://ritokei.com/forum/shimakaigi2026_theme04_ojika" target="_blank" rel="noopener">りとけいフォーラム「島をまるごと子どもの居場所に。人口2,000人の小値賀島が挑む『受け入れチーム』づくり」(2026年)</a>、<a href="https://app.notion.com/p/3cb960a91e2381e6b145eff815fea9f2" target="_blank" rel="noopener">小値賀町(小値賀島) 人口・高齢化率(町公式資料)</a></p>
+  <h3>会議の要点(議事メモ)</h3>
+  <div class="card" style="margin-bottom:14px;border-color:#9ac9ef;background:#fbfdff">
+    <h4 style="margin:0 0 8px;font-size:13.5px">📹 アーカイブ動画メモ：未来のシマ共創会議2026 第1回ワークショップ（小値賀島）</h4>
+    <p style="font-size:12px;color:var(--muted);margin:0 0 8px">離島経済新聞社主催「未来のシマ共創会議2026」共創ワークショップ（2026/9/10オンライン開催）のアーカイブ動画（限定公開）を要約したものです。動画本編：<a href="https://youtu.be/JdlBoaD2XjQ" target="_blank" rel="noopener">https://youtu.be/JdlBoaD2XjQ</a></p>
+    <p style="font-size:12.5px;margin:8px 0 0"><b>テーマオーナー（牧さん・地方留学「地下丸」ハウスマスター兼協議会会長、吉岡さん・町教育委員会）の発表要点：</b>小値賀島は長崎県五島列島の北端、人口約2,000人（高校時代6,300人から約1/3に減少、高齢化率は倍増）。博多からフェリーで4時間40分、佐世保から高速船で1時間半。世界遺産（旧野首教会）を含む景勝地があり「日本で最も美しい村」連合に加盟。県教育委員会の基準で高校1学年12人以上を維持しないと統廃合の対象となるため、離島留学制度「地下丸（ちかまる）」で留学生を毎年3人以上確保したい。現在の留学生は10名（男子3・女子6＋孫留学1）、ハウスマスター16名（高齢者率60%以上）で運営。年間20回以上の体験プログラム（かんころ餅づくり、魚釣り、磯体験でのウニ漁など）を実施し、単発体験で終わらせず「収穫して食べるまで」のストーリー性を重視している。</p>
+    <p style="font-size:12.5px;margin:8px 0 0"><b>質疑応答での主な論点：</b>地域住民の関わりは奥ゆかしさもあって消極的で、留学生と地域住民が直接交流する機会がまだ少ないことが課題として共有された。情報発信（SNS・説明会・パンフレット）が本当に必要な家庭に届いているか把握できていない点や、県立高校であるため町の取り組みと学校側の連携に壁があるという指摘も出た。空き家所有者の相場観と実勢価格のギャップなど、離島に共通する課題も話題になった。終盤には参加者から「高校存続を目的にすること自体が大人の都合ではないか。まず子供が満足する学び・体験のカリキュラムを作ることが先で、それが結果的に高校存続につながるはず」という重要な問いかけがあり、今後の議論の軸になりそうだと締めくくられた。</p>
+    <p style="font-size:12.5px;margin:8px 0 0"><b>まとめ：</b>次回（2026/10/1オンライン）に向けて、地域との一体感の醸成、コーディネーター機能の強化、情報発信の届け方についてさらに議論を深めていく予定。</p>
+    <p style="font-size:11px;color:var(--muted);margin:8px 0 0">登録：離島経済新聞社 鯨本さんからのご要望（2026/9/13）をもとに、しまてつだいダッシュボードエージェントが動画内容を要約して掲載。音声データが別途共有され次第、必要に応じて内容を更新します。</p>
   </div>
-  <div class="card" style="margin-top:14px">
-    <h3>ステークホルダーの意見について</h3>
-    <div class="callout warn">
-      <b data-cell-id="raw-stakeholder-status">9/10のオンラインワークショップで関係者中心に収集</b>
-      <p data-cell-id="raw-stakeholder-note" style="margin-top:6px">本論点は「提起」段階ですが、2026/9/10に第1回オンラインワークショップを実施。テーマオーナー(牧尾さん)・小値賀町教育委員会(吉岡さん)からの発表、参加者との質疑応答で意見を収集しました(詳細は「立場地図」タブ。ただし正式なPositionRecordではなく想定サンプル扱い)。留学生本人・保護者への正式なヒアリングは10月の共創ワークショップでさらに進めます。</p>
-    </div>
+  <div class="stakeCard" style="margin-bottom:14px">
+    <b>📄 橋本さん(りとけい記者)からの情報提供：他地域の受け入れサポート事例</b>
+    <p style="margin-top:6px">離島留学は全国的に事例が増えており、成功している自治体は受け入れ家庭への継続的なサポート体制を整えていると紹介。具体的には地域おこし協力隊がその役割を担うケースが多いと補足した(2026-09-05)。</p>
   </div>
-  <div class="card" style="margin-top:14px">
-    <h3>会議の要点(2026年9月)</h3>
-    <div class="stakeGrid">
-      <div class="stakeCard">
-        <b>9/10 未来のシマ共創会議2026 第1回オンラインワークショップ</b>
-        <p data-cell-id="raw-meeting-0910">テーマオーナー(牧尾さん)・小値賀町教育委員会(吉岡さん)から、受け入れ実績(累計21名・現行10名/定員12名)、ハウスマスター16名(高齢者率60%以上)による運営体制、年間20回以上の体験プログラムについて発表。質疑応答では、地域住民の関わりが消極的で直接交流の機会が少ないこと、情報発信が必要な家庭に届いているか把握できていないこと、県立高校のため町の取り組みとの連携に壁があることが論点として共有された。「高校存続を目的にすること自体が大人の都合ではないか」という重要な問いかけがあり、次回議論の軸になりそうだと締めくくられた。</p>
-      </div>
-    </div>
-    <p class="footNote">出典：ダッシュボードの編集モードから登録された議事メモ(Notion「📝 議事メモ(ダッシュボード投稿)」)。生の議事メモ全文は「🗒️ 議事メモ」タブで確認できます。</p>
+  <div class="card" style="margin-bottom:14px">
+    <h4 style="margin:0 0 8px;font-size:13.5px">9/10 未来のシマ共創会議2026 第1回オンラインワークショップ</h4>
+    <p data-cell-id="raw-meeting-0910" style="font-size:12.5px;margin:0">テーマオーナー(牧尾さん)・小値賀町教育委員会(吉岡さん)から、受け入れ実績(累計21名・現行10名/定員12名)、ハウスマスター16名(高齢者率60%以上)による運営体制、年間20回以上の体験プログラムについて発表。質疑応答では、地域住民の関わりが消極的で直接交流の機会が少ないこと、情報発信が必要な家庭に届いているか把握できていないこと、県立高校のため町の取り組みとの連携に壁があることが論点として共有された。「高校存続を目的にすること自体が大人の都合ではないか」という重要な問いかけがあり、次回議論の軸になりそうだと締めくくられた。</p>
   </div>
-</section>
+  <div id="meeting-notes-list">読み込み中…</div>
 
-<section class="panel" id="panel-aidraft">
+  <h3 style="margin-top:24px">資料投入エリアからの下書き</h3>
   <div class="card">
-    <h3>📝 資料投入エリアからの下書き</h3>
     <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">左側の「資料投入エリア」にワークショップの議事録やヒアリングメモを貼り付ける、または .txt / .md / .pdf ファイルをアップロードして反映すると、ここにAIの下書きが表示されます。</p>
     <div id="aiDraftBody" style="white-space:pre-wrap;font-size:13px;line-height:1.7">左側の資料投入エリアから、まだ何も反映されていません。</div>
   </div>
-</section>
 
-<section class="panel" id="panel-meetingnotes">
-  <div class="card">
-    <h3>🗒️ 議事メモ</h3>
-    <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">ワークショップ・会議の議事録や議事メモを、右下の「編集モード」から誰でも直接登録できます。登録された内容は、しまてつだいダッシュボードエージェントが確認し、必要な内容を各タブ(決断まとめ・立場地図など)に反映します。反映済みのメモには「✅ 反映済み」バッジが付きます。</p>
-    <div class="card" style="margin-bottom:14px;border-color:#9ac9ef;background:#fbfdff">
-      <h4 style="margin:0 0 8px;font-size:13.5px">📹 アーカイブ動画メモ：未来のシマ共創会議2026 第1回ワークショップ（小値賀島）</h4>
-      <p style="font-size:12px;color:var(--muted);margin:0 0 8px">離島経済新聞社主催「未来のシマ共創会議2026」共創ワークショップ（2026/9/10オンライン開催）のアーカイブ動画（限定公開）を要約したものです。動画本編：<a href="https://youtu.be/JdlBoaD2XjQ" target="_blank" rel="noopener">https://youtu.be/JdlBoaD2XjQ</a></p>
-      <p style="font-size:12.5px;margin:8px 0 0"><b>テーマオーナー（牧さん・地方留学「地下丸」ハウスマスター兼協議会会長、吉岡さん・町教育委員会）の発表要点：</b>小値賀島は長崎県五島列島の北端、人口約2,000人（高校時代6,300人から約1/3に減少、高齢化率は倍増）。博多からフェリーで4時間40分、佐世保から高速船で1時間半。世界遺産（旧野首教会）を含む景勝地があり「日本で最も美しい村」連合に加盟。県教育委員会の基準で高校1学年12人以上を維持しないと統廃合の対象となるため、離島留学制度「地下丸（ちかまる）」で留学生を毎年3人以上確保したい。現在の留学生は10名（男子3・女子6＋孫留学1）、ハウスマスター16名（高齢者率60%以上）で運営。年間20回以上の体験プログラム（かんころ餅づくり、魚釣り、磯体験でのウニ漁など）を実施し、単発体験で終わらせず「収穫して食べるまで」のストーリー性を重視している。</p>
-      <p style="font-size:12.5px;margin:8px 0 0"><b>質疑応答での主な論点：</b>地域住民の関わりは奥ゆかしさもあって消極的で、留学生と地域住民が直接交流する機会がまだ少ないことが課題として共有された。情報発信（SNS・説明会・パンフレット）が本当に必要な家庭に届いているか把握できていない点や、県立高校であるため町の取り組みと学校側の連携に壁があるという指摘も出た。空き家所有者の相場観と実勢価格のギャップなど、離島に共通する課題も話題になった。終盤には参加者から「高校存続を目的にすること自体が大人の都合ではないか。まず子供が満足する学び・体験のカリキュラムを作ることが先で、それが結果的に高校存続につながるはず」という重要な問いかけがあり、今後の議論の軸になりそうだと締めくくられた。</p>
-      <p style="font-size:12.5px;margin:8px 0 0"><b>まとめ：</b>次回（2026/10/1オンライン）に向けて、地域との一体感の醸成、コーディネーター機能の強化、情報発信の届け方についてさらに議論を深めていく予定。</p>
-      <p style="font-size:11px;color:var(--muted);margin:8px 0 0">登録：離島経済新聞社 鯨本さんからのご要望（2026/9/13）をもとに、しまてつだいダッシュボードエージェントが動画内容を要約して掲載。音声データが別途共有され次第、必要に応じて内容を更新します。</p>
+  <h3 style="margin-top:24px">元になった事実・出典(EvidenceRecord)</h3>
+  <div class="stakeGrid">
+    <div class="stakeCard">
+      <b>📊 オープンデータ：小値賀島(小値賀町)の人口・高齢化率</b>
+      <p>人口2,082人(令和7年4月末)、高齢化率52.1%、年少人口(0-14歳)8.8%(186人)。小値賀町はほぼ島全体で構成されるため町統計＝島統計とみなせる。子どもの居場所づくり・受け入れチーム施策の対象人口規模を示す基礎データとして使用。<a href="https://app.notion.com/p/3cb960a91e2381e6b145eff815fea9f2" target="_blank" rel="noopener">出典：小値賀町(小値賀島) 人口・高齢化率(町公式資料)</a></p>
     </div>
-    <div class="stakeCard" style="margin-bottom:14px">
-      <b>📄 橋本さん(りとけい記者)からの情報提供：他地域の受け入れサポート事例</b>
-      <p style="margin-top:6px">離島留学は全国的に事例が増えており、成功している自治体は受け入れ家庭への継続的なサポート体制を整えていると紹介。具体的には地域おこし協力隊がその役割を担うケースが多いと補足した(2026-09-05)。</p>
+    <div class="stakeCard">
+      <b>離島留学制度「地下丸(ちかまる)」の運営実績</b>
+      <p>7年間運営、累計21名を受け入れ。現在の留学生は10名(男子3・女子6＋孫留学1)。学生寮「ちかまる寮」(女子)と新設の男子寮に、計12名を受け入れられる体制がある。</p>
     </div>
-    <div id="meeting-notes-list">読み込み中…</div>
+    <div class="stakeCard">
+      <b>受け入れ体制(ハウスマスター)</b>
+      <p>ハウスマスター16名(高齢者率60%以上)で運営。年間20回以上の体験プログラム(かんころ餅づくり、魚釣り、磯体験でのウニ漁等)を実施し、単発体験で終わらせず「収穫して食べるまで」のストーリー性を重視している。</p>
+    </div>
+    <div class="stakeCard">
+      <b>北松西高校の学年定員基準</b>
+      <p>県教育委員会の基準で高校1学年12人以上を維持しないと統廃合の対象となる。離島留学制度「地下丸」で留学生を毎年3人以上確保したいという目標がある。</p>
+    </div>
+    <div class="stakeCard">
+      <b>地域住民の関わりの現状</b>
+      <p>地域住民の関わりは奥ゆかしさもあって消極的で、留学生と地域住民が直接交流する機会がまだ少ないことが、9/10ワークショップで課題として共有された。</p>
+    </div>
+    <div class="stakeCard">
+      <b>他地域の受け入れサポート事例(紹介情報)</b>
+      <p>橋本さん(りとけい記者)によれば、離島留学は全国的に事例が増えており、成功している自治体は受け入れ家庭への継続的なサポート体制を整えている。具体的には地域おこし協力隊がその役割を担うケースが多いと紹介された。</p>
+    </div>
   </div>
+  <p class="footNote">出典：<a href="https://ritokei.com/forum/shimakaigi2026_theme04_ojika" target="_blank" rel="noopener">りとけいフォーラム「島をまるごと子どもの居場所に。人口2,000人の小値賀島が挑む『受け入れチーム』づくり」(2026年)</a>、<a href="https://app.notion.com/p/3cb960a91e2381e6b145eff815fea9f2" target="_blank" rel="noopener">小値賀町(小値賀島) 人口・高齢化率(町公式資料)</a>。生の議事メモ全文は上の「会議の要点」欄で確認できます。</p>
 </section>
 
 <section class="panel" id="panel-history">
   <div class="card">
-    <h3>📜 過去のダッシュボード</h3>
-    <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">改版のたびに、このタブへ要約を追加します。直前バージョンについては「▼ 全文を見る」から当時のタブ全体をそのまま確認できます(古いバージョンほど要約のみになります)。それ以前の全内容の差分が必要な場合は、開発者(吉孝さん)にgit履歴・Notionページ履歴の確認をご依頼ください。</p>
+    <h3>📜 過去のまとめ</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">改版のたびに、このタブへ「決断まとめ」と同じシンプルまとめカードの形で1件追加します(意思決定支援ダッシュボード作成エージェント3・2026-09-15より、履歴は全文折りたたみではなくシンプルまとめカードのまま並べる方式に変更)。それ以前の全内容の差分が必要な場合は、開発者(吉孝さん)にgit履歴・Notionページ履歴の確認をご依頼ください。</p>
+
     <div class="historyCard">
       <b>v1(7タブ構成・初版)</b>
       <p style="font-size:12.5px;margin:8px 0 0">2026年8月に作成した初版(議論まとめ／自治体目標（前提条件）／提案内容・詳細／将来予測・経済効果／国内外の類似事例／活用できる補助金・交付金／生データ（補足）の7タブ構成)。情報充足度レーダーチャート・セル編集機能・あなたの立場から／立場地図／決断ジャーニー・議事メモタブは未実装だった。</p>
       <details class="historySnapshot" style="margin-top:10px">
         <summary>▼ v1時点の「議論まとめ」タブ全文を見る(初版・現「決断まとめ」タブの前身)</summary>
         <div class="card" style="margin-top:10px">
-          <div class="tldr">
-            <b>✅ 要するに：小値賀島のふるさと留学は7年間で21名の実績があるが、受け入れがハウスマスターに集中しており、地域住民を巻き込んだ「受け入れチーム」づくりが必要です。</b>
-          </div>
-          <h3 style="margin-top:18px;font-size:15px">論点の整理：なぜ「島まるごとの受け入れチーム」が必要か</h3>
+          <p><b>✅ 要するに：小値賀島のふるさと留学は7年間で21名の実績があるが、受け入れがハウスマスターに集中しており、地域住民を巻き込んだ「受け入れチーム」づくりが必要です。</b></p>
+          <h4 style="margin-top:14px">論点の整理：なぜ「島まるごとの受け入れチーム」が必要か</h4>
           <div class="grid2">
             <div class="callout risk">
               <b>きっかけとなった出来事</b>
@@ -871,6 +665,7 @@ tr:last-child td{border-bottom:0}
         <span>更新者：Claude(エージェント)</span>
       </div>
     </div>
+
     <div class="historyCard">
       <b>v2(動画要約の追加・2026-09-13、未完了)</b>
       <p style="font-size:12.5px;margin:8px 0 0">離島経済新聞社 鯨本さんの依頼で、第1回ワークショップのアーカイブ動画要約を「議事メモ」タブ相当の位置に追加。ただしこの時点では、祝島・家島で先行していた12タブへの全面刷新(決断まとめ拡張・立場別・立場地図・進捗・北極星指標統合等)は未反映のまま残っており、v1の7タブ構成に動画要約だけが追加された不完全な状態だった。</p>
@@ -880,12 +675,23 @@ tr:last-child td{border-bottom:0}
         <span>更新者：Claude(エージェント)</span>
       </div>
     </div>
+
     <div class="historyCard">
       <b>v3(12タブ構成へ全面刷新・北極星指標統合版・2026-09-15)</b>
-      <p style="font-size:12.5px;margin:8px 0 0">意思決定支援ダッシュボード作成エージェント2(北極星指標統合版)を、小値賀島を試験第1号として適用。①ゴールを「島をまるごと子どもの居場所にする受け入れチームとは？」の1問に集約、②北極星指標(ふるさと留学生の完遂率)＋補助指標4つをKPIヘッダーに追加、③情報充足度レーダーを新5軸(Legitimacy/Evidence/Alignment/Feasibility/Impact)に入れ替え、④決断まとめタブのtldrに4要素(現在値/比較対象/原因/次のアクション)を必須化、⑤新ブロック「決定の跡(Decision Trace)」を追加。あわせて「立場別」「立場地図」「進捗」「🗒️ 議事メモ」の4タブを新設し、「りとけいの視点（前提条件）」は分室運営者ではなく実際に小値賀島が属する自治体の視点で書くというルールに沿って「小値賀町の視点」に改称。3ペイン構成(資料投入エリア/質問チャット)・タブ名短縮・3グループ色分け・決断まとめの折りたたみ化も適用。ステークホルダーへの正式なヒアリングはまだ行っていないため、「立場地図」タブは想定サンプルのまま。v2で作られていた一時ファイル(_tmp_ojika_panel.html・_tmp_video_card.html、いずれも空)は本改版で内容を統合し、削除候補とした。</p>
+      <p style="font-size:12.5px;margin:8px 0 0">意思決定支援ダッシュボード作成エージェント2(北極星指標統合版)を、小値賀島を試験第1号として適用。①ゴールを「島をまるごと子どもの居場所にする受け入れチームとは？」の1問に集約、②北極星指標(ふるさと留学生の完遂率)＋補助指標4つをKPIヘッダーに追加、③情報充足度レーダーを新5軸(Legitimacy/Evidence/Alignment/Feasibility/Impact)に入れ替え、④決断まとめタブのtldrに4要素(現在値/比較対象/原因/次のアクション)を必須化、⑤新ブロック「決定の跡(Decision Trace)」を追加。あわせて「立場別」「立場地図」「進捗」「🗒️ 議事メモ」の4タブを新設し、「りとけいの視点（前提条件）」は分室運営者ではなく実際に小値賀島が属する自治体の視点で書くというルールに沿って「小値賀町の視点」に改称。3ペイン構成(資料投入エリア/質問チャット)・タブ名短縮・3グループ色分け・決断まとめの折りたたみ化も適用。ステークホルダーへの正式なヒアリングはまだ行っていないため、「立場地図」タブは想定サンプルのまま。結果として12タブ構成(決断まとめ/立場別/小値賀町の視点/提案/将来予測/立場地図/進捗/事例/補助金/生データ/資料投入の下書き/議事メモ/履歴)となった。</p>
       <div class="metaRow">
         <span>更新日：2026-09-15</span>
         <span>反映元：しまてつだいダッシュボードエージェント2の適用(木村さんの依頼)</span>
+        <span>更新者：Claude(エージェント)</span>
+      </div>
+    </div>
+
+    <div class="historyCard">
+      <b>v4(6タブ・シンプル構成版へ全面作り直し・2026-09-15)</b>
+      <p style="font-size:12.5px;margin:8px 0 0">木村さんから「5つの座標(レーダー)以外のデータが多すぎてまとめが見づらい」というフィードバックを受け、意思決定支援ダッシュボード作成エージェント3(6タブ・シンプル構成版)を適用。12タブ(決断まとめ/立場別/小値賀町の視点/提案/将来予測/立場地図/進捗/事例/補助金/生データ/資料投入の下書き/議事メモ/履歴)を、📋決断まとめ／🌟北極星指標／💡提案と評価／🌍事例／🗒️議事録・投入データ／📜過去のまとめ の6タブへ統合。「決断まとめ」タブは、添付いただいた3島(家島・祝島・小値賀島)のシンプルな一枚まとめ(A3サマリー/トレードオフ比較/ステークホルダーの声/EvidenceRecord/合意形成ロードマップの5セクション)と同じ構造に作り替え、北極星指標・5軸レーダー・決定の跡・「ここを議論してください」ボックスは新設の「北極星指標」タブへ独立させた。「小値賀町の視点」の目標対比表は「北極星指標」タブへ要約統合、「将来予測・経済効果」は「提案と評価」タブへ、「進捗(決断ジャーニー)」は「決断まとめ」タブのロードマップへ統合。左(資料投入エリア)・右(質問チャット)のサイドパネルは変更していない。データの捏造は行わず、既存の実データをそのまま再配置した。</p>
+      <div class="metaRow">
+        <span>更新日：2026-09-15</span>
+        <span>反映元：しまてつだいダッシュボードエージェント3の適用(木村さんの依頼)</span>
         <span>更新者：Claude(エージェント)</span>
       </div>
     </div>
@@ -964,16 +770,6 @@ renderRadar('radarChart', {legitimacy:30, evidence:20, alignment:35, feasibility
     });
   });
   if (wizardSkip) wizardSkip.addEventListener('click', function(){ wizard.classList.add('wizardDone'); });
-})();
-(function(){
-  // 「立場別」タブ：ペルソナカードをクリックすると該当の解説を表示する
-  document.querySelectorAll('.personaCard').forEach(function(card){
-    card.addEventListener('click', function(){
-      document.querySelectorAll('.personaDetail').forEach(function(d){ d.classList.remove('active'); });
-      var detail = document.getElementById('persona-' + card.dataset.persona);
-      if (detail) detail.classList.add('active');
-    });
-  });
 })();
 
 // --- 左右パネルの折りたたみ ---
@@ -1088,7 +884,7 @@ renderRadar('radarChart', {legitimacy:30, evidence:20, alignment:35, feasibility
       var data = await res.json();
       window.__ojikaDashboardDraft = data.draft;
       aiDraftBody.textContent = data.draft;
-      switchTab('aidraft');
+      switchTab('raw');
     } catch (e) {
       errEl.style.display = 'block';
     } finally {
