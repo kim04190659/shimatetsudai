@@ -7,7 +7,7 @@ import { PARTNER_NAME, SITE_NAME } from "@/lib/partner";
 // 「意思決定支援」中心の3項目にしぼった。
 const navItems = [
   { href: "/", label: "ホーム" },
-  { href: "/branches", label: "分室一覧" },
+  { href: "/themes", label: "テーマ" },
   { href: "/contact", label: "お問い合わせ" },
 ];
 
