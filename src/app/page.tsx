@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { PARTNER_NAME, SITE_NAME, SITE_TAGLINE } from "@/lib/partner";
 
 // 2026-09-13 鯨本さん(離島経済新聞社)からの依頼で、ホームページ全体を
@@ -51,20 +50,6 @@ export default function Home() {
             その場で質問できます。難しい操作を覚えなくても、資料を投入して質問するだけで使える形を
             目指しています。
           </p>
-        </div>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link
-            href="/tools/dashboard-draft"
-            className="inline-flex items-center gap-1 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark"
-          >
-            ダッシュボードを試す →
-          </Link>
-          <Link
-            href="/branches"
-            className="inline-flex items-center gap-1 rounded-full border border-brand-soft bg-white px-5 py-2.5 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft/40"
-          >
-            分室の実例を見る →
-          </Link>
         </div>
       </section>
     </div>
