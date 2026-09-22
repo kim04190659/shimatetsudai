@@ -28,19 +28,11 @@ body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMa
 .kpi{border:1px solid var(--line);border-radius:10px;padding:10px}
 .kpi b{font-size:20px;display:block}
 .kpi span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.northStar{border:2px solid var(--purple);background:var(--purpleSoft);border-radius:12px;padding:10px 12px;margin-top:14px;font-size:12.5px}
+.northStar b{font-size:13.5px}
 .tabs{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 28px;z-index:5;display:flex;gap:8px;overflow:auto}
 .tabs button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;white-space:nowrap;font-size:13px}
 .tabs button.active{background:var(--blue);border-color:var(--blue);color:#fff}
-.tabGroupPrimary{border-color:#8fc9a8!important;background:var(--greenSoft)!important}
-.tabGroupDetail{border-color:#a9c3ea!important;background:var(--blueSoft)!important}
-.tabGroupRef{border-color:#d8d5cf!important;background:var(--soft)!important}
-.tabs button.active.tabGroupPrimary,.tabs button.active.tabGroupDetail,.tabs button.active.tabGroupRef{background:var(--blue)!important;border-color:var(--blue)!important;color:#fff!important}
-.tabLegend{display:flex;gap:14px;flex-wrap:wrap;padding:6px 28px 10px;font-size:11px;color:var(--muted);background:rgba(255,255,255,.95)}
-.tabLegend span{display:inline-flex;align-items:center;gap:5px}
-.tabLegend .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
-.dotPrimary{background:var(--green)}
-.dotDetail{background:var(--blue)}
-.dotRef{background:var(--gray)}
 .panel{display:none;padding:20px 28px 36px}
 .panel.active{display:block}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -72,11 +64,6 @@ tr:last-child td{border-bottom:0}
 .stakeCard b{font-size:13.5px}
 .stakeCard p{font-size:12.5px;color:#4a453f;margin:6px 0 0}
 .footNote{font-size:11.5px;color:var(--muted);margin-top:18px}
-.a3Grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.mini{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
-.mini h4{margin:0 0 8px;font-size:13px}
-.mini ul{margin:0;padding-left:16px;font-size:12px;line-height:1.55}
-.mini li{margin:3px 0}
 .kidBox{border:2px solid #F0C56B;background:#FFF8E8;border-radius:14px;padding:14px 16px;margin-top:14px}
 .kidBox b{font-size:13px}
 .kidBox p{margin:8px 0 0;font-size:14.5px;line-height:1.7;color:#4a3f28}
@@ -87,81 +74,158 @@ tr:last-child td{border-bottom:0}
 .wizardBtn{border:1px solid var(--blue);background:#fff;color:#165c9d;border-radius:999px;padding:9px 14px;font-weight:800;font-size:13px;cursor:pointer}
 .wizardBtn:hover{background:var(--blueSoft)}
 .wizardSkip{display:block;margin:10px 0 0;border:none;background:none;color:var(--muted);font-size:11.5px;text-decoration:underline;cursor:pointer;padding:0}
-.tldr{border:2px solid #46A171;background:var(--greenSoft);border-radius:12px;padding:12px 14px;margin:0 0 14px}
-.tldr b{font-size:14px}
-.reasonBox{margin:10px 0 14px}
-.reasonBox summary{cursor:pointer;font-weight:800;font-size:12.5px;color:#165c9d}
-.reasonBox ul{margin:8px 0 0;padding-left:18px;font-size:12.5px}
-.reasonBox li{margin:4px 0}
-.nextStep{border-left:5px solid var(--purple);background:var(--purpleSoft);border-radius:10px;padding:10px 12px;margin-top:16px;font-size:13px}
 .radarWrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:0 0 16px;padding:14px 16px;border:2px solid var(--purple);background:var(--purpleSoft);border-radius:14px}
 .radarNotes{flex:1;min-width:220px;font-size:12.5px}
 .radarNotes li{margin:4px 0}
-.routeGuide{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
-.routeGuide .r{flex:1;min-width:150px;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--soft);font-size:12px}
-.routeGuide .r b{display:block;font-size:13px;margin-bottom:4px}
-.confGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:14px 0}
-.confCard{border-radius:12px;padding:12px;font-size:12.5px}
-.confCard.done{border:1px solid var(--green);background:var(--greenSoft)}
-.confCard.pending{border:1px solid var(--orange);background:var(--orangeSoft)}
-.confCard.missing{border:1px solid var(--gray);background:var(--graySoft)}
-.confCard b{display:block;margin-bottom:6px;font-size:13px}
-.confCard ul{margin:0;padding-left:16px}
-.confCard li{margin:3px 0}
-.coiBox{border:2px solid var(--red);background:var(--redSoft);border-radius:14px;padding:14px 16px;margin:14px 0}
-.coiBox b{font-size:14px}
-.actionStrip{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;padding:12px 14px;border:1px dashed var(--line);border-radius:12px;background:var(--soft)}
-.actionStrip button{border:1px solid var(--blue);background:#fff;color:#165c9d;border-radius:8px;padding:8px 12px;font-size:12.5px;font-weight:800;cursor:not-allowed;opacity:.7}
-.actionStrip .note{width:100%;font-size:11px;color:var(--muted);margin-top:4px}
-.personaGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.personaCard{border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;transition:border-color .15s}
-.personaCard:hover{border-color:var(--blue)}
-.personaCard b{font-size:14px;display:block;margin-bottom:6px}
-.personaCard p{font-size:12.5px;color:#4a453f;margin:0}
-.personaDetail{display:none;margin-top:14px;border:2px solid var(--blue);border-radius:12px;padding:14px;background:#fbfdff}
-.personaDetail.active{display:block}
-.posMapWrap{position:relative;width:100%;max-width:480px;margin:10px auto;border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--soft)}
-.posMapWrap svg{width:100%;height:auto;display:block}
-.posLegend{display:flex;gap:12px;flex-wrap:wrap;font-size:11.5px;margin-top:8px;justify-content:center}
-.posLegend span{display:inline-flex;align-items:center;gap:4px}
-.posLegend i{width:10px;height:10px;border-radius:50%;display:inline-block}
-.journeyTrack{display:flex;gap:6px;margin:14px 0;overflow:auto}
-.journeyTrack .stage{flex:1;min-width:120px;text-align:center;padding:12px 8px;border-radius:10px;border:1px solid var(--line);background:var(--soft);font-size:12px}
-.journeyTrack .stage.current{border:2px solid var(--blue);background:var(--blueSoft);font-weight:800}
-.journeyTrack .stage b{display:block;font-size:16px;margin-bottom:4px}
+.traceWrap{border:1px dashed var(--purple);border-radius:12px;padding:12px 14px;margin:0 0 16px;font-size:12.5px;background:#fff}
+.traceWrap b{font-size:13px}
+.traceWrap ul{margin:8px 0 0;padding-left:18px}
+.traceWrap li{margin:4px 0}
+.discussBox{border:2px solid var(--purple);background:var(--purpleSoft);border-radius:14px;padding:14px 16px;margin:0 0 16px}
+.discussBox b{font-size:14px}
+.discussBox p{margin:8px 0 0;font-size:13px;line-height:1.7}
 .historyCard{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
 .historyCard b{font-size:13.5px}
 .historyCard .metaRow{display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:6px}
-@media(max-width:900px){.grid2,.grid3,.stakeGrid,.outlookRow,.a3Grid,.decisionQ .metaRow,.confGrid,.personaGrid{grid-template-columns:1fr}}
+
+/* --- タブ1「決断まとめ」用の5部品(意思決定支援ダッシュボード作成エージェント3・
+   添付3shima_dashboards.htmlから移植したシンプル版コンポーネント) --- */
+.highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.hl{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff}
+.hl h4{margin:0 0 6px;font-size:12.5px;color:var(--muted);font-weight:700;letter-spacing:.03em}
+.hl ul{margin:0;padding-left:16px;font-size:12.5px;line-height:1.55}
+.hl li{margin:3px 0}
+.hl.green h4{color:#3d8560}
+.hl.orange h4{color:#b56a2a}
+.hl.purple h4{color:#5d47a3}
+.hl.red h4{color:#c14a3e}
+.hl.gray h4{color:#8a877f}
+
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
+.opt{border:2px solid var(--line);border-radius:12px;padding:14px;background:#fff}
+.opt.A{border-color:var(--green);background:var(--greenSoft)}
+.opt.B{border-color:var(--orange);background:var(--orangeSoft)}
+.opt.C{border-color:var(--purple);background:var(--purpleSoft)}
+.opt .tag{display:inline-block;padding:3px 8px;border-radius:6px;font-size:10.5px;font-weight:800;letter-spacing:.05em;margin-bottom:8px}
+.opt.A .tag{background:var(--green);color:#fff}
+.opt.B .tag{background:var(--orange);color:#fff}
+.opt.C .tag{background:var(--purple);color:#fff}
+.opt h4{margin:0 0 6px;font-size:14px;font-weight:900}
+.opt p{margin:4px 0;font-size:12.5px;line-height:1.55}
+.opt ul{margin:6px 0 0;padding-left:18px;font-size:12px;line-height:1.55}
+
+.voices{display:grid;gap:8px;margin-top:8px}
+.voice{border-left:4px solid var(--blue);background:var(--blueSoft);border-radius:6px;padding:10px 14px;font-size:13px;line-height:1.6}
+.voice .who{display:block;font-size:11.5px;color:var(--muted);margin-bottom:2px;font-weight:700}
+.voice.oppose{border-left-color:var(--red);background:var(--redSoft)}
+.voice.support{border-left-color:var(--green);background:var(--greenSoft)}
+.voice.pending{border-left-color:var(--orange);background:var(--orangeSoft)}
+.voice.minority{border-left-color:var(--purple);background:var(--purpleSoft)}
+
+.evidence-list{display:grid;gap:8px;margin-top:8px}
+.ev{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:#fff;font-size:12.5px;display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:start}
+.ev .lv{padding:2px 7px;border-radius:4px;font-size:10px;font-weight:800;height:fit-content}
+.ev .lv.L1{background:var(--greenSoft);color:#2f6f4d}
+.ev .lv.L2{background:var(--blueSoft);color:#165c9d}
+.ev .lv.L3{background:var(--orangeSoft);color:#8f5623}
+.ev .lv.L5{background:var(--graySoft);color:#605d57}
+.ev .src{font-size:11px;color:var(--muted)}
+
+.timeline{margin-top:10px;padding-left:0;list-style:none;position:relative}
+.timeline::before{content:"";position:absolute;left:14px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.timeline li{position:relative;padding:8px 8px 8px 40px;font-size:13px;line-height:1.55}
+.timeline li::before{content:"";position:absolute;left:8px;top:14px;width:14px;height:14px;border-radius:50%;background:var(--blue);border:3px solid #fff;box-shadow:0 0 0 1px var(--blue)}
+.timeline li b{color:var(--blue)}
+
+@media(max-width:900px){.grid2,.grid3,.stakeGrid,.outlookRow,.decisionQ .metaRow,.highlights,.opts{grid-template-columns:1fr}}
+
+/* --- 左右の折りたたみパネル(資料投入エリア/質問チャット) ---
+   2026-09-13 鯨本さん(離島経済新聞社)からの依頼で /tools/dashboard-draft に実装したものと
+   同じ考え方を、静的HTMLの案件ダッシュボードにも適用したもの。
+   デスクトップでは左右にstickyな columns として並べ、スマホ幅では縦積みにする。 */
+.layout{display:flex;align-items:flex-start;max-width:1800px;margin:0 auto}
+.appWrap{flex:1;min-width:0}
+.sidePanel{flex:none;width:280px;background:#fff;position:sticky;top:0;max-height:100vh;overflow-y:auto;font-size:13px}
+.sidePanel.left{border-right:1px solid var(--line)}
+.sidePanel.right{border-left:1px solid var(--line)}
+.sidePanel.collapsed{width:44px;overflow:hidden}
+.sidePanel .panelToggle{position:sticky;top:0;width:100%;background:var(--soft);border:none;border-bottom:1px solid var(--line);padding:12px 14px;font-weight:800;font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px;text-align:left;color:var(--ink)}
+.sidePanel.collapsed .panelToggle{writing-mode:vertical-rl;text-orientation:mixed;height:100%;justify-content:flex-start;padding:14px 6px}
+.sidePanel.collapsed .panelBody{display:none}
+.sidePanel .panelBody{padding:14px}
+.chatLog{max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.chatMsg{border-radius:10px;padding:8px 10px;font-size:12.5px;line-height:1.5;max-width:92%}
+.chatMsg.user{align-self:flex-end;background:var(--blue);color:#fff}
+.chatMsg.ai{align-self:flex-start;background:var(--soft);border:1px solid var(--line)}
+.chatMsg.hint{color:var(--muted);font-size:11.5px}
+.sidePanel input[type=text],.sidePanel textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px;font-family:inherit;box-sizing:border-box}
+.sidePanel textarea{resize:vertical}
+.sidePanel label{display:block;font-size:11px;font-weight:800;color:var(--muted);margin:0 0 4px}
+.sidePanel .field{margin-bottom:10px}
+.sidePanel button.primaryBtn{width:100%;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:10px;font-weight:800;font-size:12.5px;cursor:pointer}
+.sidePanel button.primaryBtn:disabled{opacity:.5;cursor:default}
+.sidePanel .chatRow{display:flex;gap:6px}
+.sidePanel .chatRow input{flex:1}
+.sidePanel .chatRow button{flex:none;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:0 14px;font-weight:800;font-size:12px;cursor:pointer}
+.sidePanel .errMsg{color:var(--red);font-size:11.5px;margin-top:6px}
+@media(max-width:900px){
+  .layout{display:block}
+  .sidePanel{position:static;width:100%;max-height:none;border:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sidePanel.collapsed{width:100%}
+  .sidePanel.collapsed .panelToggle{writing-mode:horizontal-tb;height:auto;padding:12px 14px}
+}
 </style>
 </head>
 <body data-dashboard-slug="yakushima-route-model-dss" data-issue-page-id="3cb960a9-1e23-8124-a23d-ea9cd01a8a8f">
+<div class="layout">
+  <aside class="sidePanel left" id="leftPanel">
+    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▲</span></button>
+    <div class="panelBody" id="leftBody">
+      <div class="field">
+        <label for="genTitle">論点のタイトル</label>
+        <input type="text" id="genTitle" value="地域主体で航路を支える新モデルとは？">
+      </div>
+      <div class="field">
+        <label for="genNotes">議事録・ヒアリングメモなど(貼り付け)</label>
+        <textarea id="genNotes" rows="8" placeholder="共創ワークショップの議事録やメモをここに貼り付けてください"></textarea>
+      </div>
+      <div class="field">
+        <label for="genFile">または、ファイルをアップロード(.txt / .md / .pdf)</label>
+        <input type="file" id="genFile" accept=".txt,.md,.pdf,text/plain,text/markdown,application/pdf">
+        <p class="errMsg" id="genFileStatus" style="display:none;color:var(--muted)"></p>
+      </div>
+      <button type="button" class="primaryBtn" id="genSubmit">この内容をダッシュボードに反映する</button>
+      <p class="errMsg" id="genErr" style="display:none">生成中にエラーが発生しました。時間をおいて再度お試しください。</p>
+    </div>
+  </aside>
+
+  <div class="appWrap" id="appWrap">
 <div class="app">
 <div class="hero">
-  <span class="eyebrow">意思決定支援PoC ｜ 鹿児島県熊毛郡 屋久島町 屋久島観光協会</span>
+  <span class="eyebrow">意思決定支援PoC ｜ 鹿児島県熊毛郡 屋久島町 屋久島観光協会 ｜ 未来のシマ共創会議2026 テーマ06 ｜ 6タブ・シンプル構成版(エージェント3)</span>
   <div class="breadcrumb">
     <span class="step here">① 方針判断(この画面)</span>
     <span class="step">② 詳細分析</span>
     <span class="step">③ 実行計画</span>
   </div>
   <div class="title">地域主体で航路を支える新モデルとは？</div>
-  <div class="subtitle">本土―屋久島間の定期航路で電源喪失による漂流事故が発生し、老朽船の更新には約100億円規模の投資判断が必要になっています。屋久島観光協会 荒木政孝会長が、りとけい「島会議2026」で提起した論点です。</div>
+  <div class="subtitle">本土―屋久島間の定期航路で電源喪失による漂流事故が発生し、老朽船の更新には約100億円規模の投資判断が必要になっています。屋久島観光協会 荒木政孝会長が、りとけい「島会議2026」テーマ06として提起した論点です。既存の論点「屋久島航路の持続可能性」(運賃・収容率・コスト改善が中心)とは別に、「地域が主体となって航路の運営体制そのものをどう組み立て直すか(上下分離・複数事業者調整など)」という、より上流の構造的な論点として整理しています。</div>
   <div class="kidBox">
     <b>🌱 かんたんに言うと</b>
-    <p data-cell-id="kidbox-explanation">屋久島とほかの島をむすぶ船が、電気のトラブルで一時ただよってしまう事故がありました。この船を新しくするには、とても大きなお金(約100億円)がかかります。「今まで通り自治体だけで頑張るのか」「船を持つ人と動かす人を分けるのか」「地域みんなでお金を出し合う会社をつくるのか」。この資料は、その選択肢を整理して、これから始まる話し合いの土台にするためのものです。</p>
+    <p data-cell-id="yk-kidbox">屋久島とほかの島をむすぶ船が、電気のトラブルで一時ただよってしまう事故がありました。この船を新しくするには、とても大きなお金(約100億円)がかかります。「今まで通り自治体だけで頑張るのか」「船を持つ人と動かす人を分けるのか」「地域みんなでお金を出し合う会社をつくるのか」。この資料は、その選択肢を整理して、これから始まる話し合いの土台にするためのものです。</p>
   </div>
   <div class="decision">
-    <span class="badge">📝 現在のステータス：論点提起(共創ワークショップ前)</span>
-    <p data-cell-id="decision-status">本論点は2026年8月時点で「提起」段階です。りとけい主催の共創ワークショップ(9月・10月開催予定)を経て、実際の話し合いが始まります。このシートは特定の案を推奨するものではなく、荒木会長の公開発言をもとに論点と選択肢を整理し、ワークショップでの議論の出発点として作成したものです。屋久島観光協会との正式な連携についても、2026年8月29日時点ではまだ合意していない検討段階であることを申し添えます。</p>
+    <span class="badge">📝 現在のステータス：議論中(共創ワークショップ進行中)</span>
+    <p data-cell-id="yk-decision-status">本論点は2026年8月に「提起」段階として登録され、2026年9月8日には共創ワークショップ本番に先立つ非公式の事前検討会(第1回)が行われました。りとけい主催の共創ワークショップ本番(9月17日・10月8日オンライン、10月23日対面)を経て、実際の話し合いがさらに深まります。このシートは特定の案を推奨するものではなく、荒木会長ほか出席者の発言をもとに論点と選択肢を整理し、議論の土台として作成したものです。屋久島観光協会との正式な連携についても、引き続き検討段階であることを申し添えます。</p>
   </div>
   <div class="decisionQ">
     <b>🎯 今回、決めるべき問いは何か</b>
-    <p data-cell-id="decisionq-text" style="margin:8px 0 0;font-size:13px">「現行体制を維持しつつ財源確保を目指すか(案A)／船体・港湾を公的主体、運航を民間に分ける上下分離方式にするか(案B)／地域出資型の新会社を設立するか(案C)」— 共創ワークショップで検討する3つの方向性のうち、どれを軸に議論を深めるか。</p>
+    <p data-cell-id="yk-decisionq-text" style="margin:8px 0 0;font-size:13px">「現行体制を維持しつつ財源確保を目指すか(案A)／船体・港湾を公的主体、運航を民間に分ける上下分離方式にするか(案B)／地域出資型の新会社を設立するか(案C)」— 共創ワークショップで検討する3つの方向性のうち、どれを軸に議論を深めるか。</p>
     <div class="metaRow">
-      <div><em>決断者</em><span data-cell-id="decisionq-who">屋久島観光協会(荒木会長)＋ワークショップ参加者＋屋久島町</span></div>
-      <div><em>締切</em><span data-cell-id="decisionq-deadline">10月23日の対面セッションまでに方向性を仮決め</span></div>
-      <div><em>不可逆性</em><span data-cell-id="decisionq-reversibility">高(約100億円規模の投資判断のため、方向性を大きく変えるほど後戻りのコストが大きい)</span></div>
-      <div><em>影響範囲</em><span data-cell-id="decisionq-scope">屋久島全島の住民・観光客・複数の運航事業者、屋久島町の財政</span></div>
+      <div><em>決断する人</em><span data-cell-id="yk-decisionq-who">屋久島観光協会(荒木会長)＋共創ワークショップ参加者＋屋久島町</span></div>
+      <div><em>締切</em><span data-cell-id="yk-decisionq-deadline">10月23日の対面セッションまでに方向性のたたき台を用意</span></div>
+      <div><em>後戻りのしやすさ</em><span data-cell-id="yk-decisionq-reversibility">低(約100億円規模の投資判断のため、方向性を大きく変えるほど後戻りのコストが大きい)</span></div>
+      <div><em>影響範囲</em><span data-cell-id="yk-decisionq-scope">屋久島全島の住民・観光客・複数の運航事業者、屋久島町の財政</span></div>
     </div>
   </div>
   <div class="kpis">
@@ -170,858 +234,460 @@ tr:last-child td{border-bottom:0}
     <div class="kpi"><b>9月</b><span>屋久島町議会への署名提出予定</span></div>
     <div class="kpi"><b>25名</b><span>ワークショップ定員(オンライン+対面)</span></div>
   </div>
+  <div class="northStar">
+    <b>🌟 北極星指標：地域主体で航路を支える新しい運営モデルの合意形成ができている度合い</b>
+    <p data-cell-id="yk-northstar-status-hero" style="margin:6px 0 0">案A/B/Cのうちどの方向性を軸に議論を進めるかについて、ステークホルダー間で実質的な合意がどれだけ進んでいるかを表す指標です。2026年9月8日の非公式事前検討会では「案を絞らず並列提示する」方針までは合意しましたが、軸となる案そのものの合意はまだ形成されていません。詳しい内訳・レーダーチャート・「今日議論すべきこと」は「🌟 北極星指標」タブをご覧ください。</p>
+  </div>
   <div class="callout warn" style="margin-top:14px">
     <b>📎 関連する既存論点について</b>
-    <p style="margin-top:6px">屋久島町分室には、運賃・収容率・コスト改善を扱う既存の論点「屋久島航路の持続可能性」があります。本論点はそれとは別に、「地域が主体となって航路の運営体制そのものをどう組み立て直すか(上下分離・複数事業者調整など)」という、より上流の構造的な論点として、屋久島観光協会側から独立して整理しています。</p>
+    <p style="margin-top:6px">屋久島町分室には、運賃・収容率・コスト改善を扱う既存の論点「屋久島航路の持続可能性」があります。本論点はそれとは別に、屋久島観光協会側から独立して整理している構造的な論点です。また本ページは、意思決定支援ダッシュボード作成エージェント3(6タブ・シンプル構成版)を適用して、旧12タブ構成(ウィザード付き)から作り直したものです(2026-09-22)。</p>
   </div>
-</div>
-
-<div class="wizard" id="wizard">
-  <p class="wizardQ">今日、何について確認したいですか？</p>
-  <div class="wizardBtns">
-    <button type="button" class="wizardBtn" data-goto="summary">✅ 結論だけ知りたい(30秒)</button>
-    <button type="button" class="wizardBtn" data-goto="proposal">💡 検討中の選択肢を見たい(3分)</button>
-    <button type="button" class="wizardBtn" data-goto="persona">🙋 自分の立場から見たい</button>
-    <button type="button" class="wizardBtn" data-goto="raw">🗣️ 元になった事実・出典を見たい(15分)</button>
-  </div>
-  <button type="button" class="wizardSkip" id="wizardSkip">すべてのタブを自分で見る →</button>
 </div>
 
 <nav class="tabs">
-  <button class="tabBtn tabGroupPrimary active" data-tab="summary">決断まとめ</button>
-  <button class="tabBtn tabGroupPrimary" data-tab="persona">立場別</button>
-  <button class="tabBtn tabGroupDetail" data-tab="premise">町の視点</button>
-  <button class="tabBtn tabGroupDetail" data-tab="proposal">提案</button>
-  <button class="tabBtn tabGroupDetail" data-tab="forecast">将来予測</button>
-  <button class="tabBtn tabGroupDetail" data-tab="positions">立場地図</button>
-  <button class="tabBtn tabGroupDetail" data-tab="journey">進捗</button>
-  <button class="tabBtn tabGroupRef" data-tab="cases">事例</button>
-  <button class="tabBtn tabGroupRef" data-tab="funding">補助金</button>
-  <button class="tabBtn tabGroupPrimary" data-tab="raw">生データ</button>
-  <button class="tabBtn tabGroupPrimary" data-tab="meetingnotes">🗒️ 議事メモ</button>
-  <button class="tabBtn tabGroupRef" data-tab="history">📜 履歴</button>
+  <button class="tabBtn active" data-tab="summary">📋 決断まとめ</button>
+  <button class="tabBtn" data-tab="northstar">🌟 北極星指標</button>
+  <button class="tabBtn" data-tab="proposal">💡 提案と評価</button>
+  <button class="tabBtn" data-tab="cases">🌍 事例</button>
+  <button class="tabBtn" data-tab="raw">🗒️ 議事録・投入データ</button>
+  <button class="tabBtn" data-tab="history">📜 過去のまとめ</button>
 </nav>
-<div class="tabLegend">
-  <span><i class="dot dotPrimary"></i>まず見る</span>
-  <span><i class="dot dotDetail"></i>くわしく検討</span>
-  <span><i class="dot dotRef"></i>参考</span>
-</div>
 
 <section class="panel active" id="panel-summary">
-  <div class="tldr">
-    <b data-cell-id="summary-tldr">✅ 要するに：屋久島の定期航路は老朽船の更新に約100億円規模の投資が必要で、現行体制維持(案A)・上下分離方式(案B)・地域出資型運営会社(案C)の3方向を共創ワークショップ(9月・10月)で検討します。2026/9/8の非公式事前検討会で、ワークショップ第1回(9/17)は案を絞らず並列提示する方針で合意。どの案にも最終合意はまだなく、隠岐諸島の上下分離方式の一次情報確認(行平准教授が個人ルートで打診中)と、住民への分かりやすい説明の準備が次の一手です。</b>
-  </div>
-  <details class="reasonBox">
-    <summary>▼ なぜそう言えるか(根拠)を見る</summary>
-    <ul>
-      <li data-cell-id="reason-1">電源喪失によるフェリー漂流事故が発生し、老朽船の安全性への不安が議論の直接のきっかけになっている</li>
-      <li data-cell-id="reason-2">更新には約100億円規模の投資が必要で、自治体単独・事業者単独では解決が難しい構造的な論点になっている</li>
-      <li data-cell-id="reason-3">住民による全戸配布の署名活動(2026/8/10開始)が9月の屋久島町議会に提出される見込みで、関心の高さがすでに表れている</li>
-      <li data-cell-id="reason-4">2026/9/8の非公式事前検討会で5名(荒木会長・屋久島町担当者・運航事業者・住民代表・専門家)から発言が集まり、案の優劣を急がず情報収集を優先する空気が共有された</li>
-    </ul>
-  </details>
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 14px">このタブは、参加者が30秒〜3分で全体像をつかめるよう、5つのセクションを上から順に読むだけのシンプル構成にしています(意思決定支援ダッシュボード作成エージェント3)。詳しい根拠・提案の詳細・議事録は他のタブに整理しています。</p>
 
-  <h3 style="margin-top:18px;font-size:15px">🧭 30秒/3分/15分ルートガイド</h3>
-  <div class="routeGuide">
-    <div class="r"><b>⏱ 30秒</b>上のtldrだけ読めばOK</div>
-    <div class="r"><b>☕ 3分</b>下の「▼もっと詳しく見る」を開いてトレードオフ比較まで＋「提案」タブの3案比較</div>
-    <div class="r"><b>📚 15分</b>「立場地図」「進捗」「生データ」まで含めて全体を確認</div>
-  </div>
-
-  <details class="reasonBox">
-    <summary>▼ もっと詳しく見る(3分〜15分向け：トレードオフ比較・信頼度・論点の背景・将来予測など)</summary>
-
-  <h3 style="margin-top:18px;font-size:15px">3案のトレードオフ比較(たたき台)</h3>
-  <p style="font-size:12px;color:var(--muted);margin:0 0 8px">◎○△は、下の「提案内容・詳細」タブの記述をもとにした定性的な目安であり、点数化されたスコアではありません。共創ワークショップでの議論を経て更新します。</p>
-  <div class="tradeoffWrap tableWrap">
-    <table>
-      <thead><tr><th>比較軸</th><th>案A 現行維持＋財源確保</th><th>案B 上下分離方式</th><th>案C 地域出資型運営会社</th></tr></thead>
-      <tbody>
-        <tr><td>着手しやすさ</td><td data-cell-id="tradeoff-ease-a"><span class="pill pgreen">◎</span></td><td data-cell-id="tradeoff-ease-b"><span class="pill porange">△(制度設計に時間)</span></td><td data-cell-id="tradeoff-ease-c"><span class="pill pred">✕(合意形成に時間)</span></td></tr>
-        <tr><td>財源確保の見通し</td><td data-cell-id="tradeoff-fund-a"><span class="pill porange">△(補助金頼み)</span></td><td data-cell-id="tradeoff-fund-b"><span class="pill pblue">○(公的主体が更新費負担)</span></td><td data-cell-id="tradeoff-fund-c"><span class="pill porange">△(出資と財務検証が必要)</span></td></tr>
-        <tr><td>地域の意思決定の反映しやすさ</td><td data-cell-id="tradeoff-voice-a"><span class="pill pred">✕(現行体制のまま)</span></td><td data-cell-id="tradeoff-voice-b"><span class="pill pblue">○</span></td><td data-cell-id="tradeoff-voice-c"><span class="pill pgreen">◎</span></td></tr>
-        <tr><td>運営体制の構造的課題への対応</td><td data-cell-id="tradeoff-structure-a"><span class="pill pred">✕(課題は残る)</span></td><td data-cell-id="tradeoff-structure-b"><span class="pill pgreen">◎</span></td><td data-cell-id="tradeoff-structure-c"><span class="pill pblue">○</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3 style="margin-top:18px;font-size:15px">情報の信頼度別に見る(確定/保留/未収集)</h3>
-  <div class="confGrid">
-    <div class="confCard done">
-      <b>✅ 確定(実測・一次情報あり)</b>
+  <h3>①この論点の全体像(A3サマリー)</h3>
+  <div class="highlights">
+    <div class="hl">
+      <h4>📊 判断材料ハイライト</h4>
       <ul>
-        <li>電源喪失によるフェリー漂流事故の発生</li>
-        <li>老朽船更新に約100億円規模の投資が必要という規模感</li>
-        <li>住民署名活動の開始日(2026/8/10)と屋久島町議会への提出見込み(9月)</li>
-        <li>屋久島町 第三期総合戦略の社会増減・事業所数の指標</li>
-        <li data-cell-id="conf-done-positions">5名分の立場表明(PositionRecord)を2026-09-08の非公式事前検討会で収集(荒木会長・屋久島町担当者・運航事業者・住民代表・行平准教授)</li>
-        <li data-cell-id="conf-done-agreement">ワークショップ第1回(9/17)は案A/B/Cを並列提示する方針で10名の出席者が合意</li>
+        <li data-cell-id="yk-mini-material-1">電源喪失によるフェリー漂流事故が発生し、老朽船の安全性への不安が議論の直接のきっかけになっている</li>
+        <li data-cell-id="yk-mini-material-2">老朽船更新に約100億円規模の投資判断が必要</li>
+        <li data-cell-id="yk-mini-material-3">複数事業者による運航・貨物路線の調整が複雑で、自治体単独・事業者単独では解決が難しい</li>
       </ul>
     </div>
-    <div class="confCard pending">
-      <b>🕓 保留(方向性はあるが未確定)</b>
+    <div class="hl green">
+      <h4>💡 検討中の選択肢ハイライト</h4>
       <ul>
-        <li data-cell-id="conf-pending-1">案A/B/Cのどれを軸にするか</li>
-        <li data-cell-id="conf-pending-2">隠岐諸島「上下分離方式」の具体的な制度内容(行平准教授が隠岐広域連合へのヒアリングを個人ルートで打診中)</li>
-        <li data-cell-id="conf-pending-3">屋久島観光協会との正式な連携(パートナーシップ)の合意</li>
-        <li data-cell-id="conf-pending-4">住民への制度論(上下分離・地域出資)の分かりやすい説明方法(松元さんより指摘)</li>
-        <li data-cell-id="conf-pending-5">更新までの当面の安全対策の具体化(運航事業者より要望)</li>
+        <li data-cell-id="yk-mini-options-1">案A：現行体制を維持しつつ更新費用の財源を確保</li>
+        <li data-cell-id="yk-mini-options-2">案B：上下分離方式(船体・港湾は公的主体、運航は民間)</li>
+        <li data-cell-id="yk-mini-options-3">案C：地域出資型の運営会社を新設し、地域が主体で運航</li>
       </ul>
     </div>
-    <div class="confCard missing">
-      <b>❌ 未収集</b>
+    <div class="hl orange">
+      <h4>📈 将来予測ハイライト</h4>
       <ul>
-        <li data-cell-id="conf-missing-1">共創ワークショップ本番でのステークホルダーへの正式なヒアリング。9/8の事前検討会は5名のみの非公式な意見交換</li>
-        <li data-cell-id="conf-missing-2">案A/B/Cそれぞれの具体的な収支・財源試算</li>
+        <li data-cell-id="yk-mini-forecast-1"><span class="pill porange">未算出</span> 案A/B/Cそれぞれの財源スキーム・財政負担・必要出資額は、共創ワークショップ前の現時点ではまだ試算できていない</li>
+        <li data-cell-id="yk-mini-forecast-2">屋久島町 第三期総合戦略の社会増減・事業所数の指標は既存論点と共通で参照可能</li>
+      </ul>
+    </div>
+    <div class="hl purple">
+      <h4>🗣️ 現時点で分かっている声</h4>
+      <ul>
+        <li data-cell-id="yk-mini-voice-1">荒木会長：「約100億円という金額を見て、正直このままでは自治体も事業者ももたないと思った。だからこそ地域が主体になる案Cまで視野に入れたい」</li>
+        <li data-cell-id="yk-mini-voice-2">屋久島町担当者：まず案Aで財源を確保しながら並行して検討するのが現実的</li>
+        <li data-cell-id="yk-mini-voice-3">住民代表 松元さん：署名した人は「船がなくなったら困る」という思いが中心で、制度論はまだピンときていない人が多い</li>
+      </ul>
+    </div>
+    <div class="hl red">
+      <h4>🌍 類似事例ハイライト</h4>
+      <ul>
+        <li data-cell-id="yk-mini-cases-1"><span class="pill porange">要検証</span> 隠岐諸島の「上下分離方式」(荒木会長が参考事例として言及)</li>
+        <li data-cell-id="yk-mini-cases-2"><span class="pill porange">一部成功</span> ロードハウ島(オーストラリア)の小規模空輸サービス維持計画</li>
+      </ul>
+    </div>
+    <div class="hl gray">
+      <h4>✅ 現時点の結論・次の一手</h4>
+      <ul>
+        <li data-cell-id="yk-mini-conclusion-1">案A/B/Cのどれを軸にするかの合意はまだなく、ワークショップ第1回(9/17)は3案を並列提示する方針で合意済み</li>
+        <li data-cell-id="yk-mini-conclusion-2">次の一手：隠岐諸島の上下分離方式の一次情報確認(行平准教授が対応中)と、住民への分かりやすい説明の準備</li>
       </ul>
     </div>
   </div>
 
-  <div class="coiBox">
-    <b>⏳ 今、決めずに先送りした場合に起きうること(Cost of Inaction)</b>
-    <p data-cell-id="coi-text" style="margin-top:6px">具体的な金額や年数での試算はまだできません(基礎データ不足のため未算出)。ただし、確定している事実からは、①老朽船の安全性への不安がすでに顕在化していること、②約100億円規模の投資判断を先送りするほど更新のタイミングを逃すリスクが高まること、の2点は言えます。共創ワークショップでの議論を先送りするほど、住民の署名活動という形で表れている関心の高まりへの対応が遅れる可能性があります。</p>
+  <h3 style="margin-top:20px">②案のトレードオフ比較(たたき台)</h3>
+  <p style="font-size:12px;color:var(--muted);margin:0 0 8px">強み・弱み・合意しやすさ(★の数)は、下の「提案と評価」タブの記述をもとにした定性的な目安です。共創ワークショップでの議論を経て更新します。</p>
+  <div class="opts">
+    <div class="opt A">
+      <span class="tag">案A</span>
+      <h4>現行維持＋財源確保</h4>
+      <p data-cell-id="yk-opt-a-summary">現在の事業者・運営体制を維持したまま、国・県の補助金や地域未来交付金などを活用して更新費用を確保する案。</p>
+      <ul>
+        <li data-cell-id="yk-opt-a-strength">強み：調整コストが小さく着手しやすい</li>
+        <li data-cell-id="yk-opt-a-weakness">弱み：財源確保の見通しが不透明だと更新が遅れるリスク</li>
+        <li data-cell-id="yk-opt-a-ease">合意しやすさ：★★★</li>
+      </ul>
+    </div>
+    <div class="opt B">
+      <span class="tag">案B</span>
+      <h4>上下分離方式</h4>
+      <p data-cell-id="yk-opt-b-summary">船体や港湾施設の保有・更新は自治体などの公的主体が担い、実際の運航は民間事業者に委ねる方式。隠岐諸島の枠組みに近い考え方(詳細は要検証)。</p>
+      <ul>
+        <li data-cell-id="yk-opt-b-strength">強み：更新費用の負担を公的主体に移すことで事業者の経営リスクが下がる</li>
+        <li data-cell-id="yk-opt-b-weakness">弱み：制度設計・財源スキームの検討に時間がかかる</li>
+        <li data-cell-id="yk-opt-b-ease">合意しやすさ：★★</li>
+      </ul>
+    </div>
+    <div class="opt C">
+      <span class="tag">案C</span>
+      <h4>地域出資型運営会社</h4>
+      <p data-cell-id="yk-opt-c-summary">住民・観光協会・商工会などが出資する新会社を設立し、地域が主体となって運航・投資判断を行う案。</p>
+      <ul>
+        <li data-cell-id="yk-opt-c-strength">強み：地域の意思決定が反映されやすくなる</li>
+        <li data-cell-id="yk-opt-c-weakness">弱み：合意形成・設立準備に時間とコストがかかり、財務的な持続可能性の検証も必要</li>
+        <li data-cell-id="yk-opt-c-ease">合意しやすさ：★</li>
+      </ul>
+    </div>
   </div>
+
+  <h3 style="margin-top:20px">③ステークホルダーの意見について</h3>
+  <p style="font-size:12px;color:var(--muted);margin:0 0 8px" data-cell-id="yk-voices-caveat">2026年9月8日の非公式事前検討会(第1回)で収集した5名分のPositionRecordです。共創ワークショップ本番(9月・10月)ではさらに多くの声を収集する想定です。</p>
+  <div class="voices">
+    <div class="voice support">
+      <span class="who">🏢 屋久島観光協会 会長 荒木政孝さん(条件付き賛成)</span>
+      「約100億円という金額を見て、正直このままでは自治体も事業者ももたないと思った。だからこそ地域が主体になる案Cまで視野に入れたい」
+    </div>
+    <div class="voice pending">
+      <span class="who">🏛️ 屋久島町 総合政策課 担当者(保留)</span>
+      「気持ちは分かるが、地域出資型の会社を新設するとなると財政的な検証にかなり時間がかかる。まず案Aで財源を確保しながら並行して検討するのが現実的では」
+    </div>
+    <div class="voice pending">
+      <span class="who">⚓ 運航事業者 営業担当者・オブザーバー参加(保留)</span>
+      「現場としては、どの案になっても更新までの数年間、今の船をどう安全に維持するかが最優先。運営モデルの議論と並行して、当面の安全対策も議論してほしい」
+    </div>
+    <div class="voice minority">
+      <span class="who">🏠 住民代表(署名活動発起人) 松元さん(条件付き賛成・少数意見)</span>
+      「署名した人たちは『船がなくなったら困る』という切実な思いが中心で、上下分離とか地域出資といった制度論はまだピンときていない人が多い。ワークショップでは専門用語をかみ砕いて説明してほしい」
+    </div>
+    <div class="voice pending">
+      <span class="who">🎓 九州産業大学 准教授 行平真也さん(保留)</span>
+      「隠岐の事例は上下分離といっても自治体の関与度合いに幅があり、単純に『隠岐方式』と一括りにできない。まず一次情報を取ってから比較すべき」
+    </div>
+  </div>
+
+  <h3 style="margin-top:20px">④元になった事実・出典(EvidenceRecord)</h3>
+  <div class="evidence-list">
+    <div class="ev"><span class="lv L2">L2</span><span><b>電源喪失によるフェリー漂流事故</b>：本土―屋久島間の定期航路で、フェリーの電源喪失による漂流事故が発生。老朽化した船体の安全性・信頼性に対する不安が高まり、航路の将来を議論する直接のきっかけとなった</span><span class="src">りとけいフォーラム記事(2026年)</span></div>
+    <div class="ev"><span class="lv L2">L2</span><span><b>航路更新に約100億円規模の投資判断が必要</b>：老朽化したフェリーの更新には約100億円規模の投資が必要と見られており、財源・運営体制をどうするかが大きな意思決定事項となっている</span><span class="src">りとけいフォーラム記事(2026年)</span></div>
+    <div class="ev"><span class="lv L2">L2</span><span><b>住民による署名活動</b>：区連会を通じ、2026年8月10日に全戸配布形式で航路維持を求める署名活動が開始。9月の屋久島町議会に提出される見込み</span><span class="src">りとけいフォーラム記事(2026年)</span></div>
+    <div class="ev"><span class="lv L3">L3</span><span><b>屋久島航路モデル事前検討会(第1回・非公式)を実施</b>：2026年9月8日、荒木会長・屋久島町総合政策課担当者・運航事業者営業担当者(オブザーバー)・住民代表(松元さん)・行平准教授の5名が参加し、共創ワークショップ本番に先立つ非公式検討会を実施</span><span class="src">ダッシュボード編集モードからの議事メモ登録(内部記録)</span></div>
+    <div class="ev"><span class="lv L5">L5</span><span><b>参考事例としての隠岐諸島「上下分離方式」への言及(要検証)</b>：荒木会長は記事中で隠岐諸島のような「上下分離方式」を参考にしたいと発言。具体的な制度内容(船体保有主体・費用負担割合等)は一次情報での確認がまだ済んでいない</span><span class="src">りとけいフォーラム記事(2026年)・伝聞</span></div>
+  </div>
+
+  <h3 style="margin-top:20px">⑤合意形成の現在地(想定・ロードマップ)</h3>
+  <ol class="timeline">
+    <li data-cell-id="yk-timeline-step1"><b>STEP1(2026年8月・実施済み)</b>：りとけい公開記事(荒木会長の発言)をもとにIssueを登録</li>
+    <li data-cell-id="yk-timeline-step2"><b>STEP2(9月8日・実施済み)</b>：非公式事前検討会(第1回)で5名分の立場表明を収集し、ワークショップ第1回の進め方について合意</li>
+    <li data-cell-id="yk-timeline-step3"><b>STEP3(9月17日)</b>：共創ワークショップ本番 第1回(オンライン)。案A/B/Cを並列提示し、参加者の反応を見る</li>
+    <li data-cell-id="yk-timeline-step4"><b>STEP4(10月8日)</b>：共創ワークショップ本番 第2回(オンライン)。案の絞り込みに向けた議論</li>
+    <li data-cell-id="yk-timeline-step5"><b>STEP5(10月23日)</b>：対面ワークショップ(定員25名)。屋久島観光協会・住民・行政・専門家を交えた議論、方向性のたたき台を用意</li>
+  </ol>
+  <p class="footNote">テーマオーナー：屋久島観光協会 会長 荒木政孝さん。専門家として九州産業大学准教授・行平真也さんが関わる。参加はPeatixで受付。詳細・最新情報は<a href="https://ritokei.com/forum/shimakaigi2026_theme06_yakushima" target="_blank" rel="noopener">りとけいフォーラムの元記事</a>でご確認ください。</p>
+</section>
+
+<section class="panel" id="panel-northstar">
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 14px">北極星指標(ゴールを1つの問いに集約するGQM方式)と、その充足度を5軸で自己診断したレーダーチャートです。「今日、ここを議論してください」ボックスで、次に埋めるべき情報を明示します。</p>
 
   <div class="card">
-    <h3>論点の整理：なぜ今、運営モデルの見直しが必要か</h3>
-    <div class="grid2">
-      <div class="callout risk">
-        <b>きっかけとなった出来事</b>
-        <ul style="margin:6px 0 0;padding-left:18px">
-          <li>電源喪失によるフェリー漂流事故が発生し、老朽船の安全性への不安が高まった</li>
-          <li>更新には約100億円規模の投資が必要と見られる</li>
-          <li>複数事業者による運航・貨物路線の調整が複雑で、自治体単独でも一事業者単独でも解決が難しい</li>
-        </ul>
-      </div>
-      <div class="callout ok">
-        <b>住民・地域の動き</b>
-        <ul style="margin:6px 0 0;padding-left:18px">
-          <li>2026年8月10日、区連会を通じて全戸配布形式の署名活動が開始</li>
-          <li>9月の屋久島町議会に提出される見込み</li>
-          <li>荒木会長は隠岐諸島の「上下分離方式」を参考事例として検討したいと発言(詳細は要検証)</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <h3>共創ワークショップの位置づけ</h3>
-    <div class="tableWrap">
-      <table>
-        <thead><tr><th>日程</th><th>形式</th><th>内容</th></tr></thead>
-        <tbody>
-          <tr><td>9月17日・10月8日</td><td>オンライン</td><td>論点の共有、事例研究(隠岐諸島など)、選択肢の整理</td></tr>
-          <tr><td>10月23日</td><td>対面(定員25名)</td><td>屋久島観光協会・住民・行政・専門家を交えた議論</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="footNote">専門家として九州産業大学准教授・行平真也さんが関わる。参加はPeatixで受付。詳細・最新情報は<a href="https://ritokei.com/forum/shimakaigi2026_theme06_yakushima" target="_blank" rel="noopener">りとけいフォーラムの元記事</a>でご確認ください。</p>
+    <h3>🌟 北極星指標：地域主体で航路を支える新しい運営モデルの合意形成ができている度合い</h3>
+    <p data-cell-id="yk-northstar-status" style="margin:6px 0 0;font-size:13px">Goal＝「老朽船更新(約100億円規模)を乗り越える、持続可能な航路運営モデルの合意形成ができている」。Question＝「案A/B/Cのうちどの方向性を軸にするか、ステークホルダー間の実質的な合意がどれだけ進んでいるか」。Metric＝「共創ワークショップを通じて、案の絞り込みまたは並存方針について参加者の合意が得られた到達度」と仮に定義しました。2026年9月8日の事前検討会では、案を絞らず並列提示する方針までは10名の出席者で合意しましたが、軸となる案そのものの合意はまだ形成されておらず、指標としては<b>未達(0/1)</b>です。共創ワークショップ本番(9〜10月)での議論を踏まえ、算出を進めていきます。</p>
   </div>
 
-  <h3 style="margin-top:18px;font-size:15px">この論点の全体像(A3サマリー)</h3>
+  <h3 style="margin-top:18px">補助指標</h3>
+  <div class="kpis" style="margin-top:8px">
+    <div class="kpi"><b data-cell-id="yk-northstar-sub-1">約100億円</b><span>老朽船更新の投資規模</span></div>
+    <div class="kpi"><b data-cell-id="yk-northstar-sub-2">5件</b><span>2026-09-08時点で収集済みのPositionRecord数</span></div>
+    <div class="kpi"><b data-cell-id="yk-northstar-sub-3">3件</b><span>2026-09-08時点で成立したAgreement(合意)数</span></div>
+    <div class="kpi"><b data-cell-id="yk-northstar-sub-4">未算出</b><span>案A/B/C別の財政影響・経済効果</span></div>
+  </div>
+
+  <h3 style="margin-top:18px">情報充足度レーダー(新5軸)</h3>
   <div class="radarWrap">
     <svg id="radarChart" width="180" height="180" viewBox="0 0 180 180"></svg>
     <div class="radarNotes">
-      <b>📡 情報充足度診断(AIによる自己レビュー・2026-09-06時点)</b>
+      <b>📡 情報充足度診断(2026-09-22時点)</b>
+      <p style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">この5軸は「評価する人の立場」ではなく「何を根拠にしているか」で分解したレーダーです。9/8の非公式検討会で当事者の声はある程度集まっていますが、外部知見と効果見通しはまだ薄い状態です。</p>
       <ul id="radarWeakPoints">
-        <li><b>財政(15点):</b> <span data-cell-id="radar-note-finance">約100億円という投資規模の全体像は分かるが、案A/B/Cごとの具体的な財源スキーム・負担割合はまだ整理できていない。</span></li>
-        <li><b>行政実務(20点):</b> <span data-cell-id="radar-note-admin">上下分離方式を採用する場合の公的主体の役割、屋久島町との調整プロセスが未確認。</span></li>
-        <li><b>りとけい現場(50点):</b> <span data-cell-id="radar-note-ritokei">2026-09-08の非公式事前検討会で5名分のPositionRecordを収集済み。ただし共創ワークショップ本番での正式なヒアリングはまだ行っていない。</span></li>
-      </ul>
-    </div>
-  </div>
-  <div class="a3Grid">
-    <div class="mini">
-      <h4>📊 判断材料ハイライト</h4>
-      <ul>
-        <li data-cell-id="mini-material-1">電源喪失による漂流事故が議論の直接のきっかけ</li>
-        <li data-cell-id="mini-material-2">老朽船更新に約100億円規模の投資判断が必要</li>
-        <li data-cell-id="mini-material-3">複数事業者による運航・貨物調整が複雑</li>
-        <li data-cell-id="mini-material-4">自治体単独・事業者単独では解決が難しい構造的論点</li>
-      </ul>
-    </div>
-    <div class="mini">
-      <h4>💡 検討中の選択肢ハイライト</h4>
-      <ul>
-        <li data-cell-id="mini-options-1">案A：現行体制を維持しつつ更新費用の財源を確保</li>
-        <li data-cell-id="mini-options-2">案B：上下分離方式(船体・港湾は公的主体、運航は民間)</li>
-        <li data-cell-id="mini-options-3">案C：地域出資型の運営会社を新設し、地域が主体で運航</li>
-      </ul>
-    </div>
-    <div class="mini">
-      <h4>📈 将来予測ハイライト</h4>
-      <ul>
-        <li data-cell-id="mini-forecast-1">屋久島町の社会増減は-89人(R6実績)、R12年度に社会減の解消を目標としている</li>
-        <li data-cell-id="mini-forecast-2"><span class="pill porange">PoC概算</span> 案A/B/Cごとの財政影響の試算はまだできていない</li>
-        <li data-cell-id="mini-forecast-3">更新投資(約100億円)を先送りした場合の機会損失は基礎データ不足のため<b>未算出</b></li>
-      </ul>
-    </div>
-    <div class="mini">
-      <h4>🗣️ 現時点で分かっている声</h4>
-      <ul>
-        <li data-cell-id="mini-voice-1">住民(松元さん)：船がなくなったら困るという切実な思いが中心で、制度論はまだピンときていない</li>
-        <li data-cell-id="mini-voice-2">屋久島観光協会(荒木会長)：約100億円という金額を見て地域主体の案Cまで視野に入れたい</li>
-        <li data-cell-id="mini-voice-3">屋久島町担当者：地域出資型は財政検証に時間がかかるため、まず案Aで財源確保しつつ並行検討が現実的</li>
-        <li data-cell-id="mini-voice-4">運航事業者：どの案になっても当面の安全対策の議論を優先してほしい</li>
-      </ul>
-    </div>
-    <div class="mini">
-      <h4>🌍 類似事例ハイライト</h4>
-      <ul>
-        <li data-cell-id="mini-cases-1"><span class="pill porange">一部成功</span> ロードハウ島：「拡張」でなく「維持」を軸にしたビジネスケース</li>
-        <li data-cell-id="mini-cases-2"><span class="pill porange">要検証</span> 隠岐諸島の「上下分離方式」：荒木会長が言及、詳細は今後確認</li>
-      </ul>
-    </div>
-    <div class="mini">
-      <h4>💰 補助金・交付金ハイライト</h4>
-      <ul>
-        <li data-cell-id="mini-funding-1"><span class="pill porange">中</span> 離島航路・航空路補助：更新費用の財源候補として最有力</li>
-        <li data-cell-id="mini-funding-2"><span class="pill porange">中</span> 地域未来交付金：新運営体制のDX・運用設計の財源候補</li>
-      </ul>
-    </div>
-    <div class="mini">
-      <h4>✅ 現時点の結論・次の一手</h4>
-      <ul>
-        <li data-cell-id="mini-conclusion-1">特定の案への合意はまだ形成されていないが、ワークショップ第1回は案A/B/Cを並列提示する進め方には合意済み</li>
-        <li data-cell-id="mini-conclusion-2">次の一手：①隠岐広域連合への一次情報確認(行平准教授が着手)、②運航事業者への正式ヒアリング日程調整、③屋久島町での総合戦略整合性チェック、④住民向けの分かりやすい説明資料の準備</li>
-        <li data-cell-id="mini-conclusion-3">2026/9/8の非公式事前検討会で5名分のPositionRecordを登録済み。共創ワークショップ本番でさらに収集を進める</li>
+        <li><b>当事者の声 Legitimacy(35点):</b> <span data-cell-id="yk-radar-note-legitimacy">2026-09-08の非公式事前検討会で5名分(荒木会長・屋久島町担当者・運航事業者・住民代表・行平准教授)のPositionRecordを収集済み。ただし共創ワークショップ本番での正式なヒアリングはまだ行っていない。</span></li>
+        <li><b>外部知見の広さ Evidence(15点):</b> <span data-cell-id="yk-radar-note-evidence">隠岐諸島の上下分離方式は「要検証」のまま一次情報での確認が済んでおらず、行平准教授が隠岐広域連合へのヒアリングを個人ルートで打診中。</span></li>
+        <li><b>上位方針との整合 Alignment(20点):</b> <span data-cell-id="yk-radar-note-alignment">屋久島町 第三期総合戦略の社会増減・事業所数の指標との関わりは整理できているが、この論点固有の定量的な影響試算は未確認。</span></li>
+        <li><b>実行可能性 Feasibility(20点):</b> <span data-cell-id="yk-radar-note-feasibility">案A/B/Cそれぞれの財源スキーム・制度設計の具体的な工程はまだ描けていない。</span></li>
+        <li><b>効果・リスク見通し Impact(10点):</b> <span data-cell-id="yk-radar-note-impact">案ごとの財政影響・経済効果は、財源スキームが定まっていないため完全に未算出。</span></li>
       </ul>
     </div>
   </div>
 
-  <h3 style="margin-top:18px;font-size:15px">🧭 屋久島町の目指す姿との関わり</h3>
-  <p style="font-size:12px;color:var(--muted);margin:6px 0 10px">プラットフォームの活用主体である屋久島町が、第三期総合戦略で掲げる目標との関わり(詳細は「屋久島町の視点」タブを参照)。</p>
-  <div class="tableWrap">
-    <table>
-      <thead><tr><th>屋久島町の目標</th><th>この論点の影響方向</th></tr></thead>
-      <tbody>
-        <tr><td>社会増減(転入-転出)：-89人(R6実績)→社会減の解消(R12年度目標)</td><td data-cell-id="impact-1"><span class="pill pgreen">追い風</span> 定期航路は通院・物流・観光など暮らしと経済の土台。持続可能な運営体制は社会減の鈍化に間接的に寄与</td></tr>
-        <tr><td>事業所数(商工会登録)：499事業所(R6)→510事業所(R11目標)</td><td data-cell-id="impact-2"><span class="pill pgreen">追い風</span> 観光・物流を支える航路の安定は事業継続の前提条件</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p class="footNote">出典：屋久島町 第三期総合戦略(既存論点「屋久島航路の持続可能性」と同じ町全体の指標を参照)</p>
-  </details>
-
-  <div class="nextStep">
-    <b>🌱 厳しい前提の中でも、まず1つ試すなら：</b>
-    <p data-cell-id="next-step" style="margin:6px 0 0">隠岐諸島の「上下分離方式」について、隠岐広域連合など一次情報で船体保有主体・費用負担割合を確認してみることです。共創ワークショップ本番を待たずに、今すぐ着手できます。</p>
+  <div class="discussBox">
+    <b>🗣️ 今日、ここを議論してください</b>
+    <p data-cell-id="yk-discuss-box-text">情報充足度が最も低いのは「効果・リスク見通し Impact(10点)」と「外部知見の広さ Evidence(15点)」です。案ごとの財政影響・経済効果はまったく試算できておらず、隠岐諸島の上下分離方式も具体的な制度内容が一次情報で確認できていません。9月17日・10月8日のオンラインワークショップでは、①隠岐広域連合ヒアリング結果の共有(行平准教授)、②案A/B/Cそれぞれの財源スキームの前提整理、③案ごとの財政影響試算に向けた基礎データの洗い出し、の3点を優先してください。</p>
   </div>
 
-  <div class="actionStrip">
-    <button type="button" disabled>案Aを推す</button>
-    <button type="button" disabled>案Bを推す</button>
-    <button type="button" disabled>案Cを推す</button>
-    <button type="button" disabled>📄 決断メモを書き出す</button>
-    <span class="note">※ これらのボタンは現在デモ表示のみです(v1)。実際の意思表明・記録機能は別途ChangeRequestとして検討します。</span>
-  </div>
-</section>
-
-<section class="panel" id="panel-persona">
-  <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">立場によって気になるポイントは違います。近いものを選ぶと、関連する内容の要約が表示されます(新しい事実が増えるわけではなく、他タブの内容の要約です)。</p>
-  <div class="personaGrid">
-    <div class="personaCard" data-persona="araki">
-      <b>🧑‍💼 屋久島観光協会 荒木政孝会長</b>
-      <p data-cell-id="persona-card-araki">論点を提起した本人。地域主体で運営モデルを組み立て直せるかを一番気にしている立場。</p>
-    </div>
-    <div class="personaCard" data-persona="workshop">
-      <b>🙋 共創ワークショップ参加者</b>
-      <p data-cell-id="persona-card-workshop">9〜10月の議論に向けて、論点の全体像と検討中の選択肢を事前に把握したい立場。</p>
-    </div>
-    <div class="personaCard" data-persona="resident">
-      <b>🏠 屋久島の住民</b>
-      <p data-cell-id="persona-card-resident">航路の安全性・運賃・暮らしへの影響、署名活動の行方を気にしている立場。</p>
-    </div>
-    <div class="personaCard" data-persona="town">
-      <b>🏛️ 屋久島町 担当者</b>
-      <p data-cell-id="persona-card-town">町の財政負担、総合戦略との整合性、屋久島町議会への署名提出後の対応を気にしている立場。</p>
-    </div>
+  <div class="traceWrap">
+    <b>🧵 決定の跡(Decision Trace)</b>
+    <p style="font-size:11.5px;color:var(--muted);margin:4px 0 0">北極星ハイライトの結論が、どのデータ・いつの追加・どの発言から生まれたかを辿れる記録。</p>
+    <ul id="decisionTrace">
+      <li>2026-08 Issue登録：りとけい公開記事(荒木会長の発言)をもとに問題提起</li>
+      <li>2026-08-29 Notion Issueページ登録。屋久島観光協会との正式な連携は検討段階として整理</li>
+      <li>2026-09-06 12タブ構成へ全面刷新(v2)。決断の問い・トレードオフ比較・立場地図・決断ジャーニーを新設(この時点では立場地図は想定サンプル)</li>
+      <li>2026-09-08 非公式事前検討会(第1回)を実施。Stakeholder5件・PositionRecord5件・Evidence1件・Agreement3件をNotionに登録し、立場地図を実データに切り替え(v3)</li>
+      <li>2026-09-22 意思決定支援ダッシュボード作成エージェント3(6タブ・シンプル構成版)を適用し、左右パネル・北極星指標タブ・新5軸レーダー・「今日、ここを議論してください」ボックスを新設して全面作り直し(v4・現行)</li>
+    </ul>
   </div>
 
-  <div class="personaDetail" id="persona-araki">
-    <b>🧑‍💼 荒木会長の方へ</b>
-    <p data-cell-id="persona-detail-araki" style="margin-top:8px;font-size:13px">「決断まとめ」タブのトレードオフ比較(案A/B/Cの着手しやすさ・財源確保・地域の意思決定の反映しやすさ)と、「提案内容・詳細」タブの3案の詳しい説明が参考になります。「国内外の類似事例」タブの隠岐諸島の記載には「要検証」タグが付いています。共創ワークショップまでに一次情報での確認を進めることをおすすめします。</p>
-  </div>
-  <div class="personaDetail" id="persona-workshop">
-    <b>🙋 ワークショップ参加者の方へ</b>
-    <p data-cell-id="persona-detail-workshop" style="margin-top:8px;font-size:13px">「決断まとめ」タブの30秒/3分/15分ルートガイドに沿って読むのがおすすめです。「国内外の類似事例」タブ(要検証タグ付き)も、議論のたたき台として目を通しておくと当日話が早いです。</p>
-  </div>
-  <div class="personaDetail" id="persona-resident">
-    <b>🏠 屋久島の住民の方へ</b>
-    <p data-cell-id="persona-detail-resident" style="margin-top:8px;font-size:13px">「生データ(補足)」タブに、事故の経緯や署名活動の状況をまとめています。ステークホルダーの正式な意見収集はまだ行っておらず、共創ワークショップ後に実施予定です。ご意見がある場合はワークショップへの参加をご検討ください。</p>
-  </div>
-  <div class="personaDetail" id="persona-town">
-    <b>🏛️ 屋久島町 担当者の方へ</b>
-    <p data-cell-id="persona-detail-town" style="margin-top:8px;font-size:13px">「屋久島町の視点（前提条件）」タブに、第三期総合戦略の指標との関わりを整理しています。「決断まとめ」タブ末尾の「屋久島町の目指す姿との関わり」表もあわせてご確認ください。</p>
-  </div>
-</section>
-
-<section class="panel" id="panel-premise">
-  <div class="card">
-    <h3>屋久島町の目標との関わり</h3>
-    <p style="font-size:12.5px;color:var(--muted)">このタブは、プラットフォームの活用主体である屋久島町のリーダー発言・公式サイトが掲げる目標・理念を確認し、その観点からこの論点の結果がどう影響するかを整理します(数値は既存論点「屋久島航路の持続可能性」と同じ町全体の指標を参照)。</p>
+  <div class="card" style="margin-top:14px">
+    <h3>🧭 屋久島町の目指す姿との関わり</h3>
+    <p style="font-size:12px;color:var(--muted);margin:0 0 10px">このプラットフォームの活用主体である屋久島町の公式な目標(第三期総合戦略の指標)を確認し、その観点からこの論点の結果がどう影響するかを整理します。数値は既存論点「屋久島航路の持続可能性」で確認済みの町全体の指標を参照しています。</p>
     <div class="tableWrap">
       <table>
-        <thead><tr><th>屋久島町 第三期総合戦略の指標</th><th>この論点への関わり</th></tr></thead>
+        <thead><tr><th>屋久島町 第三期総合戦略の指標</th><th>この論点の影響方向</th></tr></thead>
         <tbody>
-          <tr><td>社会増減(転入-転出)：-89人(R6実績) → 社会減の解消(R12年度目標)</td><td data-cell-id="premise-goal-vision">定期航路は通院・物流・観光など島の暮らし全体を支えるインフラであり、運営体制が不安定になれば社会増減にも影響しうる</td></tr>
-          <tr><td>事業所数(商工会登録)：499事業所(R6) → 510事業所(R11目標)</td><td data-cell-id="premise-goal-jinko">観光・物流を支える航路の安定は事業継続の前提条件であり、目標達成にも関わる</td></tr>
+          <tr><td>社会増減(転入-転出)：-89人(R6実績) → 社会減の解消(R12年度目標)</td><td data-cell-id="yk-goal-1"><span class="pill pgreen">追い風(想定)</span> 定期航路は通院・物流・観光など島の暮らし全体を支えるインフラであり、運営体制が不安定になれば社会増減にも影響しうる。持続可能な運営体制は社会減の鈍化に間接的に寄与すると考えられる</td></tr>
+          <tr><td>事業所数(商工会登録)：499事業所(R6) → 510事業所(R11目標)</td><td data-cell-id="yk-goal-2"><span class="pill pgreen">追い風(想定)</span> 観光・物流を支える航路の安定は事業継続の前提条件であり、目標達成にも関わる</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="footNote">出典：屋久島町 第三期総合戦略(既存論点「屋久島航路の持続可能性」で確認済みの町全体の指標を参照)</p>
-    <div class="callout warn" style="margin-top:10px"><b>前提条件：</b><span data-cell-id="premise-callout">定期航路は観光・物流・通院など島の暮らし全体を支えるインフラであり、単なる交通事業の採算性だけでなく、地域全体の社会増減・事業継続にも関わる論点として扱う必要がある。</span></div>
+    <p class="footNote">出典：屋久島町 第三期総合戦略(既存論点「屋久島航路の持続可能性」で確認済みの町全体の指標を参照)。この論点固有の定量的な影響試算は未確認・未算出です。</p>
   </div>
+
   <div class="card" style="margin-top:14px">
-    <h3>本論点固有の背景</h3>
-    <ul style="font-size:13px">
-      <li>老朽船の電源喪失による漂流事故(安全性への不安)</li>
-      <li>更新費用の規模(約100億円)と財源確保の難しさ</li>
-      <li>複数事業者による運航・貨物路線調整の複雑さ</li>
-      <li>屋久島観光協会との正式な連携は検討段階(2026年8月時点で未合意)</li>
-    </ul>
+    <h3>参考：屋久島観光協会自身の活動目的との関わり(分室運営者の視点)</h3>
+    <p style="font-size:12px;color:var(--muted);margin:0 0 10px">上の屋久島町の公式目標とは別に、屋久島観光協会(テーマオーナー・分室運営者)自身の活動目的との関わりを参考情報として記載します。これは屋久島町の公式目標ではなく、屋久島観光協会自身の組織目的です。</p>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>屋久島観光協会の活動目的(想定)</th><th>この論点の影響方向</th></tr></thead>
+        <tbody>
+          <tr><td>観光客・住民双方にとって安心できる交通インフラを維持する</td><td><span class="pill pgreen">追い風</span> 地域主体の新しい運営モデルの構築は、観光協会がかねて課題視してきた航路の安定性向上につながる</td></tr>
+          <tr><td>地域主体での意思決定の仕組みづくりを進める</td><td><span class="pill pgreen">追い風</span> 案Cのような地域出資型モデルは、観光協会自身が目指す「地域が主体になる」方向性と重なる</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
 
 <section class="panel" id="panel-proposal">
-  <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">以下は、荒木会長の発言と一般的な離島航路の運営モデルの類型をもとに整理した「検討の選択肢」です。共創ワークショップでの議論を経て、内容は更新されます。特定の案を推奨するものではありません。</p>
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">以下は、荒木会長ほか出席者の発言と一般的な離島航路の運営モデルの類型をもとに整理した「検討の選択肢」です。共創ワークショップでの議論を経て、内容は更新されます。特定の案を推奨するものではありません。</p>
   <div class="measureCard">
     <b>案A 現行体制の維持＋更新財源の確保</b>
-    <p data-cell-id="proposal-a-desc" style="font-size:13px;margin:6px 0 0">現在の事業者・運営体制を維持したまま、国・県の補助金や地域未来交付金などを活用して更新費用を確保する案。</p>
+    <p data-cell-id="yk-proposal-a-desc" style="font-size:13px;margin:6px 0 0">現在の事業者・運営体制を維持したまま、国・県の補助金や地域未来交付金などを活用して更新費用を確保する案。</p>
     <div class="outlookRow">
-      <div><em>短期</em><span data-cell-id="proposal-a-short">調整コストが小さく着手しやすい</span></div>
-      <div><em>中期</em><span data-cell-id="proposal-a-mid">財源確保の見通しが不透明だと更新が遅れるリスク</span></div>
-      <div><em>長期</em><span data-cell-id="proposal-a-long">運営体制そのものの課題(事業者間調整の複雑さ)は残る</span></div>
+      <div><em>短期</em><span data-cell-id="yk-proposal-a-short">調整コストが小さく着手しやすい</span></div>
+      <div><em>中期</em><span data-cell-id="yk-proposal-a-mid">財源確保の見通しが不透明だと更新が遅れるリスク</span></div>
+      <div><em>長期</em><span data-cell-id="yk-proposal-a-long">運営体制そのものの課題(事業者間調整の複雑さ)は残る</span></div>
     </div>
   </div>
   <div class="measureCard">
     <b>案B 上下分離方式(船体・港湾は公的主体、運航は民間)</b>
-    <p data-cell-id="proposal-b-desc" style="font-size:13px;margin:6px 0 0">船体や港湾施設の保有・更新は自治体などの公的主体が担い、実際の運航は民間事業者に委ねる方式。荒木会長が参考事例として挙げた隠岐諸島の枠組みに近い考え方(詳細は要検証)。</p>
+    <p data-cell-id="yk-proposal-b-desc" style="font-size:13px;margin:6px 0 0">船体や港湾施設の保有・更新は自治体などの公的主体が担い、実際の運航は民間事業者に委ねる方式。荒木会長が参考事例として挙げた隠岐諸島の枠組みに近い考え方(詳細は要検証)。</p>
     <div class="outlookRow">
-      <div><em>短期</em><span data-cell-id="proposal-b-short">制度設計・財源スキームの検討に時間がかかる</span></div>
-      <div><em>中期</em><span data-cell-id="proposal-b-mid">更新費用の負担を公的主体に移すことで事業者の経営リスクが下がる</span></div>
-      <div><em>長期</em><span data-cell-id="proposal-b-long">安定運航と更新投資の両立がしやすくなる可能性</span></div>
+      <div><em>短期</em><span data-cell-id="yk-proposal-b-short">制度設計・財源スキームの検討に時間がかかる</span></div>
+      <div><em>中期</em><span data-cell-id="yk-proposal-b-mid">更新費用の負担を公的主体に移すことで事業者の経営リスクが下がる</span></div>
+      <div><em>長期</em><span data-cell-id="yk-proposal-b-long">安定運航と更新投資の両立がしやすくなる可能性</span></div>
     </div>
   </div>
   <div class="measureCard">
     <b>案C 地域出資型の運営会社を新設</b>
-    <p data-cell-id="proposal-c-desc" style="font-size:13px;margin:6px 0 0">住民・観光協会・商工会などが出資する新会社を設立し、地域が主体となって運航・投資判断を行う案。</p>
+    <p data-cell-id="yk-proposal-c-desc" style="font-size:13px;margin:6px 0 0">住民・観光協会・商工会などが出資する新会社を設立し、地域が主体となって運航・投資判断を行う案。</p>
     <div class="outlookRow">
-      <div><em>短期</em><span data-cell-id="proposal-c-short">合意形成・設立準備に時間とコストがかかる</span></div>
-      <div><em>中期</em><span data-cell-id="proposal-c-mid">地域の意思決定が反映されやすくなる</span></div>
-      <div><em>長期</em><span data-cell-id="proposal-c-long">財務的な持続可能性の検証が必要</span></div>
+      <div><em>短期</em><span data-cell-id="yk-proposal-c-short">合意形成・設立準備に時間とコストがかかる</span></div>
+      <div><em>中期</em><span data-cell-id="yk-proposal-c-mid">地域の意思決定が反映されやすくなる</span></div>
+      <div><em>長期</em><span data-cell-id="yk-proposal-c-long">財務的な持続可能性の検証が必要</span></div>
     </div>
   </div>
+
   <div class="card" style="margin-top:14px">
-    <h3>3つの選択肢を比較(たたき台)</h3>
-    <div class="grid3">
-      <div class="card"><span class="pill pblue">案A</span><h3 style="margin-top:8px">現行維持＋財源確保</h3><p data-cell-id="proposal-compare-a" style="font-size:12.5px">着手は早いが、更新費用の規模(約100億円)に見合う財源確保が課題。運営体制の複雑さは残る。</p></div>
-      <div class="card"><span class="pill porange">案B</span><h3 style="margin-top:8px">上下分離方式</h3><p data-cell-id="proposal-compare-b" style="font-size:12.5px">隠岐諸島の事例を参考にする方向性。制度設計に時間がかかるが、事業者の経営リスクを下げられる可能性。</p></div>
-      <div class="card"><span class="pill pgreen">案C</span><h3 style="margin-top:8px">地域出資型運営会社</h3><p data-cell-id="proposal-compare-c" style="font-size:12.5px">最も地域主体の色が強い案。合意形成のハードルが高く、財務的な持続可能性の検証が必要。</p></div>
+    <h3>3つの選択肢のトレードオフ比較(たたき台)</h3>
+    <p style="font-size:12px;color:var(--muted);margin:0 0 8px">◎○△✕は、上の各案の記述をもとにした定性的な目安であり、点数化されたスコアではありません。共創ワークショップでの議論を経て更新します。</p>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>比較軸</th><th>案A 現行維持＋財源確保</th><th>案B 上下分離方式</th><th>案C 地域出資型運営会社</th></tr></thead>
+        <tbody>
+          <tr>
+            <th>着手しやすさ</th>
+            <td data-cell-id="yk-tradeoff-ease-a"><span class="pill pgreen">◎</span></td>
+            <td data-cell-id="yk-tradeoff-ease-b"><span class="pill porange">△(制度設計に時間)</span></td>
+            <td data-cell-id="yk-tradeoff-ease-c"><span class="pill pred">✕(合意形成に時間)</span></td>
+          </tr>
+          <tr>
+            <th>財源確保の見通し</th>
+            <td data-cell-id="yk-tradeoff-fund-a"><span class="pill porange">△(補助金頼み)</span></td>
+            <td data-cell-id="yk-tradeoff-fund-b"><span class="pill pblue">○(公的主体が更新費負担)</span></td>
+            <td data-cell-id="yk-tradeoff-fund-c"><span class="pill porange">△(出資と財務検証が必要)</span></td>
+          </tr>
+          <tr>
+            <th>地域の意思決定の反映しやすさ</th>
+            <td data-cell-id="yk-tradeoff-voice-a"><span class="pill pred">✕(現行体制のまま)</span></td>
+            <td data-cell-id="yk-tradeoff-voice-b"><span class="pill pblue">○</span></td>
+            <td data-cell-id="yk-tradeoff-voice-c"><span class="pill pgreen">◎</span></td>
+          </tr>
+          <tr>
+            <th>運営体制の構造的課題への対応</th>
+            <td data-cell-id="yk-tradeoff-structure-a"><span class="pill pred">✕(課題は残る)</span></td>
+            <td data-cell-id="yk-tradeoff-structure-b"><span class="pill pgreen">◎</span></td>
+            <td data-cell-id="yk-tradeoff-structure-c"><span class="pill pblue">○</span></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <p class="footNote">※ この比較は共創ワークショップでの議論のたたき台として作成した仮のものです。実際の評価はワークショップでの議論・ヒアリングを経て更新します。</p>
   </div>
 </section>
 
-<section class="panel" id="panel-forecast">
-  <div class="card">
-    <h3>屋久島町の社会増減・事業所数の推移</h3>
-    <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">屋久島町 第三期総合戦略が定める指標です(既存論点「屋久島航路の持続可能性」と同じ町全体の指標を参照)。この論点固有の将来予測モデルは、まだ作成できていません。</p>
-    <div class="tableWrap">
-      <table>
-        <thead><tr><th>指標</th><th>現状値</th><th>目標値</th></tr></thead>
-        <tbody>
-          <tr><td>社会増減(転入-転出)</td><td>-89人(R6実績)</td><td>社会減の解消(R12年度以降)</td></tr>
-          <tr><td>事業所数(商工会登録)</td><td>499事業所(R6)</td><td>510事業所(R11目標)</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="callout warn" style="margin-top:10px">
-      <b>📎 この論点固有の経済効果について(未算出)</b>
-      <p data-cell-id="forecast-poc-caveat" style="margin-top:6px">案A/B/Cそれぞれについて、更新投資(約100億円規模)の財源スキーム・屋久島町の財政負担・地域出資型の場合の必要出資額などは、共創ワークショップ前の現時点ではまだ試算できていません。実在しないデータをもとに仮の金額を書くと、かえって議論の土台を誤らせるため、ここでは「未算出」と正直に記載します。</p>
-    </div>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <h3>経済効果(案A/B/C別の財政影響)</h3>
-    <div class="callout risk">
-      <b>❌ 現時点では算出できません</b>
-      <p data-cell-id="forecast-economic-status" style="margin-top:6px">案ごとの財源スキーム・費用負担割合が定まっていないため、屋久島町・屋久島観光協会・住民それぞれの財政的な影響を試算するための基礎データが、共創ワークショップ前の現時点ではまだ揃っていません。</p>
-    </div>
-    <p data-cell-id="forecast-next" style="font-size:12.5px;color:var(--muted);margin-top:10px">共創ワークショップ(9〜10月)で案A〜Cのどれを深掘りするかが定まり次第、具体的な財政影響・経済効果の試算に着手する想定です。</p>
-  </div>
-</section>
-
-<section class="panel" id="panel-positions">
-  <div class="callout warn">
-    <b>🗒️ 9/8の非公式事前検討会をもとにした実データです</b>
-    <p data-cell-id="posmap-caveat" style="margin-top:6px">以下は、共創ワークショップ本番(9〜10月)に先立つ非公式の事前検討会(2026/9/8・第1回)での発言をもとにした、5名の立場の配置です。まだ少人数の非公式な会議段階での発言であり、本番ワークショップを経てさらに変化・追加される見込みです。</p>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <h3 data-cell-id="posmap-title">合意形成の現在地(9/8時点)</h3>
-    <div class="posMapWrap">
-      <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-        <line x1="20" y1="150" x2="280" y2="150" stroke="#E6E5E3" stroke-width="1"/>
-        <line x1="150" y1="20" x2="150" y2="280" stroke="#E6E5E3" stroke-width="1"/>
-        <text x="150" y="14" font-size="10" text-anchor="middle" fill="#7D7A75">積極的に関わりたい</text>
-        <text x="150" y="294" font-size="10" text-anchor="middle" fill="#7D7A75">様子見・慎重</text>
-        <text x="16" y="150" font-size="10" text-anchor="end" fill="#7D7A75" transform="rotate(-90 16 150)">反対寄り</text>
-        <text x="284" y="150" font-size="10" text-anchor="start" fill="#7D7A75" transform="rotate(-90 284 150)">賛成寄り</text>
-        <circle cx="205" cy="90" r="8" fill="#7A5CCF"/>
-        <text x="217" y="94" font-size="9" fill="#2C2C2B">荒木会長(観光協会)</text>
-        <circle cx="160" cy="205" r="8" fill="#2783DE"/>
-        <text x="172" y="209" font-size="9" fill="#2C2C2B">屋久島町担当者</text>
-        <circle cx="185" cy="120" r="8" fill="#D5803B"/>
-        <text x="197" y="124" font-size="9" fill="#2C2C2B">松元さん(住民代表)</text>
-        <circle cx="140" cy="150" r="8" fill="#46A171"/>
-        <text x="152" y="154" font-size="9" fill="#2C2C2B">運航事業者</text>
-        <circle cx="155" cy="170" r="8" fill="#7A5CCF"/>
-        <text x="167" y="174" font-size="9" fill="#2C2C2B">行平准教授(専門家)</text>
-      </svg>
-      <div class="posLegend">
-        <span><i style="background:#7A5CCF"></i>観光協会・専門家</span>
-        <span><i style="background:#2783DE"></i>行政</span>
-        <span><i style="background:#D5803B"></i>住民</span>
-        <span><i style="background:#46A171"></i>運航事業者</span>
-      </div>
-    </div>
-    <p class="footNote">配置は2026/9/8の議事メモをもとにしたPositionRecord(Notion)から作成。共創ワークショップ本番後、さらに実データを追加・更新します。</p>
-  </div>
-</section>
-
-<section class="panel" id="panel-journey">
-  <div class="card">
-    <h3>この論点の意思決定ジャーニー(現在地)</h3>
-    <div class="journeyTrack">
-      <div class="stage current"><b>①</b>情報収集</div>
-      <div class="stage"><b>②</b>対話・検討</div>
-      <div class="stage"><b>③</b>決断</div>
-      <div class="stage"><b>④</b>実行</div>
-      <div class="stage"><b>⑤</b>振り返り</div>
-    </div>
-    <p data-cell-id="journey-current" style="font-size:12.5px;color:var(--muted)">①情報収集はおおむね完了し、9/8の非公式事前検討会を経て②対話・検討フェーズへの移行が始まっています。9〜10月の共創ワークショップ本番でさらに議論を深めます。</p>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <h3>③決断に進む前のチェックリスト(未達成)</h3>
-    <ul style="font-size:13px">
-      <li data-cell-id="journey-checklist-1">☐ 隠岐諸島「上下分離方式」の一次情報での確認(行平准教授が隠岐広域連合へのヒアリングを個人ルートで打診中)</li>
-      <li data-cell-id="journey-checklist-2">☐ ステークホルダー(住民・運航事業者・屋久島町)への正式なヒアリング(9/8は非公式な5名のみ。運航事業者への正式ヒアリング日程を調整中)</li>
-      <li data-cell-id="journey-checklist-3">☐ 案A/B/Cのどれを軸にするかの参加者間の合意(ワークショップ第1回は並列提示する方針まで合意)</li>
-      <li data-cell-id="journey-checklist-4">☐ 屋久島観光協会との正式な連携(パートナーシップ)の合意</li>
-    </ul>
-    <p class="footNote">チェックが揃うまでは「③決断」段階には進まない想定です。</p>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <h3>振り返り(まだ実施していません)</h3>
-    <p data-cell-id="journey-retro" style="font-size:12.5px;color:var(--muted)">③決断・④実行を経た後、数ヶ月後・1年後の振り返りをここに記録する予定です。現時点では実行段階に達していないため、記載内容はありません。</p>
-  </div>
-</section>
-
 <section class="panel" id="panel-cases">
   <div class="card">
-    <h3>国内外の類似事例</h3>
-    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">意思決定支援プラットフォームの「政策事例ライブラリ」から、離島航路の運営体制の見直し(維持/再編の判断)に関連する事例です。</p>
-    <div class="measureCard">
-      <span class="pill porange">要検証</span>
-      <b>隠岐諸島の「上下分離方式」(荒木会長が参考事例として言及)</b>
-      <p data-cell-id="cases-1-desc" style="font-size:13px;margin:6px 0 0">荒木会長は本論点の発端となった記事の中で、隠岐諸島のような「上下分離方式」を参考にしたいと述べている。ただし本資料作成時点(2026年8月)では、公開情報から制度の具体的な内容(船体の保有主体、費用負担の割合など)までは確認できていない。</p>
-      <div class="callout warn" style="margin-top:8px"><b>取り扱いの注意：</b><span data-cell-id="cases-1-note">推測で制度内容を補って書かないこと。共創ワークショップまでに、隠岐広域連合など一次情報での確認を行う必要がある。</span></div>
-    </div>
+    <h3>✅ 成功事例</h3>
+    <p data-cell-id="yk-cases-success-caveat" style="font-size:12.5px;color:var(--muted);margin:0 0 10px">「維持」を軸にした発想の参考事例です。屋久島の状況にそのまま当てはまるかは一次情報での確認が必要です。</p>
     <div class="measureCard">
       <span class="pill porange">一部成功</span>
       <b>ロードハウ島(オーストラリア)の小規模空輸サービス維持計画</b>
-      <p data-cell-id="cases-2-desc" style="font-size:13px;margin:6px 0 0">滑走路を拡張するのではなく、定期輸送便の規模を維持することで将来の需要に対応するビジネスケースを作成。「拡張」ではなく「現在の規模をどう維持するか」という発想が特徴。</p>
-      <div class="callout warn" style="margin-top:8px"><b>本論点への示唆：</b><span data-cell-id="cases-2-note">「地域主体でどう運営を再編するか」だけでなく「今の便数・航路をどう維持するか」という視点も、ワークショップで併せて議論する価値がある。</span></div>
+      <p data-cell-id="yk-cases-success-1-desc" style="font-size:13px;margin:6px 0 0">滑走路を拡張するのではなく、定期輸送便の規模を維持することで将来の需要に対応するビジネスケースを作成。「拡張」ではなく「現在の規模をどう維持するか」という発想が特徴。</p>
+      <div class="callout ok" style="margin-top:8px"><b>本論点への示唆：</b><span data-cell-id="yk-cases-success-1-note">「地域主体でどう運営を再編するか」だけでなく「今の便数・航路をどう維持するか」という視点も、ワークショップで併せて議論する価値がある。</span></div>
     </div>
-    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。実際の政策検討には一次情報での確認をお願いします。</p>
   </div>
-</section>
+  <h3 style="margin-top:18px">⚠️ 失敗事例・要注意事例(いずれも要検証)</h3>
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">「失敗」と確定しているわけではなく、掲載情報は要検証を含みます。</p>
+  <div class="measureCard">
+    <span class="pill porange">要検証</span>
+    <b>隠岐諸島の「上下分離方式」(荒木会長が参考事例として言及)</b>
+    <p data-cell-id="yk-cases-1-desc" style="font-size:13px;margin:6px 0 0">荒木会長は本論点の発端となった記事の中で、隠岐諸島のような「上下分離方式」を参考にしたいと述べている。ただし公開情報から制度の具体的な内容(船体の保有主体、費用負担の割合など)までは確認できていない。行平准教授も「自治体の関与度合いに幅があり、単純に『隠岐方式』と一括りにできない」と指摘している。</p>
+    <div class="callout warn" style="margin-top:8px"><b>取り扱いの注意：</b><span data-cell-id="yk-cases-1-note">推測で制度内容を補って書かないこと。行平准教授による隠岐広域連合への個人ルートでのヒアリング結果を待ち、一次情報での確認を行う必要がある。</span></div>
+  </div>
+  <p class="footNote">※ 掲載情報はAIによる下書き(未検証)を含みます。実際の政策検討には一次情報での確認をお願いします。</p>
 
-<section class="panel" id="panel-funding">
-  <div class="card">
-    <h3>活用できる補助金・交付金(候補)</h3>
-    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">意思決定支援プラットフォームの「補助金・交付金マッチングDB」から、離島航路の運営体制見直しに関連が高いと判断した候補です。金額・締切等は必ず一次情報でご確認ください。</p>
-    <div class="tableWrap">
-      <table>
-        <thead><tr><th>制度名</th><th>所管</th><th>概要</th><th>マッチ理由</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><b>地域公共交通確保維持改善事業(離島航路・航空路補助)</b><br><span class="pill porange">自治体向け</span></td>
-            <td>国土交通省</td>
-            <td data-cell-id="funding-1-desc">離島住民の生活・福祉の安定に資するため、離島航路・航空路の運航に伴う欠損(赤字)を補助。国庫補助を受けた市町村等が事業者に補助する仕組み。</td>
-            <td data-cell-id="funding-1-reason">約100億円規模の更新費用や運営体制の見直しを検討するうえで、まず確認すべき基幹的な既存制度。</td>
-          </tr>
-          <tr>
-            <td><b>地域未来交付金(令和8年度、旧デジタル田園都市国家構想交付金)</b><br><span class="pill porange">自治体向け</span></td>
-            <td>内閣官房 地域未来戦略本部事務局</td>
-            <td data-cell-id="funding-2-desc">地域の潜在力・特色を活かした「強い経済」構築を支援。令和8年度当初予算160億円。</td>
-            <td data-cell-id="funding-2-reason">地域出資型運営会社の設立準備や、新しい運営体制のDX関連施策の財源候補になりうる。</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。申請にあたっては町・県・国の一次情報を必ずご確認ください。</p>
+  <h3 style="margin-top:18px">活用できる補助金・交付金(候補)</h3>
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">一般的に知られている制度から、離島航路の運営体制見直しに関連が高いと考えられる候補です。金額・締切等は必ず一次情報でご確認ください。</p>
+  <div class="tableWrap">
+    <table>
+      <thead><tr><th>制度名(候補)</th><th>所管</th><th>概要</th><th>マッチ理由</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>地域公共交通確保維持改善事業(離島航路・航空路補助)</b><br><span class="pill porange">自治体向け</span></td>
+          <td>国土交通省</td>
+          <td data-cell-id="yk-funding-1-desc">離島住民の生活・福祉の安定に資するため、離島航路・航空路の運航に伴う欠損(赤字)を補助。国庫補助を受けた市町村等が事業者に補助する仕組み。</td>
+          <td data-cell-id="yk-funding-1-reason">約100億円規模の更新費用や運営体制の見直しを検討するうえで、まず確認すべき基幹的な既存制度。</td>
+        </tr>
+        <tr>
+          <td><b>地域未来交付金(令和8年度、旧デジタル田園都市国家構想交付金)</b><br><span class="pill porange">自治体向け</span></td>
+          <td>内閣官房 地域未来戦略本部事務局</td>
+          <td data-cell-id="yk-funding-2-desc">地域の潜在力・特色を活かした「強い経済」構築を支援。令和8年度当初予算160億円。</td>
+          <td data-cell-id="yk-funding-2-reason">地域出資型運営会社の設立準備や、新しい運営体制のDX関連施策の財源候補になりうる。</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+  <p class="footNote">※ 掲載情報はAIによる下書き(未検証)です。申請にあたっては町・県・国の一次情報を必ずご確認ください。</p>
 </section>
 
 <section class="panel" id="panel-raw">
-  <div class="card">
-    <h3>元になった事実・出典(EvidenceRecord)</h3>
-    <div class="stakeGrid">
-      <div class="stakeCard">
-        <b>電源喪失によるフェリー漂流事故</b>
-        <p>本土―屋久島間の定期航路で、フェリーの電源喪失による漂流事故が発生。老朽化した船体の安全性・信頼性への不安が、航路の将来を議論する直接のきっかけとなった。</p>
-      </div>
-      <div class="stakeCard">
-        <b>航路更新に約100億円規模の投資判断が必要</b>
-        <p>老朽化したフェリーの更新には約100億円規模の投資が必要と見られており、財源・運営体制をどうするかが大きな意思決定事項となっている。</p>
-      </div>
-      <div class="stakeCard">
-        <b>住民による署名活動</b>
-        <p>区連会を通じ、2026年8月10日に全戸配布形式で航路維持を求める署名活動が開始。9月の屋久島町議会に提出される見込み。</p>
-      </div>
-      <div class="stakeCard">
-        <b>隠岐諸島「上下分離方式」への言及(要検証)</b>
-        <p>荒木会長は記事中で、隠岐諸島のような「上下分離方式」を参考事例として検討したいと発言。ただし具体的な制度内容は記事に記載がなく、公開情報での確認もまだ取れていない。</p>
-      </div>
-    </div>
-    <p class="footNote">出典：<a href="https://ritokei.com/forum/shimakaigi2026_theme06_yakushima" target="_blank" rel="noopener">りとけいフォーラム「島の定期航路をいかに守るか。地域主体で航路を支える新モデルとは？」(2026年)</a></p>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <h3>ステークホルダーの意見について</h3>
-    <div class="callout warn">
-      <b data-cell-id="raw-stakeholder-status">9/8の非公式事前検討会で5名分を収集</b>
-      <p data-cell-id="raw-stakeholder-note" style="margin-top:6px">本論点は「提起」段階ですが、共創ワークショップ本番(9月・10月)に先立ち、2026/9/8に非公式の事前検討会(第1回)を実施。荒木会長・屋久島町総合政策課担当者・運航事業者営業担当者・住民代表(松元さん)・行平准教授(九州産業大学)の5名分のPositionRecordをNotionに登録済みです(詳細は「立場地図」タブ)。屋久島観光協会との正式な連携は引き続き未合意のため、Stakeholderの正式なヒアリングはワークショップ本番でさらに進めます。</p>
-    </div>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <h3>会議の要点(2026年9月)</h3>
+  <h3>会議の要点(議事メモ)</h3>
+  <div class="card" style="margin-bottom:14px">
     <div class="stakeGrid">
       <div class="stakeCard">
         <b>9/8 屋久島航路モデル事前検討会(第1回・非公式)</b>
-        <p data-cell-id="raw-meeting-0908">荒木会長(約100億円という金額を見て案Cまで視野に入れたい)、屋久島町担当者(地域出資型は財政検証に時間がかかるため案Aで財源確保しつつ並行検討が現実的、と慎重)、運航事業者オブザーバー(どの案でも当面の安全対策の議論を優先してほしい)、住民代表・松元さん(署名者は切実な思いが中心で制度論はピンときていない人が多い、分かりやすい説明を希望)、行平准教授(隠岐方式は自治体の関与度に幅があり一括りにできない、一次情報確認が先)。決定事項として、①ワークショップ第1回は案A/B/Cを並列提示する方針、②行平准教授が隠岐広域連合へのヒアリングを個人ルートで打診、③署名活動の状況を屋久島観光協会から定例共有、の3点で合意。</p>
+        <p data-cell-id="yk-raw-meeting-0908">2026年9月8日(火)19:00〜21:00、荒木会長・屋久島町総合政策課担当者・運航事業者営業担当者(オブザーバー)・住民代表(松元さん)・行平准教授(九州産業大学)の5名が参加。荒木会長(約100億円という金額を見て案Cまで視野に入れたい)、屋久島町担当者(地域出資型は財政検証に時間がかかるため案Aで財源確保しつつ並行検討が現実的、と慎重)、運航事業者オブザーバー(どの案でも当面の安全対策の議論を優先してほしい)、松元さん(署名者は切実な思いが中心で制度論はピンときていない人が多い、分かりやすい説明を希望)、行平准教授(隠岐方式は自治体の関与度に幅があり一括りにできない、一次情報確認が先)。決定事項として、①ワークショップ第1回は案A/B/Cを並列提示する方針、②行平准教授が隠岐広域連合へのヒアリングを個人ルートで打診、③署名活動の状況を屋久島観光協会から定例共有、の3点で合意。宿題事項：行平准教授(隠岐ヒアリングの日程調整)、屋久島観光協会(運航事業者への正式ヒアリング日程調整)、屋久島町(総合戦略との整合性チェック)。</p>
       </div>
     </div>
-    <p class="footNote">出典：ダッシュボードの編集モードから登録された議事メモ(Notion「📝 議事メモ(ダッシュボード投稿)」)。生の議事メモ全文は「🗒️ 議事メモ」タブで確認できます。</p>
   </div>
-</section>
+  <div id="meeting-notes-list">読み込み中…</div>
 
-<section class="panel" id="panel-meetingnotes">
+  <h3 style="margin-top:24px">資料投入エリアからの下書き</h3>
   <div class="card">
-    <h3>🗒️ 議事メモ</h3>
-    <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">ワークショップ・会議の議事録や議事メモを、右下の「編集モード」から誰でも直接登録できます。登録された内容は、しまてつだいダッシュボードエージェントが確認し、必要な内容を各タブ(決断まとめ・立場地図など)に反映します。反映済みのメモには「✅ 反映済み」バッジが付きます。</p>
-    <div id="meeting-notes-list">読み込み中…</div>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">左側の「資料投入エリア」にワークショップの議事録やヒアリングメモを貼り付ける、または .txt / .md / .pdf ファイルをアップロードして反映すると、ここにAIの下書きが表示されます。</p>
+    <div id="aiDraftBody" style="white-space:pre-wrap;font-size:13px;line-height:1.7">左側の資料投入エリアから、まだ何も反映されていません。</div>
   </div>
+
+  <h3 style="margin-top:24px">元になった事実・出典(EvidenceRecord)</h3>
+  <div class="stakeGrid">
+    <div class="stakeCard">
+      <b>電源喪失によるフェリー漂流事故</b>
+      <p>本土―屋久島間の定期航路で、フェリーの電源喪失による漂流事故が発生。老朽化した船体の安全性・信頼性への不安が、航路の将来を議論する直接のきっかけとなった。</p>
+    </div>
+    <div class="stakeCard">
+      <b>航路更新に約100億円規模の投資判断が必要</b>
+      <p>老朽化したフェリーの更新には約100億円規模の投資が必要と見られており、財源・運営体制をどうするかが大きな意思決定事項となっている。</p>
+    </div>
+    <div class="stakeCard">
+      <b>住民による署名活動</b>
+      <p>区連会を通じ、2026年8月10日に全戸配布形式で航路維持を求める署名活動が開始。9月の屋久島町議会に提出される見込み。</p>
+    </div>
+    <div class="stakeCard">
+      <b>屋久島航路モデル事前検討会(第1回・非公式)を実施</b>
+      <p>2026年9月8日、荒木会長・屋久島町総合政策課担当者・運航事業者営業担当者(オブザーバー)・住民代表(松元さん)・行平准教授の5名が参加し、共創ワークショップ本番に先立つ非公式検討会を実施した。</p>
+    </div>
+    <div class="stakeCard">
+      <b>隠岐諸島「上下分離方式」への言及(要検証)</b>
+      <p>荒木会長は記事中で、隠岐諸島のような「上下分離方式」を参考事例として検討したいと発言。ただし具体的な制度内容は記事に記載がなく、公開情報での確認もまだ取れていない。</p>
+    </div>
+    <div class="stakeCard">
+      <b>ステークホルダーの意見について</b>
+      <p data-cell-id="yk-raw-stakeholder-note">2026年9月8日の非公式事前検討会で5名分のPositionRecordをNotionに登録済みです(詳細は「決断まとめ」タブの③参照)。屋久島観光協会との正式な連携は引き続き検討段階のため、共創ワークショップ本番でさらに正式なヒアリングを進めます。</p>
+    </div>
+  </div>
+  <p class="footNote">出典：<a href="https://ritokei.com/forum/shimakaigi2026_theme06_yakushima" target="_blank" rel="noopener">りとけいフォーラム「島の定期航路をいかに守るか。地域主体で航路を支える新モデルとは？」(2026年)</a>。生の議事メモ全文は上の「会議の要点」欄・編集モードからの登録一覧で確認できます。</p>
 </section>
 
 <section class="panel" id="panel-history">
   <div class="card">
-    <h3>📜 過去のダッシュボード</h3>
-    <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">改版のたびに、このタブへ要約を追加します。「決断まとめ」タブは特に変化が分かりにくいため、直前バージョンについては「▼ 全文を見る」から当時のタブ全体をそのまま確認できます(古いバージョンほど要約のみになります)。それ以前の全内容の差分が必要な場合は、開発者(吉高さん)にgit履歴・Notionページ履歴の確認をご依頼ください。</p>
+    <h3>📜 過去のまとめ</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">改版のたびに、このタブへ「決断まとめ」の要点を1件追加します(意思決定支援ダッシュボード作成エージェント3・2026-09-22より、シンプルまとめカードの形でバージョンごとに並べて保存する方式に変更しています)。</p>
+
     <div class="historyCard">
-      <b>v1(6タブ構成・初版)</b>
-      <p style="font-size:12.5px;margin:8px 0 0">2026年8月に作成した初版。議論まとめ／自治体目標（前提条件）／提案内容・詳細／国内外の類似事例／活用できる補助金・交付金／生データ（補足）の6タブ構成。セル編集機能・議事メモ登録機能・立場地図・決断ジャーニー・あなたの立場からタブは未実装だった。</p>
-      <details class="historySnapshot" style="margin-top:10px">
-        <summary>▼ v1時点の「議論まとめ」タブ全文を見る(初版・現「決断まとめ」タブの前身)</summary>
-        <div class="card" style="margin-top:10px">
-          <h3>論点の整理：なぜ今、運営モデルの見直しが必要か</h3>
-          <div class="grid2">
-            <div class="callout risk">
-              <b>きっかけとなった出来事</b>
-              <ul style="margin:6px 0 0;padding-left:18px">
-                <li>電源喪失によるフェリー漂流事故が発生し、老朽船の安全性への不安が高まった</li>
-                <li>更新には約100億円規模の投資が必要と見られる</li>
-                <li>複数事業者による運航・貨物路線の調整が複雑で、自治体単独でも一事業者単独でも解決が難しい</li>
-              </ul>
-            </div>
-            <div class="callout ok">
-              <b>住民・地域の動き</b>
-              <ul style="margin:6px 0 0;padding-left:18px">
-                <li>2026年8月10日、区連会を通じて全戸配布形式の署名活動が開始</li>
-                <li>9月の屋久島町議会に提出される見込み</li>
-                <li>荒木会長は隠岐諸島の「上下分離方式」を参考事例として検討したいと発言(詳細は要検証)</li>
-              </ul>
-            </div>
-          </div>
-          <h3 style="margin-top:18px;font-size:15px">この論点の全体像(A3サマリー)</h3>
-          <div class="a3Grid">
-            <div class="mini">
-              <h4>📊 判断材料ハイライト</h4>
-              <ul>
-                <li>電源喪失による漂流事故が議論の直接のきっかけ</li>
-                <li>老朽船更新に約100億円規模の投資判断が必要</li>
-                <li>複数事業者による運航・貨物調整が複雑</li>
-                <li>自治体単独・事業者単独では解決が難しい構造的論点</li>
-              </ul>
-            </div>
-            <div class="mini">
-              <h4>💡 検討中の選択肢ハイライト</h4>
-              <ul>
-                <li>案A：現行体制を維持しつつ更新費用の財源を確保</li>
-                <li>案B：上下分離方式(船体・港湾は公的主体、運航は民間)</li>
-                <li>案C：地域出資型の運営会社を新設し、地域が主体で運航</li>
-              </ul>
-            </div>
-            <div class="mini">
-              <h4>🗣️ 現時点で分かっている声</h4>
-              <ul>
-                <li>住民：全戸配布の署名活動という形で強い関心を表明</li>
-                <li>屋久島観光協会(荒木会長)：地域主体モデルの構築を提起</li>
-                <li>個別のステークホルダーへのヒアリングはワークショップ後に実施予定</li>
-              </ul>
-            </div>
-            <div class="mini">
-              <h4>🌍 類似事例ハイライト</h4>
-              <ul>
-                <li><span class="pill porange">一部成功</span> ロードハウ島：「拡張」でなく「維持」を軸にしたビジネスケース</li>
-                <li><span class="pill porange">要検証</span> 隠岐諸島の「上下分離方式」：荒木会長が言及、詳細は今後確認</li>
-              </ul>
-            </div>
-            <div class="mini">
-              <h4>💰 補助金・交付金ハイライト</h4>
-              <ul>
-                <li><span class="pill porange">中</span> 離島航路・航空路補助：更新費用の財源候補として最有力</li>
-                <li><span class="pill porange">中</span> 地域未来交付金：新運営体制のDX・運用設計の財源候補</li>
-              </ul>
-            </div>
-            <div class="mini">
-              <h4>✅ 現時点の結論・次の一手</h4>
-              <ul>
-                <li>特定の案への合意はまだ形成されておらず、ワークショップが出発点</li>
-                <li>次の一手：隠岐諸島など上下分離の実例を一次情報で確認する</li>
-                <li>ワークショップ後、実際のヒアリングを踏まえてPositionRecordを登録</li>
-              </ul>
-            </div>
-          </div>
-          <h3 style="margin-top:18px;font-size:15px">🧭 地域目標との関わり(分室ページ「屋久島町分室」参照)</h3>
-          <div class="tableWrap">
-            <table>
-              <thead><tr><th>指標</th><th>現状値</th><th>目標値</th><th>この論点の影響方向</th></tr></thead>
-              <tbody>
-                <tr><td>社会増減(転入-転出)</td><td>-89人(R6実績)</td><td>社会減の解消(R12年度以降)</td><td><span class="pill pgreen">追い風</span> 定期航路は通院・物流・観光など暮らしと経済の土台。持続可能な運営体制は社会減の鈍化に間接的に寄与</td></tr>
-                <tr><td>事業所数(商工会登録)</td><td>499事業所(R6)</td><td>510事業所(R11)</td><td><span class="pill pgreen">追い風</span> 観光・物流を支える航路の安定は事業継続の前提条件</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </details>
+      <b>v1(2026年8月・6タブ構成の初版)</b>
+      <p style="font-size:12.5px;margin:8px 0 0">りとけい公開記事(荒木会長の発言)をもとに新規作成した初版。「議論まとめ／自治体目標（前提条件）／提案内容・詳細／国内外の類似事例／活用できる補助金・交付金／生データ（補足）」の6タブ構成。セル編集機能・議事メモ登録機能・立場地図・決断ジャーニー・あなたの立場からタブ・左右サイドパネルはいずれも未実装だった。</p>
       <div class="metaRow">
         <span>更新日：2026年8月</span>
         <span>反映元：荒木会長の公開発言(りとけいフォーラム記事)</span>
         <span>更新者：Claude(エージェント)</span>
       </div>
     </div>
+
     <div class="historyCard">
-      <b>v2(12タブ構成へ刷新・2026-09-06)</b>
-      <p style="font-size:12.5px;margin:8px 0 0">しまてつだいダッシュボードエージェントの最新プロセスに合わせて全面刷新。決断の問い・トレードオフ比較・信頼度別カード・Cost of Inactionを「決断まとめ」タブに追加し、「あなたの立場から」「立場地図」「決断ジャーニー」「🗒️ 議事メモ」「📜 過去のダッシュボード」の5タブを新設。「自治体目標（前提条件）」タブは「屋久島町の視点（前提条件）」に改称(内容は元々屋久島町基準で作成済みのため変更なし)。セル編集機能(data-dashboard-slug・data-cell-id)を有効化。ステークホルダーへの正式なヒアリングはまだ行っていないため、「立場地図」タブは想定サンプルのまま。</p>
-      <details class="historySnapshot" style="margin-top:10px">
-        <summary>▼ v2時点の「決断まとめ」タブ全文を見る</summary>
-        <div class="card" style="margin-top:10px">
-          <div class="tldr">
-            <b>✅ 要するに：屋久島の定期航路は老朽船の更新に約100億円規模の投資が必要で、現行体制維持(案A)・上下分離方式(案B)・地域出資型運営会社(案C)の3方向を共創ワークショップ(9月・10月)で検討します。まだ「提起」段階でどの案にも合意はなく、まず隠岐諸島の上下分離方式の実例を一次情報で確認することが次の一手です。</b>
-          </div>
-          <details class="reasonBox">
-            <summary>▼ なぜそう言えるか(根拠)を見る</summary>
-            <ul>
-              <li>電源喪失によるフェリー漂流事故が発生し、老朽船の安全性への不安が議論の直接のきっかけになっている</li>
-              <li>更新には約100億円規模の投資が必要で、自治体単独・事業者単独では解決が難しい構造的な論点になっている</li>
-              <li>住民による全戸配布の署名活動(2026/8/10開始)が9月の屋久島町議会に提出される見込みで、関心の高さがすでに表れている</li>
-            </ul>
-          </details>
-          <h3 style="margin-top:18px;font-size:15px">🧭 30秒/3分/15分ルートガイド</h3>
-          <div class="routeGuide">
-            <div class="r"><b>⏱ 30秒</b>上のtldrと、下の「現時点の結論・次の一手」だけ読めばOK</div>
-            <div class="r"><b>☕ 3分</b>このタブ全体＋「提案内容・詳細」タブの3案比較まで</div>
-            <div class="r"><b>📚 15分</b>「立場地図」「決断ジャーニー」「生データ」まで含めて全体を確認</div>
-          </div>
-          <h3 style="margin-top:18px;font-size:15px">3案のトレードオフ比較(たたき台)</h3>
-          <p style="font-size:12px;color:var(--muted);margin:0 0 8px">◎○△は、下の「提案内容・詳細」タブの記述をもとにした定性的な目安であり、点数化されたスコアではありません。共創ワークショップでの議論を経て更新します。</p>
-          <div class="tradeoffWrap tableWrap">
-            <table>
-              <thead><tr><th>比較軸</th><th>案A 現行維持＋財源確保</th><th>案B 上下分離方式</th><th>案C 地域出資型運営会社</th></tr></thead>
-              <tbody>
-                <tr><td>着手しやすさ</td><td><span class="pill pgreen">◎</span></td><td><span class="pill porange">△(制度設計に時間)</span></td><td><span class="pill pred">✕(合意形成に時間)</span></td></tr>
-                <tr><td>財源確保の見通し</td><td><span class="pill porange">△(補助金頼み)</span></td><td><span class="pill pblue">○(公的主体が更新費負担)</span></td><td><span class="pill porange">△(出資と財務検証が必要)</span></td></tr>
-                <tr><td>地域の意思決定の反映しやすさ</td><td><span class="pill pred">✕(現行体制のまま)</span></td><td><span class="pill pblue">○</span></td><td><span class="pill pgreen">◎</span></td></tr>
-                <tr><td>運営体制の構造的課題への対応</td><td><span class="pill pred">✕(課題は残る)</span></td><td><span class="pill pgreen">◎</span></td><td><span class="pill pblue">○</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-          <h3 style="margin-top:18px;font-size:15px">情報の信頼度別に見る(確定/保留/未収集)</h3>
-          <div class="confGrid">
-            <div class="confCard done">
-              <b>✅ 確定(実測・一次情報あり)</b>
-              <ul>
-                <li>電源喪失によるフェリー漂流事故の発生</li>
-                <li>老朽船更新に約100億円規模の投資が必要という規模感</li>
-                <li>住民署名活動の開始日(2026/8/10)と屋久島町議会への提出見込み(9月)</li>
-                <li>屋久島町 第三期総合戦略の社会増減・事業所数の指標</li>
-              </ul>
-            </div>
-            <div class="confCard pending">
-              <b>🕓 保留(方向性はあるが未確定)</b>
-              <ul>
-                <li>案A/B/Cのどれを軸にするか</li>
-                <li>隠岐諸島「上下分離方式」の具体的な制度内容(船体保有主体・費用負担割合など)</li>
-                <li>屋久島観光協会との正式な連携(パートナーシップ)の合意</li>
-              </ul>
-            </div>
-            <div class="confCard missing">
-              <b>❌ 未収集</b>
-              <ul>
-                <li>ステークホルダーへの正式なヒアリング(PositionRecord)。共創ワークショップ後に実施予定</li>
-                <li>案A/B/Cそれぞれの具体的な収支・財源試算</li>
-              </ul>
-            </div>
-          </div>
-          <div class="coiBox">
-            <b>⏳ 今、決めずに先送りした場合に起きうること(Cost of Inaction)</b>
-            <p style="margin-top:6px">具体的な金額や年数での試算はまだできません(基礎データ不足のため未算出)。ただし、確定している事実からは、①老朽船の安全性への不安がすでに顕在化していること、②約100億円規模の投資判断を先送りするほど更新のタイミングを逃すリスクが高まること、の2点は言えます。共創ワークショップでの議論を先送りするほど、住民の署名活動という形で表れている関心の高まりへの対応が遅れる可能性があります。</p>
-          </div>
-          <div class="card">
-            <h3>論点の整理：なぜ今、運営モデルの見直しが必要か</h3>
-            <div class="grid2">
-              <div class="callout risk">
-                <b>きっかけとなった出来事</b>
-                <ul style="margin:6px 0 0;padding-left:18px">
-                  <li>電源喪失によるフェリー漂流事故が発生し、老朽船の安全性への不安が高まった</li>
-                  <li>更新には約100億円規模の投資が必要と見られる</li>
-                  <li>複数事業者による運航・貨物路線の調整が複雑で、自治体単独でも一事業者単独でも解決が難しい</li>
-                </ul>
-              </div>
-              <div class="callout ok">
-                <b>住民・地域の動き</b>
-                <ul style="margin:6px 0 0;padding-left:18px">
-                  <li>2026年8月10日、区連会を通じて全戸配布形式の署名活動が開始</li>
-                  <li>9月の屋久島町議会に提出される見込み</li>
-                  <li>荒木会長は隠岐諸島の「上下分離方式」を参考事例として検討したいと発言(詳細は要検証)</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="card" style="margin-top:14px">
-            <h3>共創ワークショップの位置づけ</h3>
-            <div class="tableWrap">
-              <table>
-                <thead><tr><th>日程</th><th>形式</th><th>内容</th></tr></thead>
-                <tbody>
-                  <tr><td>9月17日・10月8日</td><td>オンライン</td><td>論点の共有、事例研究(隠岐諸島など)、選択肢の整理</td></tr>
-                  <tr><td>10月23日</td><td>対面(定員25名)</td><td>屋久島観光協会・住民・行政・専門家を交えた議論</td></tr>
-                </tbody>
-              </table>
-            </div>
-            <p class="footNote">専門家として九州産業大学准教授・行平真也さんが関わる。参加はPeatixで受付。詳細・最新情報は<a href="https://ritokei.com/forum/shimakaigi2026_theme06_yakushima" target="_blank" rel="noopener">りとけいフォーラムの元記事</a>でご確認ください。</p>
-          </div>
-          <h3 style="margin-top:18px;font-size:15px">この論点の全体像(A3サマリー)</h3>
-          <div class="radarWrap">
-            <svg id="radarChart-v2snap" width="180" height="180" viewBox="0 0 180 180"></svg>
-            <div class="radarNotes">
-              <b>📡 情報充足度診断(AIによる自己レビュー・2026-09-06時点)</b>
-              <ul id="radarWeakPoints-v2snap">
-                <li><b>財政(15点):</b> <span>約100億円という投資規模の全体像は分かるが、案A/B/Cごとの具体的な財源スキーム・負担割合はまだ整理できていない。</span></li>
-                <li><b>行政実務(20点):</b> <span>上下分離方式を採用する場合の公的主体の役割、屋久島町との調整プロセスが未確認。</span></li>
-                <li><b>りとけい現場(35点):</b> <span>荒木会長の一次情報は確認できているが、ステークホルダーへの正式なヒアリングはまだ行っていない。</span></li>
-              </ul>
-            </div>
-          </div>
-          <div class="a3Grid">
-            <div class="mini">
-              <h4>📊 判断材料ハイライト</h4>
-              <ul>
-                <li>電源喪失による漂流事故が議論の直接のきっかけ</li>
-                <li>老朽船更新に約100億円規模の投資判断が必要</li>
-                <li>複数事業者による運航・貨物調整が複雑</li>
-                <li>自治体単独・事業者単独では解決が難しい構造的論点</li>
-              </ul>
-            </div>
-            <div class="mini">
-              <h4>💡 検討中の選択肢ハイライト</h4>
-              <ul>
-                <li>案A：現行体制を維持しつつ更新費用の財源を確保</li>
-                <li>案B：上下分離方式(船体・港湾は公的主体、運航は民間)</li>
-                <li>案C：地域出資型の運営会社を新設し、地域が主体で運航</li>
-              </ul>
-            </div>
-            <div class="mini">
-              <h4>📈 将来予測ハイライト</h4>
-              <ul>
-                <li>屋久島町の社会増減は-89人(R6実績)、R12年度に社会減の解消を目標としている</li>
-                <li><span class="pill porange">PoC概算</span> 案A/B/Cごとの財政影響の試算はまだできていない</li>
-                <li>更新投資(約100億円)を先送りした場合の機会損失は基礎データ不足のため<b>未算出</b></li>
-              </ul>
-            </div>
-            <div class="mini">
-              <h4>🗣️ 現時点で分かっている声</h4>
-              <ul>
-                <li>住民：全戸配布の署名活動という形で強い関心を表明</li>
-                <li>屋久島観光協会(荒木会長)：地域主体モデルの構築を提起</li>
-                <li>個別のステークホルダーへのヒアリングはワークショップ後に実施予定</li>
-              </ul>
-            </div>
-            <div class="mini">
-              <h4>🌍 類似事例ハイライト</h4>
-              <ul>
-                <li><span class="pill porange">一部成功</span> ロードハウ島：「拡張」でなく「維持」を軸にしたビジネスケース</li>
-                <li><span class="pill porange">要検証</span> 隠岐諸島の「上下分離方式」：荒木会長が言及、詳細は今後確認</li>
-              </ul>
-            </div>
-            <div class="mini">
-              <h4>💰 補助金・交付金ハイライト</h4>
-              <ul>
-                <li><span class="pill porange">中</span> 離島航路・航空路補助：更新費用の財源候補として最有力</li>
-                <li><span class="pill porange">中</span> 地域未来交付金：新運営体制のDX・運用設計の財源候補</li>
-              </ul>
-            </div>
-            <div class="mini">
-              <h4>✅ 現時点の結論・次の一手</h4>
-              <ul>
-                <li>特定の案への合意はまだ形成されておらず、共創ワークショップが出発点</li>
-                <li>次の一手：隠岐諸島など上下分離の実例を一次情報で確認する</li>
-                <li>ワークショップ後、実際のヒアリングを踏まえてPositionRecordを登録</li>
-              </ul>
-            </div>
-          </div>
-          <h3 style="margin-top:18px;font-size:15px">🧭 屋久島町の目指す姿との関わり</h3>
-          <p style="font-size:12px;color:var(--muted);margin:6px 0 10px">プラットフォームの活用主体である屋久島町が、第三期総合戦略で掲げる目標との関わり(詳細は「屋久島町の視点」タブを参照)。</p>
-          <div class="tableWrap">
-            <table>
-              <thead><tr><th>屋久島町の目標</th><th>この論点の影響方向</th></tr></thead>
-              <tbody>
-                <tr><td>社会増減(転入-転出)：-89人(R6実績)→社会減の解消(R12年度目標)</td><td><span class="pill pgreen">追い風</span> 定期航路は通院・物流・観光など暮らしと経済の土台。持続可能な運営体制は社会減の鈍化に間接的に寄与</td></tr>
-                <tr><td>事業所数(商工会登録)：499事業所(R6)→510事業所(R11目標)</td><td><span class="pill pgreen">追い風</span> 観光・物流を支える航路の安定は事業継続の前提条件</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="footNote">出典：屋久島町 第三期総合戦略(既存論点「屋久島航路の持続可能性」と同じ町全体の指標を参照)</p>
-          <div class="nextStep">
-            <b>🌱 厳しい前提の中でも、まず1つ試すなら：</b>
-            <p style="margin:6px 0 0">隠岐諸島の「上下分離方式」について、隠岐広域連合など一次情報で船体保有主体・費用負担割合を確認してみることです。共創ワークショップ本番を待たずに、今すぐ着手できます。</p>
-          </div>
-          <div class="actionStrip">
-            <button type="button" disabled>案Aを推す</button>
-            <button type="button" disabled>案Bを推す</button>
-            <button type="button" disabled>案Cを推す</button>
-            <button type="button" disabled>📄 決断メモを書き出す</button>
-            <span class="note">※ これらのボタンは現在デモ表示のみです(v1)。実際の意思表明・記録機能は別途ChangeRequestとして検討します。</span>
-          </div>
-        </div>
-      </details>
+      <b>v2(2026-09-06・標準プロセスに合わせ12タブ構成へ全面刷新)</b>
+      <p style="font-size:12.5px;margin:8px 0 0">しまてつだいダッシュボードエージェントの最新プロセスに合わせて全面刷新。決断の問い・トレードオフ比較・信頼度別カード・Cost of Inactionを「決断まとめ」タブに追加し、「あなたの立場から」「立場地図」「決断ジャーニー」「🗒️ 議事メモ」「📜 過去のダッシュボード」を新設。「自治体目標（前提条件）」タブは「屋久島町の視点（前提条件）」に改称。セル編集機能を有効化。ステークホルダーへの正式なヒアリングはまだ行っていないため「立場地図」タブは想定サンプルのままだった。</p>
       <div class="metaRow">
         <span>更新日：2026-09-06</span>
-        <span>反映元：しまてつだいダッシュボードエージェントによる標準プロセス適用</span>
+        <span>反映元：しまてつだいダッシュボードエージェント(標準プロセス適用)</span>
         <span>更新者：Claude(エージェント)</span>
       </div>
     </div>
+
     <div class="historyCard">
-      <b>v3(9/8議事メモを反映・2026-09-08)</b>
-      <p style="font-size:12.5px;margin:8px 0 0">ダッシュボードの編集モードから登録された議事メモ(2026/9/8「屋久島航路モデル事前検討会・第1回」)をもとに、tldrを「9/8の非公式事前検討会で、ワークショップ第1回は案を絞らず並列提示する方針で合意」に更新。信頼度別カードに5名分のPositionRecord収集・住民の制度論理解のギャップ・安全対策の具体化を追加。立場地図は「想定サンプル」表記を解消し、5名(荒木会長・屋久島町担当者・運航事業者・松元さん・行平准教授)の実データに置き換え。決断ジャーニーの現在地・チェックリストを更新。生データタブに「会議の要点」カードを新設。Notionの4DB(Evidence1件・Position5件・Agreement3件、Stakeholder5件を新規登録)に反映。</p>
+      <b>v3(2026-09-08・非公式事前検討会の議事メモを反映)</b>
+      <p style="font-size:12.5px;margin:8px 0 0">9/8の非公式事前検討会(荒木会長・屋久島町担当者・運航事業者・住民代表 松元さん・行平准教授の5名)の議事メモを反映。Notion4DBにStakeholder5件・PositionRecord5件・Evidence1件・Agreement3件を新規登録し、「立場地図」タブを想定サンプルから5名分の実データに切り替え。「決断まとめ」タブのtldr・信頼度別カード・決断ジャーニーのチェックリストを更新。タブ名称を短縮(2〜4文字)し、3グループの色分け(まず見る/くわしく検討/参考)と「決断まとめ」タブの折りたたみ構造を導入。</p>
       <div class="metaRow">
         <span>更新日：2026-09-08</span>
-        <span>反映元：議事メモ(Notion「📝 議事メモ(ダッシュボード投稿)」1件)</span>
+        <span>反映元：屋久島航路モデル事前検討会(第1回・非公式)の議事メモ</span>
+        <span>更新者：Claude(エージェント)</span>
+      </div>
+    </div>
+
+    <div class="historyCard">
+      <b>v4(現行・意思決定支援ダッシュボード作成エージェント3・6タブ・シンプル構成版へ全面作り直し)</b>
+      <p style="font-size:12.5px;margin:8px 0 0">旧12タブ構成(決断まとめ／立場別／町の視点／提案／将来予測／立場地図／進捗／事例／補助金／生データ／🗒️議事メモ／📜履歴)を、意思決定支援ダッシュボード作成エージェント3(6タブ・シンプル構成版)の新タブ構成(📋決断まとめ／🌟北極星指標／💡提案と評価／🌍事例／🗒️議事録・投入データ／📜過去のまとめ)へ全面作り直し。左(資料投入エリア)・右(質問チャット)のサイドパネルを新設し、北極星指標(地域主体で航路を支える新しい運営モデルの合意形成ができている度合い)をGQM方式で新設。新5軸レーダー(当事者の声/外部知見/方針整合/実行可能性/効果見通し)・「今日、ここを議論してください」ボックス・決定の跡を新タブへ配置。「屋久島町の視点」タブと「将来予測」タブの内容は北極星指標タブの目標対比表・補助指標に要約統合。「進捗（決断ジャーニー）」の内容は決断まとめタブの⑤ロードマップに統合。数値は捏造せず、未確認・未算出の項目は正直にラベルした。</p>
+      <div class="metaRow">
+        <span>更新日：2026-09-22</span>
+        <span>反映元：木村好孝さんからの直接依頼(しまてつだいダッシュボードエージェント3の適用)</span>
         <span>更新者：Claude(エージェント)</span>
       </div>
     </div>
   </div>
 </section>
 
+</div>
+  </div>
+
+  <aside class="sidePanel right" id="rightPanel">
+    <button type="button" class="panelToggle" id="rightToggle">💬 ダッシュボードに質問する <span id="rightToggleIcon">▲</span></button>
+    <div class="panelBody" id="rightBody">
+      <div class="chatLog" id="chatLog">
+        <p class="chatMsg hint">この論点(地域主体で航路を支える新モデルとは？)について、気になることを質問できます。(例:「懸念点は?」)</p>
+      </div>
+      <div class="chatRow">
+        <input type="text" id="chatInput" placeholder="質問を入力…">
+        <button type="button" id="chatSend">送信</button>
+      </div>
+      <p class="errMsg" id="chatErr" style="display:none">回答の生成に失敗しました。時間をおいて再度お試しください。</p>
+    </div>
+  </aside>
 </div>
 <script>
 function switchTab(tabName){
@@ -1038,11 +704,14 @@ document.querySelectorAll('.tabBtn').forEach(function(btn){
   });
 });
 // 5軸レーダーチャートを描画する共通関数。0-100のスコアを渡す。
+// 軸は「評価する人の立場」ではなく「何を根拠にしているか」で分解している
+// (Legitimacy=当事者の声／Evidence=外部知見／Alignment=上位方針との整合／
+//  Feasibility=実行可能性／Impact=効果・リスク見通し)。
 function renderRadar(svgId, scores){
   var axes = [
-    {key:'finance', label:'財政'}, {key:'life', label:'住民生活'},
-    {key:'admin', label:'行政実務'}, {key:'expert', label:'専門家'},
-    {key:'ritokei', label:'りとけい現場'}
+    {key:'legitimacy', label:'当事者の声'}, {key:'evidence', label:'外部知見'},
+    {key:'alignment', label:'方針整合'}, {key:'feasibility', label:'実行可能性'},
+    {key:'impact', label:'効果見通し'}
   ];
   var cx=90, cy=90, r=70, svg=document.getElementById(svgId);
   if (!svg) return;
@@ -1063,26 +732,185 @@ function renderRadar(svgId, scores){
   }).join('');
   svg.innerHTML = rings + '<polygon points="'+dataPts+'" fill="#7A5CCF55" stroke="#7A5CCF" stroke-width="2"/>' + labels;
 }
-renderRadar('radarChart', {finance:15, life:30, admin:20, expert:25, ritokei:50});
+renderRadar('radarChart', {legitimacy:35, evidence:15, alignment:20, feasibility:20, impact:10});
+
+// --- 左右パネルの折りたたみ ---
 (function(){
-  var wizard = document.getElementById('wizard');
-  var wizardSkip = document.getElementById('wizardSkip');
-  document.querySelectorAll('.wizardBtn').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      switchTab(btn.dataset.goto);
-      wizard.classList.add('wizardDone');
+  function bindToggle(panelId, toggleId, iconId){
+    var panel = document.getElementById(panelId);
+    var toggle = document.getElementById(toggleId);
+    var icon = document.getElementById(iconId);
+    if (!panel || !toggle) return;
+    toggle.addEventListener('click', function(){
+      var collapsed = panel.classList.toggle('collapsed');
+      if (icon) icon.textContent = collapsed ? '▼' : '▲';
     });
-  });
-  if (wizardSkip) wizardSkip.addEventListener('click', function(){ wizard.classList.add('wizardDone'); });
+  }
+  bindToggle('leftPanel', 'leftToggle', 'leftToggleIcon');
+  bindToggle('rightPanel', 'rightToggle', 'rightToggleIcon');
 })();
+
+// --- 左: 資料投入エリアのファイルアップロード(.txt/.md/.pdf) ---
+// .txt/.mdはブラウザ側でそのまま読み込み、.pdfは新設の /api/extract-document でAIに文字起こしさせる。
 (function(){
-  // 「あなたの立場から」タブ：ペルソナカードをクリックすると該当の解説を表示する
-  document.querySelectorAll('.personaCard').forEach(function(card){
-    card.addEventListener('click', function(){
-      document.querySelectorAll('.personaDetail').forEach(function(d){ d.classList.remove('active'); });
-      var detail = document.getElementById('persona-' + card.dataset.persona);
-      if (detail) detail.classList.add('active');
+  var fileInput = document.getElementById('genFile');
+  var fileStatus = document.getElementById('genFileStatus');
+  var notesEl = document.getElementById('genNotes');
+  if (!fileInput) return;
+
+  function readTextFile(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){ resolve(String(reader.result || '')); };
+      reader.onerror = function(){ reject(reader.error); };
+      reader.readAsText(file);
     });
+  }
+  function readFileAsBase64(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){
+        var result = String(reader.result || '');
+        resolve(result.split(',')[1] || '');
+      };
+      reader.onerror = function(){ reject(reader.error); };
+      reader.readAsDataURL(file);
+    });
+  }
+  function appendNotes(text){
+    var current = notesEl.value.trim();
+    notesEl.value = current ? (current + '\n\n' + text) : text;
+  }
+
+  fileInput.addEventListener('change', async function(){
+    var file = fileInput.files && fileInput.files[0];
+    fileInput.value = '';
+    if (!file) return;
+    var lower = file.name.toLowerCase();
+    var isPdf = file.type === 'application/pdf' || lower.endsWith('.pdf');
+    var isTextLike = (file.type && file.type.indexOf('text/') === 0) || lower.endsWith('.txt') || lower.endsWith('.md');
+    if (!isPdf && !isTextLike) {
+      fileStatus.style.display = 'block';
+      fileStatus.style.color = 'var(--red)';
+      fileStatus.textContent = '.txt / .md / .pdf のいずれかのファイルを選択してください。';
+      return;
+    }
+    fileStatus.style.display = 'block';
+    fileStatus.style.color = 'var(--muted)';
+    fileStatus.textContent = isPdf ? 'PDFを読み取っています…(30秒ほどかかります)' : 'ファイルを読み込んでいます…';
+    try {
+      if (isTextLike) {
+        var text = await readTextFile(file);
+        appendNotes(text);
+      } else {
+        var dataBase64 = await readFileAsBase64(file);
+        var res = await fetch('/api/extract-document', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ fileName: file.name, mimeType: 'application/pdf', dataBase64: dataBase64 })
+        });
+        if (!res.ok) throw new Error('request failed');
+        var data = await res.json();
+        appendNotes(data.text);
+      }
+      fileStatus.style.display = 'none';
+    } catch (e) {
+      fileStatus.style.color = 'var(--red)';
+      fileStatus.textContent = 'ファイルの読み込みに失敗しました。時間をおいて再度お試しください。';
+    }
+  });
+})();
+
+// --- 左: 資料投入エリア → ダッシュボードに反映 ---
+(function(){
+  var submitBtn = document.getElementById('genSubmit');
+  var errEl = document.getElementById('genErr');
+  var aiDraftBody = document.getElementById('aiDraftBody');
+  if (!submitBtn) return;
+  submitBtn.addEventListener('click', async function(){
+    var issueTitle = document.getElementById('genTitle').value.trim();
+    var sourceNotes = document.getElementById('genNotes').value.trim();
+    if (!sourceNotes) return;
+    errEl.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = '反映中…(30秒ほど)';
+    try {
+      var res = await fetch('/api/issue-summary', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ issueTitle: issueTitle, sourceNotes: sourceNotes })
+      });
+      if (!res.ok) throw new Error('request failed');
+      var data = await res.json();
+      window.__ieshimaDashboardDraft = data.draft;
+      aiDraftBody.textContent = data.draft;
+      switchTab('raw');
+    } catch (e) {
+      errEl.style.display = 'block';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'この内容をダッシュボードに反映する';
+    }
+  });
+})();
+
+// --- 右: 質問チャット ---
+(function(){
+  var log = document.getElementById('chatLog');
+  var input = document.getElementById('chatInput');
+  var sendBtn = document.getElementById('chatSend');
+  var errEl = document.getElementById('chatErr');
+  if (!sendBtn) return;
+
+  function appendMsg(role, text){
+    var div = document.createElement('div');
+    div.className = 'chatMsg ' + role;
+    div.textContent = text;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function currentDashboardContent(){
+    // 「決断まとめ」タブの本文を質問の文脈として使う。
+    // 資料投入エリアからAI下書きが反映されている場合は、それも合わせて渡す。
+    var summary = document.getElementById('panel-summary');
+    var base = summary ? summary.innerText : '';
+    if (window.__ieshimaDashboardDraft) {
+      base += '\n\n---\n【資料投入エリアからの下書き】\n' + window.__ieshimaDashboardDraft;
+    }
+    return base;
+  }
+
+  async function send(){
+    var q = input.value.trim();
+    if (!q) return;
+    errEl.style.display = 'none';
+    appendMsg('user', q);
+    input.value = '';
+    sendBtn.disabled = true;
+    try {
+      var res = await fetch('/api/dashboard-chat', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          issueTitle: '地域主体で航路を支える新モデルとは？',
+          dashboardContent: currentDashboardContent(),
+          question: q
+        })
+      });
+      if (!res.ok) throw new Error('request failed');
+      var data = await res.json();
+      appendMsg('ai', data.draft);
+    } catch (e) {
+      errEl.style.display = 'block';
+    } finally {
+      sendBtn.disabled = false;
+    }
+  }
+  sendBtn.addEventListener('click', send);
+  input.addEventListener('keydown', function(e){
+    // 日本語入力(IME)で変換を確定するEnterで誤送信しないようにする
+    if (e.key === 'Enter' && !(e.isComposing || e.keyCode === 229)) send();
   });
 })();
 </script>
