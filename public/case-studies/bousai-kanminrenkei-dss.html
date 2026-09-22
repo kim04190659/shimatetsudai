@@ -176,21 +176,20 @@ tr:last-child td{border-bottom:0}
   .sidePanel.collapsed{width:100%}
   .sidePanel.collapsed .panelToggle{writing-mode:horizontal-tb;height:auto;padding:12px 14px}
 }
-.paidOptionsBox{margin-top:14px;border:1px dashed var(--line);border-radius:12px;padding:14px;background:#fff}
-.paidOptionsBox .poLabel{font-size:11px;font-weight:800;letter-spacing:.02em;color:var(--blue);margin:0 0 8px}
-.paidOptionsBox .poButtons{display:flex;flex-wrap:wrap;gap:8px}
-.paidOptionsBox .poBtn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-size:12px;font-weight:700;color:var(--ink);cursor:pointer}
-.paidOptionsBox .poBtn:hover{background:var(--soft)}
-.paidOptionsBox .poPanel{margin-top:10px;border-top:1px solid var(--line);padding-top:10px;display:flex;flex-direction:column;gap:8px}
-.paidOptionsBox textarea,.paidOptionsBox input[type=text],.paidOptionsBox input[type=email]{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px;font-family:inherit;box-sizing:border-box;resize:vertical}
-.paidOptionsBox .poRow2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.paidOptionsBox .poSubmitBtn{align-self:flex-start;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:9px 18px;font-weight:800;font-size:12.5px;cursor:pointer}
-.paidOptionsBox .poSubmitBtn:disabled{opacity:.5;cursor:default}
-.paidOptionsBox .poErr{color:var(--red);font-size:11.5px;margin:0}
-.paidOptionsBox .poDone{color:var(--green);font-size:12px;margin:0;font-weight:700}
-.paidOptionsBox .poNote{font-size:11.5px;color:var(--muted);margin:0}
-.paidOptionsBox .poDraftText{white-space:pre-wrap;font-size:12.5px;line-height:1.6;background:var(--soft);border-radius:8px;padding:10px;margin:0}
-@media(max-width:600px){.paidOptionsBox .poRow2{grid-template-columns:1fr}}
+.poSection{padding:14px;border-top:1px solid var(--line)}
+.poSection .poSectionTitle{font-size:11px;font-weight:800;letter-spacing:.02em;color:var(--blue);margin:0 0 8px}
+.poSection .poButtons{display:flex;flex-direction:column;gap:8px}
+.poSection .poBtn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;font-size:12px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left}
+.poSection .poBtn:hover{background:var(--soft)}
+.poSection .poPanel{margin-top:10px;border-top:1px solid var(--line);padding-top:10px;display:flex;flex-direction:column;gap:8px}
+.poSection textarea,.poSection input[type=text],.poSection input[type=email]{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px;font-family:inherit;box-sizing:border-box;resize:vertical}
+.poSection .poRow2{display:grid;grid-template-columns:1fr;gap:8px}
+.poSection .poSubmitBtn{align-self:flex-start;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:9px 18px;font-weight:800;font-size:12.5px;cursor:pointer}
+.poSection .poSubmitBtn:disabled{opacity:.5;cursor:default}
+.poSection .poErr{color:var(--red);font-size:11.5px;margin:0}
+.poSection .poDone{color:var(--green);font-size:12px;margin:0;font-weight:700}
+.poSection .poNote{font-size:11.5px;color:var(--muted);margin:0}
+.poSection .poDraftText{white-space:pre-wrap;font-size:12.5px;line-height:1.6;background:var(--soft);border-radius:8px;padding:10px;margin:0}
 </style>
 </head>
 <body data-dashboard-slug="bousai-kanminrenkei-dss" data-issue-page-id="3cb960a9-1e23-816c-be89-c43487274131">
@@ -213,6 +212,41 @@ tr:last-child td{border-bottom:0}
       </div>
       <button type="button" class="primaryBtn" id="genSubmit">この内容をダッシュボードに反映する</button>
       <p class="errMsg" id="genErr" style="display:none">生成中にエラーが発生しました。時間をおいて再度お試しください。</p>
+    </div>
+
+    <div class="poSection" id="poSection">
+      <p class="poSectionTitle">🤝 リトケイへの依頼(有料オプション)</p>
+      <div class="poButtons">
+        <button type="button" class="poBtn" id="poDialogueBtn">🗣️ 対話支援(住民ヒアリング・座談会)を依頼する</button>
+        <button type="button" class="poBtn" id="poArticleBtn">📰 記事を作成・読者だよりに掲載を依頼する</button>
+      </div>
+      <div class="poPanel" id="poDialoguePanel" style="display:none">
+        <textarea id="poDialogueDetail" rows="3" placeholder="どんな対話支援を希望しますか?(例: この論点について住民ヒアリングを開催してほしい)"></textarea>
+        <div class="poRow2">
+          <input type="text" id="poDialogueName" placeholder="お名前">
+          <input type="email" id="poDialogueEmail" placeholder="連絡先メールアドレス">
+        </div>
+        <p class="poErr" id="poDialogueErr" style="display:none"></p>
+        <p class="poDone" id="poDialogueDone" style="display:none">依頼を受け付けました。担当者からご連絡します。</p>
+        <button type="button" class="poSubmitBtn" id="poDialogueSubmit">この内容で依頼する</button>
+      </div>
+      <div class="poPanel" id="poArticlePanel" style="display:none">
+        <button type="button" class="poSubmitBtn" id="poArticleGen">この決定事項から記事下書きを作る</button>
+        <p class="poErr" id="poArticleGenErr" style="display:none">下書きの生成に失敗しました。時間をおいて再度お試しください。</p>
+        <div id="poArticleDraftBox" style="display:none">
+          <p class="poNote">AIによる記事下書き(そのまま掲載されるわけではありません)</p>
+          <pre class="poDraftText" id="poArticleDraftText"></pre>
+          <p class="poNote">このままritokei.com「読者だより」への掲載を依頼できます。実際の掲載可否・文面の確認は離島経済新聞社の編集部が行います。</p>
+          <textarea id="poArticleDetail" rows="6" placeholder="下書き本文(編集して依頼できます)"></textarea>
+          <div class="poRow2">
+            <input type="text" id="poArticleName" placeholder="お名前">
+            <input type="email" id="poArticleEmail" placeholder="連絡先メールアドレス">
+          </div>
+          <p class="poErr" id="poArticleErr" style="display:none"></p>
+          <p class="poDone" id="poArticleDone" style="display:none">依頼を受け付けました。担当者からご連絡します。</p>
+          <button type="button" class="poSubmitBtn" id="poArticleSubmit">この内容で依頼する</button>
+        </div>
+      </div>
     </div>
   </aside>
 
@@ -261,41 +295,6 @@ tr:last-child td{border-bottom:0}
   </div>
 </div>
 
-
-<div class="paidOptionsBox" id="paidOptionsBox">
-  <p class="poLabel">💡 有料オプション(リトケイ提供・2026-09-13 鯨本さんからの依頼機能)</p>
-  <div class="poButtons">
-    <button type="button" class="poBtn" id="poDialogueBtn">🗣️ リトケイに対話支援(住民ヒアリング・座談会)を依頼する</button>
-    <button type="button" class="poBtn" id="poArticleBtn">📰 決定事項から記事を作成・読者だよりに掲載を依頼する</button>
-  </div>
-  <div class="poPanel" id="poDialoguePanel" style="display:none">
-    <textarea id="poDialogueDetail" rows="3" placeholder="どんな対話支援を希望しますか?(例: この論点について住民ヒアリングを開催してほしい)"></textarea>
-    <div class="poRow2">
-      <input type="text" id="poDialogueName" placeholder="お名前">
-      <input type="email" id="poDialogueEmail" placeholder="連絡先メールアドレス">
-    </div>
-    <p class="poErr" id="poDialogueErr" style="display:none"></p>
-    <p class="poDone" id="poDialogueDone" style="display:none">依頼を受け付けました。担当者からご連絡します。</p>
-    <button type="button" class="poSubmitBtn" id="poDialogueSubmit">この内容で依頼する</button>
-  </div>
-  <div class="poPanel" id="poArticlePanel" style="display:none">
-    <button type="button" class="poSubmitBtn" id="poArticleGen">この決定事項から記事下書きを作る</button>
-    <p class="poErr" id="poArticleGenErr" style="display:none">下書きの生成に失敗しました。時間をおいて再度お試しください。</p>
-    <div id="poArticleDraftBox" style="display:none">
-      <p class="poNote">AIによる記事下書き(そのまま掲載されるわけではありません)</p>
-      <pre class="poDraftText" id="poArticleDraftText"></pre>
-      <p class="poNote">このままritokei.com「読者だより」への掲載を依頼できます。実際の掲載可否・文面の確認は離島経済新聞社の編集部が行います。</p>
-      <textarea id="poArticleDetail" rows="6" placeholder="下書き本文(編集して依頼できます)"></textarea>
-      <div class="poRow2">
-        <input type="text" id="poArticleName" placeholder="お名前">
-        <input type="email" id="poArticleEmail" placeholder="連絡先メールアドレス">
-      </div>
-      <p class="poErr" id="poArticleErr" style="display:none"></p>
-      <p class="poDone" id="poArticleDone" style="display:none">依頼を受け付けました。担当者からご連絡します。</p>
-      <button type="button" class="poSubmitBtn" id="poArticleSubmit">この内容で依頼する</button>
-    </div>
-  </div>
-</div>
 
 <nav class="tabs">
   <button class="tabBtn active" data-tab="summary">📋 決断まとめ</button>
