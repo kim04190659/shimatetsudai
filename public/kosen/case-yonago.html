@@ -1,209 +1,390 @@
-<title>米子高専 角田直輝先生（キャリア・金融教育）</title>
-<base href="/kosen/">
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>太陽光発電×金融・キャリア教育 | 角田直輝先生（米子高専） カリキュラムダッシュボード</title>
 <style>
-  /* CR「60歳前後の熟年層向けUI検証」対応：ルートのfont-sizeを引き上げ、rem基準のクラスを全体的に拡大 */
-  html{ font-size:113%; }
-  :root{ --bg:#F2EEE6; --card:#FFFFFF; --ink:#2C2C2B; --muted:#726A5E; --line:#E1DDD3; --blue:#2783DE;
-    --good:#4C7A52; --good-bg:#E8F1EC; --bad:#B23B3B; --bad-bg:#FBEAEA;
-    --callout-blue-bg:#EFF6FE; --callout-blue-line:#2783DE;
-    --shadow:0 1px 2px rgba(44,44,43,.05), 0 8px 22px rgba(44,44,43,.06); }
-  *{box-sizing:border-box;}
-  body{ background:var(--bg); color:var(--ink); line-height:1.75; margin:0;
-    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
-  .shell{max-width:960px; margin:0 auto; padding:26px 22px 60px;}
-  .breadcrumb{font-size:.78rem; color:var(--muted); margin-bottom:14px;}
-  .breadcrumb a{color:var(--blue); text-decoration:none;}
-  .head{display:flex; justify-content:space-between; align-items:flex-start; gap:14px;}
-  h1{font-size:1.55rem; margin:0;}
-  .region{font-size:.85rem; color:var(--muted); margin-top:2px;}
-  .pill{font-size:.74rem; font-weight:700; padding:4px 12px; border-radius:99px; background:var(--good-bg); color:var(--good); white-space:nowrap;}
-  .lead{color:var(--muted); font-size:.9rem; max-width:76ch; margin:12px 0 24px;}
-  h2{font-size:1.15rem; margin:0 0 4px;}
-  .section-num{font-size:.72rem; font-weight:700; color:var(--blue); letter-spacing:.04em;}
-  section.block{scroll-margin-top:76px; margin-top:40px; padding-top:8px; border-top:1px solid var(--line);}
-  .subtle{color:var(--muted); font-size:.86rem; margin:6px 0 14px;}
-  .stat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:8px;}
-  @media (max-width:700px){ .stat-grid{grid-template-columns:repeat(2,1fr);} }
-  .stat{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow);}
-  .stat-label{font-size:.72rem; color:var(--muted);}
-  .stat-value{font-size:1.05rem; font-weight:700; margin-top:2px;}
-  .card{background:var(--callout-blue-bg); border-left:4px solid var(--callout-blue-line); border-radius:12px; padding:16px 18px; font-size:.87rem; color:var(--ink); margin:14px 0;}
-  .card.good{background:var(--good-bg); border-left-color:var(--good);}
-  .card.warn{background:var(--bad-bg); border-left-color:var(--bad);}
-  table{width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; font-size:.85rem; margin:10px 0;}
-  th,td{padding:10px 14px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top;}
-  th{background:#F7F4EE; color:var(--muted); font-weight:600;}
-  tr:last-child td{border-bottom:none;}
-  .card-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:16px 0;}
-  @media (max-width:700px){ .card-grid{grid-template-columns:repeat(2,1fr);} }
-  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; box-shadow:var(--shadow); text-align:center;}
-  .mini-mark{font-size:1.3rem;}
-  .mini-name{font-size:.8rem; font-weight:700; margin-top:4px;}
-  .mini-desc{font-size:.73rem; color:var(--muted); margin-top:4px;}
-  .toc{display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 8px; padding:14px; background:var(--card); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow);}
-  .toc a{font-size:.76rem; color:var(--blue); text-decoration:none; background:var(--callout-blue-bg); padding:4px 10px; border-radius:99px;}
-  footer{margin-top:36px; padding-top:16px; border-top:1px solid var(--line); font-size:.74rem; color:var(--muted);}
-  a.btn{display:inline-block; margin-top:6px; padding:8px 16px; border-radius:99px; background:var(--blue); color:#fff; text-decoration:none; font-size:.82rem; font-weight:600;}
+:root{
+  --ink:#2C2C2B; --muted:#7D7A75; --line:#E6E5E3; --soft:#F9F8F7;
+  --blue:#2783DE; --blueSoft:#E5F2FC; --green:#46A171; --greenSoft:#E8F1EC;
+  --orange:#D5803B; --orangeSoft:#FBEBDE; --red:#E56458; --redSoft:#FCE9E7;
+  --purple:#7A5CCF; --purpleSoft:#EEE9FB;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:var(--ink);background:var(--soft);font-size:14.5px;line-height:1.6}
+.appWrap{display:flex;gap:14px;padding:16px;align-items:flex-start}
+.paneToggle{border:1px solid var(--line);background:#fff;border-radius:10px;padding:4px 10px;font-size:11.5px;cursor:pointer;color:var(--muted)}
+.leftPane,.rightPane{flex:0 0 260px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+.leftPane.collapsed,.rightPane.collapsed{display:none}
+.centerPane{flex:1;min-width:0}
+.paneTitle{font-weight:800;font-size:13px;margin:0 0 8px;display:flex;justify-content:space-between;align-items:center}
+.leftPane textarea{width:100%;min-height:100px;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px;resize:vertical}
+.leftPane input[type=file]{font-size:11.5px;margin:8px 0}
+.reflectBtn{width:100%;border:none;background:var(--blue);color:#fff;border-radius:8px;padding:9px;font-weight:800;font-size:12.5px;cursor:pointer;margin-top:6px}
+.rightPane .chatLog{min-height:160px;max-height:280px;overflow-y:auto;font-size:12.5px;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--soft);margin-bottom:8px}
+.rightPane .chatRow{display:flex;gap:6px}
+.rightPane input[type=text]{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px}
+.rightPane button{border:none;background:var(--blue);color:#fff;border-radius:8px;padding:8px 12px;font-size:12.5px;cursor:pointer}
+
+.hero{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:14px}
+.hero h1{font-size:17px;margin:0 0 4px}
+.hero .sub{color:var(--muted);font-size:12.5px;margin:0 0 6px}
+.decisionQ{background:var(--blueSoft);border-radius:10px;padding:9px 12px;font-size:12.5px;font-weight:700;color:#165c9d;margin:10px 0 12px}
+.kpiRow{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.kpi{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.kpi .label{font-size:11px;color:var(--muted)}
+.kpi .value{font-size:19px;font-weight:800;margin-top:2px}
+.kpi .value.unknown{color:var(--muted);font-size:13px;font-weight:700}
+
+.tabs{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:6px;background:var(--soft);padding:6px 0 10px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.tabBtn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;color:var(--ink)}
+.tabBtn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+.panel{display:none;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.panel.active{display:block}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:var(--soft)}
+.callout{border-radius:12px;padding:10px 14px;margin:10px 0;font-size:13px}
+.callout.ok{background:var(--greenSoft);border:1px solid var(--green)}
+.callout.warn{background:var(--orangeSoft);border:1px solid var(--orange)}
+.callout.risk{background:var(--redSoft);border:1px solid var(--red)}
+.tableWrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+table th,table td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+table th{background:var(--soft)}
+.pill{display:inline-block;border-radius:999px;padding:2px 9px;font-size:11px;font-weight:800}
+.pill.pblue{background:var(--blueSoft);color:#165c9d}
+.pill.pgreen{background:var(--greenSoft);color:#2f6b4f}
+.pill.porange{background:var(--orangeSoft);color:#8a5322}
+.pill.pred{background:var(--redSoft);color:#a3352c}
+
+.highlights{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:12px 0}
+.hl{border-radius:12px;padding:10px 12px;font-size:12.5px;border:1px solid var(--line);background:var(--soft)}
+.hl b{display:block;margin-bottom:4px;font-size:12.5px}
+.hl.green{background:var(--greenSoft);border-color:var(--green)}
+.hl.orange{background:var(--orangeSoft);border-color:var(--orange)}
+.hl.purple{background:var(--purpleSoft);border-color:var(--purple)}
+.hl.red{background:var(--redSoft);border-color:var(--red)}
+.hl.gray{background:#fff}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0}
+.opt{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.opt b{display:block;margin-bottom:6px}
+.voices{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0}
+.voice{border-radius:12px;padding:10px 12px;font-size:12.5px;border:1px solid var(--line)}
+.voice.support{background:var(--greenSoft)} .voice.oppose{background:var(--redSoft)}
+.voice.pending{background:var(--orangeSoft)} .voice.minority{background:#fff}
+.evidence-list{margin:12px 0}
+.ev{border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:6px;font-size:12.5px;display:flex;gap:10px;align-items:flex-start}
+.ev .lv{flex:0 0 34px;font-weight:800;border-radius:6px;text-align:center;padding:2px 0;font-size:11px;color:#fff}
+.ev .lv.l1{background:var(--green)} .ev .lv.l2{background:var(--blue)} .ev .lv.l3{background:var(--orange)} .ev .lv.l5{background:var(--muted)}
+.timeline{margin:12px 0;padding-left:20px}
+.timeline li{margin:6px 0;font-size:13px}
+.timeline li.done{color:var(--green);font-weight:700}
+
+.radarWrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:0 0 16px;padding:14px 16px;border:2px solid var(--purple);background:var(--purpleSoft);border-radius:14px}
+.discussBox{border:2px solid var(--orange);background:var(--orangeSoft);border-radius:12px;padding:12px 14px;margin:14px 0}
+.discussBox b{display:block;margin-bottom:6px}
+.traceWrap{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--soft);margin:10px 0}
+.traceWrap ul{margin:6px 0 0;padding-left:18px;font-size:12.5px}
+.traceWrap li{margin:4px 0}
+
+.historyCard{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:#fff}
+.historyCard .metaRow{color:var(--muted);font-size:11.5px;margin:4px 0 8px}
 </style>
-<body data-kosen-slug="case-yonago">
-<div class="shell">
-  <div class="breadcrumb"><a href="index.html">← 次世代高専教育カンファレンス</a> ｜ <a href="teachers.html">先生一覧</a> ｜ 教育コンテンツ作成支援 事例</div>
-  <div class="head">
-    <div><h1>角田直輝先生のキャリア・金融教育</h1><div class="region">米子工業高等専門学校 総合工学科 情報システム部門 教授</div></div>
-    <span class="pill">実施中の研究・教育実践</span>
-  </div>
-  <p class="lead" data-cell-id="case-yonago-lead">「教育コンテンツ作成支援」が目指す、先生の研究テーマと社会課題（困りごと）をつなげた教育コンテンツづくりの具体例として、researchmap（researchmap.jp/7000003554）に公開されている角田直輝先生の研究活動を整理しました。鹿児島高専の事例（物流・企業活動）とは異なる領域の実例です。</p>
+</head>
+<body data-dashboard-slug="case-yonago" data-issue-page-id="3d4960a91e2381428fc6e198fdb75795">
 
-  <div class="toc">
-    <a href="#purpose">① 教育の目的</a>
-    <a href="#company">② 企業紹介（先生自身の経歴）</a>
-    <a href="#problem">③ 問題提起</a>
-    <a href="#activity">④ 教育活動の4要素</a>
-    <a href="#value">⑤ 社会価値創造</a>
-    <a href="#execution">⑥ 実行</a>
-    <a href="#success">⑦ 成功事例</a>
-    <a href="#failure">⑧ 課題・留意点</a>
-    <a href="#curriculum">⑨ 15コマカリキュラム案</a>
-  </div>
+<div class="appWrap">
 
-  <div class="stat-grid">
-    <div class="stat"><div class="stat-label">所属</div><div class="stat-value">米子高専 情報システム部門</div></div>
-    <div class="stat"><div class="stat-label">学位</div><div class="stat-value">博士（工学）電気通信大学</div></div>
-    <div class="stat"><div class="stat-label">現在の研究テーマ</div><div class="stat-value">キャリア・金融教育の社会実装</div></div>
-    <div class="stat"><div class="stat-label">進行中の科研費</div><div class="stat-value">2025〜2028年度</div></div>
-  </div>
+  <aside class="leftPane" id="leftPane">
+    <p class="paneTitle">📥 資料投入エリア <button class="paneToggle" data-toggle="leftPane">隠す</button></p>
+    <textarea id="docText" placeholder="議事録・企業からの連絡・実施結果等を貼り付け"></textarea>
+    <input type="file" id="docFile" accept=".txt,.md,.pdf">
+    <button class="reflectBtn" id="reflectBtn">反映する</button>
+    <p style="font-size:11px;color:var(--muted);margin-top:8px">※ 投入内容は4分類（事実/意見/目標/決定）に整理し、了承後に北極星指標5軸を再計算します。</p>
+  </aside>
 
-  <section id="purpose" class="block">
-    <p class="section-num">① PURPOSE</p>
-    <h2>教育の目的</h2>
-    <p class="subtle" data-cell-id="case-yonago-subtle-1">科研費「キャリア・金融要素を取り込んだ工業高専における社会実装教育教材の開発と効果実証」（基盤研究(C)、2025年4月〜2028年3月）が示す通り、目的は次の2点です。</p>
-    <div class="card-grid">
-      <div class="mini"><div class="mini-mark">💰</div><div class="mini-name">自己投資意識の醸成</div><div class="mini-desc">学修モチベーション向上のため、専門科目にキャリア・金融の視点を組み込む</div></div>
-      <div class="mini"><div class="mini-mark">🔧</div><div class="mini-name">専門性と社会実装の接続</div><div class="mini-desc">電磁気学などの専門科目を、社会実装教育教材として設計し直す</div></div>
-      <div class="mini"><div class="mini-mark">🏢</div><div class="mini-name">産学官連携の実践</div><div class="mini-desc">企業・自治体と連携した教育プログラムの企画・運営を継続</div></div>
-      <div class="mini"><div class="mini-mark">📈</div><div class="mini-name">効果の実証</div><div class="mini-desc">教材導入による学修モチベーション向上を、論文として査読付き発表</div></div>
+  <main class="centerPane">
+
+    <div class="hero">
+      <h1>☀️ 太陽光発電×金融・キャリア教育（角田直輝先生・米子高専）</h1>
+      <p class="sub">情報システム部門 教授｜半年15コマ（年間30コマの前半）｜カリキュラム作成エージェント版・v1</p>
+      <p class="sub" style="color:#165c9d;font-weight:700">🎓 本カリキュラムはバックワードデザイン（逆向き設計）とCDIOフレームワーク（Conceive→Design→Implement→Operate）に基づいて設計されています。</p>
+      <div class="decisionQ">🎯 今回決めるべき問い：角田先生ご本人への確認と、4企業タイプの探索をどの順で進めるか？</div>
+      <div class="kpiRow">
+        <div class="kpi"><div class="label">15コマ中 設計完了</div><div class="value">15/15</div></div>
+        <div class="kpi"><div class="label">必要企業タイプ</div><div class="value">4種類</div></div>
+        <div class="kpi"><div class="label">確定企業</div><div class="value unknown">0社（未確認）</div></div>
+        <div class="kpi"><div class="label">先生の実践実績との一致</div><div class="value" style="font-size:14px">高い</div></div>
+      </div>
     </div>
-  </section>
 
-  <section id="company" class="block">
-    <p class="section-num">② BACKGROUND</p>
-    <h2>企業紹介にあたる部分：先生自身の経歴</h2>
-    <p class="subtle" data-cell-id="case-yonago-subtle-2">今回は外部企業人材ではなく、角田先生ご自身が「技術者出身のキャリア教育実践者」というユニークな立場にあります。</p>
-    <div class="card">
-      <b>経歴</b><br>
-      <span data-cell-id="case-yonago-card-1">電気通信大学で半導体・結晶成長（量子ドット物性）を研究し博士号取得。2012年に米子高専 電子制御工学科 助教として着任、2018年頃からキャリア教育・金融教育・アントレプレナーシップ教育へと研究の軸を広げる。2級ファイナンシャル・プランニング技能士の資格を持ち、「教員FP」として書籍『就職前に知ってもらいたい！教員FPが勧める豊かな生活を送るためのお金の考え方』（2024年）を出版。</span>
-    </div>
-    <div class="card good">
-      <b>産学官連携の実務経験</b><br>
-      <span data-cell-id="case-yonago-card-2">島根県IT企業7社への学生訪問企画（2025年3月）、米子高専×島根県×島根県IT企業のアントレプレナーシップ教育（2024年10月〜12月）、起業家育成コースの企業人材によるエントリーシート添削指導（2022年6月）など、「企業人材と高専生をつなぐ」実務を継続的に手がけている。</span>
-    </div>
-  </section>
+    <nav class="tabs">
+      <button class="tabBtn active" data-tab="summary">📚 まとめ</button>
+      <button class="tabBtn" data-tab="curriculum">📅 カリキュラム</button>
+      <button class="tabBtn" data-tab="northstar">🌟 北極星指標</button>
+      <button class="tabBtn" data-tab="proposal">💡 提案と評価</button>
+      <button class="tabBtn" data-tab="cases">🌍 事例</button>
+      <button class="tabBtn" data-tab="raw">🗒️ 議事録・投入データ</button>
+      <button class="tabBtn" data-tab="history">📜 過去のまとめ</button>
+    </nav>
 
-  <section id="problem" class="block">
-    <p class="section-num">③ PROBLEM</p>
-    <h2>問題提起</h2>
-    <p class="subtle" data-cell-id="case-yonago-subtle-3">角田先生の研究が向き合う課題は、鹿児島高専の物流問題とは異なり「産業人口減少」そのものではありません。焦点は技術者自身のキャリア形成にあります。</p>
-    <div class="card">
-      <b>高専生が抱える課題</b><br>
-      <span data-cell-id="case-yonago-card-3">専門技術は高度に学ぶ一方、卒業後のキャリア形成・自己投資・金融の知識を学ぶ機会が乏しい。技術者としての専門性はあっても、自分のキャリアや資産形成をどう設計するかという視点を持たないまま社会に出てしまう。</span>
-    </div>
-    <div class="card">
-      <b>教員側の課題</b><br>
-      <span data-cell-id="case-yonago-card-4">専門科目（電磁気学等）とキャリア・金融教育を統合した教材は一般的でなく、教員個人が手探りで開発する必要がある。角田先生はこれを太陽光発電投資教材という具体的な教具に落とし込むことで解決している。</span>
-    </div>
-  </section>
+    <!-- ① まとめ -->
+    <section class="panel active" id="panel-summary">
 
-  <section id="activity" class="block">
-    <p class="section-num">④ ACTIVITY</p>
-    <h2>教育活動の4要素（マッチングサイトの4カードと対応）</h2>
-    <p class="subtle" data-cell-id="case-yonago-subtle-4">設計メモ「教育マッチングサイト（4カード構想）」の枠組みに、角田先生の活動を当てはめると次のようになります。</p>
-    <table>
-      <tr><th>カード</th><th>角田先生の場合</th></tr>
-      <tr><td>♥ ペルソナ</td><td>米子高専 総合工学科 情報システムコースの学生（旧・電子制御工学科含む）</td></tr>
-      <tr><td>♦ 提供する価値</td><td>太陽光発電投資教材を使ったキャリア・金融教育モジュール、専門科目の学修モチベーション向上プログラム</td></tr>
-      <tr><td>♠ 技術</td><td>電気電子工学・センサー工学の専門知識と、金融教材（卓上型太陽光発電投資教材）の開発ノウハウ</td></tr>
-      <tr><td>♣ パートナー</td><td>島根県・島根県IT企業・地元起業家・鳥取県職員との産学官連携ネットワーク</td></tr>
-    </table>
-  </section>
+      <div class="highlights" data-cell-id="sum-highlights">
+        <div class="hl green"><b>📊 判断材料</b>角田先生は2023年に米子高専知的セミナー「太陽光発電投資について知ろう」を実施済み。researchmap上でも「キャリア・金融要素を取り込んだ工業高専における社会実装教育教材」という科研費テーマ（2025〜2028年度）を進行中で、本カリキュラムはその延長線上にある。</div>
+        <div class="hl purple"><b>💡 検討中の選択肢</b>企業探索の難易度に差がある（J-FLECは公的無料制度で低難易度、他3タイプは個別開拓が必要）。どの順で進めるかが論点。</div>
+        <div class="hl gray"><b>📈 将来予測</b>点数・満足度への効果は実施前のため未算出。評価設計（発電量計算の正確さ・NPV/IRRの妥当性・キャリアプランの具体性）はコマ15で定義済み。</div>
+        <div class="hl orange"><b>🗣️ 現時点で分かっている声</b>15コマの構成・依頼文はすべて角田先生ご本人への確認前の仮説。ご本人の意向はまだ確認できていない。</div>
+        <div class="hl gray"><b>🌍 類似事例</b>他高専（久池井先生・北九州／千秋先生・高知）との比較はまだ行っていない。事例タブでは企業タイプ別の出前授業状況を整理。</div>
+        <div class="hl green"><b>✅ 結論・次の一手</b>15コマの活動内容・企業依頼文はすべて完成。次の一手は角田先生への内容確認と、4企業タイプの探索着手。</div>
+      </div>
 
-  <section id="value" class="block">
-    <p class="section-num">⑤ SOCIAL VALUE</p>
-    <h2>社会価値創造</h2>
-    <table>
-      <tr><th>相手</th><th>価値の例</th></tr>
-      <tr><td>学生</td><td>専門知識と同時にキャリア・金融の視点を得て、学修モチベーションが向上する</td></tr>
-      <tr><td>地域IT企業</td><td>学生との接点（訪問・エントリーシート添削等）を持ち、将来の人材確保につながる</td></tr>
-      <tr><td>高専機構全体</td><td>「デジタルものづくり教育」「イノベーション人財教育」事業のモデルケースとして横展開できる</td></tr>
-      <tr><td>鳥取県・島根県</td><td>地域産業への学生の関心・定着の一助になる</td></tr>
-    </table>
-  </section>
+      <h3>ステークホルダーの意見について</h3>
+      <div class="voices" data-cell-id="sum-voices">
+        <div class="voice pending"><b>保留：角田先生（本人）</b>15コマ構成・学習目標・企業依頼内容は全て仮説。先生ご自身のやりたいことと整合しているかはまだ確認できていない。</div>
+        <div class="voice minority">企業4タイプ（発電事業者・金融機関/J-FLEC・人材会社・地元エネルギー企業）・学生の声は未収集。</div>
+      </div>
 
-  <section id="execution" class="block">
-    <p class="section-num">⑥ EXECUTION</p>
-    <h2>実行</h2>
-    <div class="card">
-      <b>教材・実践</b><br>
-      <span data-cell-id="case-yonago-card-5">卓上型太陽光発電投資教材を試作し、電磁気学等の授業でキャリア・金融要素を取り込む実践を継続。2021年度の科研費「太陽光発電投資教材の開発およびキャリア教育・金融教育的効果の実証」を経て、2025年度から後継の科研費研究へ発展。</span>
+      <h3>元になった事実・出典（EvidenceRecord）</h3>
+      <div class="evidence-list" data-cell-id="sum-evidence">
+        <div class="ev"><span class="lv l2">L2</span>角田先生ご本人が2023年6月に実施した米子高専知的セミナー「太陽光発電投資について知ろう」（YouTube公開）</div>
+        <div class="ev"><span class="lv l2">L2</span>researchmap上の科研費テーマ「キャリア・金融要素を取り込んだ工業高専における社会実装教育教材の開発と効果実証」（基盤研究(C)、2025年4月〜2028年3月）</div>
+        <div class="ev"><span class="lv l5">L5</span>15コマの各回の学習目標・活動内容・企業依頼文はすべて仮説（角田先生への確認前）</div>
+      </div>
+
+      <h3>合意形成の現在地（想定・ロードマップ）</h3>
+      <ol class="timeline" data-cell-id="sum-timeline">
+        <li class="done">15コマの学習目標・活動内容・企業依頼文の設計完了（完了）</li>
+        <li>角田先生への内容確認（次のアクション）</li>
+        <li>J-FLEC（公的無料制度）への依頼から着手（探索コスト最小）</li>
+        <li>発電事業者・エンジニア人材会社・地元エネルギー企業の個別探索</li>
+        <li>実施後、北極星指標（点数）の測定・カリキュラムの振り返り</li>
+      </ol>
+    </section>
+
+    <!-- ② カリキュラム（15コマ授業計画） -->
+    <section class="panel" id="panel-curriculum">
+      <h3>15コマ 授業計画（半年・年間30コマの前半）</h3>
+      <p style="font-size:12px;color:var(--muted)">全15コマとも活動内容・企業依頼文まで設計済み。角田先生ご本人への確認前の仮説段階。</p>
+      <div class="tableWrap">
+        <table>
+          <tr><th>回</th><th>区分</th><th>テーマ</th><th>学習目標</th><th>活動内容／企業への依頼内容</th></tr>
+          <tr><td>1</td><td class="pill pblue">先生</td><td>オリエンテーション＋太陽光発電の技術基礎</td><td>発電原理・変換効率・設置条件を理解する</td><td>講義＋発電量計算の演習（自宅や学校の屋根で試算）</td></tr>
+          <tr><td>2</td><td class="pill pblue">先生</td><td>発電量計算・投資回収の基本モデル</td><td>回収年数を試算できるようになる</td><td>Excel等での回収年数シミュレーション演習</td></tr>
+          <tr><td>3</td><td class="pill porange">企業</td><td>実際の発電所運営・収益構造の実例</td><td>教科書の計算式と現実のブレを知る</td><td>【再エネデベロッパー・発電事業者へ依頼】稼働データを差し支えない範囲で公開してほしい</td></tr>
+          <tr><td>4</td><td class="pill pblue">先生</td><td>金融リテラシー基礎</td><td>分散投資・リスク許容度・複利を理解する</td><td>銀行預金・株式・不動産の分散投資のリスクを話し合うワーク</td></tr>
+          <tr><td>5</td><td class="pill pblue">先生</td><td>投資判断の基礎理論（NPV/IRR）</td><td>NPV・IRRを計算できるようになる</td><td>NPV/IRRを自動計算するシートを作る演習</td></tr>
+          <tr><td>6</td><td class="pill porange">企業</td><td>資産形成相談の現場・金融教育の実例</td><td>実際の資産形成の現場を知る</td><td>【J-FLEC認定講師へ依頼】出張授業制度で資産形成・リスク管理を解説してほしい（公的無料制度・難易度低）</td></tr>
+          <tr><td>7</td><td class="pill pblue">先生</td><td>キャリア形成理論</td><td>技術者のキャリアパスの分岐を理解する</td><td>3つのキャリアパス（専門職・管理職・独立）をカードにして選ぶワーク</td></tr>
+          <tr><td>8</td><td class="pill porange">企業</td><td>技術者のキャリアパス実例</td><td>技術者のキャリアの幅を知る</td><td>【エンジニア採用・人材会社へ依頼】キャリア分岐事例を2〜3パターン紹介してほしい</td></tr>
+          <tr><td>9</td><td class="pill pblue">先生</td><td>投資教材ワーク①：モデル構築</td><td>発電量計算・NPV/IRR・キャリア理論を統合する</td><td>自分のモデルをExcelにまとめる作業。先生が巡回して相談に応じる</td></tr>
+          <tr><td>10</td><td class="pill porange">企業</td><td>現場データを使ったケーススタディ</td><td>モデルを現場データで検証する</td><td>【発電事業者(コマ3とは別)へ依頼】匿名化した現場データを提供してほしい</td></tr>
+          <tr><td>11</td><td class="pill pblue">先生</td><td>投資教材ワーク②：投資判断シミュレーション</td><td>複数シナリオでの投資判断を行う</td><td>好条件・悪条件の2シナリオでNPVを比べる演習</td></tr>
+          <tr><td>12</td><td class="pill porange">企業</td><td>投資判断へのフィードバック・講評</td><td>プロの視点での講評を受ける</td><td>【金融機関へ依頼】投資判断シミュレーションに講評してほしい</td></tr>
+          <tr><td>13</td><td class="pill pblue">先生</td><td>振り返り：キャリアと金融の統合理論</td><td>学びを一つのストーリーに統合する</td><td>モデルとキャリアプランをA4一枚にまとめるワーク</td></tr>
+          <tr><td>14</td><td class="pill porange">企業</td><td>地域における再エネ×キャリアの実例紹介</td><td>地元で技術者として働く選択肢を知る</td><td>【地元エネルギー企業(鳥取・島根)へ依頼】地元で働く社員を紹介してほしい</td></tr>
+          <tr><td>15</td><td class="pill pblue">先生</td><td>成果発表会・総括</td><td>学びをポートフォリオにまとめキャリアプランに反映する</td><td>発表会。先生と企業担当者が同じ基準（発電量計算の正確さ・NPV/IRRの妥当性・キャリアプランの具体性）で評価</td></tr>
+        </table>
+      </div>
+      <div class="callout warn" style="margin-top:12px">4企業タイプとも実際の企業は未選定です。詳細な依頼文は「議事録・投入データ」タブに掲載しています。</div>
+    </section>
+
+    <!-- ③ 北極星指標 -->
+    <section class="panel" id="panel-northstar">
+      <div class="callout warn" data-cell-id="ns-tldr">
+        <b>🎯 北極星指標：定期試験・レポートの点数</b><br>
+        ①現在値：<b>未算出・実施前</b>（15コマとも未実施のため）<br>
+        ②比較対象：他高専（米子以外）の類似カリキュラムとまだ比較できていない<br>
+        ③原因：カリキュラムがまだ実施前段階で、角田先生ご本人の確認も済んでいない<br>
+        ④次のアクション：先生への確認を終え、J-FLEC（公的無料制度）から企業探索を始める
+      </div>
+      <div class="kpiRow" style="margin-bottom:14px">
+        <div class="kpi"><div class="label">補助①学生満足度</div><div class="value unknown">未算出</div></div>
+        <div class="kpi"><div class="label">補助②コマ実施進行度</div><div class="value">0/15実施</div></div>
+        <div class="kpi"><div class="label">補助③企業参画多様性</div><div class="value">0/4確定</div></div>
+        <div class="kpi"><div class="label">補助④マッチング精度</div><div class="value unknown">未算出</div></div>
+      </div>
+
+      <div class="radarWrap">
+        <svg id="radarChart" width="180" height="180" viewBox="0 0 180 180"></svg>
+        <div style="flex:1;min-width:220px;font-size:12.5px">
+          <b>📡 情報充足度診断（5軸）</b>
+          <ul id="radarWeakPoints" style="margin:6px 0 0;padding-left:18px"></ul>
+        </div>
+      </div>
+
+      <div class="discussBox">
+        <b>🗣️ 今日、ここを議論してください</b>
+        <p>情報充足度が最も低いのは「効果見通し（Impact）」と「当事者の声（Legitimacy）」です。角田先生ご本人の確認がまだ取れていないことが根本原因です。次に取るべき行動は、この意向確認です。</p>
+      </div>
+
+      <div class="traceWrap">
+        <b>🧵 決定の跡（Decision Trace）</b>
+        <ul id="decisionTrace">
+          <li>2023-06　角田先生が米子高専知的セミナー「太陽光発電投資について知ろう」を実施（既存実績・エビデンス）</li>
+          <li>2026-09-07　本ページ初版作成（既存Notion情報のみで構成）</li>
+          <li>2026-09-08　Web調査で深掘り。researchmapの科研費テーマとの一致を確認、15コマ詳細化</li>
+          <li>2026-09-16　全15コマの活動内容・企業への依頼文を完成。カリキュラム作成エージェント版（本ページ）へ移行</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ④ 提案と評価 -->
+    <section class="panel" id="panel-proposal">
+      <h3>企業探索の進め方（3案）</h3>
+      <p style="font-size:12px;color:var(--muted);margin-top:-4px">CDIOフレームワークで見ると、コマ1〜15はConceive/Design（構想・設計）まで完了。次はImplement（実行＝企業探索・実施）にどう進むかという問い。</p>
+      <div class="opts">
+        <div class="opt"><b>案A：J-FLEC先行実施</b>公的無料制度で難易度が最も低いJ-FLEC（コマ6・12）から着手する。<br>強み：確実に実施できる／弱み：他3企業タイプ（発電事業者・人材会社・地元エネルギー企業）は後回し／合意しやすさ：★★★</div>
+        <div class="opt"><b>案B：4タイプ並行探索</b>4つの企業タイプを同時に探索する。<br>強み：全体の完成が早い／弱み：個別開拓が必要な3タイプに人手がかかる／合意しやすさ：★</div>
+        <div class="opt"><b>案C：先生確認を最優先（推奨候補）</b>角田先生への内容確認を先に終え、確認後に企業探索を始める。<br>強み：先生の意向とズレたまま進めるリスクを避けられる／弱み：確認まで探索が始まらない／合意しやすさ：★★<br><span style="font-size:11px;color:var(--muted)">バックワードデザインの原則通り、目標の確定（先生の意向確認）を先に固める案</span></div>
+      </div>
+      <div class="tableWrap">
+        <table>
+          <tr><th>案</th><th>実施可能性</th><th>完成度</th><th>合意しやすさ</th></tr>
+          <tr><td>A. J-FLEC先行実施</td><td class="pill pgreen">◎</td><td class="pill porange">△</td><td class="pill pgreen">◎</td></tr>
+          <tr><td>B. 4タイプ並行探索</td><td class="pill pred">△</td><td class="pill pgreen">◎</td><td class="pill pred">△</td></tr>
+          <tr><td>C. 先生確認を最優先</td><td class="pill pblue">○</td><td class="pill pblue">○</td><td class="pill pblue">○</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ⑤ 事例(企業タイプ別・出前授業一覧) -->
+    <section class="panel" id="panel-cases">
+      <h3>企業タイプ別・出前授業一覧（設計したカリキュラムに近い企業）</h3>
+      <div class="tableWrap">
+        <table>
+          <tr><th>企業タイプ</th><th>該当コマ</th><th>手伝ってほしいこと</th><th>探索の難易度</th></tr>
+          <tr><td>再エネデベロッパー・発電事業者</td><td>3・10</td><td>発電所の実データ公開・現場解説</td><td><span class="pill porange">個別開拓が必要</span></td></tr>
+          <tr><td>金融機関・J-FLEC認定講師</td><td>6・12</td><td>金融リテラシー講義・投資判断への講評</td><td><span class="pill pgreen">低い（公的無料制度あり）</span></td></tr>
+          <tr><td>エンジニア採用・人材会社</td><td>8</td><td>技術者のキャリア分岐実例の紹介</td><td><span class="pill pblue">中程度</span></td></tr>
+          <tr><td>地元エネルギー企業（鳥取・島根）</td><td>14</td><td>地元で働く技術者社員の紹介</td><td><span class="pill porange">個別開拓が必要（地域限定）</span></td></tr>
+        </table>
+      </div>
+      <div class="callout warn" style="margin-top:10px">他高専（逆瀬川先生・鹿児島／久池井先生・北九州）との比較や、成功・失敗の事例収集はまだ行っていません。</div>
+    </section>
+
+    <!-- ⑥ 議事録・投入データ -->
+    <section class="panel" id="panel-raw">
+      <h3>📄 先生の既存商材（事実）</h3>
+      <div class="card">2023年6月実施の米子高専知的セミナー「太陽光発電投資について知ろう」（YouTube公開）。researchmap上の科研費テーマ「キャリア・金融要素を取り込んだ工業高専における社会実装教育教材の開発と効果実証」（基盤研究(C)、2025年4月〜2028年3月）。</div>
+      <h3 style="margin-top:16px">🗣️ ヒアリング・会議の発言（意見）</h3>
+      <div class="card">まだ議事メモは登録されていません。角田先生への内容確認結果を、ここに登録してください。</div>
+      <h3 style="margin-top:16px">📝 企業への自動生成依頼文（全5件）</h3>
+      <div class="card"><b>コマ3・発電事業者</b>米子高専では、角田直輝教授が太陽光発電投資教材で技術者の金融教育を展開しています。学生は発電量計算を学んだ後、実際の発電所運営を知る機会を探しています。貴社の発電所のデータを、差し支えない範囲で学生向けに公開していただけませんか。</div>
+      <div class="card"><b>コマ6・J-FLEC</b>貴機構の出張講義（対面・オンライン）を、学生が自分の将来の資産形成を具体的にイメージできる回としてご検討いただけませんか。</div>
+      <div class="card"><b>コマ8・人材会社</b>学生は発電技術を学んだ後、技術者のキャリアの幅を知りたいと考えています。貴社で技術者のキャリア事例をご紹介いただけませんか。</div>
+      <div class="card"><b>コマ10・発電事業者(別事例)</b>学生はモデルを作ったものの、答え合わせに使える現場データがありません。匿名化したものでよいので、貴社のデータをご提供いただけませんか。</div>
+      <div class="card"><b>コマ12・金融機関</b>学生は自分で投資判断シナリオを作りました。プロの目から見て、見落としているリスクはありませんか。講評をいただけませんか。</div>
+      <div class="card"><b>コマ14・地元エネルギー企業</b>米子高専の学生は、地元で技術者として働く選択肢を知りたいと考えています。貴社で働く技術者の方をご紹介いただけませんか。</div>
+    </section>
+
+    <!-- ⑦ 過去のまとめ -->
+    <section class="panel" id="panel-history">
+      <div class="historyCard">
+        <b>初版（2026-09-07）</b>
+        <div class="metaRow">既存Notion内の情報のみで構成。15コマの骨格のみ。</div>
+      </div>
+      <div class="historyCard">
+        <b>Web調査による深掘り版（2026-09-08）</b>
+        <div class="metaRow">米子高専知的セミナー・researchmapの科研費テーマとの一致を確認。15コマを詳細化し企業依頼ジョブを明記。ただし活動内容・依頼文は一部のみ。</div>
+      </div>
+      <div class="historyCard">
+        <b>v1（2026-09-16・カリキュラム作成エージェント版・本ページ）</b>
+        <div class="metaRow">全15コマの活動内容・企業への依頼文を完成。北極星指標（定期試験・レポート点数）＋情報充足度5軸を導入。7タブ構成（まとめ／カリキュラム／北極星指標／提案と評価／事例／議事録・投入データ／過去のまとめ）に再構築。</div>
+      </div>
+    </section>
+
+  </main>
+
+  <aside class="rightPane" id="rightPane">
+    <p class="paneTitle">💬 ダッシュボードに質問する <button class="paneToggle" data-toggle="rightPane">隠す</button></p>
+    <div class="chatLog" id="chatLog">中央の内容についてだけ、3〜5文で回答します。</div>
+    <div class="chatRow">
+      <input type="text" id="chatInput" placeholder="例：J-FLECとは何ですか？">
+      <button id="chatSend">送信</button>
     </div>
-    <div class="card">
-      <b>高専機構レベルの活動</b><br>
-      <span data-cell-id="case-yonago-card-6">国立高等専門学校機構「デジタルものづくりへのシフト」事業（2025年度）、「イノベーションをおこすものづくり人財教育へのシフト」事業（2022〜2024年度）の推進・運営メンバーを歴任。KOSENフォーラムやCOMPASS未来技術セミナーの企画・運営も継続的に担っている。</span>
-    </div>
-  </section>
+    <p style="font-size:11px;color:var(--muted);margin-top:8px">※ 実装時は共通LLM抽象化レイヤー(dashboardChatモード)に接続してください。</p>
+  </aside>
 
-  <section id="success" class="block">
-    <p class="section-num">⑦ SUCCESS</p>
-    <h2>成功事例</h2>
-    <table>
-      <tr><th>成果</th><th>内容</th></tr>
-      <tr><td>国際学会発表</td><td>ISATE2023・ISATE2024（International Symposium on Advances in Technology Education）で、キャリア・金融要素を取り込んだ工学教育の実践を英語論文として発表</td></tr>
-      <tr><td>受賞</td><td>教育研究論文 奨励賞（日本教育公務員弘済会鳥取支部、2019年）、令和5年度報奨対象者（国立高等専門学校機構、2023年）</td></tr>
-      <tr><td>継続的な外部資金獲得</td><td>2022年度・2025年度と2期連続で科研費（基盤研究C）を獲得し、教材開発を継続</td></tr>
-    </table>
-  </section>
-
-  <section id="failure" class="block">
-    <p class="section-num">⑧ CAUTION</p>
-    <h2>課題・留意点（成功事例のみに偏らないための正直な整理）</h2>
-    <div class="card warn">
-      <b>本ページ作成にあたっての留意</b><br>
-      <span data-cell-id="case-yonago-card-7">公開情報（researchmap）からは、具体的な「失敗事例」は確認できませんでした。実際の教材開発・授業実践の過程での試行錯誤（うまくいかなかった点）は、先生ご本人にヒアリングしない限り分かりません。架空の失敗事例を作ることはせず、この点は未確認として明記します。</span>
-    </div>
-    <div class="card warn">
-      <b>「産業人口減少」との接続についての留意</b><br>
-      当初期待されていた「特定業界の産業人口減少」というテーマとは、研究の焦点がずれています。マッチングサイトで木村好孝氏（NEC・物流領域）のカードと突き合わせた場合、分野の重なりは小さく出る見込みです（詳細は<a href="matching.html">マッチングを試す</a>で確認できます）。角田先生に協力を依頼する際は、物流ではなく「キャリア・金融教育」「産学官連携の企画運営」の領域で声をかけるのが適切です。
-    </div>
-  </section>
-
-  <section id="curriculum" class="block">
-    <p class="section-num">⑨ CURRICULUM（仮説・角田先生への確認前）</p>
-    <h2>15コマカリキュラム案：太陽光発電投資教材×金融・キャリア教育</h2>
-    <p class="subtle">半年15コマ（年間30コマの前半）。先生回（理論）と企業回（実装・現場）を交互に配置。企業回には「営業・技術営業・技術（プロダクト/インテグレーション）・スタッフ」の職種タグを付与。<b>全て角田先生への確認前の仮説</b>であり、先生の意向次第で組み替える前提。</p>
-    <table>
-      <tr><th>コマ</th><th>担当</th><th>内容</th><th>企業タグ／手伝ってほしいこと</th></tr>
-      <tr><td>1〜2</td><td>先生</td><td><span data-cell-id="case-yonago-koma1-content">太陽光発電の技術基礎、発電量計算・投資回収モデル</span></td><td>-</td></tr>
-      <tr><td>3</td><td>企業</td><td><span data-cell-id="case-yonago-koma2-content">実際の発電所運営・収益構造の実例</span></td><td><span data-cell-id="case-yonago-koma2-tag">再エネデベロッパー：発電所の実データ公開・現場解説</span></td></tr>
-      <tr><td>4〜5</td><td>先生</td><td><span data-cell-id="case-yonago-koma3-content">金融リテラシー基礎、投資判断の基礎理論（NPV/IRR）</span></td><td>-</td></tr>
-      <tr><td>6</td><td>企業</td><td><span data-cell-id="case-yonago-koma4-content">資産形成相談の現場・金融教育の実例</span></td><td><span data-cell-id="case-yonago-koma4-tag">金融機関・J-FLEC認定講師：資産形成・リスク管理の講義（公的無料派遣制度あり）</span></td></tr>
-      <tr><td>7</td><td>先生</td><td><span data-cell-id="case-yonago-koma5-content">キャリア形成理論（技術者のライフプラン）</span></td><td>-</td></tr>
-      <tr><td>8</td><td>企業</td><td><span data-cell-id="case-yonago-koma6-content">技術者のキャリアパス実例</span></td><td><span data-cell-id="case-yonago-koma6-tag">エンジニア採用・人材会社：キャリア分岐事例の紹介</span></td></tr>
-      <tr><td>9</td><td>先生</td><td><span data-cell-id="case-yonago-koma7-content">投資教材ワーク①：モデル構築</span></td><td>-</td></tr>
-      <tr><td>10</td><td>企業</td><td><span data-cell-id="case-yonago-koma8-content">現場データを使ったケーススタディ提供</span></td><td><span data-cell-id="case-yonago-koma8-tag">発電事業者：モデル検証用の現場データ提供</span></td></tr>
-      <tr><td>11</td><td>先生</td><td><span data-cell-id="case-yonago-koma9-content">投資教材ワーク②：投資判断シミュレーション</span></td><td>-</td></tr>
-      <tr><td>12</td><td>企業</td><td><span data-cell-id="case-yonago-koma10-content">学生の投資判断へのフィードバック・講評</span></td><td><span data-cell-id="case-yonago-koma10-tag">金融機関：投資判断シミュレーションへの講評</span></td></tr>
-      <tr><td>13</td><td>先生</td><td><span data-cell-id="case-yonago-koma11-content">振り返り：キャリアと金融の統合理論</span></td><td>-</td></tr>
-      <tr><td>14</td><td>企業</td><td><span data-cell-id="case-yonago-koma12-content">地域における再エネ×キャリアの実例紹介</span></td><td><span data-cell-id="case-yonago-koma12-tag">地元エネルギー企業：地元で働く技術者社員の紹介</span></td></tr>
-      <tr><td>15</td><td>先生</td><td><span data-cell-id="case-yonago-koma13-content">成果発表会・総括</span></td><td>-</td></tr>
-    </table>
-    <div class="card">
-      <b>詳細版・企業への自動生成依頼文</b><br>
-      <span data-cell-id="case-yonago-card-8">各コマの学習目標や、企業への具体的な依頼文サンプルは、社内Notion「📅 角田直輝先生（米子高専） 15コマカリキュラム提案」に整理しています（本ページは要点のみの抜粋）。</span>
-    </div>
-  </section>
-
-  <footer>
-    出典：researchmap「角田 直輝 (Naoki Kakuda)」（https://researchmap.jp/7000003554）。2026年9月にWeb公開情報を調査。本ページは角田先生ご本人への確認を経たものではなく、公開情報からの整理です。掲載内容に誤りがあれば訂正します。15コマカリキュラム案は2026-09-08にNotionで作成した仮説であり、先生ご本人への確認前です。
-  </footer>
 </div>
-<script src="/js/kosen-cell-editor.js"></script>
+
+<script>
+function switchTab(tabName){
+  document.querySelectorAll('.tabBtn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  var btn = document.querySelector('.tabBtn[data-tab="' + tabName + '"]');
+  var panel = document.getElementById('panel-' + tabName);
+  if (btn) btn.classList.add('active');
+  if (panel) panel.classList.add('active');
+}
+document.querySelectorAll('.tabBtn').forEach(function(btn){
+  btn.addEventListener('click', function(){ switchTab(btn.dataset.tab); });
+});
+document.querySelectorAll('.paneToggle').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.getElementById(btn.dataset.toggle).classList.toggle('collapsed');
+  });
+});
+
+function renderRadar(svgId, scores){
+  var axes = [
+    {key:'legitimacy', label:'当事者の声'}, {key:'evidence', label:'外部知見'},
+    {key:'alignment', label:'方針整合'}, {key:'feasibility', label:'実行可能性'},
+    {key:'impact', label:'効果見通し'}
+  ];
+  var cx=90, cy=90, r=70, svg=document.getElementById(svgId);
+  var pt = function(i, val){
+    var ang = -Math.PI/2 + i * (2*Math.PI/5);
+    var rad = r * (val/100);
+    return [cx + rad*Math.cos(ang), cy + rad*Math.sin(ang)];
+  };
+  var rings = '';
+  [0.25,0.5,0.75,1].forEach(function(f){
+    var pts = axes.map(function(a,i){ return pt(i, f*100).join(','); }).join(' ');
+    rings += '<polygon points="'+pts+'" fill="none" stroke="#ddd" stroke-width="1"/>';
+  });
+  var dataPts = axes.map(function(a,i){ return pt(i, scores[a.key]||0).join(','); }).join(' ');
+  var labels = axes.map(function(a,i){
+    var p = pt(i, 118);
+    return '<text x="'+p[0]+'" y="'+p[1]+'" font-size="9" text-anchor="middle" fill="#7D7A75">'+a.label+'</text>';
+  }).join('');
+  svg.innerHTML = rings + '<polygon points="'+dataPts+'" fill="#7A5CCF55" stroke="#7A5CCF" stroke-width="2"/>' + labels;
+}
+var radarScores = { legitimacy: 25, evidence: 65, alignment: 80, feasibility: 45, impact: 20 };
+renderRadar('radarChart', radarScores);
+var weakNotes = {
+  legitimacy: '次に確認：角田先生ご本人に15コマ構成・企業依頼内容でよいか意向確認する',
+  impact: '次に確認：評価設計（発電量計算・NPV/IRR・キャリアプランの評価基準）の点数化を実施後に検証する',
+  feasibility: '次に確認：発電事業者・人材会社・地元エネルギー企業の個別探索を進める'
+};
+var wp = document.getElementById('radarWeakPoints');
+Object.keys(weakNotes).forEach(function(k){
+  if ((radarScores[k]||0) < 50){
+    var li = document.createElement('li');
+    li.textContent = weakNotes[k];
+    wp.appendChild(li);
+  }
+});
+
+var chatInput = document.getElementById('chatInput');
+chatInput.addEventListener('keydown', function(e){
+  if (e.key === 'Enter' && !(e.isComposing || e.keyCode === 229)) {
+    document.getElementById('chatSend').click();
+  }
+});
+document.getElementById('chatSend').addEventListener('click', function(){
+  var v = chatInput.value.trim();
+  if(!v) return;
+  var log = document.getElementById('chatLog');
+  log.innerHTML += '<div style="margin-top:6px"><b>Q:</b> '+v+'</div><div style="color:var(--muted)">（/api/dashboard-chat 実装後にAI回答がここに表示されます）</div>';
+  chatInput.value = '';
+});
+document.getElementById('reflectBtn').addEventListener('click', function(){
+  alert('この操作は /api/extract-document 等のバックエンド実装後に有効になります。');
+});
+</script>
+<script src="/js/dashboard-cell-editor.js"></script>
 </body>
+</html>
