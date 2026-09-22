@@ -167,6 +167,8 @@ tr:last-child td{border-bottom:0}
 .sidePanel .chatRow{display:flex;gap:6px}
 .sidePanel .chatRow input{flex:1}
 .sidePanel .chatRow button{flex:none;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:0 14px;font-weight:800;font-size:12px;cursor:pointer}
+.sidePanel .chatProviderRow{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:11px;color:var(--muted)}
+.sidePanel .chatProviderRow select{flex:1;font-size:11px;padding:3px 6px;border-radius:8px;border:1px solid #ddd;background:#fff}
 .sidePanel .errMsg{color:var(--red);font-size:11.5px;margin-top:6px}
 @media(max-width:900px){
   .layout{display:block}
@@ -671,6 +673,15 @@ tr:last-child td{border-bottom:0}
       <div class="chatLog" id="chatLog">
         <p class="chatMsg hint">この論点(高島「生活航路×関係人口1,000人」)について、気になることを質問できます。(例:「懸念点は?」)</p>
       </div>
+      <div class="chatProviderRow">
+        <label for="chatProvider">回答モデル</label>
+        <select id="chatProvider" title="回答に使うAIモデルを選べます(未選択時はClaude)">
+          <option value="anthropic">Claude(既定・安定)</option>
+          <option value="sakura-llmjp">LLM-jp(さくら・国産)</option>
+          <option value="sakura-cotomi">NEC cotomi v3(さくら・国産)</option>
+          <option value="sakura-plamo">PLaMo 2.0-31B(さくら・国産)</option>
+        </select>
+      </div>
       <div class="chatRow">
         <input type="text" id="chatInput" placeholder="質問を入力…">
         <button type="button" id="chatSend">送信</button>
@@ -860,6 +871,7 @@ renderRadar('radarChart', {legitimacy:40, evidence:40, alignment:50, feasibility
   var input = document.getElementById('chatInput');
   var sendBtn = document.getElementById('chatSend');
   var errEl = document.getElementById('chatErr');
+  var providerSelect = document.getElementById('chatProvider');
   if (!sendBtn) return;
 
   function appendMsg(role, text){
@@ -895,12 +907,14 @@ renderRadar('radarChart', {legitimacy:40, evidence:40, alignment:50, feasibility
         body: JSON.stringify({
           issueTitle: '高島「生活航路を守りながら関係人口で来島を持続させる」には？',
           dashboardContent: currentDashboardContent(),
-          question: q
+          question: q,
+          provider: providerSelect ? providerSelect.value : undefined
         })
       });
       if (!res.ok) throw new Error('request failed');
       var data = await res.json();
-      appendMsg('ai', data.draft);
+      var modelNote = (data.provider && data.provider !== 'anthropic') ? ('\n\n(回答モデル: ' + data.provider + ')') : '';
+      appendMsg('ai', data.draft + modelNote);
     } catch (e) {
       errEl.style.display = 'block';
     } finally {

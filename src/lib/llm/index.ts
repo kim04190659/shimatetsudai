@@ -39,18 +39,34 @@ function resolveProviderName(): string {
   return name;
 }
 
+// ダッシュボードの質問チャット欄で、利用者が選べるLLMの一覧(表示名込み)。
+// 「意思決定支援ダッシュボード作成エージェント3」の標準機能として、
+// 全ダッシュボードの質問チャットUIにこの一覧をプルダウンで埋め込む(2026-09-23〜)。
+// 新しいプロバイダーをPROVIDERSに追加したら、ここにも追加すること。
+export const SELECTABLE_CHAT_PROVIDERS: { id: string; label: string }[] = [
+  { id: "anthropic", label: "Claude(既定・安定)" },
+  { id: "sakura-llmjp", label: "LLM-jp(さくら・国産)" },
+  { id: "sakura-cotomi", label: "NEC cotomi v3(さくら・国産)" },
+  { id: "sakura-plamo", label: "PLaMo 2.0-31B(さくら・国産)" },
+];
+
 // アプリ側から呼び出す、実際のエントリーポイント。
 // 選んだプロバイダーが失敗した場合、必要ならClaudeにフォールバックし、
 // どちらの結果でも「実際にどのプロバイダーで生成されたか」を返り値に含める。
 //
-// overrideProviderName: 評価スクリプトから「今回はこのプロバイダーで試したい」を
-// 明示的に指定するためのもの。SUMMARY_LLM_ALLOW_OVERRIDE=true のときだけ有効になる
+// overrideProviderName: 呼び出し側が「今回はこのプロバイダーで試したい」を
+// 明示的に指定するためのもの。次のいずれかの場合のみ有効になる
 // (本番で誰でも任意のプロバイダーを叩けてしまわないようにするための安全弁)。
+//   1. 環境変数 SUMMARY_LLM_ALLOW_OVERRIDE=true が設定されている(評価スクリプト向け)
+//   2. input.mode === "dashboardChat" (ダッシュボードの質問チャット欄でのユーザー選択向け。
+//      2026-09-23〜。選べる値は上のSELECTABLE_CHAT_PROVIDERSに限られ、PROVIDERSにない
+//      名前はresolveProviderName()にフォールバックするため、任意の値を渡されても安全)
 export async function summarizeIssueWithFallback(
   input: SummaryInput,
   overrideProviderName?: string
 ): Promise<SummaryOutput> {
-  const overrideAllowed = process.env.SUMMARY_LLM_ALLOW_OVERRIDE === "true";
+  const overrideAllowed =
+    process.env.SUMMARY_LLM_ALLOW_OVERRIDE === "true" || input.mode === "dashboardChat";
   const primaryName =
     overrideAllowed && overrideProviderName && overrideProviderName in PROVIDERS
       ? overrideProviderName
