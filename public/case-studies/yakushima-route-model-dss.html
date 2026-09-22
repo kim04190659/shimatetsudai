@@ -176,6 +176,21 @@ tr:last-child td{border-bottom:0}
   .sidePanel.collapsed{width:100%}
   .sidePanel.collapsed .panelToggle{writing-mode:horizontal-tb;height:auto;padding:12px 14px}
 }
+.paidOptionsBox{margin-top:14px;border:1px dashed var(--line);border-radius:12px;padding:14px;background:#fff}
+.paidOptionsBox .poLabel{font-size:11px;font-weight:800;letter-spacing:.02em;color:var(--blue);margin:0 0 8px}
+.paidOptionsBox .poButtons{display:flex;flex-wrap:wrap;gap:8px}
+.paidOptionsBox .poBtn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-size:12px;font-weight:700;color:var(--ink);cursor:pointer}
+.paidOptionsBox .poBtn:hover{background:var(--soft)}
+.paidOptionsBox .poPanel{margin-top:10px;border-top:1px solid var(--line);padding-top:10px;display:flex;flex-direction:column;gap:8px}
+.paidOptionsBox textarea,.paidOptionsBox input[type=text],.paidOptionsBox input[type=email]{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px;font-family:inherit;box-sizing:border-box;resize:vertical}
+.paidOptionsBox .poRow2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.paidOptionsBox .poSubmitBtn{align-self:flex-start;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:9px 18px;font-weight:800;font-size:12.5px;cursor:pointer}
+.paidOptionsBox .poSubmitBtn:disabled{opacity:.5;cursor:default}
+.paidOptionsBox .poErr{color:var(--red);font-size:11.5px;margin:0}
+.paidOptionsBox .poDone{color:var(--green);font-size:12px;margin:0;font-weight:700}
+.paidOptionsBox .poNote{font-size:11.5px;color:var(--muted);margin:0}
+.paidOptionsBox .poDraftText{white-space:pre-wrap;font-size:12.5px;line-height:1.6;background:var(--soft);border-radius:8px;padding:10px;margin:0}
+@media(max-width:600px){.paidOptionsBox .poRow2{grid-template-columns:1fr}}
 </style>
 </head>
 <body data-dashboard-slug="yakushima-route-model-dss" data-issue-page-id="3cb960a9-1e23-8124-a23d-ea9cd01a8a8f">
@@ -243,6 +258,42 @@ tr:last-child td{border-bottom:0}
   <div class="callout warn" style="margin-top:14px">
     <b>📎 関連する既存論点について</b>
     <p style="margin-top:6px">屋久島町分室には、運賃・収容率・コスト改善を扱う既存の論点「屋久島航路の持続可能性」があります。本論点はそれとは別に、屋久島観光協会側から独立して整理している構造的な論点です。また本ページは、意思決定支援ダッシュボード作成エージェント3(6タブ・シンプル構成版)を適用して、旧12タブ構成(ウィザード付き)から作り直したものです(2026-09-22)。</p>
+  </div>
+</div>
+
+
+<div class="paidOptionsBox" id="paidOptionsBox">
+  <p class="poLabel">💡 有料オプション(リトケイ提供・2026-09-13 鯨本さんからの依頼機能)</p>
+  <div class="poButtons">
+    <button type="button" class="poBtn" id="poDialogueBtn">🗣️ リトケイに対話支援(住民ヒアリング・座談会)を依頼する</button>
+    <button type="button" class="poBtn" id="poArticleBtn">📰 決定事項から記事を作成・読者だよりに掲載を依頼する</button>
+  </div>
+  <div class="poPanel" id="poDialoguePanel" style="display:none">
+    <textarea id="poDialogueDetail" rows="3" placeholder="どんな対話支援を希望しますか?(例: この論点について住民ヒアリングを開催してほしい)"></textarea>
+    <div class="poRow2">
+      <input type="text" id="poDialogueName" placeholder="お名前">
+      <input type="email" id="poDialogueEmail" placeholder="連絡先メールアドレス">
+    </div>
+    <p class="poErr" id="poDialogueErr" style="display:none"></p>
+    <p class="poDone" id="poDialogueDone" style="display:none">依頼を受け付けました。担当者からご連絡します。</p>
+    <button type="button" class="poSubmitBtn" id="poDialogueSubmit">この内容で依頼する</button>
+  </div>
+  <div class="poPanel" id="poArticlePanel" style="display:none">
+    <button type="button" class="poSubmitBtn" id="poArticleGen">この決定事項から記事下書きを作る</button>
+    <p class="poErr" id="poArticleGenErr" style="display:none">下書きの生成に失敗しました。時間をおいて再度お試しください。</p>
+    <div id="poArticleDraftBox" style="display:none">
+      <p class="poNote">AIによる記事下書き(そのまま掲載されるわけではありません)</p>
+      <pre class="poDraftText" id="poArticleDraftText"></pre>
+      <p class="poNote">このままritokei.com「読者だより」への掲載を依頼できます。実際の掲載可否・文面の確認は離島経済新聞社の編集部が行います。</p>
+      <textarea id="poArticleDetail" rows="6" placeholder="下書き本文(編集して依頼できます)"></textarea>
+      <div class="poRow2">
+        <input type="text" id="poArticleName" placeholder="お名前">
+        <input type="email" id="poArticleEmail" placeholder="連絡先メールアドレス">
+      </div>
+      <p class="poErr" id="poArticleErr" style="display:none"></p>
+      <p class="poDone" id="poArticleDone" style="display:none">依頼を受け付けました。担当者からご連絡します。</p>
+      <button type="button" class="poSubmitBtn" id="poArticleSubmit">この内容で依頼する</button>
+    </div>
   </div>
 </div>
 
@@ -980,6 +1031,113 @@ renderRadar('radarChart', {legitimacy:70, evidence:45, alignment:55, feasibility
   input.addEventListener('keydown', function(e){
     // 日本語入力(IME)で変換を確定するEnterで誤送信しないようにする
     if (e.key === 'Enter' && !(e.isComposing || e.keyCode === 229)) send();
+  });
+})();
+
+// --- 有料オプション(対話支援依頼・記事作成/読者だより) ---
+(function(){
+  var dialogueBtn = document.getElementById('poDialogueBtn');
+  if (!dialogueBtn) return;
+
+  function titleText(){
+    var el = document.querySelector('.hero .title');
+    return el ? el.textContent.trim() : document.title;
+  }
+  function summaryText(){
+    var el = document.getElementById('panel-summary');
+    return el ? el.innerText : '';
+  }
+  function togglePanel(id){
+    var p = document.getElementById(id);
+    p.style.display = (p.style.display === 'none' || !p.style.display) ? 'block' : 'none';
+  }
+
+  dialogueBtn.addEventListener('click', function(){ togglePanel('poDialoguePanel'); });
+  document.getElementById('poArticleBtn').addEventListener('click', function(){ togglePanel('poArticlePanel'); });
+
+  async function submitRequest(kind, detail, name, email, errEl, doneEl, btnEl){
+    if (!detail.trim() || !name.trim() || !email.trim()) {
+      errEl.textContent = '入力内容を確認してください';
+      errEl.style.display = 'block';
+      return;
+    }
+    errEl.style.display = 'none';
+    btnEl.disabled = true;
+    var origLabel = btnEl.textContent;
+    btnEl.textContent = '送信中…';
+    try {
+      var res = await fetch('/api/support-request', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          kind: kind,
+          branchName: titleText(),
+          issueTitle: titleText(),
+          detail: detail,
+          contactName: name,
+          contactEmail: email
+        })
+      });
+      if (!res.ok) throw new Error('request failed');
+      doneEl.style.display = 'block';
+      btnEl.style.display = 'none';
+    } catch (e) {
+      errEl.textContent = '送信に失敗しました。時間をおいて再度お試しください。';
+      errEl.style.display = 'block';
+      btnEl.disabled = false;
+      btnEl.textContent = origLabel;
+    }
+  }
+
+  var dSubmit = document.getElementById('poDialogueSubmit');
+  dSubmit.addEventListener('click', function(){
+    submitRequest(
+      'dialogue',
+      document.getElementById('poDialogueDetail').value,
+      document.getElementById('poDialogueName').value,
+      document.getElementById('poDialogueEmail').value,
+      document.getElementById('poDialogueErr'),
+      document.getElementById('poDialogueDone'),
+      dSubmit
+    );
+  });
+
+  var genBtn = document.getElementById('poArticleGen');
+  genBtn.addEventListener('click', async function(){
+    genBtn.disabled = true;
+    var origLabel = genBtn.textContent;
+    genBtn.textContent = '下書きを作成中…';
+    document.getElementById('poArticleGenErr').style.display = 'none';
+    try {
+      var res = await fetch('/api/article-draft', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ issueTitle: titleText(), decisionSummary: summaryText() })
+      });
+      if (!res.ok) throw new Error('request failed');
+      var data = await res.json();
+      document.getElementById('poArticleDraftText').textContent = data.draft;
+      document.getElementById('poArticleDetail').value = data.draft;
+      document.getElementById('poArticleDraftBox').style.display = 'block';
+      genBtn.style.display = 'none';
+    } catch (e) {
+      document.getElementById('poArticleGenErr').style.display = 'block';
+      genBtn.disabled = false;
+      genBtn.textContent = origLabel;
+    }
+  });
+
+  var aSubmit = document.getElementById('poArticleSubmit');
+  aSubmit.addEventListener('click', function(){
+    submitRequest(
+      'article',
+      document.getElementById('poArticleDetail').value,
+      document.getElementById('poArticleName').value,
+      document.getElementById('poArticleEmail').value,
+      document.getElementById('poArticleErr'),
+      document.getElementById('poArticleDone'),
+      aSubmit
+    );
   });
 })();
 </script>
