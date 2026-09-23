@@ -9,39 +9,65 @@
   --ink:#2C2C2B; --muted:#7D7A75; --line:#E6E5E3; --soft:#F9F8F7;
   --blue:#2783DE; --blueSoft:#E5F2FC; --green:#46A171; --greenSoft:#E8F1EC;
   --orange:#D5803B; --orangeSoft:#FBEBDE; --red:#E56458; --redSoft:#FCE9E7;
-  --purple:#7A5CCF; --purpleSoft:#EEE9FB;
+  --purple:#7A5CCF; --purpleSoft:#EEE9FB; --gray:#B9B6B0; --graySoft:#F1F0EE;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:var(--ink);background:var(--soft);font-size:14.5px;line-height:1.6}
-.appWrap{display:flex;gap:14px;padding:16px;align-items:flex-start}
-.paneToggle{border:1px solid var(--line);background:#fff;border-radius:10px;padding:4px 10px;font-size:11.5px;cursor:pointer;color:var(--muted)}
-.leftPane,.rightPane{flex:0 0 260px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
-.leftPane.collapsed,.rightPane.collapsed{display:none}
-.centerPane{flex:1;min-width:0}
-.paneTitle{font-weight:800;font-size:13px;margin:0 0 8px;display:flex;justify-content:space-between;align-items:center}
-.leftPane textarea{width:100%;min-height:100px;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px;resize:vertical}
-.leftPane input[type=file]{font-size:11.5px;margin:8px 0}
-.reflectBtn{width:100%;border:none;background:var(--blue);color:#fff;border-radius:8px;padding:9px;font-weight:800;font-size:12.5px;cursor:pointer;margin-top:6px}
-.rightPane .chatLog{min-height:160px;max-height:280px;overflow-y:auto;font-size:12.5px;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--soft);margin-bottom:8px}
-.rightPane .chatRow{display:flex;gap:6px}
-.rightPane input[type=text]{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px}
-.rightPane button{border:none;background:var(--blue);color:#fff;border-radius:8px;padding:8px 12px;font-size:12.5px;cursor:pointer}
+body{margin:0;background:#eee;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:var(--ink);font-size:14.5px;line-height:1.6}
 
-.hero{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:14px}
+/* --- 左右の折りたたみパネル(資料投入エリア/質問チャット)
+   しまてつだい側の完成形(public/case-studies/yakushima-route-model-dss.html 等)のCSSをそのまま流用。
+   デスクトップでは左右にstickyなcolumnsとして並べ、スマホ幅では縦積みにする。 --- */
+.layout{display:flex;align-items:flex-start;max-width:1800px;margin:0 auto}
+.appWrap{flex:1;min-width:0}
+.sidePanel{flex:none;width:280px;background:#fff;position:sticky;top:0;max-height:100vh;overflow-y:auto;font-size:13px}
+.sidePanel.left{border-right:1px solid var(--line)}
+.sidePanel.right{border-left:1px solid var(--line)}
+.sidePanel.collapsed{width:44px;overflow:hidden}
+.sidePanel .panelToggle{position:sticky;top:0;width:100%;background:var(--soft);border:none;border-bottom:1px solid var(--line);padding:12px 14px;font-weight:800;font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px;text-align:left;color:var(--ink)}
+.sidePanel.collapsed .panelToggle{writing-mode:vertical-rl;text-orientation:mixed;height:100%;justify-content:flex-start;padding:14px 6px}
+.sidePanel.collapsed .panelBody{display:none}
+.sidePanel .panelBody{padding:14px}
+.chatLog{max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.chatMsg{border-radius:10px;padding:8px 10px;font-size:12.5px;line-height:1.5;max-width:92%}
+.chatMsg.user{align-self:flex-end;background:var(--blue);color:#fff}
+.chatMsg.ai{align-self:flex-start;background:var(--soft);border:1px solid var(--line)}
+.chatMsg.hint{color:var(--muted);font-size:11.5px}
+.sidePanel input[type=text],.sidePanel textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px;font-family:inherit;box-sizing:border-box}
+.sidePanel textarea{resize:vertical}
+.sidePanel label{display:block;font-size:11px;font-weight:800;color:var(--muted);margin:0 0 4px}
+.sidePanel .field{margin-bottom:10px}
+.sidePanel button.primaryBtn{width:100%;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:10px;font-weight:800;font-size:12.5px;cursor:pointer}
+.sidePanel button.primaryBtn:disabled{opacity:.5;cursor:default}
+.sidePanel .chatRow{display:flex;gap:6px}
+.sidePanel .chatRow input{flex:1}
+.sidePanel .chatRow button{flex:none;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:0 14px;font-weight:800;font-size:12px;cursor:pointer}
+.sidePanel .chatProviderRow{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:11px;color:var(--muted)}
+.sidePanel .chatProviderRow select{flex:1;font-size:11px;padding:3px 6px;border-radius:8px;border:1px solid #ddd;background:#fff}
+.sidePanel .errMsg{color:var(--red);font-size:11.5px;margin-top:6px}
+@media(max-width:900px){
+  .layout{display:block}
+  .sidePanel{position:static;width:100%;max-height:none;border:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sidePanel.collapsed{width:100%}
+  .sidePanel.collapsed .panelToggle{writing-mode:horizontal-tb;height:auto;padding:12px 14px}
+}
+
+.app{max-width:1200px;margin:0 auto;background:#fff;min-height:100vh}
+.hero{background:#fff;border-bottom:1px solid var(--line);padding:18px 20px}
 .hero h1{font-size:17px;margin:0 0 4px}
-.hero .sub{color:var(--muted);font-size:12.5px;margin:0 0 6px}
-.decisionQ{background:var(--blueSoft);border-radius:10px;padding:9px 12px;font-size:12.5px;font-weight:700;color:#165c9d;margin:10px 0 12px}
+.hero .sub{color:var(--muted);font-size:12.5px;margin:0 0 10px}
+.methodNote{color:#165c9d;font-weight:700;font-size:12.5px;margin:0 0 12px}
+.decisionQ{background:var(--blueSoft);border-radius:10px;padding:9px 12px;font-size:12.5px;font-weight:700;color:#165c9d;margin:0 0 12px}
 .kpiRow{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
 .kpi{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
 .kpi .label{font-size:11px;color:var(--muted)}
 .kpi .value{font-size:19px;font-weight:800;margin-top:2px}
 .kpi .value.unknown{color:var(--muted);font-size:13px;font-weight:700}
 
-.tabs{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:6px;background:var(--soft);padding:6px 0 10px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.tabs{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:6px;background:var(--soft);padding:10px 20px;border-bottom:1px solid var(--line)}
 .tabBtn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;color:var(--ink)}
 .tabBtn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
 
-.panel{display:none;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.panel{display:none;background:#fff;padding:18px 20px 28px}
 .panel.active{display:block}
 .card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:var(--soft)}
 .callout{border-radius:12px;padding:10px 14px;margin:10px 0;font-size:13px}
@@ -57,59 +83,62 @@ table th{background:var(--soft)}
 .pill.pgreen{background:var(--greenSoft);color:#2f6b4f}
 .pill.porange{background:var(--orangeSoft);color:#8a5322}
 .pill.pred{background:var(--redSoft);color:#a3352c}
+.pill.pgray{background:var(--graySoft);color:#605d57}
+tr.confirmed td{background:var(--greenSoft)}
+.methodTag{display:block;margin-top:3px;font-size:11px;color:#5d47a3}
 
-.highlights{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:12px 0}
-.hl{border-radius:12px;padding:10px 12px;font-size:12.5px;border:1px solid var(--line);background:var(--soft)}
-.hl b{display:block;margin-bottom:4px;font-size:12.5px}
-.hl.green{background:var(--greenSoft);border-color:var(--green)}
-.hl.orange{background:var(--orangeSoft);border-color:var(--orange)}
-.hl.purple{background:var(--purpleSoft);border-color:var(--purple)}
-.hl.red{background:var(--redSoft);border-color:var(--red)}
-.hl.gray{background:#fff}
-.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0}
-.opt{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
-.opt b{display:block;margin-bottom:6px}
-.voices{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0}
-.voice{border-radius:12px;padding:10px 12px;font-size:12.5px;border:1px solid var(--line)}
-.voice.support{background:var(--greenSoft)} .voice.oppose{background:var(--redSoft)}
-.voice.pending{background:var(--orangeSoft)} .voice.minority{background:#fff}
-.evidence-list{margin:12px 0}
-.ev{border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:6px;font-size:12.5px;display:flex;gap:10px;align-items:flex-start}
-.ev .lv{flex:0 0 34px;font-weight:800;border-radius:6px;text-align:center;padding:2px 0;font-size:11px;color:#fff}
-.ev .lv.l1{background:var(--green)} .ev .lv.l2{background:var(--blue)} .ev .lv.l3{background:var(--orange)} .ev .lv.l5{background:var(--muted)}
-.timeline{margin:12px 0;padding-left:20px}
-.timeline li{margin:6px 0;font-size:13px}
-.timeline li.done{color:var(--green);font-weight:700}
-
+/* 北極星指標タブ */
 .radarWrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:0 0 16px;padding:14px 16px;border:2px solid var(--purple);background:var(--purpleSoft);border-radius:14px}
 .discussBox{border:2px solid var(--orange);background:var(--orangeSoft);border-radius:12px;padding:12px 14px;margin:14px 0}
 .discussBox b{display:block;margin-bottom:6px}
+.discussBox ul{margin:6px 0 0;padding-left:18px}
+.discussBox li{margin:4px 0}
 .traceWrap{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--soft);margin:10px 0}
 .traceWrap ul{margin:6px 0 0;padding-left:18px;font-size:12.5px}
 .traceWrap li{margin:4px 0}
 
-.historyCard{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:#fff}
-.historyCard .metaRow{color:var(--muted);font-size:11.5px;margin:4px 0 8px}
+/* 事例タブ */
+.caseCard{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:#fff}
+.caseCard b{display:block;font-size:13.5px;margin-bottom:4px}
+.caseCard .near{display:block;margin-top:6px;font-size:11.5px;color:var(--muted)}
+.caseCard.good{border-left:5px solid var(--green)}
+.caseCard.watch{border-left:5px solid var(--red)}
+
+@media(max-width:900px){.kpiRow{grid-template-columns:1fr 1fr}}
 </style>
 </head>
-<body data-dashboard-slug="case-yonago" data-issue-page-id="3d4960a91e2381428fc6e198fdb75795">
+<body data-kosen-slug="case-yonago" data-issue-page-id="3d4960a91e2381428fc6e198fdb75795">
 
-<div class="appWrap">
+<div class="layout">
 
-  <aside class="leftPane" id="leftPane">
-    <p class="paneTitle">📥 資料投入エリア <button class="paneToggle" data-toggle="leftPane">隠す</button></p>
-    <textarea id="docText" placeholder="議事録・企業からの連絡・実施結果等を貼り付け"></textarea>
-    <input type="file" id="docFile" accept=".txt,.md,.pdf">
-    <button class="reflectBtn" id="reflectBtn">反映する</button>
-    <p style="font-size:11px;color:var(--muted);margin-top:8px">※ 投入内容は4分類（事実/意見/目標/決定）に整理し、了承後に北極星指標5軸を再計算します。</p>
+  <aside class="sidePanel left" id="leftPanel">
+    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▲</span></button>
+    <div class="panelBody" id="leftBody">
+      <div class="field">
+        <label for="genTitle">カリキュラムのタイトル</label>
+        <input type="text" id="genTitle" value="太陽光発電×金融・キャリア教育（角田直輝先生・米子高専）">
+      </div>
+      <div class="field">
+        <label for="genNotes">議事録・企業からの連絡・実施結果など(貼り付け)</label>
+        <textarea id="genNotes" rows="8" placeholder="角田先生とのやり取りや、企業からの連絡・実施結果をここに貼り付けてください"></textarea>
+      </div>
+      <div class="field">
+        <label for="genFile">または、ファイルをアップロード(.txt / .md / .pdf)</label>
+        <input type="file" id="genFile" accept=".txt,.md,.pdf,text/plain,text/markdown,application/pdf">
+        <p class="errMsg" id="genFileStatus" style="display:none;color:var(--muted)"></p>
+      </div>
+      <button type="button" class="primaryBtn" id="genSubmit">この内容をダッシュボードに反映する</button>
+      <p class="errMsg" id="genErr" style="display:none">生成中にエラーが発生しました。時間をおいて再度お試しください。</p>
+    </div>
   </aside>
 
-  <main class="centerPane">
+  <div class="appWrap" id="appWrap">
+  <div class="app">
 
     <div class="hero">
       <h1>☀️ 太陽光発電×金融・キャリア教育（角田直輝先生・米子高専）</h1>
-      <p class="sub">情報システム部門 教授｜半年15コマ（年間30コマの前半）｜カリキュラム作成エージェント版・v1</p>
-      <p class="sub" style="color:#165c9d;font-weight:700">🎓 本カリキュラムはバックワードデザイン（逆向き設計）とCDIOフレームワーク（Conceive→Design→Implement→Operate）に基づいて設計されています。</p>
+      <p class="sub">情報システム部門 教授｜半年15コマ（年間30コマの前半）｜カリキュラム作成エージェント版・v2（3タブ構成・2026-09-23改修）</p>
+      <p class="methodNote">🎓 本カリキュラムはバックワードデザイン（逆向き設計）とCDIOフレームワーク（Conceive→Design→Implement→Operate）に基づいて設計されています。</p>
       <div class="decisionQ">🎯 今回決めるべき問い：角田先生ご本人への確認と、4企業タイプの探索をどの順で進めるか？</div>
       <div class="kpiRow">
         <div class="kpi"><div class="label">15コマ中 設計完了</div><div class="value">15/15</div></div>
@@ -120,78 +149,55 @@ table th{background:var(--soft)}
     </div>
 
     <nav class="tabs">
-      <button class="tabBtn active" data-tab="summary">📚 まとめ</button>
-      <button class="tabBtn" data-tab="curriculum">📅 カリキュラム</button>
-      <button class="tabBtn" data-tab="northstar">🌟 北極星指標</button>
-      <button class="tabBtn" data-tab="proposal">💡 提案と評価</button>
+      <button class="tabBtn active" data-tab="curriculum">📅 カリキュラム案</button>
+      <button class="tabBtn" data-tab="northstar">🌟 教育充実度指標</button>
       <button class="tabBtn" data-tab="cases">🌍 事例</button>
-      <button class="tabBtn" data-tab="raw">🗒️ 議事録・投入データ</button>
-      <button class="tabBtn" data-tab="history">📜 過去のまとめ</button>
     </nav>
 
-    <!-- ① まとめ -->
-    <section class="panel active" id="panel-summary">
+    <!-- ① カリキュラム案(15コマ授業計画。旧「まとめ」「提案と評価」の役割を統合) -->
+    <section class="panel active" id="panel-curriculum">
+      <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">角田先生は2023年に米子高専知的セミナー「太陽光発電投資について知ろう」を実施済み。researchmap上でも「キャリア・金融要素を取り込んだ工業高専における社会実装教育教材」という科研費テーマ（2025〜2028年度）を進行中で、本カリキュラムはその延長線上にある。全15コマとも活動内容・企業への依頼文まで設計済みだが、角田先生ご本人への確認前の仮説段階。表の「設計手法上の位置づけ」列は、各回がCDIOのどのフェーズ（構想・設計・実行・運用）に対応するかを示す。</p>
 
-      <div class="highlights" data-cell-id="sum-highlights">
-        <div class="hl green"><b>📊 判断材料</b>角田先生は2023年に米子高専知的セミナー「太陽光発電投資について知ろう」を実施済み。researchmap上でも「キャリア・金融要素を取り込んだ工業高専における社会実装教育教材」という科研費テーマ（2025〜2028年度）を進行中で、本カリキュラムはその延長線上にある。</div>
-        <div class="hl purple"><b>💡 検討中の選択肢</b>企業探索の難易度に差がある（J-FLECは公的無料制度で低難易度、他3タイプは個別開拓が必要）。どの順で進めるかが論点。</div>
-        <div class="hl gray"><b>📈 将来予測</b>点数・満足度への効果は実施前のため未算出。評価設計（発電量計算の正確さ・NPV/IRRの妥当性・キャリアプランの具体性）はコマ15で定義済み。</div>
-        <div class="hl orange"><b>🗣️ 現時点で分かっている声</b>15コマの構成・依頼文はすべて角田先生ご本人への確認前の仮説。ご本人の意向はまだ確認できていない。</div>
-        <div class="hl gray"><b>🌍 類似事例</b>他高専（久池井先生・北九州／千秋先生・高知）との比較はまだ行っていない。事例タブでは企業タイプ別の出前授業状況を整理。</div>
-        <div class="hl green"><b>✅ 結論・次の一手</b>15コマの活動内容・企業依頼文はすべて完成。次の一手は角田先生への内容確認と、4企業タイプの探索着手。</div>
+      <div class="callout ok" data-cell-id="cur-conclusion">
+        <b>✅ 結論・次の一手</b>
+        15コマの活動内容・企業依頼文はすべて完成（Conceive・Designフェーズはほぼ終了）。次の一手は角田先生ご本人への内容確認と、4企業タイプ（再エネデベロッパー／J-FLEC認定講師／エンジニア人材会社／地元エネルギー企業）の探索着手。推奨案は下表の「案C：先生確認を最優先」で、バックワードデザインの原則通り目標の確定（先生の意向確認）を先に固める。
       </div>
 
-      <h3>ステークホルダーの意見について</h3>
-      <div class="voices" data-cell-id="sum-voices">
-        <div class="voice pending"><b>保留：角田先生（本人）</b>15コマ構成・学習目標・企業依頼内容は全て仮説。先生ご自身のやりたいことと整合しているかはまだ確認できていない。</div>
-        <div class="voice minority">企業4タイプ（発電事業者・金融機関/J-FLEC・人材会社・地元エネルギー企業）・学生の声は未収集。</div>
-      </div>
-
-      <h3>元になった事実・出典（EvidenceRecord）</h3>
-      <div class="evidence-list" data-cell-id="sum-evidence">
-        <div class="ev"><span class="lv l2">L2</span>角田先生ご本人が2023年6月に実施した米子高専知的セミナー「太陽光発電投資について知ろう」（YouTube公開）</div>
-        <div class="ev"><span class="lv l2">L2</span>researchmap上の科研費テーマ「キャリア・金融要素を取り込んだ工業高専における社会実装教育教材の開発と効果実証」（基盤研究(C)、2025年4月〜2028年3月）</div>
-        <div class="ev"><span class="lv l5">L5</span>15コマの各回の学習目標・活動内容・企業依頼文はすべて仮説（角田先生への確認前）</div>
-      </div>
-
-      <h3>合意形成の現在地（想定・ロードマップ）</h3>
-      <ol class="timeline" data-cell-id="sum-timeline">
-        <li class="done">15コマの学習目標・活動内容・企業依頼文の設計完了（完了）</li>
-        <li>角田先生への内容確認（次のアクション）</li>
-        <li>J-FLEC（公的無料制度）への依頼から着手（探索コスト最小）</li>
-        <li>発電事業者・エンジニア人材会社・地元エネルギー企業の個別探索</li>
-        <li>実施後、北極星指標（点数）の測定・カリキュラムの振り返り</li>
-      </ol>
-    </section>
-
-    <!-- ② カリキュラム（15コマ授業計画） -->
-    <section class="panel" id="panel-curriculum">
-      <h3>15コマ 授業計画（半年・年間30コマの前半）</h3>
-      <p style="font-size:12px;color:var(--muted)">全15コマとも活動内容・企業依頼文まで設計済み。角田先生ご本人への確認前の仮説段階。</p>
+      <h3>企業探索の進め方（案の比較）</h3>
       <div class="tableWrap">
-        <table>
-          <tr><th>回</th><th>区分</th><th>テーマ</th><th>学習目標</th><th>活動内容／企業への依頼内容</th></tr>
-          <tr><td>1</td><td class="pill pblue">先生</td><td>オリエンテーション＋太陽光発電の技術基礎</td><td>発電原理・変換効率・設置条件を理解する</td><td>講義＋発電量計算の演習（自宅や学校の屋根で試算）</td></tr>
-          <tr><td>2</td><td class="pill pblue">先生</td><td>発電量計算・投資回収の基本モデル</td><td>回収年数を試算できるようになる</td><td>Excel等での回収年数シミュレーション演習</td></tr>
-          <tr><td>3</td><td class="pill porange">企業</td><td>実際の発電所運営・収益構造の実例</td><td>教科書の計算式と現実のブレを知る</td><td>【再エネデベロッパー・発電事業者へ依頼】稼働データを差し支えない範囲で公開してほしい</td></tr>
-          <tr><td>4</td><td class="pill pblue">先生</td><td>金融リテラシー基礎</td><td>分散投資・リスク許容度・複利を理解する</td><td>銀行預金・株式・不動産の分散投資のリスクを話し合うワーク</td></tr>
-          <tr><td>5</td><td class="pill pblue">先生</td><td>投資判断の基礎理論（NPV/IRR）</td><td>NPV・IRRを計算できるようになる</td><td>NPV/IRRを自動計算するシートを作る演習</td></tr>
-          <tr><td>6</td><td class="pill porange">企業</td><td>資産形成相談の現場・金融教育の実例</td><td>実際の資産形成の現場を知る</td><td>【J-FLEC認定講師へ依頼】出張授業制度で資産形成・リスク管理を解説してほしい（公的無料制度・難易度低）</td></tr>
-          <tr><td>7</td><td class="pill pblue">先生</td><td>キャリア形成理論</td><td>技術者のキャリアパスの分岐を理解する</td><td>3つのキャリアパス（専門職・管理職・独立）をカードにして選ぶワーク</td></tr>
-          <tr><td>8</td><td class="pill porange">企業</td><td>技術者のキャリアパス実例</td><td>技術者のキャリアの幅を知る</td><td>【エンジニア採用・人材会社へ依頼】キャリア分岐事例を2〜3パターン紹介してほしい</td></tr>
-          <tr><td>9</td><td class="pill pblue">先生</td><td>投資教材ワーク①：モデル構築</td><td>発電量計算・NPV/IRR・キャリア理論を統合する</td><td>自分のモデルをExcelにまとめる作業。先生が巡回して相談に応じる</td></tr>
-          <tr><td>10</td><td class="pill porange">企業</td><td>現場データを使ったケーススタディ</td><td>モデルを現場データで検証する</td><td>【発電事業者(コマ3とは別)へ依頼】匿名化した現場データを提供してほしい</td></tr>
-          <tr><td>11</td><td class="pill pblue">先生</td><td>投資教材ワーク②：投資判断シミュレーション</td><td>複数シナリオでの投資判断を行う</td><td>好条件・悪条件の2シナリオでNPVを比べる演習</td></tr>
-          <tr><td>12</td><td class="pill porange">企業</td><td>投資判断へのフィードバック・講評</td><td>プロの視点での講評を受ける</td><td>【金融機関へ依頼】投資判断シミュレーションに講評してほしい</td></tr>
-          <tr><td>13</td><td class="pill pblue">先生</td><td>振り返り：キャリアと金融の統合理論</td><td>学びを一つのストーリーに統合する</td><td>モデルとキャリアプランをA4一枚にまとめるワーク</td></tr>
-          <tr><td>14</td><td class="pill porange">企業</td><td>地域における再エネ×キャリアの実例紹介</td><td>地元で技術者として働く選択肢を知る</td><td>【地元エネルギー企業(鳥取・島根)へ依頼】地元で働く社員を紹介してほしい</td></tr>
-          <tr><td>15</td><td class="pill pblue">先生</td><td>成果発表会・総括</td><td>学びをポートフォリオにまとめキャリアプランに反映する</td><td>発表会。先生と企業担当者が同じ基準（発電量計算の正確さ・NPV/IRRの妥当性・キャリアプランの具体性）で評価</td></tr>
+        <table data-cell-id="cur-options">
+          <tr><th>案</th><th>内容</th><th>CDIO上の位置づけ</th><th>実施可能性</th><th>完成度</th><th>合意しやすさ</th></tr>
+          <tr><td>A. J-FLEC先行実施</td><td>公的無料制度で難易度が最も低いJ-FLEC（コマ6・12）から着手する</td><td>Implementの一部を低コストで先行させる</td><td class="pill pgreen">◎</td><td class="pill porange">△</td><td class="pill pgreen">◎</td></tr>
+          <tr><td>B. 4タイプ並行探索</td><td>4つの企業タイプを同時に探索する</td><td>Implementを一括で進める</td><td class="pill pred">△</td><td class="pill pgreen">◎</td><td class="pill pred">△</td></tr>
+          <tr><td>C. 先生確認を最優先（推奨候補）</td><td>角田先生への内容確認を先に終え、確認後に企業探索を始める</td><td>Conceiveの起点（先生の意向）を固めてからDesign以降に進む</td><td class="pill pblue">○</td><td class="pill pblue">○</td><td class="pill pblue">○</td></tr>
         </table>
       </div>
-      <div class="callout warn" style="margin-top:12px">4企業タイプとも実際の企業は未選定です。詳細な依頼文は「議事録・投入データ」タブに掲載しています。</div>
+
+      <h3 style="margin-top:16px">15コマ 授業計画（半年・年間30コマの前半）</h3>
+      <div class="tableWrap">
+        <table data-cell-id="cur-schedule">
+          <tr><th>回</th><th>区分</th><th>テーマ</th><th>学習目標</th><th>活動内容／企業への依頼内容</th><th>設計手法上の位置づけ</th></tr>
+          <tr><td>1</td><td class="pill pblue">先生</td><td>オリエンテーション＋太陽光発電の技術基礎</td><td>発電原理・変換効率・設置条件を理解する</td><td>講義＋発電量計算の演習（自宅や学校の屋根で試算）</td><td><span class="methodTag">CDIO：Conceive（構想）／北極星から逆算した導入回</span></td></tr>
+          <tr><td>2</td><td class="pill pblue">先生</td><td>発電量計算・投資回収の基本モデル</td><td>回収年数を試算できるようになる</td><td>Excel等での回収年数シミュレーション演習</td><td><span class="methodTag">CDIO：Conceive→Design（構想→設計）</span></td></tr>
+          <tr><td>3</td><td class="pill porange">企業</td><td>実際の発電所運営・収益構造の実例</td><td>教科書の計算式と現実のブレを知る</td><td>【再エネデベロッパー・発電事業者へ依頼】稼働データを差し支えない範囲で公開してほしい</td><td><span class="methodTag">CDIO：Design（設計）／PBL連携：初期メンター＝既有知識の活性化・例示役</span></td></tr>
+          <tr><td>4</td><td class="pill pblue">先生</td><td>金融リテラシー基礎</td><td>分散投資・リスク許容度・複利を理解する</td><td>銀行預金・株式・不動産の分散投資のリスクを話し合うワーク</td><td><span class="methodTag">CDIO：Design（設計）</span></td></tr>
+          <tr><td>5</td><td class="pill pblue">先生</td><td>投資判断の基礎理論（NPV/IRR）</td><td>NPV・IRRを計算できるようになる</td><td>NPV/IRRを自動計算するシートを作る演習</td><td><span class="methodTag">CDIO：Design（設計）</span></td></tr>
+          <tr><td>6</td><td class="pill porange">企業</td><td>資産形成相談の現場・金融教育の実例</td><td>実際の資産形成の現場を知る</td><td>【J-FLEC認定講師へ依頼】出張授業制度で資産形成・リスク管理を解説してほしい（公的無料制度・難易度低）</td><td><span class="methodTag">CDIO：Design（設計）／PBL連携：初期メンター＝例示役</span></td></tr>
+          <tr><td>7</td><td class="pill pblue">先生</td><td>キャリア形成理論</td><td>技術者のキャリアパスの分岐を理解する</td><td>3つのキャリアパス（専門職・管理職・独立）をカードにして選ぶワーク</td><td><span class="methodTag">CDIO：Design（設計）</span></td></tr>
+          <tr><td>8</td><td class="pill porange">企業</td><td>技術者のキャリアパス実例</td><td>技術者のキャリアの幅を知る</td><td>【エンジニア採用・人材会社へ依頼】キャリア分岐事例を2〜3パターン紹介してほしい</td><td><span class="methodTag">CDIO：Design（設計）／PBL連携：初期メンター＝例示役</span></td></tr>
+          <tr><td>9</td><td class="pill pblue">先生</td><td>投資教材ワーク①：モデル構築</td><td>発電量計算・NPV/IRR・キャリア理論を統合する</td><td>自分のモデルをExcelにまとめる作業。先生が巡回して相談に応じる</td><td><span class="methodTag">CDIO：Implement（実行）の開始／バックワードデザイン：評価設計への接続</span></td></tr>
+          <tr><td>10</td><td class="pill porange">企業</td><td>現場データを使ったケーススタディ</td><td>モデルを現場データで検証する</td><td>【発電事業者(コマ3とは別)へ依頼】匿名化した現場データを提供してほしい</td><td><span class="methodTag">CDIO：Implement（実行）／PBL連携：後半メンター＝応用の検証役</span></td></tr>
+          <tr><td>11</td><td class="pill pblue">先生</td><td>投資教材ワーク②：投資判断シミュレーション</td><td>複数シナリオでの投資判断を行う</td><td>好条件・悪条件の2シナリオでNPVを比べる演習</td><td><span class="methodTag">CDIO：Implement（実行）</span></td></tr>
+          <tr><td>12</td><td class="pill porange">企業</td><td>投資判断へのフィードバック・講評</td><td>プロの視点での講評を受ける</td><td>【金融機関へ依頼】投資判断シミュレーションに講評してほしい</td><td><span class="methodTag">CDIO：Implement（実行）／PBL連携：後半メンター＝学生の応用を評価する役</span></td></tr>
+          <tr><td>13</td><td class="pill pblue">先生</td><td>振り返り：キャリアと金融の統合理論</td><td>学びを一つのストーリーに統合する</td><td>モデルとキャリアプランをA4一枚にまとめるワーク</td><td><span class="methodTag">CDIO：Operate（運用）の開始</span></td></tr>
+          <tr><td>14</td><td class="pill porange">企業</td><td>地域における再エネ×キャリアの実例紹介</td><td>地元で技術者として働く選択肢を知る</td><td>【地元エネルギー企業(鳥取・島根)へ依頼】地元で働く社員を紹介してほしい</td><td><span class="methodTag">CDIO：Operate（運用）／PBL連携：後半メンター＝応用の幅出し</span></td></tr>
+          <tr><td>15</td><td class="pill pblue">先生</td><td>成果発表会・総括</td><td>学びをポートフォリオにまとめキャリアプランに反映する</td><td>発表会。先生と企業担当者が同じ基準（発電量計算の正確さ・NPV/IRRの妥当性・キャリアプランの具体性）で評価</td><td><span class="methodTag">CDIO：Operate（運用）の総括／北極星指標：最終評価の一部</span></td></tr>
+        </table>
+      </div>
+      <div class="callout warn" style="margin-top:12px" data-cell-id="cur-unassigned">4企業タイプ（再エネデベロッパー・発電事業者／J-FLEC認定講師／エンジニア採用・人材会社／地元エネルギー企業）とも実際の企業は未選定です。5件の企業依頼文はすでに下書き済み。角田先生ご本人が15コマ構成・企業依頼内容に賛成しているかもまだ確認できていません。</div>
     </section>
 
-    <!-- ③ 北極星指標 -->
+    <!-- ② 教育充実度指標(北極星＋補助5指標＋情報充足度レーダー。「指標に基づく支援」タブ) -->
     <section class="panel" id="panel-northstar">
       <div class="callout warn" data-cell-id="ns-tldr">
         <b>🎯 北極星指標：定期試験・レポートの点数</b><br>
@@ -202,22 +208,30 @@ table th{background:var(--soft)}
       </div>
       <div class="kpiRow" style="margin-bottom:14px">
         <div class="kpi"><div class="label">補助①学生満足度</div><div class="value unknown">未算出</div></div>
-        <div class="kpi"><div class="label">補助②コマ実施進行度</div><div class="value">0/15実施</div></div>
-        <div class="kpi"><div class="label">補助③企業参画多様性</div><div class="value">0/4確定</div></div>
+        <div class="kpi"><div class="label">補助②コマ進行度</div><div class="value">0/15実施</div></div>
+        <div class="kpi"><div class="label">補助③企業多様性</div><div class="value">0/4確定</div></div>
         <div class="kpi"><div class="label">補助④マッチング精度</div><div class="value unknown">未算出</div></div>
+        <div class="kpi"><div class="label">補助⑤面白い・理解できた実感度</div><div class="value unknown">未算出</div></div>
       </div>
+      <p style="font-size:11.5px;color:var(--muted);margin:0 0 14px">補助④マッチング精度は、高専プラットフォーム側の意味マッチング精度改善CRが未完了のため算出方法自体が未確定。補助⑤は企業回（コマ3・6・8・10・12・14）の依頼文設計・実施結果アンケートが揃うまで未算出。</p>
 
       <div class="radarWrap">
         <svg id="radarChart" width="180" height="180" viewBox="0 0 180 180"></svg>
         <div style="flex:1;min-width:220px;font-size:12.5px">
           <b>📡 情報充足度診断（5軸）</b>
+          <p style="font-size:11.5px;color:var(--muted);margin:4px 0 0">角田先生の既存実績（2023年知的セミナー・科研費テーマ）があるためEvidence・Alignmentはやや高めだが、先生ご本人の内容確認と企業選定がまだのため、LegitimacyとImpactは低い。</p>
           <ul id="radarWeakPoints" style="margin:6px 0 0;padding-left:18px"></ul>
         </div>
       </div>
 
-      <div class="discussBox">
+      <div class="discussBox" data-cell-id="ns-discuss">
         <b>🗣️ 今日、ここを議論してください</b>
-        <p>情報充足度が最も低いのは「効果見通し（Impact）」と「当事者の声（Legitimacy）」です。角田先生ご本人の確認がまだ取れていないことが根本原因です。次に取るべき行動は、この意向確認です。</p>
+        <p>情報充足度が最も低いのは「効果見通し（Impact）」と「当事者の声（Legitimacy）」です。角田先生ご本人の確認がまだ取れていないことが根本原因です（バックワードデザイン上、目標からの逆算自体は済んでいるが、先生本人の承認という起点が未確定）。加えて、補助⑤「学生が面白く理解できているか」の観点から、以下のコマを名指しで指摘します：</p>
+        <ul>
+          <li><b>コマ5・9・11（NPV/IRR計算・投資シミュレーションワーク中心）</b>：数式・シートの作成自体は設計済みだが、専門用語（NPV/IRR）が先行して「難しくてわからない」という感想になりやすいワークになっている。補助⑤の観点で、数字を出すだけでなく学生が実感を持てる工夫（身近な発電シナリオとの比較、ゲーム的な要素）が手薄。</li>
+          <li><b>コマ3・10（発電事業者2社への依頼・データ公開のみ）</b>：企業側が「稼働データを公開する」だけで終わると、学生自身が計算・議論する場面に接続されないリスクがある。CDIOのDesign〜Implementフェーズに位置づく回だが、企業メンターが「例示役」から「学生の応用を促す役」へ変化する設計（PBL連携ガイドラインの知見）になっているか、企業確定前にもう一度確認する必要がある。</li>
+          <li><b>コマ14（地元エネルギー企業・地域回）</b>：地元で働く社員紹介という内容はあるが、学生の進路選択に直結する「面白さ」を生むための具体的な仕掛け（質疑応答の時間設計・先輩社員との対話形式など）がまだ設計されていない。</li>
+        </ul>
       </div>
 
       <div class="traceWrap">
@@ -226,86 +240,76 @@ table th{background:var(--soft)}
           <li>2023-06　角田先生が米子高専知的セミナー「太陽光発電投資について知ろう」を実施（既存実績・エビデンス）</li>
           <li>2026-09-07　本ページ初版作成（既存Notion情報のみで構成）</li>
           <li>2026-09-08　Web調査で深掘り。researchmapの科研費テーマとの一致を確認、15コマ詳細化</li>
-          <li>2026-09-16　全15コマの活動内容・企業への依頼文を完成。カリキュラム作成エージェント版（本ページ）へ移行</li>
+          <li>2026-09-16　全15コマの活動内容・企業への依頼文を完成。カリキュラム作成エージェント版へ移行（7タブ構成）</li>
+          <li>2026-09-23　カリキュラム作成エージェント マスター仕様書改訂（差分3）に伴い、3タブ構成（カリキュラム案→教育充実度指標→事例）へ全面改修。左右パネルをしまてつだい側の完成形（sidePanel方式）に統一し、セル編集スクリプトを高専専用のkosen-cell-editor.jsに統一</li>
         </ul>
       </div>
     </section>
 
-    <!-- ④ 提案と評価 -->
-    <section class="panel" id="panel-proposal">
-      <h3>企業探索の進め方（3案）</h3>
-      <p style="font-size:12px;color:var(--muted);margin-top:-4px">CDIOフレームワークで見ると、コマ1〜15はConceive/Design（構想・設計）まで完了。次はImplement（実行＝企業探索・実施）にどう進むかという問い。</p>
-      <div class="opts">
-        <div class="opt"><b>案A：J-FLEC先行実施</b>公的無料制度で難易度が最も低いJ-FLEC（コマ6・12）から着手する。<br>強み：確実に実施できる／弱み：他3企業タイプ（発電事業者・人材会社・地元エネルギー企業）は後回し／合意しやすさ：★★★</div>
-        <div class="opt"><b>案B：4タイプ並行探索</b>4つの企業タイプを同時に探索する。<br>強み：全体の完成が早い／弱み：個別開拓が必要な3タイプに人手がかかる／合意しやすさ：★</div>
-        <div class="opt"><b>案C：先生確認を最優先（推奨候補）</b>角田先生への内容確認を先に終え、確認後に企業探索を始める。<br>強み：先生の意向とズレたまま進めるリスクを避けられる／弱み：確認まで探索が始まらない／合意しやすさ：★★<br><span style="font-size:11px;color:var(--muted)">バックワードデザインの原則通り、目標の確定（先生の意向確認）を先に固める案</span></div>
-      </div>
-      <div class="tableWrap">
-        <table>
-          <tr><th>案</th><th>実施可能性</th><th>完成度</th><th>合意しやすさ</th></tr>
-          <tr><td>A. J-FLEC先行実施</td><td class="pill pgreen">◎</td><td class="pill porange">△</td><td class="pill pgreen">◎</td></tr>
-          <tr><td>B. 4タイプ並行探索</td><td class="pill pred">△</td><td class="pill pgreen">◎</td><td class="pill pred">△</td></tr>
-          <tr><td>C. 先生確認を最優先</td><td class="pill pblue">○</td><td class="pill pblue">○</td><td class="pill pblue">○</td></tr>
-        </table>
-      </div>
-    </section>
-
-    <!-- ⑤ 事例(企業タイプ別・出前授業一覧) -->
+    <!-- ③ 事例(世の中の企業教育の実例調査＋支援制度) -->
     <section class="panel" id="panel-cases">
-      <h3>企業タイプ別・出前授業一覧（設計したカリキュラムに近い企業）</h3>
+      <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">世の中の企業教育（PBL・出前授業等）をWeb検索で実際に調査し、本カリキュラムが企業に依頼している内容（太陽光発電の発電量・収益データ公開、金融リテラシー講義、投資判断への講評、技術者キャリア紹介、地元企業社員紹介）に近い事例を選んで掲載する。</p>
+
+      <h3>✅ 参考になる事例</h3>
+      <div class="caseCard good" data-cell-id="case-good-1">
+        <b>パナソニック エレクトリックワークス社「出前授業 —エコと太陽光発電教室—」</b>
+        企業自身が太陽光発電の仕組み・環境への効果を、実機やパネルの模型を使って解説する出前授業プログラム。発電原理を体験的に理解させる進め方は、コマ1・2の発電原理・発電量計算の導入に近い。
+        <span class="near">近い回：コマ1・2（先生回・発電原理と発電量計算の基礎）</span>
+      </div>
+      <div class="caseCard good" data-cell-id="case-good-2">
+        <b>J-FLEC（金融経済教育推進機構）「講師派遣（出張授業）」制度</b>
+        公的機関が無料で講師を学校に派遣し、資産形成・金融リテラシーを教える制度。標準講義資料（高校生向け「大人になる前に知っておきたいお金の話」）も整備されており、コマ6のJ-FLEC認定講師依頼はこの制度を前提にしている。
+        <span class="near">近い回：コマ6（企業回・J-FLEC認定講師による金融リテラシー講義）</span>
+      </div>
+      <div class="caseCard good" data-cell-id="case-good-3">
+        <b>金融庁「金融経済教育 高校授業副教材」シミュレーション教材</b>
+        高校向けに、資産形成のシミュレーション（積立・複利計算等）を体験できる副教材を公的に提供している。数式だけでなく画面操作で結果を確認できる設計は、コマ5・9・11のNPV/IRR計算ワークを「面白く理解できる」ものにする工夫の参考になる。
+        <span class="near">近い回：コマ5・9・11（先生回・NPV/IRR計算と投資判断シミュレーションワーク）</span>
+      </div>
+      <div class="caseCard good" data-cell-id="case-good-4">
+        <b>Study Valley「再生可能エネルギーは、つくって終わり？－中学生が未来のインフラを支える仕事に出会う45分－」</b>
+        再生可能エネルギーというテーマを「つくって終わり」にせず、それを支える仕事・キャリアへの気づきにつなげる出前授業。再エネ×キャリア教育という組み合わせは、本カリキュラム全体（コマ7・8・14の技術者キャリア紹介）の設計思想と重なる。
+        <span class="near">近い回：コマ7・8・14（キャリア形成理論・技術者キャリアパス実例・地元エネルギー企業回）</span>
+      </div>
+
+      <h3 style="margin-top:18px">⚠️ 要注意・調整が必要な事例</h3>
+      <div class="caseCard watch" data-cell-id="case-watch-1">
+        <b>金融教育をめぐる「投資は難しくてわからない」という高校生の声（一般的な指摘）</b>
+        高校の金融教育の実践現場では、NPV・IRRのような専門用語や計算式が先行し、生徒が「難しくてわからない」と感じてしまうケースが報告されている。コマ5・9・11はNPV/IRR計算そのものが目的化しやすく、補助⑤（面白い・理解できた実感度）の観点で調整が必要。
+        <span class="near">近い回：コマ5・9・11（NPV/IRR計算・投資判断シミュレーションワーク）</span>
+      </div>
+      <div class="caseCard watch" data-cell-id="case-watch-2">
+        <b>企業によるデータ公開・事例紹介のみで終わる一方向型の出前授業（一般的な指摘）</b>
+        企業が自社のデータや事例を紹介するだけで、生徒自身の計算・議論に接続されない一方向型の出前授業は、補助⑤の「面白い・理解できた」実感につながりにくいという指摘が一般的に多い。コマ3・10（発電事業者2社）は「データ公開」を依頼する設計になっており、学生が自分のモデルと照らし合わせて考える仕掛けを追加する調整が必要。
+        <span class="near">近い回：コマ3・10（発電事業者への依頼・現場データ公開）</span>
+      </div>
+
+      <h3 style="margin-top:18px">💰 候補支援制度（小表・金額等は未確認のため「候補」扱い）</h3>
       <div class="tableWrap">
-        <table>
-          <tr><th>企業タイプ</th><th>該当コマ</th><th>手伝ってほしいこと</th><th>探索の難易度</th></tr>
-          <tr><td>再エネデベロッパー・発電事業者</td><td>3・10</td><td>発電所の実データ公開・現場解説</td><td><span class="pill porange">個別開拓が必要</span></td></tr>
-          <tr><td>金融機関・J-FLEC認定講師</td><td>6・12</td><td>金融リテラシー講義・投資判断への講評</td><td><span class="pill pgreen">低い（公的無料制度あり）</span></td></tr>
-          <tr><td>エンジニア採用・人材会社</td><td>8</td><td>技術者のキャリア分岐実例の紹介</td><td><span class="pill pblue">中程度</span></td></tr>
-          <tr><td>地元エネルギー企業（鳥取・島根）</td><td>14</td><td>地元で働く技術者社員の紹介</td><td><span class="pill porange">個別開拓が必要（地域限定）</span></td></tr>
+        <table data-cell-id="case-funding">
+          <tr><th>制度</th><th>想定される使いどころ</th><th>確認状況</th></tr>
+          <tr><td>J-FLEC（金融経済教育推進機構）講師派遣（出張授業）制度</td><td>コマ6・12の金融機関・J-FLEC認定講師依頼を、公的無料制度として利用</td><td class="pill porange">未確認（候補）</td></tr>
+          <tr><td>金融庁「金融経済教育 高校授業副教材」</td><td>コマ5・9・11のNPV/IRR計算ワークの教材設計の参考</td><td class="pill porange">未確認（候補）</td></tr>
+          <tr><td>文部科学省 産業界ニーズ対応教育改善事業（高専・地域産業連携枠）</td><td>コマ3・8・10・14の企業リストアップ・連携体制構築の予算</td><td class="pill porange">未確認（候補）</td></tr>
         </table>
       </div>
-      <div class="callout warn" style="margin-top:10px">他高専（逆瀬川先生・鹿児島／久池井先生・北九州）との比較や、成功・失敗の事例収集はまだ行っていません。</div>
     </section>
 
-    <!-- ⑥ 議事録・投入データ -->
-    <section class="panel" id="panel-raw">
-      <h3>📄 先生の既存商材（事実）</h3>
-      <div class="card">2023年6月実施の米子高専知的セミナー「太陽光発電投資について知ろう」（YouTube公開）。researchmap上の科研費テーマ「キャリア・金融要素を取り込んだ工業高専における社会実装教育教材の開発と効果実証」（基盤研究(C)、2025年4月〜2028年3月）。</div>
-      <h3 style="margin-top:16px">🗣️ ヒアリング・会議の発言（意見）</h3>
-      <div class="card">まだ議事メモは登録されていません。角田先生への内容確認結果を、ここに登録してください。</div>
-      <h3 style="margin-top:16px">📝 企業への自動生成依頼文（全5件）</h3>
-      <div class="card"><b>コマ3・発電事業者</b>米子高専では、角田直輝教授が太陽光発電投資教材で技術者の金融教育を展開しています。学生は発電量計算を学んだ後、実際の発電所運営を知る機会を探しています。貴社の発電所のデータを、差し支えない範囲で学生向けに公開していただけませんか。</div>
-      <div class="card"><b>コマ6・J-FLEC</b>貴機構の出張講義（対面・オンライン）を、学生が自分の将来の資産形成を具体的にイメージできる回としてご検討いただけませんか。</div>
-      <div class="card"><b>コマ8・人材会社</b>学生は発電技術を学んだ後、技術者のキャリアの幅を知りたいと考えています。貴社で技術者のキャリア事例をご紹介いただけませんか。</div>
-      <div class="card"><b>コマ10・発電事業者(別事例)</b>学生はモデルを作ったものの、答え合わせに使える現場データがありません。匿名化したものでよいので、貴社のデータをご提供いただけませんか。</div>
-      <div class="card"><b>コマ12・金融機関</b>学生は自分で投資判断シナリオを作りました。プロの目から見て、見落としているリスクはありませんか。講評をいただけませんか。</div>
-      <div class="card"><b>コマ14・地元エネルギー企業</b>米子高専の学生は、地元で技術者として働く選択肢を知りたいと考えています。貴社で働く技術者の方をご紹介いただけませんか。</div>
-    </section>
+  </div>
+  </div>
 
-    <!-- ⑦ 過去のまとめ -->
-    <section class="panel" id="panel-history">
-      <div class="historyCard">
-        <b>初版（2026-09-07）</b>
-        <div class="metaRow">既存Notion内の情報のみで構成。15コマの骨格のみ。</div>
+  <aside class="sidePanel right" id="rightPanel">
+    <button type="button" class="panelToggle" id="rightToggle">💬 ダッシュボードに質問する <span id="rightToggleIcon">▲</span></button>
+    <div class="panelBody" id="rightBody">
+      <div class="chatLog" id="chatLog">
+        <p class="chatMsg hint">このカリキュラム（太陽光発電×金融・キャリア教育）について、気になることを質問できます。（例：「J-FLECとは何ですか？」）</p>
       </div>
-      <div class="historyCard">
-        <b>Web調査による深掘り版（2026-09-08）</b>
-        <div class="metaRow">米子高専知的セミナー・researchmapの科研費テーマとの一致を確認。15コマを詳細化し企業依頼ジョブを明記。ただし活動内容・依頼文は一部のみ。</div>
+      <div class="chatRow">
+        <input type="text" id="chatInput" placeholder="例：J-FLECとは何ですか？">
+        <button type="button" id="chatSend">送信</button>
       </div>
-      <div class="historyCard">
-        <b>v1（2026-09-16・カリキュラム作成エージェント版・本ページ）</b>
-        <div class="metaRow">全15コマの活動内容・企業への依頼文を完成。北極星指標（定期試験・レポート点数）＋情報充足度5軸を導入。7タブ構成（まとめ／カリキュラム／北極星指標／提案と評価／事例／議事録・投入データ／過去のまとめ）に再構築。</div>
-      </div>
-    </section>
-
-  </main>
-
-  <aside class="rightPane" id="rightPane">
-    <p class="paneTitle">💬 ダッシュボードに質問する <button class="paneToggle" data-toggle="rightPane">隠す</button></p>
-    <div class="chatLog" id="chatLog">中央の内容についてだけ、3〜5文で回答します。</div>
-    <div class="chatRow">
-      <input type="text" id="chatInput" placeholder="例：J-FLECとは何ですか？">
-      <button id="chatSend">送信</button>
+      <p class="errMsg" id="chatErr" style="display:none">回答の生成に失敗しました。時間をおいて再度お試しください。</p>
     </div>
-    <p style="font-size:11px;color:var(--muted);margin-top:8px">※ 実装時は共通LLM抽象化レイヤー(dashboardChatモード)に接続してください。</p>
   </aside>
 
 </div>
@@ -321,11 +325,6 @@ function switchTab(tabName){
 }
 document.querySelectorAll('.tabBtn').forEach(function(btn){
   btn.addEventListener('click', function(){ switchTab(btn.dataset.tab); });
-});
-document.querySelectorAll('.paneToggle').forEach(function(btn){
-  btn.addEventListener('click', function(){
-    document.getElementById(btn.dataset.toggle).classList.toggle('collapsed');
-  });
 });
 
 function renderRadar(svgId, scores){
@@ -357,7 +356,7 @@ renderRadar('radarChart', radarScores);
 var weakNotes = {
   legitimacy: '次に確認：角田先生ご本人に15コマ構成・企業依頼内容でよいか意向確認する',
   impact: '次に確認：評価設計（発電量計算・NPV/IRR・キャリアプランの評価基準）の点数化を実施後に検証する',
-  feasibility: '次に確認：発電事業者・人材会社・地元エネルギー企業の個別探索を進める'
+  feasibility: '次に確認：発電事業者・エンジニア人材会社・地元エネルギー企業の個別探索を進める'
 };
 var wp = document.getElementById('radarWeakPoints');
 Object.keys(weakNotes).forEach(function(k){
@@ -368,23 +367,180 @@ Object.keys(weakNotes).forEach(function(k){
   }
 });
 
-var chatInput = document.getElementById('chatInput');
-chatInput.addEventListener('keydown', function(e){
-  if (e.key === 'Enter' && !(e.isComposing || e.keyCode === 229)) {
-    document.getElementById('chatSend').click();
+// --- 左右パネルの折りたたみ ---
+(function(){
+  function bindToggle(panelId, toggleId, iconId){
+    var panel = document.getElementById(panelId);
+    var toggle = document.getElementById(toggleId);
+    var icon = document.getElementById(iconId);
+    if (!panel || !toggle) return;
+    toggle.addEventListener('click', function(){
+      var collapsed = panel.classList.toggle('collapsed');
+      if (icon) icon.textContent = collapsed ? '▼' : '▲';
+    });
   }
-});
-document.getElementById('chatSend').addEventListener('click', function(){
-  var v = chatInput.value.trim();
-  if(!v) return;
+  bindToggle('leftPanel', 'leftToggle', 'leftToggleIcon');
+  bindToggle('rightPanel', 'rightToggle', 'rightToggleIcon');
+})();
+
+// --- 左: 資料投入エリアのファイルアップロード(.txt/.md/.pdf) ---
+(function(){
+  var fileInput = document.getElementById('genFile');
+  var fileStatus = document.getElementById('genFileStatus');
+  var notesEl = document.getElementById('genNotes');
+  if (!fileInput) return;
+
+  function readTextFile(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){ resolve(String(reader.result || '')); };
+      reader.onerror = function(){ reject(reader.error); };
+      reader.readAsText(file);
+    });
+  }
+  function readFileAsBase64(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){
+        var result = String(reader.result || '');
+        resolve(result.split(',')[1] || '');
+      };
+      reader.onerror = function(){ reject(reader.error); };
+      reader.readAsDataURL(file);
+    });
+  }
+  function appendNotes(text){
+    var current = notesEl.value.trim();
+    notesEl.value = current ? (current + '\n\n' + text) : text;
+  }
+
+  fileInput.addEventListener('change', async function(){
+    var file = fileInput.files && fileInput.files[0];
+    fileInput.value = '';
+    if (!file) return;
+    var lower = file.name.toLowerCase();
+    var isPdf = file.type === 'application/pdf' || lower.endsWith('.pdf');
+    var isTextLike = (file.type && file.type.indexOf('text/') === 0) || lower.endsWith('.txt') || lower.endsWith('.md');
+    if (!isPdf && !isTextLike) {
+      fileStatus.style.display = 'block';
+      fileStatus.style.color = 'var(--red)';
+      fileStatus.textContent = '.txt / .md / .pdf のいずれかのファイルを選択してください。';
+      return;
+    }
+    fileStatus.style.display = 'block';
+    fileStatus.style.color = 'var(--muted)';
+    fileStatus.textContent = isPdf ? 'PDFを読み取っています…(30秒ほどかかります)' : 'ファイルを読み込んでいます…';
+    try {
+      if (isTextLike) {
+        var text = await readTextFile(file);
+        appendNotes(text);
+      } else {
+        var dataBase64 = await readFileAsBase64(file);
+        var res = await fetch('/api/extract-document', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ fileName: file.name, mimeType: 'application/pdf', dataBase64: dataBase64 })
+        });
+        if (!res.ok) throw new Error('request failed');
+        var data = await res.json();
+        appendNotes(data.text);
+      }
+      fileStatus.style.display = 'none';
+    } catch (e) {
+      fileStatus.style.color = 'var(--red)';
+      fileStatus.textContent = 'ファイルの読み込みに失敗しました。時間をおいて再度お試しください。';
+    }
+  });
+})();
+
+// --- 左: 資料投入エリア → ダッシュボードに反映 ---
+(function(){
+  var submitBtn = document.getElementById('genSubmit');
+  var errEl = document.getElementById('genErr');
+  if (!submitBtn) return;
+  submitBtn.addEventListener('click', async function(){
+    var issueTitle = document.getElementById('genTitle').value.trim();
+    var sourceNotes = document.getElementById('genNotes').value.trim();
+    if (!sourceNotes) return;
+    errEl.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = '反映中…(30秒ほど)';
+    try {
+      var res = await fetch('/api/issue-summary', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ issueTitle: issueTitle, sourceNotes: sourceNotes })
+      });
+      if (!res.ok) throw new Error('request failed');
+      var data = await res.json();
+      window.__yonagoDashboardDraft = data.draft;
+      alert('内容を受け付けました。（先生の合い言葉での確認後、カリキュラムに反映されます）');
+    } catch (e) {
+      errEl.style.display = 'block';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'この内容をダッシュボードに反映する';
+    }
+  });
+})();
+
+// --- 右: 質問チャット ---
+(function(){
   var log = document.getElementById('chatLog');
-  log.innerHTML += '<div style="margin-top:6px"><b>Q:</b> '+v+'</div><div style="color:var(--muted)">（/api/dashboard-chat 実装後にAI回答がここに表示されます）</div>';
-  chatInput.value = '';
-});
-document.getElementById('reflectBtn').addEventListener('click', function(){
-  alert('この操作は /api/extract-document 等のバックエンド実装後に有効になります。');
-});
+  var input = document.getElementById('chatInput');
+  var sendBtn = document.getElementById('chatSend');
+  var errEl = document.getElementById('chatErr');
+  if (!sendBtn) return;
+
+  function appendMsg(role, text){
+    var div = document.createElement('div');
+    div.className = 'chatMsg ' + role;
+    div.textContent = text;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function currentDashboardContent(){
+    var curriculum = document.getElementById('panel-curriculum');
+    var base = curriculum ? curriculum.innerText : '';
+    if (window.__yonagoDashboardDraft) {
+      base += '\n\n---\n【資料投入エリアからの下書き】\n' + window.__yonagoDashboardDraft;
+    }
+    return base;
+  }
+
+  async function send(){
+    var q = input.value.trim();
+    if (!q) return;
+    errEl.style.display = 'none';
+    appendMsg('user', q);
+    input.value = '';
+    sendBtn.disabled = true;
+    try {
+      var res = await fetch('/api/dashboard-chat', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          issueTitle: '太陽光発電×金融・キャリア教育（角田直輝先生・米子高専）',
+          dashboardContent: currentDashboardContent(),
+          question: q
+        })
+      });
+      if (!res.ok) throw new Error('request failed');
+      var data = await res.json();
+      appendMsg('ai', data.draft);
+    } catch (e) {
+      errEl.style.display = 'block';
+    } finally {
+      sendBtn.disabled = false;
+    }
+  }
+  sendBtn.addEventListener('click', send);
+  input.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' && !(e.isComposing || e.keyCode === 229)) send();
+  });
+})();
 </script>
-<script src="/js/dashboard-cell-editor.js"></script>
+<script src="/js/kosen-cell-editor.js"></script>
 </body>
 </html>

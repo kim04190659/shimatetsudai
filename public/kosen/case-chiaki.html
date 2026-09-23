@@ -1,199 +1,579 @@
-<title>高知高専 千秋元先生（天体シミュレーション×防災・データサイエンス）</title>
-<base href="/kosen/">
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>天体シミュレーション×防災・データサイエンス教育（仮説） | 千秋元先生（高知高専） カリキュラムダッシュボード</title>
 <style>
-  /* CR「60歳前後の熟年層向けUI検証」対応：ルートのfont-sizeを引き上げ、rem基準のクラスを全体的に拡大 */
-  html{ font-size:113%; }
-  :root{ --bg:#F2EEE6; --card:#FFFFFF; --ink:#2C2C2B; --muted:#726A5E; --line:#E1DDD3; --blue:#2783DE;
-    --good:#4C7A52; --good-bg:#E8F1EC; --bad:#B23B3B; --bad-bg:#FBEAEA;
-    --callout-blue-bg:#EFF6FE; --callout-blue-line:#2783DE;
-    --shadow:0 1px 2px rgba(44,44,43,.05), 0 8px 22px rgba(44,44,43,.06); }
-  *{box-sizing:border-box;}
-  body{ background:var(--bg); color:var(--ink); line-height:1.75; margin:0;
-    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
-  .shell{max-width:960px; margin:0 auto; padding:26px 22px 60px;}
-  .breadcrumb{font-size:.78rem; color:var(--muted); margin-bottom:14px;}
-  .breadcrumb a{color:var(--blue); text-decoration:none;}
-  .head{display:flex; justify-content:space-between; align-items:flex-start; gap:14px;}
-  h1{font-size:1.55rem; margin:0;}
-  .region{font-size:.85rem; color:var(--muted); margin-top:2px;}
-  .pill{font-size:.74rem; font-weight:700; padding:4px 12px; border-radius:99px; background:var(--good-bg); color:var(--good); white-space:nowrap;}
-  .pill.warn{background:var(--bad-bg); color:var(--bad);}
-  .lead{color:var(--muted); font-size:.9rem; max-width:76ch; margin:12px 0 24px;}
-  h2{font-size:1.15rem; margin:0 0 4px;}
-  .section-num{font-size:.72rem; font-weight:700; color:var(--blue); letter-spacing:.04em;}
-  section.block{scroll-margin-top:76px; margin-top:40px; padding-top:8px; border-top:1px solid var(--line);}
-  .subtle{color:var(--muted); font-size:.86rem; margin:6px 0 14px;}
-  .stat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:8px;}
-  @media (max-width:700px){ .stat-grid{grid-template-columns:repeat(2,1fr);} }
-  .stat{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow);}
-  .stat-label{font-size:.72rem; color:var(--muted);}
-  .stat-value{font-size:1.05rem; font-weight:700; margin-top:2px;}
-  .card{background:var(--callout-blue-bg); border-left:4px solid var(--callout-blue-line); border-radius:12px; padding:16px 18px; font-size:.87rem; color:var(--ink); margin:14px 0;}
-  .card.good{background:var(--good-bg); border-left-color:var(--good);}
-  .card.warn{background:var(--bad-bg); border-left-color:var(--bad);}
-  table{width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; font-size:.85rem; margin:10px 0;}
-  th,td{padding:10px 14px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top;}
-  th{background:#F7F4EE; color:var(--muted); font-weight:600;}
-  tr:last-child td{border-bottom:none;}
-  .card-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:16px 0;}
-  @media (max-width:700px){ .card-grid{grid-template-columns:repeat(2,1fr);} }
-  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; box-shadow:var(--shadow); text-align:center;}
-  .mini-mark{font-size:1.3rem;}
-  .mini-name{font-size:.8rem; font-weight:700; margin-top:4px;}
-  .mini-desc{font-size:.73rem; color:var(--muted); margin-top:4px;}
-  .toc{display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 8px; padding:14px; background:var(--card); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow);}
-  .toc a{font-size:.76rem; color:var(--blue); text-decoration:none; background:var(--callout-blue-bg); padding:4px 10px; border-radius:99px;}
-  footer{margin-top:36px; padding-top:16px; border-top:1px solid var(--line); font-size:.74rem; color:var(--muted);}
+:root{
+  --ink:#2C2C2B; --muted:#7D7A75; --line:#E6E5E3; --soft:#F9F8F7;
+  --blue:#2783DE; --blueSoft:#E5F2FC; --green:#46A171; --greenSoft:#E8F1EC;
+  --orange:#D5803B; --orangeSoft:#FBEBDE; --red:#E56458; --redSoft:#FCE9E7;
+  --purple:#7A5CCF; --purpleSoft:#EEE9FB; --gray:#B9B6B0; --graySoft:#F1F0EE;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#eee;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:var(--ink);font-size:14.5px;line-height:1.6}
+
+/* --- 左右の折りたたみパネル(資料投入エリア/質問チャット)
+   しまてつだい側の完成形(public/case-studies/yakushima-route-model-dss.html 等)のCSSをそのまま流用。 --- */
+.layout{display:flex;align-items:flex-start;max-width:1800px;margin:0 auto}
+.appWrap{flex:1;min-width:0}
+.sidePanel{flex:none;width:280px;background:#fff;position:sticky;top:0;max-height:100vh;overflow-y:auto;font-size:13px}
+.sidePanel.left{border-right:1px solid var(--line)}
+.sidePanel.right{border-left:1px solid var(--line)}
+.sidePanel.collapsed{width:44px;overflow:hidden}
+.sidePanel .panelToggle{position:sticky;top:0;width:100%;background:var(--soft);border:none;border-bottom:1px solid var(--line);padding:12px 14px;font-weight:800;font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px;text-align:left;color:var(--ink)}
+.sidePanel.collapsed .panelToggle{writing-mode:vertical-rl;text-orientation:mixed;height:100%;justify-content:flex-start;padding:14px 6px}
+.sidePanel.collapsed .panelBody{display:none}
+.sidePanel .panelBody{padding:14px}
+.chatLog{max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.chatMsg{border-radius:10px;padding:8px 10px;font-size:12.5px;line-height:1.5;max-width:92%}
+.chatMsg.user{align-self:flex-end;background:var(--blue);color:#fff}
+.chatMsg.ai{align-self:flex-start;background:var(--soft);border:1px solid var(--line)}
+.chatMsg.hint{color:var(--muted);font-size:11.5px}
+.sidePanel input[type=text],.sidePanel textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px;font-family:inherit;box-sizing:border-box}
+.sidePanel textarea{resize:vertical}
+.sidePanel label{display:block;font-size:11px;font-weight:800;color:var(--muted);margin:0 0 4px}
+.sidePanel .field{margin-bottom:10px}
+.sidePanel button.primaryBtn{width:100%;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:10px;font-weight:800;font-size:12.5px;cursor:pointer}
+.sidePanel button.primaryBtn:disabled{opacity:.5;cursor:default}
+.sidePanel .chatRow{display:flex;gap:6px}
+.sidePanel .chatRow input{flex:1}
+.sidePanel .chatRow button{flex:none;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:0 14px;font-weight:800;font-size:12px;cursor:pointer}
+.sidePanel .errMsg{color:var(--red);font-size:11.5px;margin-top:6px}
+@media(max-width:900px){
+  .layout{display:block}
+  .sidePanel{position:static;width:100%;max-height:none;border:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sidePanel.collapsed{width:100%}
+  .sidePanel.collapsed .panelToggle{writing-mode:horizontal-tb;height:auto;padding:12px 14px}
+}
+
+.app{max-width:1200px;margin:0 auto;background:#fff;min-height:100vh}
+.hero{background:#fff;border-bottom:1px solid var(--line);padding:18px 20px}
+.hero h1{font-size:17px;margin:0 0 4px}
+.hero .sub{color:var(--muted);font-size:12.5px;margin:0 0 14px}
+.decisionQ{background:var(--blueSoft);border-radius:10px;padding:9px 12px;font-size:12.5px;font-weight:700;color:#165c9d;margin:0 0 12px}
+.kpiRow{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.kpi{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.kpi .label{font-size:11px;color:var(--muted)}
+.kpi .value{font-size:19px;font-weight:800;margin-top:2px}
+.kpi .value.unknown{color:var(--muted);font-size:13px;font-weight:700}
+.kpi .value.warn{color:var(--red);font-size:14px;font-weight:800}
+
+.tabs{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:6px;background:var(--soft);padding:10px 20px;border-bottom:1px solid var(--line)}
+.tabBtn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;color:var(--ink)}
+.tabBtn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+.panel{display:none;background:#fff;padding:18px 20px 28px}
+.panel.active{display:block}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:var(--soft)}
+.card.good{border-left:5px solid var(--green)}
+.card.warn{border-left:5px solid var(--red)}
+.callout{border-radius:12px;padding:10px 14px;margin:10px 0;font-size:13px}
+.callout.ok{background:var(--greenSoft);border:1px solid var(--green)}
+.callout.warn{background:var(--orangeSoft);border:1px solid var(--orange)}
+.callout.risk{background:var(--redSoft);border:1px solid var(--red)}
+.tableWrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+table th,table td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+table th{background:var(--soft)}
+.pill{display:inline-block;border-radius:999px;padding:2px 9px;font-size:11px;font-weight:800}
+.pill.pblue{background:var(--blueSoft);color:#165c9d}
+.pill.pgreen{background:var(--greenSoft);color:#2f6b4f}
+.pill.porange{background:var(--orangeSoft);color:#8a5322}
+.pill.pred{background:var(--redSoft);color:#a3352c}
+
+/* カリキュラム案タブの5部品（決断まとめ・提案評価の役割を統合） */
+.highlights{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:12px 0}
+.hl{border-radius:12px;padding:10px 12px;font-size:12.5px;border:1px solid var(--line);background:var(--soft)}
+.hl b{display:block;margin-bottom:4px;font-size:12.5px}
+.hl.green{background:var(--greenSoft);border-color:var(--green)}
+.hl.orange{background:var(--orangeSoft);border-color:var(--orange)}
+.hl.purple{background:var(--purpleSoft);border-color:var(--purple)}
+.hl.red{background:var(--redSoft);border-color:var(--red)}
+.hl.gray{background:#fff}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0}
+.opt{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.opt b{display:block;margin-bottom:6px}
+.evidence-list{margin:12px 0}
+.ev{border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:6px;font-size:12.5px;display:flex;gap:10px;align-items:flex-start}
+.ev .lv{flex:0 0 34px;font-weight:800;border-radius:6px;text-align:center;padding:2px 0;font-size:11px;color:#fff}
+.ev .lv.l1{background:var(--green)} .ev .lv.l2{background:var(--blue)} .ev .lv.l3{background:var(--orange)} .ev .lv.l5{background:var(--muted)}
+.timeline{margin:12px 0;padding-left:20px}
+.timeline li{margin:6px 0;font-size:13px}
+.timeline li.done{color:var(--green);font-weight:700}
+
+/* 教育充実度指標タブ */
+.radarWrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:0 0 16px;padding:14px 16px;border:2px solid var(--red);background:var(--redSoft);border-radius:14px}
+.discussBox{border:2px solid var(--orange);background:var(--orangeSoft);border-radius:12px;padding:12px 14px;margin:14px 0}
+.discussBox b{display:block;margin-bottom:6px}
+.traceWrap{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--soft);margin:10px 0}
+.traceWrap ul{margin:6px 0 0;padding-left:18px;font-size:12.5px}
+.traceWrap li{margin:4px 0}
+
+@media(max-width:900px){.kpiRow{grid-template-columns:1fr 1fr}}
 </style>
-<body data-kosen-slug="case-chiaki">
-<div class="shell">
-  <div class="breadcrumb"><a href="index.html">← 次世代高専教育カンファレンス</a> ｜ <a href="teachers.html">先生一覧</a> ｜ 教育コンテンツ作成支援 事例</div>
-  <div class="head">
-    <div><h1>千秋元先生の天体シミュレーション×社会実装教育（仮説）</h1><div class="region">高知工業高等専門学校 ソーシャルデザイン工学科 准教授</div></div>
-    <span class="pill warn">確度：低い仮説（本人未確認）</span>
+</head>
+<body data-kosen-slug="case-chiaki" data-issue-page-id="3d6960a91e2381c39dcdebd8ed9bcd29">
+
+<div class="layout">
+
+  <aside class="sidePanel left" id="leftPanel">
+    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▲</span></button>
+    <div class="panelBody" id="leftBody">
+      <div class="field">
+        <label for="genTitle">カリキュラムのタイトル</label>
+        <input type="text" id="genTitle" value="天体シミュレーション×防災・データサイエンス教育（千秋元先生・高知高専 仮説案）">
+      </div>
+      <div class="field">
+        <label for="genNotes">議事録・企業からの連絡・実施結果など(貼り付け)</label>
+        <textarea id="genNotes" rows="8" placeholder="千秋先生とのやり取りや、企業からの連絡・実施結果をここに貼り付けてください"></textarea>
+      </div>
+      <div class="field">
+        <label for="genFile">または、ファイルをアップロード(.txt / .md / .pdf)</label>
+        <input type="file" id="genFile" accept=".txt,.md,.pdf,text/plain,text/markdown,application/pdf">
+        <p class="errMsg" id="genFileStatus" style="display:none;color:var(--muted)"></p>
+      </div>
+      <button type="button" class="primaryBtn" id="genSubmit">この内容をダッシュボードに反映する</button>
+      <p class="errMsg" id="genErr" style="display:none">生成中にエラーが発生しました。時間をおいて再度お試しください。</p>
+    </div>
+  </aside>
+
+  <div class="appWrap" id="appWrap">
+  <div class="app">
+
+    <div class="hero">
+      <h1>🔭 天体シミュレーション×防災・データサイエンス教育（千秋元先生・高知高専 仮説案）</h1>
+      <p class="sub">ソーシャルデザイン工学科 准教授｜半年15コマ（年間30コマの前半）｜カリキュラム作成エージェント・3タブ構成版（2026-09-23改修）</p>
+      <p class="sub" style="color:#a3352c;font-weight:800">⚠️ 本ページは全体を通じて確度の低い仮説です。角田直輝先生・久池井茂先生の2件はresearchmap上の研究テーマが教育活動と直接つながっていましたが、千秋先生については教育活動の裏付けがresearchmap上になく、「ソーシャルデザイン工学科への着任」という経歴のみからのWeb調査による推測です。千秋先生ご本人には全く未確認です。</p>
+      <p class="sub" style="color:#165c9d;font-weight:700">🎓 本カリキュラムはバックワードデザイン（逆向き設計）とCDIOフレームワーク（Conceive→Design→Implement→Operate）に基づいて設計されています（ただしそもそもの方向性が本人未確認である点に留意）。</p>
+      <div class="decisionQ">🎯 今回決めるべき問い：千秋先生ご本人に、そもそも「防災・インフラ応用」という方向性へのご関心があるかを、どう確認するか？</div>
+      <div class="kpiRow">
+        <div class="kpi"><div class="label">15コマ中 確定済み</div><div class="value">0コマ（全て仮説）</div></div>
+        <div class="kpi"><div class="label">候補企業タイプ</div><div class="value">5タイプ（全て未着手）</div></div>
+        <div class="kpi"><div class="label">先生ご本人への確認</div><div class="value warn">未実施</div></div>
+        <div class="kpi"><div class="label">他2件との比較確度</div><div class="value warn">著しく低い</div></div>
+      </div>
+    </div>
+
+    <nav class="tabs">
+      <button class="tabBtn active" data-tab="curriculum">📅 カリキュラム案</button>
+      <button class="tabBtn" data-tab="northstar">🌟 教育充実度指標</button>
+      <button class="tabBtn" data-tab="cases">🌍 事例</button>
+    </nav>
+
+    <!-- ① カリキュラム案（旧・決断まとめ／提案と評価タブを統合） -->
+    <section class="panel active" id="panel-curriculum">
+
+      <div class="callout risk" data-cell-id="chiaki-position">
+        <b>⚠️ この提案の位置づけ（確度が低い仮説である旨）</b><br>
+        本カリキュラム案は、千秋先生のresearchmap上の研究実績（初代星形成・超新星爆発などの理論宇宙物理学・数値シミュレーション）と、2022年の高知高専「ソーシャルデザイン工学科」（社会実装志向の学科）への着任という経歴のみから、木村・Claudeが2026-09-09に立てた仮説です。担当科目欄にはresearchmap上「コンピュータリテラシー2」（明治学院大学・着任前）が1件あるのみで、高知高専での具体的な教育活動・出前授業実績の記載はありません。「防災・インフラ」という応用先も高知県の地域特性から仮に設定したもので、ご本人の問題意識とズレている可能性が、角田先生・久池井先生の2件より高いと考えられます。
+      </div>
+
+      <div class="highlights" data-cell-id="chiaki-highlights">
+        <div class="hl orange"><b>📊 判断材料</b>researchmap上に高知高専での教育活動実績の記載なし。専門は天体物理学（数値シミュレーション）。「防災・データサイエンス」への応用は経歴からの推測にとどまる。</div>
+        <div class="hl purple"><b>💡 検討中の選択肢</b>現在の15コマ仮説をそのまま見せるか、白紙でご関心を伺うか、2方針を下記トレードオフ比較で検討中。</div>
+        <div class="hl gray"><b>📈 将来予測</b>点数・満足度等の効果は実施前のため未算出。企業探索も未着手（候補5タイプすべて）。</div>
+        <div class="hl red"><b>🗣️ 現時点で分かっている声</b>千秋先生ご本人からの意見はまだ一切ない。角田・久池井両先生とは異なり、本人確認前の段階。</div>
+        <div class="hl gray"><b>🌍 類似事例</b>高専生向けの防災・データ活用の実例（高専防災減災コンテスト等）は存在する（事例タブ参照）。ただし千秋先生の研究テーマとの接続はまだ確認できていない。</div>
+        <div class="hl green"><b>✅ 結論・次の一手</b>次の一手はカリキュラムの精緻化ではなく、千秋先生への「そもそもの関心」ヒアリング。</div>
+      </div>
+
+      <h3>15コマ 授業計画（半年・仮説ベース／千秋先生への確認前）</h3>
+      <p style="font-size:12px;color:var(--muted);margin-top:-4px">各回（特に企業回）が、バックワードデザイン／CDIOのどのフェーズに対応するかを最右列に注記する。確定済みコマはなし（全て仮説であり、かつ他の先生方より確度が低い）。</p>
+      <div class="tableWrap">
+        <table data-cell-id="chiaki-schedule">
+          <tr><th>回</th><th>区分</th><th>テーマ</th><th>学習目標</th><th>活動内容／企業への依頼内容</th><th>手法上の位置づけ</th></tr>
+          <tr><td>1</td><td class="pill pblue">先生</td><td>オリエンテーション＋シミュレーションとは何か</td><td>「観測できないもの・まだ起きていないことを計算で予測する」という考え方を理解する</td><td>講義＋簡単な数値モデル（人口増減シミュレーション等）の体験ワーク。千秋先生自身の天体シミュレーション研究を導入事例に</td><td><span class="methodTag" style="display:block;margin-top:3px;font-size:11px;color:#5d47a3">CDIO：Conceive（構想）</span></td></tr>
+          <tr><td>2</td><td class="pill pblue">先生</td><td>大量データから「変化」を見つける技術</td><td>突発天体観測（トランジェント検出）のように、大量データから異常・変化を検出する考え方を理解する</td><td>異常検知・変化点検出の基礎概念の講義</td><td><span class="methodTag" style="display:block;margin-top:3px;font-size:11px;color:#5d47a3">CDIO：Conceive（構想）</span></td></tr>
+          <tr><td>3</td><td class="pill porange">企業</td><td>気象・防災データを扱う実務の実例</td><td>気象・河川・地震観測データが実際にどう収集・監視・予測に使われるかを知る</td><td>【気象・防災テック企業へ依頼】観測データの収集・監視フロー、予測・警報への活用実例を紹介してほしい</td><td><span class="methodTag" style="display:block;margin-top:3px;font-size:11px;color:#5d47a3">CDIO：Conceive→Design橋渡し／PBL連携：初期は既有知識の活性化・例示</span></td></tr>
+          <tr><td>4</td><td class="pill pblue">先生</td><td>数値シミュレーションの基本</td><td>時間・空間を細かく区切って計算する「離散化」の考え方を、熱伝導・洪水の広がり等の身近な現象で理解する</td><td>離散化の講義＋簡易演習</td><td><span class="methodTag" style="display:block;margin-top:3px;font-size:11px;color:#5d47a3">CDIO：Design（設計）</span></td></tr>
+          <tr><td>5</td><td class="pill pblue">先生</td><td>不確実性とシナリオ分析</td><td>観測誤差・初期条件のわずかな違いが結果に与える影響を理解し、「予測には幅がある」ことを前提に判断する力を養う</td><td>誤差伝播の講義＋シナリオ比較ワーク</td><td><span class="methodTag" style="display:block;margin-top:3px;font-size:11px;color:#5d47a3">CDIO：Design（設計）</span></td></tr>
+          <tr><td>6</td><td class="pill porange">企業</td><td>インフラ点検・センサーデータの実例</td><td>橋梁・道路・上下水道等のセンサーデータと劣化予測モデルの実例を知る</td><td>【インフラ点検・センサーメーカーへ依頼】センサーデータと劣化予測モデルの実例を紹介してほしい</td><td><span class="methodTag" style="display:block;margin-top:3px;font-size:11px;color:#5d47a3">CDIO：Design（設計）期の事例提示／PBL連携：初期の例示型メンター関与</span></td></tr>
+          <tr><td>7</td><td class="pill pblue">先生</td><td>高知県の地域特性と防災データ</td><td>南海トラフ地震・豪雨災害等、高知県特有の防災課題と公開データ（ハザードマップ・避難所情報等）を知る</td><td>講義＋公開データの探索ワーク</td><td><span class="methodTag" style="display:block;margin-top:3px;font-size:11px;color:#5d47a3">CDIO：Design（地域文脈への接続）</span></td></tr>
+          <tr><td>8</td><td class="pill porange">企業</td><td>防災シミュレーション・ハザードマップ制作の現場</td><td>ハザードマップ・避難シミュレーションがどう作られるかを知る</td><td>【防災コンサル・自治体シンクタンクへ依頼】制作プロセスと学生が使える公開データを紹介してほしい</td><td><span class="methodTag" style="display:block;margin-top:3px;font-size:11px;color:#5d47a3">CDIO：Design→Implement橋渡し</span></td></tr>
+          <tr><td>9</td><td class="pill pblue">先生</td><td>ワーク①：簡易シミュレーションモデルの構築</td><td>ここまでの学びを統合し、簡易的な予測モデル（浸水・避難シミュレーション等）を組んでみる</td><td>グループでのモデル構築ワーク</td><td><span class="methodTag" style="display:block;margin-top:3px;font-size:11px;color:#5d47a3">CDIO：Implement（実行）開始／バックワードデザイン：評価方法に沿った学習活動の実施</span></td></tr>
+          <tr><td>10</td><td class="pill porange">企業</td><td>実データを使ったケーススタディ提供</td><td>コマ9で作ったモデルを実データで検証する</td><td>【気象・防災テック企業（コマ3とは別事例）へ依頼】検証用の実データセット（匿名化・簡略化可）を提供し答え合わせに使わせてほしい</td><td><span class="methodTag" style="display:block;margin-top:3px;font-size:11px;color:#5d47a3">CDIO：Implement（実行）／PBL連携：後半への移行、実データへの応用</span></td></tr>
+          <tr><td>11</td><td class="pill pblue">先生</td><td>ワーク②：モデル改良とシナリオ評価</td><td>コマ10のフィードバックを踏まえモデルを修正し、複数シナリオでの予測結果を比較する</td><td>グループでのモデル改良ワーク</td><td><span class="methodTag" style="display:block;margin-top:3px;font-size:11px;color:#5d47a3">CDIO：Implement（実行）</span></td></tr>
+          <tr><td>12</td><td class="pill porange">企業</td><td>学生モデルへのフィードバック・講評</td><td>プロの視点での講評（前提の現実性、見落としているリスク等）を受ける</td><td>【インフラ・防災系企業へ依頼】学生モデルへの講評をしてほしい</td><td><span class="methodTag" style="display:block;margin-top:3px;font-size:11px;color:#5d47a3">CDIO：Implement→Operate橋渡し／PBL連携：後半、応用への評価的介入</span></td></tr>
+          <tr><td>13</td><td class="pill pblue">先生</td><td>振り返り：シミュレーション×社会実装の統合理論</td><td>天体シミュレーションの技術が地域の社会課題予測にどう転用できるかを、半年間を通じて整理する</td><td>振り返り講義＋ディスカッション</td><td><span class="methodTag" style="display:block;margin-top:3px;font-size:11px;color:#5d47a3">CDIO：Operate（運用・振り返り）</span></td></tr>
+          <tr><td>14</td><td class="pill porange">企業</td><td>地域における防災DX・データ活用の実例紹介</td><td>「地元に残ってデータ・シミュレーションの力で地域を守る」という選択肢の実例を知る</td><td>【地元自治体・地域防災関連企業（高知県内）へ依頼】防災DX・データ活用に携わる社員（できれば高専出身者）を紹介してほしい</td><td><span class="methodTag" style="display:block;margin-top:3px;font-size:11px;color:#5d47a3">CDIO：Operate（地域接続）</span></td></tr>
+          <tr><td>15</td><td class="pill pblue">先生</td><td>成果発表会・総括</td><td>半年間の学びをポートフォリオ・発表資料にまとめ、企業回で得た知見を自分の関心・キャリアに反映させる</td><td>発表会＋相互評価</td><td><span class="methodTag" style="display:block;margin-top:3px;font-size:11px;color:#5d47a3">CDIO：Operate（運用）／バックワードデザイン：評価の回収</span></td></tr>
+        </table>
+      </div>
+      <div class="callout warn" style="margin-top:12px" data-cell-id="chiaki-unassigned">コマ3・6・8・10・12・14の企業（5タイプ）は全て未選定・未着手です。加えて、このカリキュラム全体の方向性自体が千秋先生への確認前である点に留意してください。</div>
+
+      <h3 style="margin-top:20px">案のトレードオフ比較（先生への確認方法・たたき台）</h3>
+      <p style="font-size:12px;color:var(--muted);margin-top:-4px">確度が低い仮説であることを踏まえ、「どうカリキュラム内容を詰めるか」ではなく「どう先生の意向を確認するか」自体を論点にしている。</p>
+      <div class="opts">
+        <div class="opt"><b>案A：仮説のまま提示</b>現在の15コマ仮説案をそのまま先生に見せて意見を聞く。<br>強み：具体的で議論の叩き台になる／弱み：先生の実際の関心とズレていた場合、その仮説に引きずられるリスクがある／合意しやすさ：★</div>
+        <div class="opt"><b>案B：白紙で関心を伺う</b>テーマを提示せず、「どんな社会課題に関心があるか」から先生に聞く。<br>強み：先生本来の意向を最優先にできる／弱み：ゼロから設計し直しになる可能性、準備の手間が大きい／合意しやすさ：★★★</div>
+        <div class="opt"><b>案C：仮説を参考資料として添えつつ白紙で聞く（推奨候補）</b>「一案として防災・データサイエンス応用も考えられますが、他にご関心はありますか」という聞き方をする。<br>強み：仮説を無駄にせず、かつ先生の意向を尊重できる／弱み：誘導と受け取られないよう聞き方への配慮が必要／合意しやすさ：★★</div>
+      </div>
+
+      <h3>元になった事実・出典（EvidenceRecord）</h3>
+      <div class="evidence-list" data-cell-id="chiaki-evidence">
+        <div class="ev"><span class="lv l3">L3</span>researchmap「千秋元」ページ（論文29本、初代星形成・超新星爆発・金属欠乏星形成の大規模数値シミュレーション研究、基盤研究(S)共同研究者2024〜2029年度）</div>
+        <div class="ev"><span class="lv l5">L5</span>「防災・インフラ応用」というテーマ接続は、ソーシャルデザイン工学科への着任という経歴のみからの推測（木村・Claude、2026-09-09、Web調査ベース）</div>
+        <div class="ev"><span class="lv l5">L5</span>15コマ各回の企業タグ・依頼内容も、すべて上記の推測を前提にした仮説であり、実企業への打診は未着手</div>
+      </div>
+
+      <h3>合意形成の現在地（想定・ロードマップ）</h3>
+      <ol class="timeline" data-cell-id="chiaki-timeline">
+        <li class="done">researchmap調査による仮説カリキュラム初版の作成（完了・2026-09-09）</li>
+        <li class="done">カリキュラム作成エージェントによる3タブダッシュボード化（完了・本ページ、2026-09-23）</li>
+        <li>千秋先生ご本人への意向確認（次のアクション・最優先、期日未定）</li>
+        <li>意向確認結果を踏まえたカリキュラム全面見直し（方向性自体が変わる可能性を含む）</li>
+        <li>企業タイプ（候補5種）の妥当性確認・リストアップ着手</li>
+      </ol>
+    </section>
+
+    <!-- ② 教育充実度指標（指標に基づく支援タブ） -->
+    <section class="panel" id="panel-northstar">
+      <div class="callout risk" data-cell-id="chiaki-ns-tldr">
+        <b>🎯 北極星指標：定期試験・レポートの点数</b><br>
+        ①現在値：<b>未算出・実施前</b>（そもそも実施するかどうかも先生確認前の段階）<br>
+        ②比較対象：他高専の類似カリキュラムとまだ比較できていない<br>
+        ③原因：カリキュラム自体が千秋先生への確認前の仮説段階であり、他の2件（角田先生・久池井先生）より確度が低い<br>
+        ④次のアクション：点数化の土台を作る前に、まず千秋先生へ「防災・データサイエンス応用」というテーマ自体への関心を確認する
+      </div>
+      <div class="kpiRow" style="margin-bottom:14px">
+        <div class="kpi"><div class="label">補助①学生満足度</div><div class="value unknown">未算出（実施前）</div></div>
+        <div class="kpi"><div class="label">補助②コマ進行度</div><div class="value">0/15確定</div></div>
+        <div class="kpi"><div class="label">補助③企業多様性</div><div class="value">0/5着手</div></div>
+        <div class="kpi"><div class="label">補助④マッチング精度</div><div class="value unknown">未算出</div></div>
+        <div class="kpi"><div class="label">補助⑤面白い・理解できた実感度</div><div class="value unknown">未算出。テーマが先生の実際の関心とズレている場合、最も影響を受けるリスクが高い指標</div></div>
+      </div>
+
+      <div class="radarWrap">
+        <svg id="radarChart" width="180" height="180" viewBox="0 0 180 180"></svg>
+        <div style="flex:1;min-width:220px;font-size:12.5px">
+          <b>📡 情報充足度診断（5軸）</b>
+          <p style="font-size:11.5px;color:var(--muted);margin:4px 0">Legitimacy軸が突出して低いのは、千秋先生ご本人の確認が全く取れていないことを反映しています。</p>
+          <ul id="radarWeakPoints" style="margin:6px 0 0;padding-left:18px"></ul>
+        </div>
+      </div>
+
+      <div class="discussBox" data-cell-id="chiaki-discuss">
+        <b>🗣️ 今日、ここを議論してください</b>
+        <p>情報充足度が最も低いのはLegitimacy（当事者の声、10点）です。千秋先生ご本人が、この15コマ全体の前提である「天体シミュレーション×防災・データサイエンス」という方向性に関心をお持ちかどうか、一切確認できていません。補助⑤「学生が面白く理解できているか」の観点から、以下のコマを名指しで指摘します：</p>
+        <ul style="margin:6px 0 0;padding-left:18px">
+          <li><b>コマ1（オリエンテーション）・コマ7（高知県の地域特性と防災データ）・コマ13（振り返り：シミュレーション×社会実装の統合理論）</b>：先生の研究テーマ（初代星形成・超新星爆発の数値シミュレーション）から最も距離のある回であり、先生の実際の問題意識とズレている可能性が高い。ズレたまま実施すると、先生自身が「面白さ」を語れず補助⑤に悪影響が出るリスクが最も高いコマ。</li>
+          <li><b>コマ3・6・8・10・12・14（企業回・5タイプ全て未着手）</b>：依頼内容自体は具体的だが、企業が1社も確定していないため、当日の面白さを事前に見積もれない。CDIOのDesign〜Operateフェーズに位置づくが、企業メンターの役割変化（PBL連携ガイドラインの知見）を検証する材料がまだない。</li>
+        </ul>
+        <p style="margin-top:8px">今日議論すべきは、これらのコマの依頼内容を磨き込むことではなく、まず千秋先生ご本人に、そもそもこの方向性（防災・インフラ応用）に関心があるかを確認することです。</p>
+      </div>
+
+      <div class="card" style="margin-top:4px">
+        <b>3手法の重要ポイントから見た不足点</b><br>
+        ・目標からの逆算になっているか（バックワードデザイン）：目標（点数・満足度）自体が未確認の仮説テーマに紐づいており、逆算の起点が揺れている。<br>
+        ・構想→設計→実行→運用の4フェーズが揃っているか（CDIO）：コマ配置上は4フェーズが形式的に揃っているが、Conceive（構想）段階の前提そのものが本人未確認。<br>
+        ・企業メンターの役割が初期・後半で変化する設計になっているか（PBL連携ガイドライン）：コマ3・6（初期・例示型）→コマ10・12（後半・応用型）という役割変化は設計上組み込まれているが、企業自体が未着手のため検証できていない。
+      </div>
+
+      <div class="traceWrap">
+        <b>🧵 決定の跡（Decision Trace）</b>
+        <ul id="decisionTrace">
+          <li>2026-09-09　Web調査による仮説カリキュラム初版（15コマ）をNotionに作成。他2件より確度が低いことを明記</li>
+          <li>2026-09-23　カリキュラム作成エージェント マスター仕様書改訂（3タブ構成・補助⑤追加）を反映し、本ダッシュボードを3タブ構成へ移行。左右パネルをしまてつだい側の完成形（sidePanel方式）に統一し、セル編集スクリプトを高専専用のkosen-cell-editor.jsに統一</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ③ 事例 -->
+    <section class="panel" id="panel-cases">
+      <p style="font-size:12px;color:var(--muted)">世の中の企業教育（PBL・出前授業等）をWeb調査した上で、本カリキュラムの企業依頼内容（気象・防災テック／インフラ点検センサー／防災コンサル等）に近い実例をピックアップしている。</p>
+
+      <h3>✅ 参考になる事例</h3>
+      <div class="card good" data-cell-id="chiaki-case-good-1">
+        <b>高専防災減災コンテスト（防災科研NIED・極端気象レジリエンス研究推進室）</b><br>
+        高専生を対象に、地域の防災・減災課題を学生が調査し、解決アイデアとその検証過程を発表・評価するコンテスト。2024年度に第3回が開催され、継続実施されている。<br>
+        <span style="color:var(--muted);font-size:12px">どの回に近いか：コマ7（高知県の地域特性と防災データ）・コマ9／11（簡易シミュレーションモデルの構築・改良ワーク）に近い。学生自身が地域課題を調べて手を動かす構成が共通する。</span>
+      </div>
+      <div class="card good" data-cell-id="chiaki-case-good-2">
+        <b>ウェザーニューズ WxTech「学校向け気象ソリューション」</b><br>
+        荒天時の休校判断支援、IoTセンサー「ソラテナPro」によるWBGT自動計測等、気象データを学校運営に活用する企業サービス。学校向けに体系化された「気象教育プログラム」そのものは確認できなかったが、企業が気象データの収集・活用フローを学校に説明する接点は存在する。<br>
+        <span style="color:var(--muted);font-size:12px">どの回に近いか：コマ3（気象・防災データを扱う実務の実例）。ただし教育プログラムとしての実績は未確認のため、依頼できる保証はない。</span>
+      </div>
+      <div class="card good" data-cell-id="chiaki-case-good-3">
+        <b>神戸大学 数理・データサイエンスセンター「テーマ別課題解決型PBL」</b><br>
+        異業種混成チームで実データを使ったケーススタディに取り組み、機械学習ツールの活用から提案企画までを8回で構成するPBL型データサイエンス教育。<br>
+        <span style="color:var(--muted);font-size:12px">どの回に近いか：コマ9・10・11（モデル構築→実データでの検証→改良のワーク群）に近い設計思想。</span>
+      </div>
+
+      <h3 style="margin-top:18px">⚠️ 要注意・調整が必要な事例</h3>
+      <div class="card warn" data-cell-id="chiaki-case-watch-1">
+        <b>三重大学 高等教育創造開発センター「アクティブラーニング失敗事例ハンドブック」</b><br>
+        産学連携PBLがうまくいかなかった典型パターンとして、目的の曖昧さ（何をもって成功とするか企業・教員間で不一致）、評価基準の共有不足、教員の過剰介入または放任、一過性で終わりフォローアップが続かないこと、を指摘している。<br>
+        <span style="color:var(--muted);font-size:12px">どの回に近いか：コマ8（企業：ハザードマップ制作紹介）・コマ12（企業：学生モデルへの講評）は、依頼内容と評価基準を企業側と事前にすり合わせないまま実施すると同じ失敗をたどるリスクが高い。</span>
+      </div>
+      <div class="card warn" data-cell-id="chiaki-case-watch-2">
+        <b>インフラ点検・センサー業界（首都高技術InfraDoctor、NTT西日本ドローン橋梁点検等）</b><br>
+        各社ともB2B向けの点検・維持管理サービスとしては情報公開が進んでいる一方、学校向けに体系化された出前授業・教育プログラムは、今回の調査範囲では見つからなかった。<br>
+        <span style="color:var(--muted);font-size:12px">どの回に近いか：コマ6（インフラ点検・センサーデータの実例）。企業探索そのものが他の企業タグより難航するリスクが高いことを示す事例。</span>
+      </div>
+
+      <h3 style="margin-top:18px">候補支援制度（未確認・検討候補）</h3>
+      <div class="tableWrap">
+        <table data-cell-id="chiaki-funding">
+          <tr><th>制度名（候補）</th><th>想定される関連性</th><th>確認状況</th></tr>
+          <tr><td>文部科学省 学校教育の情報化推進事業</td><td>データサイエンス・防災データ活用の授業設計への活用可能性</td><td class="pill pred">未確認</td></tr>
+          <tr><td>JST 次世代科学者育成プログラム系事業</td><td>天体シミュレーション由来の理数系人材育成という切り口との親和性</td><td class="pill pred">未確認</td></tr>
+          <tr><td>高専機構 特別経費（社会実装教育枠）</td><td>ソーシャルデザイン工学科としての社会実装教育の位置づけ</td><td class="pill pred">未確認</td></tr>
+          <tr><td>高知県 地域防災教育関連の補助制度</td><td>南海トラフ地震・豪雨災害等、地域の防災課題との接続</td><td class="pill pred">未確認</td></tr>
+        </table>
+      </div>
+      <div class="callout warn" style="margin-top:10px">本タブの支援制度は全て「候補」であり、本カリキュラムへの適用可否・要件は未確認です。数値の記載はありません。</div>
+    </section>
+
   </div>
-  <p class="lead" data-cell-id="case-chiaki-lead">「教育コンテンツ作成支援」の3人目の事例として、researchmap（researchmap.jp/gen_chiaki）に公開されている千秋元先生の研究活動を整理しました。角田先生・久池井先生の2件とは異なり、研究テーマ（天体物理学の数値シミュレーション）と教育活動の接続はresearchmap上で確認できず、木村・Claudeが「ソーシャルデザイン工学科への着任」という経歴から立てた仮説です。確度が低いことを前提にご覧ください。</p>
-
-  <div class="toc">
-    <a href="#purpose">① 教育の目的（仮説）</a>
-    <a href="#company">② 経歴</a>
-    <a href="#problem">③ 問題提起（仮説）</a>
-    <a href="#activity">④ 教育活動の4要素（仮説）</a>
-    <a href="#value">⑤ 社会価値創造（仮説）</a>
-    <a href="#execution">⑥ 実行</a>
-    <a href="#success">⑦ 成功事例</a>
-    <a href="#failure">⑧ 課題・留意点</a>
-    <a href="#curriculum">⑨ 15コマカリキュラム案（仮説）</a>
   </div>
 
-  <div class="stat-grid">
-    <div class="stat"><div class="stat-label">所属</div><div class="stat-value">高知高専 ソーシャルデザイン工学科</div></div>
-    <div class="stat"><div class="stat-label">専門</div><div class="stat-value">天体物理学（数値シミュレーション）</div></div>
-    <div class="stat"><div class="stat-label">研究の軸</div><div class="stat-value">初代星形成・超新星爆発の大規模計算</div></div>
-    <div class="stat"><div class="stat-label">学位</div><div class="stat-value">博士（理学）東京大学・2016年</div></div>
-  </div>
-
-  <section id="purpose" class="block">
-    <p class="section-num">① PURPOSE（仮説）</p>
-    <h2>教育の目的（仮説）</h2>
-    <p class="subtle">天体シミュレーションで培った「大量データ・数値計算から未知の現象を予測する」技術を、ソーシャルデザイン工学科という社会実装志向の学科の中で、地域の社会課題予測に応用する教育、という仮説を立てています。<b>本人未確認の推測</b>です。</p>
-    <div class="card-grid">
-      <div class="mini"><div class="mini-mark">🛰️</div><div class="mini-name">大量データからの予測</div><div class="mini-desc">突発天体観測（トランジェント検出）の考え方を防災データに応用</div></div>
-      <div class="mini"><div class="mini-mark">🌊</div><div class="mini-name">防災・インフラ課題</div><div class="mini-desc">南海トラフ地震・豪雨災害など高知県の地域課題（仮説）</div></div>
-      <div class="mini"><div class="mini-mark">📊</div><div class="mini-name">データサイエンス人材育成</div><div class="mini-desc">高知高専の「数理・データサイエンス・AI教育プログラム」との接続可能性</div></div>
-      <div class="mini"><div class="mini-mark">🎓</div><div class="mini-name">理論から社会実装へ</div><div class="mini-desc">理論物理出身者が社会実装系の学科で教える立場をどう活かすか</div></div>
+  <aside class="sidePanel right" id="rightPanel">
+    <button type="button" class="panelToggle" id="rightToggle">💬 ダッシュボードに質問する <span id="rightToggleIcon">▲</span></button>
+    <div class="panelBody" id="rightBody">
+      <div class="chatLog" id="chatLog">
+        <p class="chatMsg hint">このカリキュラム（天体シミュレーション×防災・データサイエンス教育）について、気になることを質問できます。（例：「まだ確定していない企業は？」）</p>
+      </div>
+      <div class="chatRow">
+        <input type="text" id="chatInput" placeholder="例：まだ確定していない企業は？">
+        <button type="button" id="chatSend">送信</button>
+      </div>
+      <p class="errMsg" id="chatErr" style="display:none">回答の生成に失敗しました。時間をおいて再度お試しください。</p>
     </div>
-  </section>
+  </aside>
 
-  <section id="company" class="block">
-    <p class="section-num">② BACKGROUND</p>
-    <h2>経歴</h2>
-    <p class="subtle" data-cell-id="case-chiaki-subtle-1">東京大学で物理学の博士号を取得後、甲南大学・ジョージア工科大学（JSPS海外特別研究員）・東北大学・国立天文台フェローを経て、2022年5月に高知高専ソーシャルデザイン工学科助教に着任、2025年4月に准教授へ昇任。一貫して初代星（Population III星）形成・超新星爆発・金属欠乏星形成の大規模数値シミュレーション研究に従事。現在は基盤研究(S)「次世代大規模探査を用いた突発天体観測で明らかにする宇宙の進化」（2024〜2029年度）の共同研究者。</p>
-    <div class="card good">
-      <b>確認できた実績</b><br>
-      <span data-cell-id="case-chiaki-card-1">論文29本・国際学会招待講演複数。専門は数値シミュレーションによる初代天体形成研究で、国立天文台・東北大学等でのキャリアを持つ。</span>
-    </div>
-    <div class="card warn">
-      <b>裏取りができなかった点（要：千秋先生への最優先確認事項）</b><br>
-      <span data-cell-id="case-chiaki-card-2">高知高専ソーシャルデザイン工学科での具体的な担当科目・教育活動・出前授業等の実績は、researchmap上に記載がありませんでした（掲載されている授業経験は着任前の明治学院大学「コンピュータリテラシー2」1件のみ）。本ページの教育テーマは、着任先の学科名から立てた仮説であり、角田先生・久池井先生の2件と比べて確度が大きく劣ります。</span>
-    </div>
-  </section>
-
-  <section id="problem" class="block">
-    <p class="section-num">③ PROBLEM（仮説）</p>
-    <h2>問題提起（仮説）</h2>
-    <div class="card warn">
-      <b>仮説の前提</b><br>
-      <span data-cell-id="case-chiaki-card-3">高知県は南海トラフ地震・豪雨災害等の防災課題を抱える地域であり、大規模データ・シミュレーションを扱える人材が地域に不足している、という仮説を置いています。千秋先生ご自身がこの課題意識をお持ちかは未確認です。</span>
-    </div>
-  </section>
-
-  <section id="activity" class="block">
-    <p class="section-num">④ ACTIVITY（仮説）</p>
-    <h2>教育活動の4要素（マッチングサイトの4カードと対応・仮説）</h2>
-    <table>
-      <tr><th>カード</th><th>千秋先生の場合（仮説）</th></tr>
-      <tr><td>♥ ペルソナ</td><td>高知高専 ソーシャルデザイン工学科の学生</td></tr>
-      <tr><td>♦ 提供する価値</td><td>天体シミュレーションで培った大規模数値計算・データ解析手法を、防災・インフラ分野に応用する教育（仮説）</td></tr>
-      <tr><td>♠ 技術</td><td>数値シミュレーション、大規模データ解析、不確実性・シナリオ評価</td></tr>
-      <tr><td>♣ パートナー</td><td>気象・防災テック企業、インフラ点検・センサーメーカー、地元自治体・防災関連企業（いずれも仮説）</td></tr>
-    </table>
-  </section>
-
-  <section id="value" class="block">
-    <p class="section-num">⑤ SOCIAL VALUE（仮説）</p>
-    <h2>社会価値創造（仮説）</h2>
-    <table>
-      <tr><th>相手</th><th>価値の例（仮説）</th></tr>
-      <tr><td>学生</td><td>最先端の天体物理シミュレーション手法を、身近な防災・インフラ課題に応用する体験ができる</td></tr>
-      <tr><td>気象・防災・インフラ企業</td><td>学生との接点を通じて、データ活用人材の育成・将来の採用につながる</td></tr>
-      <tr><td>高知県・地元自治体</td><td>防災DX・データ活用人材の地域内での育成</td></tr>
-      <tr><td>高専機構全体</td><td>理論科学（天文学）から社会実装への転身という、他に例の少ないキャリアモデルの提示</td></tr>
-    </table>
-  </section>
-
-  <section id="execution" class="block">
-    <p class="section-num">⑥ EXECUTION</p>
-    <h2>実行</h2>
-    <div class="card">
-      <b>研究実績</b><br>
-      <span data-cell-id="case-chiaki-card-4">初代星形成・超新星爆発・直接崩壊ブラックホール形成等をテーマに、国立天文台のスーパーコンピュータ等を用いた大規模数値シミュレーション研究を継続。基盤研究(S)の共同研究者として、次世代の大規模天体探査プロジェクトにも参画している。</span>
-    </div>
-    <div class="card warn">
-      <b>教育活動の実行実績は未確認</b><br>
-      <span data-cell-id="case-chiaki-card-5">高知高専での具体的な教育実践（出前授業・PBL・地域連携等）はresearchmap上で確認できませんでした。ご本人への確認が必須です。</span>
-    </div>
-  </section>
-
-  <section id="success" class="block">
-    <p class="section-num">⑦ SUCCESS</p>
-    <h2>成功事例</h2>
-    <table>
-      <tr><th>成果</th><th>内容</th></tr>
-      <tr><td>研究実績</td><td>論文29本、国際会議での招待講演多数（天体物理学分野）</td></tr>
-      <tr><td>大型研究費への参画</td><td>基盤研究(S)「次世代大規模探査を用いた突発天体観測で明らかにする宇宙の進化」共同研究者（2024〜2029年度）</td></tr>
-      <tr><td>キャリアの幅</td><td>国立天文台・東北大学・ジョージア工科大学等、国内外の第一線研究機関でのキャリア</td></tr>
-    </table>
-  </section>
-
-  <section id="failure" class="block">
-    <p class="section-num">⑧ CAUTION</p>
-    <h2>課題・留意点（成功事例のみに偏らないための正直な整理）</h2>
-    <div class="card warn">
-      <b>本ページで最も留意すべき点</b><br>
-      <span data-cell-id="case-chiaki-card-6">本ページの「教育の目的」「問題提起」「社会価値創造」は、いずれも研究テーマそのものではなく、「ソーシャルデザイン工学科への着任」という経歴のみから木村・Claudeが立てた仮説です。角田先生・久池井先生の2件とは異なり、教育活動としての裏付けが取れていません。千秋先生への確認では、まず「そもそもこの方向性（防災・データサイエンス応用）で関心をお持ちか」から伺う必要があります。</span>
-    </div>
-  </section>
-
-  <section id="curriculum" class="block">
-    <p class="section-num">⑨ CURRICULUM（仮説・千秋先生への確認前）</p>
-    <h2>15コマカリキュラム案：天体シミュレーション×防災・データサイエンス教育</h2>
-    <p class="subtle">半年15コマ（年間30コマの前半）。シミュレーションの基礎理論→データから社会課題を読み解く→現場での検証→地域接続の順に構成。<b>全て千秋先生への確認前の仮説</b>で、他の2件よりも確度が低いことを前提とする。</p>
-    <table>
-      <tr><th>コマ</th><th>担当</th><th>内容</th><th>企業タグ／手伝ってほしいこと</th></tr>
-      <tr><td>1〜2</td><td>先生</td><td><span data-cell-id="case-chiaki-koma1-content">シミュレーションとは何か、大量データから「変化」を見つける技術の基礎</span></td><td>-</td></tr>
-      <tr><td>3</td><td>企業</td><td><span data-cell-id="case-chiaki-koma2-content">気象・防災データを扱う実務の実例</span></td><td><span data-cell-id="case-chiaki-koma2-tag">気象・防災テック企業：観測データの収集・監視フローの解説</span></td></tr>
-      <tr><td>4〜5</td><td>先生</td><td><span data-cell-id="case-chiaki-koma3-content">数値シミュレーションの基本（離散化）、不確実性とシナリオ分析</span></td><td>-</td></tr>
-      <tr><td>6</td><td>企業</td><td><span data-cell-id="case-chiaki-koma4-content">インフラ点検・センサーデータの実例</span></td><td><span data-cell-id="case-chiaki-koma4-tag">インフラ点検・センサーメーカー：劣化予測モデルの実例紹介</span></td></tr>
-      <tr><td>7</td><td>先生</td><td><span data-cell-id="case-chiaki-koma5-content">高知県の地域特性と防災データ（南海トラフ・豪雨災害）</span></td><td>-</td></tr>
-      <tr><td>8</td><td>企業</td><td><span data-cell-id="case-chiaki-koma6-content">防災シミュレーション・ハザードマップ制作の現場</span></td><td><span data-cell-id="case-chiaki-koma6-tag">防災コンサル・自治体シンクタンク：制作プロセスの紹介、公開データの案内</span></td></tr>
-      <tr><td>9</td><td>先生</td><td><span data-cell-id="case-chiaki-koma7-content">ワーク①：簡易シミュレーションモデルの構築</span></td><td>-</td></tr>
-      <tr><td>10</td><td>企業</td><td><span data-cell-id="case-chiaki-koma8-content">実データを使ったケーススタディ提供</span></td><td><span data-cell-id="case-chiaki-koma8-tag">気象・防災テック企業（コマ3とは別事例）：モデル検証用データの提供</span></td></tr>
-      <tr><td>11</td><td>先生</td><td><span data-cell-id="case-chiaki-koma9-content">ワーク②：モデル改良とシナリオ評価</span></td><td>-</td></tr>
-      <tr><td>12</td><td>企業</td><td><span data-cell-id="case-chiaki-koma10-content">学生モデルへのフィードバック・講評</span></td><td><span data-cell-id="case-chiaki-koma10-tag">インフラ・防災系企業：プロ視点での講評</span></td></tr>
-      <tr><td>13</td><td>先生</td><td><span data-cell-id="case-chiaki-koma11-content">振り返り：シミュレーション×社会実装の統合理論</span></td><td>-</td></tr>
-      <tr><td>14</td><td>企業</td><td><span data-cell-id="case-chiaki-koma12-content">地域における防災DX・データ活用の実例紹介</span></td><td><span data-cell-id="case-chiaki-koma12-tag">地元自治体・地域防災関連企業（高知県内）：地元で働く技術者社員の紹介</span></td></tr>
-      <tr><td>15</td><td>先生</td><td><span data-cell-id="case-chiaki-koma13-content">成果発表会・総括</span></td><td>-</td></tr>
-    </table>
-    <div class="card">
-      <b>詳細版・企業への自動生成依頼文</b><br>
-      <span data-cell-id="case-chiaki-card-7">各コマの学習目標や、企業への具体的な依頼文サンプルは、社内Notion「📅 千秋元先生（高知高専） 15コマカリキュラム提案」に整理しています（本ページは要点のみの抜粋）。</span>
-    </div>
-  </section>
-
-  <footer>
-    出典：researchmap「千秋 元 (Gen Chiaki)」（https://researchmap.jp/gen_chiaki）、高知工業高等専門学校 ソーシャルデザイン工学科公式サイト。2026年9月にWeb公開情報を調査。本ページは千秋先生ご本人への確認を経たものではなく、公開情報からの整理（特に教育活動部分は経歴からの推測）です。掲載内容に誤りがあれば訂正します。15コマカリキュラム案は2026-09-09にNotionで作成した仮説であり、先生ご本人への確認前です。
-  </footer>
 </div>
+
+<script>
+function switchTab(tabName){
+  document.querySelectorAll('.tabBtn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  var btn = document.querySelector('.tabBtn[data-tab="' + tabName + '"]');
+  var panel = document.getElementById('panel-' + tabName);
+  if (btn) btn.classList.add('active');
+  if (panel) panel.classList.add('active');
+}
+document.querySelectorAll('.tabBtn').forEach(function(btn){
+  btn.addEventListener('click', function(){ switchTab(btn.dataset.tab); });
+});
+
+function renderRadar(svgId, scores){
+  var axes = [
+    {key:'legitimacy', label:'当事者の声'}, {key:'evidence', label:'外部知見'},
+    {key:'alignment', label:'方針整合'}, {key:'feasibility', label:'実行可能性'},
+    {key:'impact', label:'効果見通し'}
+  ];
+  var cx=90, cy=90, r=70, svg=document.getElementById(svgId);
+  var pt = function(i, val){
+    var ang = -Math.PI/2 + i * (2*Math.PI/5);
+    var rad = r * (val/100);
+    return [cx + rad*Math.cos(ang), cy + rad*Math.sin(ang)];
+  };
+  var rings = '';
+  [0.25,0.5,0.75,1].forEach(function(f){
+    var pts = axes.map(function(a,i){ return pt(i, f*100).join(','); }).join(' ');
+    rings += '<polygon points="'+pts+'" fill="none" stroke="#ddd" stroke-width="1"/>';
+  });
+  var dataPts = axes.map(function(a,i){ return pt(i, scores[a.key]||0).join(','); }).join(' ');
+  var labels = axes.map(function(a,i){
+    var p = pt(i, 118);
+    return '<text x="'+p[0]+'" y="'+p[1]+'" font-size="9" text-anchor="middle" fill="#7D7A75">'+a.label+'</text>';
+  }).join('');
+  svg.innerHTML = rings + '<polygon points="'+dataPts+'" fill="#E5645855" stroke="#E56458" stroke-width="2"/>' + labels;
+}
+var radarScores = { legitimacy: 10, evidence: 25, alignment: 45, feasibility: 15, impact: 10 };
+renderRadar('radarChart', radarScores);
+var weakNotes = {
+  legitimacy: '次に確認：千秋先生ご本人に、そもそも「防災・インフラ応用」という方向性への関心があるか確認する（最優先）',
+  evidence: '次に確認：高専防災減災コンテスト等、他の高専・大学の類似事例との比較を深める',
+  alignment: '次に確認：高専機構のSociety5.0人材育成方針と、天体シミュレーション由来の教育テーマとの整合性を具体的に検証する',
+  feasibility: '次に確認：候補5企業タイプ（気象・防災テック／インフラ点検センサー／防災コンサル等）のリストアップに着手する',
+  impact: '次に確認：先生の意向確認後、コマ9・11の評価基準を点数化の土台として設計する'
+};
+var wp = document.getElementById('radarWeakPoints');
+Object.keys(weakNotes).forEach(function(k){
+  if ((radarScores[k]||0) < 50){
+    var li = document.createElement('li');
+    li.textContent = weakNotes[k];
+    wp.appendChild(li);
+  }
+});
+
+// --- 左右パネルの折りたたみ ---
+(function(){
+  function bindToggle(panelId, toggleId, iconId){
+    var panel = document.getElementById(panelId);
+    var toggle = document.getElementById(toggleId);
+    var icon = document.getElementById(iconId);
+    if (!panel || !toggle) return;
+    toggle.addEventListener('click', function(){
+      var collapsed = panel.classList.toggle('collapsed');
+      if (icon) icon.textContent = collapsed ? '▼' : '▲';
+    });
+  }
+  bindToggle('leftPanel', 'leftToggle', 'leftToggleIcon');
+  bindToggle('rightPanel', 'rightToggle', 'rightToggleIcon');
+})();
+
+// --- 左: 資料投入エリアのファイルアップロード(.txt/.md/.pdf) ---
+(function(){
+  var fileInput = document.getElementById('genFile');
+  var fileStatus = document.getElementById('genFileStatus');
+  var notesEl = document.getElementById('genNotes');
+  if (!fileInput) return;
+
+  function readTextFile(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){ resolve(String(reader.result || '')); };
+      reader.onerror = function(){ reject(reader.error); };
+      reader.readAsText(file);
+    });
+  }
+  function readFileAsBase64(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){
+        var result = String(reader.result || '');
+        resolve(result.split(',')[1] || '');
+      };
+      reader.onerror = function(){ reject(reader.error); };
+      reader.readAsDataURL(file);
+    });
+  }
+  function appendNotes(text){
+    var current = notesEl.value.trim();
+    notesEl.value = current ? (current + '\n\n' + text) : text;
+  }
+
+  fileInput.addEventListener('change', async function(){
+    var file = fileInput.files && fileInput.files[0];
+    fileInput.value = '';
+    if (!file) return;
+    var lower = file.name.toLowerCase();
+    var isPdf = file.type === 'application/pdf' || lower.endsWith('.pdf');
+    var isTextLike = (file.type && file.type.indexOf('text/') === 0) || lower.endsWith('.txt') || lower.endsWith('.md');
+    if (!isPdf && !isTextLike) {
+      fileStatus.style.display = 'block';
+      fileStatus.style.color = 'var(--red)';
+      fileStatus.textContent = '.txt / .md / .pdf のいずれかのファイルを選択してください。';
+      return;
+    }
+    fileStatus.style.display = 'block';
+    fileStatus.style.color = 'var(--muted)';
+    fileStatus.textContent = isPdf ? 'PDFを読み取っています…(30秒ほどかかります)' : 'ファイルを読み込んでいます…';
+    try {
+      if (isTextLike) {
+        var text = await readTextFile(file);
+        appendNotes(text);
+      } else {
+        var dataBase64 = await readFileAsBase64(file);
+        var res = await fetch('/api/extract-document', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ fileName: file.name, mimeType: 'application/pdf', dataBase64: dataBase64 })
+        });
+        if (!res.ok) throw new Error('request failed');
+        var data = await res.json();
+        appendNotes(data.text);
+      }
+      fileStatus.style.display = 'none';
+    } catch (e) {
+      fileStatus.style.color = 'var(--red)';
+      fileStatus.textContent = 'ファイルの読み込みに失敗しました。時間をおいて再度お試しください。';
+    }
+  });
+})();
+
+// --- 左: 資料投入エリア → ダッシュボードに反映 ---
+(function(){
+  var submitBtn = document.getElementById('genSubmit');
+  var errEl = document.getElementById('genErr');
+  if (!submitBtn) return;
+  submitBtn.addEventListener('click', async function(){
+    var issueTitle = document.getElementById('genTitle').value.trim();
+    var sourceNotes = document.getElementById('genNotes').value.trim();
+    if (!sourceNotes) return;
+    errEl.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = '反映中…(30秒ほど)';
+    try {
+      var res = await fetch('/api/issue-summary', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ issueTitle: issueTitle, sourceNotes: sourceNotes })
+      });
+      if (!res.ok) throw new Error('request failed');
+      var data = await res.json();
+      window.__chiakiDashboardDraft = data.draft;
+      alert('内容を受け付けました。（先生の合い言葉での確認後、カリキュラムに反映されます）');
+    } catch (e) {
+      errEl.style.display = 'block';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'この内容をダッシュボードに反映する';
+    }
+  });
+})();
+
+// --- 右: 質問チャット ---
+(function(){
+  var log = document.getElementById('chatLog');
+  var input = document.getElementById('chatInput');
+  var sendBtn = document.getElementById('chatSend');
+  var errEl = document.getElementById('chatErr');
+  if (!sendBtn) return;
+
+  function appendMsg(role, text){
+    var div = document.createElement('div');
+    div.className = 'chatMsg ' + role;
+    div.textContent = text;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function currentDashboardContent(){
+    var curriculum = document.getElementById('panel-curriculum');
+    var base = curriculum ? curriculum.innerText : '';
+    if (window.__chiakiDashboardDraft) {
+      base += '\n\n---\n【資料投入エリアからの下書き】\n' + window.__chiakiDashboardDraft;
+    }
+    return base;
+  }
+
+  async function send(){
+    var q = input.value.trim();
+    if (!q) return;
+    errEl.style.display = 'none';
+    appendMsg('user', q);
+    input.value = '';
+    sendBtn.disabled = true;
+    try {
+      var res = await fetch('/api/dashboard-chat', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          issueTitle: '天体シミュレーション×防災・データサイエンス教育（千秋元先生・高知高専 仮説案）',
+          dashboardContent: currentDashboardContent(),
+          question: q
+        })
+      });
+      if (!res.ok) throw new Error('request failed');
+      var data = await res.json();
+      appendMsg('ai', data.draft);
+    } catch (e) {
+      errEl.style.display = 'block';
+    } finally {
+      sendBtn.disabled = false;
+    }
+  }
+  sendBtn.addEventListener('click', send);
+  input.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' && !(e.isComposing || e.keyCode === 229)) send();
+  });
+})();
+</script>
 <script src="/js/kosen-cell-editor.js"></script>
 </body>
+</html>

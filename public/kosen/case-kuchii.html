@@ -1,204 +1,613 @@
-<title>北九州高専 久池井茂先生（ロボット×医療・介護・製造DX）</title>
-<base href="/kosen/">
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>久池井茂先生（北九州高専） 15コマカリキュラム案 | 教育コンテンツ作成支援</title>
 <style>
-  /* CR「60歳前後の熟年層向けUI検証」対応：ルートのfont-sizeを引き上げ、rem基準のクラスを全体的に拡大 */
-  html{ font-size:113%; }
-  :root{ --bg:#F2EEE6; --card:#FFFFFF; --ink:#2C2C2B; --muted:#726A5E; --line:#E1DDD3; --blue:#2783DE;
-    --good:#4C7A52; --good-bg:#E8F1EC; --bad:#B23B3B; --bad-bg:#FBEAEA;
-    --callout-blue-bg:#EFF6FE; --callout-blue-line:#2783DE;
-    --shadow:0 1px 2px rgba(44,44,43,.05), 0 8px 22px rgba(44,44,43,.06); }
-  *{box-sizing:border-box;}
-  body{ background:var(--bg); color:var(--ink); line-height:1.75; margin:0;
-    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
-  .shell{max-width:960px; margin:0 auto; padding:26px 22px 60px;}
-  .breadcrumb{font-size:.78rem; color:var(--muted); margin-bottom:14px;}
-  .breadcrumb a{color:var(--blue); text-decoration:none;}
-  .head{display:flex; justify-content:space-between; align-items:flex-start; gap:14px;}
-  h1{font-size:1.55rem; margin:0;}
-  .region{font-size:.85rem; color:var(--muted); margin-top:2px;}
-  .pill{font-size:.74rem; font-weight:700; padding:4px 12px; border-radius:99px; background:var(--good-bg); color:var(--good); white-space:nowrap;}
-  .lead{color:var(--muted); font-size:.9rem; max-width:76ch; margin:12px 0 24px;}
-  h2{font-size:1.15rem; margin:0 0 4px;}
-  .section-num{font-size:.72rem; font-weight:700; color:var(--blue); letter-spacing:.04em;}
-  section.block{scroll-margin-top:76px; margin-top:40px; padding-top:8px; border-top:1px solid var(--line);}
-  .subtle{color:var(--muted); font-size:.86rem; margin:6px 0 14px;}
-  .stat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:8px;}
-  @media (max-width:700px){ .stat-grid{grid-template-columns:repeat(2,1fr);} }
-  .stat{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow);}
-  .stat-label{font-size:.72rem; color:var(--muted);}
-  .stat-value{font-size:1.05rem; font-weight:700; margin-top:2px;}
-  .card{background:var(--callout-blue-bg); border-left:4px solid var(--callout-blue-line); border-radius:12px; padding:16px 18px; font-size:.87rem; color:var(--ink); margin:14px 0;}
-  .card.good{background:var(--good-bg); border-left-color:var(--good);}
-  .card.warn{background:var(--bad-bg); border-left-color:var(--bad);}
-  table{width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; font-size:.85rem; margin:10px 0;}
-  th,td{padding:10px 14px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top;}
-  th{background:#F7F4EE; color:var(--muted); font-weight:600;}
-  tr:last-child td{border-bottom:none;}
-  .card-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:16px 0;}
-  @media (max-width:700px){ .card-grid{grid-template-columns:repeat(2,1fr);} }
-  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; box-shadow:var(--shadow); text-align:center;}
-  .mini-mark{font-size:1.3rem;}
-  .mini-name{font-size:.8rem; font-weight:700; margin-top:4px;}
-  .mini-desc{font-size:.73rem; color:var(--muted); margin-top:4px;}
-  .toc{display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 8px; padding:14px; background:var(--card); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow);}
-  .toc a{font-size:.76rem; color:var(--blue); text-decoration:none; background:var(--callout-blue-bg); padding:4px 10px; border-radius:99px;}
-  footer{margin-top:36px; padding-top:16px; border-top:1px solid var(--line); font-size:.74rem; color:var(--muted);}
+:root{--ink:#2C2C2B;--muted:#7D7A75;--line:#E6E5E3;--soft:#F9F8F7;--blue:#2783DE;--blueSoft:#E5F2FC;--green:#46A171;--greenSoft:#E8F1EC;--orange:#D5803B;--orangeSoft:#FBEBDE;--red:#E56458;--redSoft:#FCE9E7;--purple:#7A5CCF;--purpleSoft:#EEE9FB;--gray:#B9B6B0;--graySoft:#F1F0EE}
+*{box-sizing:border-box}
+body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.5}
+.app{max-width:1200px;margin:0 auto;background:#fff;min-height:100vh}
+.hero{padding:24px 28px 14px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:800}
+.title{font-size:26px;font-weight:900;margin:10px 0 4px}
+.subtitle{color:var(--muted);font-size:13px;max-width:82ch}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px}
+.kpi b{font-size:20px;display:block}
+.kpi span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.northStar{border:2px solid var(--purple);background:var(--purpleSoft);border-radius:12px;padding:10px 12px;margin-top:14px;font-size:12.5px}
+.northStar b{font-size:13.5px}
+.callout{border-left:5px solid var(--blue);background:var(--blueSoft);border-radius:10px;padding:10px;margin:8px 0;font-size:13px}
+.callout.warn{border-left-color:var(--orange);background:var(--orangeSoft)}
+.tabs{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 28px;z-index:5;display:flex;gap:8px;overflow:auto}
+.tabs button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;white-space:nowrap;font-size:13px}
+.tabs button.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.panel{display:none;padding:20px 28px 36px}
+.panel.active{display:block}
+.card{border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px;margin-bottom:14px}
+.card h3{margin:0 0 10px;font-size:16px}
+.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:12px;margin:10px 0}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top;text-align:left}
+th{background:var(--soft);font-weight:900}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;border-radius:999px;padding:3px 8px;font-size:10.5px;font-weight:800}
+.pblue{background:var(--blueSoft);color:#165c9d}
+.pgreen{background:var(--greenSoft);color:#1f6b46}
+.porange{background:var(--orangeSoft);color:#93501a}
+.pred{background:var(--redSoft);color:#a13327}
+.ppurple{background:var(--purpleSoft);color:#4b3494}
+.teacherRow td{background:#fff}
+.companyRow td{background:var(--blueSoft)}
+.weakRow td{background:var(--orangeSoft)}
+.methodTag{display:block;margin-top:6px;font-size:11px;color:#4b3494;background:var(--purpleSoft);border-radius:6px;padding:3px 7px}
+.measureCard{border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.measureCard b{font-size:14.5px}
+.footNote{font-size:11.5px;color:var(--muted);margin-top:18px}
+.radarWrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:0 0 16px;padding:14px 16px;border:2px solid var(--purple);background:var(--purpleSoft);border-radius:14px}
+.radarNotes{flex:1;min-width:220px;font-size:12.5px}
+.radarNotes li{margin:4px 0}
+.discussBox{border:2px solid var(--purple);background:var(--purpleSoft);border-radius:14px;padding:14px 16px;margin:0 0 16px}
+.discussBox b{font-size:14px}
+.discussBox p{margin:8px 0 0;font-size:13px;line-height:1.7}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}}
+
+/* --- 左右の折りたたみパネル(資料投入エリア/質問チャット)。
+   しまてつだいの意思決定支援ダッシュボード(例：高島「生活航路×関係人口」DSS)から
+   CSS/HTML/JSを一切変更せず流用。 --- */
+.layout{display:flex;align-items:flex-start;max-width:1800px;margin:0 auto}
+.appWrap{flex:1;min-width:0}
+.sidePanel{flex:none;width:280px;background:#fff;position:sticky;top:0;max-height:100vh;overflow-y:auto;font-size:13px}
+.sidePanel.left{border-right:1px solid var(--line)}
+.sidePanel.right{border-left:1px solid var(--line)}
+.sidePanel.collapsed{width:44px;overflow:hidden}
+.sidePanel .panelToggle{position:sticky;top:0;width:100%;background:var(--soft);border:none;border-bottom:1px solid var(--line);padding:12px 14px;font-weight:800;font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px;text-align:left;color:var(--ink)}
+.sidePanel.collapsed .panelToggle{writing-mode:vertical-rl;text-orientation:mixed;height:100%;justify-content:flex-start;padding:14px 6px}
+.sidePanel.collapsed .panelBody{display:none}
+.sidePanel .panelBody{padding:14px}
+.chatLog{max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.chatMsg{border-radius:10px;padding:8px 10px;font-size:12.5px;line-height:1.5;max-width:92%}
+.chatMsg.user{align-self:flex-end;background:var(--blue);color:#fff}
+.chatMsg.ai{align-self:flex-start;background:var(--soft);border:1px solid var(--line)}
+.chatMsg.hint{color:var(--muted);font-size:11.5px}
+.sidePanel input[type=text],.sidePanel textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px;font-family:inherit;box-sizing:border-box}
+.sidePanel textarea{resize:vertical}
+.sidePanel label{display:block;font-size:11px;font-weight:800;color:var(--muted);margin:0 0 4px}
+.sidePanel .field{margin-bottom:10px}
+.sidePanel button.primaryBtn{width:100%;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:10px;font-weight:800;font-size:12.5px;cursor:pointer}
+.sidePanel button.primaryBtn:disabled{opacity:.5;cursor:default}
+.sidePanel .chatRow{display:flex;gap:6px}
+.sidePanel .chatRow input{flex:1}
+.sidePanel .chatRow button{flex:none;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:0 14px;font-weight:800;font-size:12px;cursor:pointer}
+.sidePanel .chatProviderRow{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:11px;color:var(--muted)}
+.sidePanel .chatProviderRow select{flex:1;font-size:11px;padding:3px 6px;border-radius:8px;border:1px solid #ddd;background:#fff}
+.sidePanel .errMsg{color:var(--red);font-size:11.5px;margin-top:6px}
+@media(max-width:900px){
+  .layout{display:block}
+  .sidePanel{position:static;width:100%;max-height:none;border:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sidePanel.collapsed{width:100%}
+  .sidePanel.collapsed .panelToggle{writing-mode:horizontal-tb;height:auto;padding:12px 14px}
+}
 </style>
+</head>
 <body data-kosen-slug="case-kuchii">
-<div class="shell">
-  <div class="breadcrumb"><a href="index.html">← 次世代高専教育カンファレンス</a> ｜ <a href="teachers.html">先生一覧</a> ｜ 教育コンテンツ作成支援 事例</div>
-  <div class="head">
-    <div><h1>久池井茂先生のロボット×社会実装教育</h1><div class="region">北九州工業高等専門学校 生産デザイン工学科 知能ロボットシステムコース 教授</div></div>
-    <span class="pill">実施中の研究・教育実践</span>
+<div class="layout">
+  <aside class="sidePanel left" id="leftPanel">
+    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▲</span></button>
+    <div class="panelBody" id="leftBody">
+      <div class="field">
+        <label for="genTitle">論点のタイトル</label>
+        <input type="text" id="genTitle" value="久池井茂先生（北九州高専）ロボット×医療・介護・製造DX 15コマカリキュラム">
+      </div>
+      <div class="field">
+        <label for="genNotes">議事録・ヒアリングメモなど(貼り付け)</label>
+        <textarea id="genNotes" rows="8" placeholder="久池井先生とのヒアリングメモや打ち合わせ議事録をここに貼り付けてください"></textarea>
+      </div>
+      <div class="field">
+        <label for="genFile">または、ファイルをアップロード(.txt / .md / .pdf)</label>
+        <input type="file" id="genFile" accept=".txt,.md,.pdf,text/plain,text/markdown,application/pdf">
+        <p class="errMsg" id="genFileStatus" style="display:none;color:var(--muted)"></p>
+      </div>
+      <button type="button" class="primaryBtn" id="genSubmit">この内容をダッシュボードに反映する</button>
+      <p class="errMsg" id="genErr" style="display:none">生成中にエラーが発生しました。時間をおいて再度お試しください。</p>
+    </div>
+  </aside>
+
+  <div class="appWrap" id="appWrap">
+<div class="app">
+<div class="hero">
+  <span class="eyebrow">教育コンテンツ作成支援 ｜ カリキュラム作成エージェント（3タブ構成） ｜ 北九州工業高等専門学校 久池井茂先生</span>
+  <div class="title">ロボット×医療・介護・製造DX 15コマカリキュラム案（仮説・確認前）</div>
+  <p class="subtitle" data-cell-id="kuchii-hero-subtitle">生産デザイン工学科 知能ロボットシステムコース・久池井茂教授のロボット工学・画像処理技術を軸に、①医療現場の人手不足・ヒューマンエラー、②介護・認知症ケアの担い手不足、③地方中小製造業のDX人材不足、という3つの社会課題スレッドを、半年15コマ（年間30コマの前半）で扱う社会実装型ものづくり教育の提案です。掲載内容は久池井先生ご本人への確認前の仮説であり、特に③介護スレッド（コマ6〜9）はWeb調査での裏取りが最も弱い部分です。</p>
+  <div class="kpis">
+    <div class="kpi"><b data-cell-id="kuchii-kpi-1">0/15コマ</b><span>実施済みコマ数（全コマ仮説段階・実施前）</span></div>
+    <div class="kpi"><b data-cell-id="kuchii-kpi-2">3スレッド</b><span>扱う社会課題（医療・介護・製造DX）</span></div>
+    <div class="kpi"><b data-cell-id="kuchii-kpi-3">5企業タイプ</b><span>想定する企業タイプ（全て個別開拓が必要）</span></div>
+    <div class="kpi"><b data-cell-id="kuchii-kpi-4">0社</b><span>登壇が確定している企業数</span></div>
   </div>
-  <p class="lead" data-cell-id="case-kuchii-lead">「教育コンテンツ作成支援」が目指す、先生の研究テーマと社会課題（困りごと）をつなげた教育コンテンツづくりの具体例として、researchmap（researchmap.jp/kuchii）・J-GLOBAL等に公開されている久池井茂先生の研究活動を整理しました。角田先生（米子高専・キャリア金融教育）とは異なる、ロボット・画像処理技術を軸にした社会実装型ものづくり教育の事例です。</p>
-
-  <div class="toc">
-    <a href="#purpose">① 教育の目的</a>
-    <a href="#company">② 経歴・産学連携実績</a>
-    <a href="#problem">③ 問題提起</a>
-    <a href="#activity">④ 教育活動の4要素</a>
-    <a href="#value">⑤ 社会価値創造</a>
-    <a href="#execution">⑥ 実行</a>
-    <a href="#success">⑦ 成功事例</a>
-    <a href="#failure">⑧ 課題・留意点</a>
-    <a href="#curriculum">⑨ 15コマカリキュラム案</a>
+  <div class="northStar">
+    <b>🌟 教育充実度指標（北極星）：定期試験・レポートの点数</b>
+    <p data-cell-id="kuchii-hero-northstar" style="margin:6px 0 0">本カリキュラムを通じて、学生が定期試験・レポートでどれだけ力を発揮できるかを北極星指標とします。実施前のため<b>未算出</b>です。補助指標（学生満足度・コマ進行度・企業参画の多様性・マッチング精度・「面白い・理解できた」実感度）と情報充足度レーダー、不足点の名指し指摘は「🌟 教育充実度指標」タブをご覧ください。</p>
   </div>
-
-  <div class="stat-grid">
-    <div class="stat"><div class="stat-label">所属</div><div class="stat-value">北九州高専 生産デザイン工学科</div></div>
-    <div class="stat"><div class="stat-label">専門</div><div class="stat-value">知能ロボットシステム</div></div>
-    <div class="stat"><div class="stat-label">研究の軸</div><div class="stat-value">ロボット・画像処理の社会実装</div></div>
-    <div class="stat"><div class="stat-label">主な連携先</div><div class="stat-value">NEC（生成AI・PBL連携）ほか</div></div>
-  </div>
-
-  <section id="purpose" class="block">
-    <p class="section-num">① PURPOSE</p>
-    <h2>教育の目的</h2>
-    <p class="subtle" data-cell-id="case-kuchii-subtle-1">ロボット工学・画像処理という専門技術を、医療・介護・製造という具体的な社会課題の現場に結びつけ、学生が「誰のための技術か」を実感できる社会実装型ものづくり教育を志向している。</p>
-    <div class="card-grid">
-      <div class="mini"><div class="mini-mark">🏥</div><div class="mini-name">医療現場の人手不足解消</div><div class="mini-desc">注射薬自動仕分け等、ヒューマンエラーを技術で減らす視点</div></div>
-      <div class="mini"><div class="mini-mark">🤝</div><div class="mini-name">介護・認知症ケアの担い手不足</div><div class="mini-desc">対話AIロボットで現場を支える視点</div></div>
-      <div class="mini"><div class="mini-mark">🏭</div><div class="mini-name">地方中小製造業のDX</div><div class="mini-desc">経営層向けリカレント教育の実績を教育に還元</div></div>
-      <div class="mini"><div class="mini-mark">🎓</div><div class="mini-name">異分野横断の視点</div><div class="mini-desc">医療・介護・製造に共通する技術基盤を学生に持たせる</div></div>
-    </div>
-  </section>
-
-  <section id="company" class="block">
-    <p class="section-num">② BACKGROUND</p>
-    <h2>経歴・産学連携実績</h2>
-    <p class="subtle" data-cell-id="case-kuchii-subtle-2">久池井先生ご自身が、国内外の政府機関向けシンクタンク業務、民間企業向けコンサルティング、第4次産業革命に対応したデジタルものづくりの経営者向けエグゼクティブスクール運営など、非常に幅広い産学連携実績を持つ人物である。</p>
-    <div class="card good">
-      <b>確認できた共同研究・連携実績</b><br>
-      <span data-cell-id="case-kuchii-card-1">ジョーダン社とのAI音声道案内システムの共同研究／NECとの生成AIを活用したPBL学習の連携研究／機械学習を用いた接着材料の疲労寿命予測／中小製造業の経営層向けデジタルものづくりリカレント教育。</span>
-    </div>
-    <div class="card warn">
-      <b>裏取りが弱い点（要：久池井先生への優先確認事項）</b><br>
-      <span data-cell-id="case-kuchii-card-2">「認知症対話AIロボットの学生共同プロジェクト」は前回調査時点の理解を踏襲しているが、今回のWeb調査では明確な裏付け記事までは見つけられなかった。介護・ロボット分野の実績自体はあるが、対話AIロボットという具体名までは特定できていない。</span>
-    </div>
-  </section>
-
-  <section id="problem" class="block">
-    <p class="section-num">③ PROBLEM</p>
-    <h2>問題提起</h2>
-    <p class="subtle" data-cell-id="case-kuchii-subtle-3">久池井先生の研究は、単一の社会課題ではなく「医療」「介護」「製造」という3つの現場の困りごとに、共通のロボット・画像処理技術で向き合う点が特徴。</p>
-    <div class="card">
-      <b>3つのスレッド</b><br>
-      <span data-cell-id="case-kuchii-card-3">1) 医療現場の人手不足・ヒューマンエラー（注射薬自動仕分け）　2) 介護・認知症ケアの担い手不足（対話AIロボット）　3) 地方中小製造業のDX人材不足</span>
-    </div>
-  </section>
-
-  <section id="activity" class="block">
-    <p class="section-num">④ ACTIVITY</p>
-    <h2>教育活動の4要素（マッチングサイトの4カードと対応）</h2>
-    <table>
-      <tr><th>カード</th><th>久池井先生の場合</th></tr>
-      <tr><td>♥ ペルソナ</td><td>北九州高専 生産デザイン工学科 知能ロボットシステムコースの学生</td></tr>
-      <tr><td>♦ 提供する価値</td><td>ロボット・画像処理技術を医療・介護・製造現場に結びつける社会実装型ものづくり教育</td></tr>
-      <tr><td>♠ 技術</td><td>ロボット工学・制御工学・画像処理・センシング、接着材料の疲労寿命予測（機械学習）</td></tr>
-      <tr><td>♣ パートナー</td><td>医療機器ベンダー・介護施設・地元中小製造業・NEC等ITベンダーとの連携ネットワーク</td></tr>
-    </table>
-  </section>
-
-  <section id="value" class="block">
-    <p class="section-num">⑤ SOCIAL VALUE</p>
-    <h2>社会価値創造</h2>
-    <table>
-      <tr><th>相手</th><th>価値の例</th></tr>
-      <tr><td>学生</td><td>医療・介護・製造という3つの異なる現場を通じて、技術がどう人の役に立つかを体験できる</td></tr>
-      <tr><td>医療・介護・製造の企業</td><td>学生との接点を通じて、自社の課題を伝え、将来の人材確保につながる</td></tr>
-      <tr><td>高専機構全体</td><td>COMPASS5.0のロボット分野等、産学連携の実践モデルとして横展開できる</td></tr>
-      <tr><td>地域中小製造業</td><td>既存のリカレント教育の枠組みを学生教育にも波及させられる</td></tr>
-    </table>
-  </section>
-
-  <section id="execution" class="block">
-    <p class="section-num">⑥ EXECUTION</p>
-    <h2>実行</h2>
-    <div class="card">
-      <b>教育・研究実践</b><br>
-      <span data-cell-id="case-kuchii-card-4">医療現場のヒューマンエラー、介護現場の担い手不足、製造業のDX人材不足という3つの現場課題に、ロボット・画像処理という共通技術で向き合う社会実装型教育を志向。中小製造業の経営層向けにデジタルものづくりのリカレント教育を継続的に実施している。</span>
-    </div>
-    <div class="card">
-      <b>企業連携の広がり</b><br>
-      <span data-cell-id="case-kuchii-card-5">NECとの生成AI・PBL連携実績があることから、本プラットフォームの開発元自体が久池井先生にとって既に接点のある企業である可能性がある。企業探索の入口として活用できないか、確認する価値がある。</span>
-    </div>
-  </section>
-
-  <section id="success" class="block">
-    <p class="section-num">⑦ SUCCESS</p>
-    <h2>成功事例</h2>
-    <table>
-      <tr><th>成果</th><th>内容</th></tr>
-      <tr><td>共同研究の広がり</td><td>ジョーダン社・NECなど、業種の異なる複数企業との共同研究実績</td></tr>
-      <tr><td>経営層教育への展開</td><td>中小製造業の経営者向けデジタルものづくりリカレント教育を継続的に実施</td></tr>
-      <tr><td>ロボティクス研究の蓄積</td><td>半passive歩行ロボット等、ロボット工学分野での研究実績</td></tr>
-    </table>
-  </section>
-
-  <section id="failure" class="block">
-    <p class="section-num">⑧ CAUTION</p>
-    <h2>課題・留意点（成功事例のみに偏らないための正直な整理）</h2>
-    <div class="card warn">
-      <b>本ページ作成にあたっての留意</b><br>
-      <span data-cell-id="case-kuchii-card-6">公開情報からは具体的な「失敗事例」は確認できませんでした。架空の失敗事例を作ることはせず、この点は未確認として明記します。</span>
-    </div>
-    <div class="card warn">
-      <b>「介護・認知症ケア」スレッドについての留意</b><br>
-      <span data-cell-id="case-kuchii-card-7">3つのスレッドのうち、介護・認知症ケア関連は今回の調査で裏付けが最も弱い部分です。久池井先生に確認する際は、この点を最優先で聞くべきだと考えています（詳細はNotion「📅 久池井茂先生（北九州高専） 15コマカリキュラム提案」参照）。</span>
-    </div>
-  </section>
-
-  <section id="curriculum" class="block">
-    <p class="section-num">⑨ CURRICULUM（仮説・久池井先生への確認前）</p>
-    <h2>15コマカリキュラム案：ロボット×医療・介護・製造DX</h2>
-    <p class="subtle">半年15コマ（年間30コマの前半）。医療→介護→製造の順で3つのスレッドを巡回し、最後に共通基盤に学びを回収する構成。<b>全て久池井先生への確認前の仮説</b>で、特に介護スレッドは優先確認事項。</p>
-    <table>
-      <tr><th>コマ</th><th>担当</th><th>内容</th><th>企業タグ／手伝ってほしいこと</th></tr>
-      <tr><td>1〜2</td><td>先生</td><td><span data-cell-id="case-kuchii-koma1-content">ロボット工学・制御工学基礎、画像処理・センシング基礎</span></td><td>-</td></tr>
-      <tr><td>3</td><td>企業</td><td><span data-cell-id="case-kuchii-koma2-content">医療現場のヒューマンエラー実態・注射薬仕分けの課題</span></td><td><span data-cell-id="case-kuchii-koma2-tag">医療機器ベンダー・病院DX担当：現場のヒューマンエラー事例共有</span></td></tr>
-      <tr><td>4</td><td>先生</td><td><span data-cell-id="case-kuchii-koma3-content">自動仕分けシステムの設計理論</span></td><td>-</td></tr>
-      <tr><td>5</td><td>企業</td><td><span data-cell-id="case-kuchii-koma4-content">自動仕分けロボットの実装例</span></td><td><span data-cell-id="case-kuchii-koma4-tag">医療ロボットメーカー：デモ・技術解説</span></td></tr>
-      <tr><td>6</td><td>先生</td><td><span data-cell-id="case-kuchii-koma5-content">対話AIシステムの基礎（認知症ケア文脈）</span></td><td>-</td></tr>
-      <tr><td>7</td><td>企業</td><td><span data-cell-id="case-kuchii-koma6-content">認知症ケア現場の担い手不足の実態</span></td><td><span data-cell-id="case-kuchii-koma6-tag">介護施設：現場の実態・導入経緯の共有</span></td></tr>
-      <tr><td>8</td><td>先生</td><td><span data-cell-id="case-kuchii-koma7-content">対話AIロボットの設計ワーク</span></td><td>-</td></tr>
-      <tr><td>9</td><td>企業</td><td><span data-cell-id="case-kuchii-koma8-content">実際の対話ロボット導入例・効果検証</span></td><td><span data-cell-id="case-kuchii-koma8-tag">介護ロボットメーカー：導入効果データの共有</span></td></tr>
-      <tr><td>10</td><td>先生</td><td><span data-cell-id="case-kuchii-koma9-content">粉体工学・製造プロセス基礎</span></td><td>-</td></tr>
-      <tr><td>11</td><td>企業</td><td><span data-cell-id="case-kuchii-koma10-content">DX人材不足の実態・現場課題</span></td><td><span data-cell-id="case-kuchii-koma10-tag">地元中小製造業：経営課題を率直に共有</span></td></tr>
-      <tr><td>12</td><td>先生</td><td><span data-cell-id="case-kuchii-koma11-content">製造現場向けロボット導入設計ワーク</span></td><td>-</td></tr>
-      <tr><td>13</td><td>企業</td><td><span data-cell-id="case-kuchii-koma12-content">中小企業向けDX導入の提案実例</span></td><td><span data-cell-id="case-kuchii-koma12-tag">製造業向けDXベンダー・SIer（NEC等）：提案実例の共有・学生提案への講評</span></td></tr>
-      <tr><td>14</td><td>先生</td><td><span data-cell-id="case-kuchii-koma13-content">3テーマ統合ワーク</span></td><td>-</td></tr>
-      <tr><td>15</td><td>先生</td><td><span data-cell-id="case-kuchii-koma14-content">成果発表会・総括</span></td><td>-</td></tr>
-    </table>
-    <div class="card">
-      <b>詳細版・企業への自動生成依頼文</b><br>
-      <span data-cell-id="case-kuchii-card-8">各コマの学習目標や、企業への具体的な依頼文サンプルは、社内Notion「📅 久池井茂先生（北九州高専） 15コマカリキュラム提案」に整理しています（本ページは要点のみの抜粋）。</span>
-    </div>
-  </section>
-
-  <footer>
-    出典：researchmap「久池井 茂 (Shigeru Kuchii)」（https://researchmap.jp/kuchii）、J-GLOBAL研究者情報。2026年9月にWeb公開情報を調査。本ページは久池井先生ご本人への確認を経たものではなく、公開情報からの整理です。掲載内容に誤りがあれば訂正します。15コマカリキュラム案は2026-09-08にNotionで作成した仮説であり、先生ご本人への確認前です。
-  </footer>
 </div>
+
+<nav class="tabs">
+  <button class="tabBtn active" data-tab="curriculum">📅 カリキュラム案</button>
+  <button class="tabBtn" data-tab="northstar">🌟 教育充実度指標</button>
+  <button class="tabBtn" data-tab="cases">🌍 事例</button>
+</nav>
+
+<section class="panel active" id="panel-curriculum">
+  <div class="callout" data-cell-id="kuchii-curriculum-method-lead">
+    <b>本カリキュラムはバックワードデザイン（逆向き設計）とCDIOフレームワークに基づいて設計されています。</b>
+    <p style="margin:8px 0 0">目標（定期試験・レポートの点数、および「学生が面白く理解できたか」）から逆算して各コマを配置し（バックワードデザイン）、各回は「構想（Conceive）→設計（Design）→実行（Implement）→運用（Operate）」の4フェーズ（CDIO）のいずれかに対応します。企業回の依頼文は、PBL企業連携ガイドライン（同志社大学・文部科学省委託事業等）が示す「企業メンターの役割は初期は既有知識の活性化・例示、後半は学生の応用への関与に変化する」という知見を前提に設計しています。各回の注記（紫色のタグ）で、どの手法のどのフェーズに対応するかを示しています。</p>
+  </div>
+  <div class="callout warn" data-cell-id="kuchii-curriculum-status-lead">
+    <b>⚠️ 現在のステータス</b>
+    <p style="margin:8px 0 0">久池井先生の場合、<b>確定済みのコマは現時点で1つもありません（全15コマが仮説）。</b>特に③介護・認知症ケアスレッド（コマ6〜9）は、Web調査（researchmap・J-GLOBAL）で「対話AIロボットの学生共同プロジェクト」の明確な裏付け記事が見つけられておらず、他の2スレッド（医療・製造）より裏取りが弱い状態です。久池井先生への確認時は、このスレッドの実在確認を最優先としてください。</p>
+  </div>
+
+  <div class="tableWrap">
+    <table>
+      <thead>
+        <tr><th style="width:5%">回</th><th style="width:7%">区分</th><th style="width:16%">テーマ</th><th style="width:20%">学習目標</th><th style="width:27%">活動内容・手法注記</th><th style="width:25%">企業タグ／依頼内容</th></tr>
+      </thead>
+      <tbody>
+        <tr class="teacherRow">
+          <td>1</td><td>先生</td><td data-cell-id="kuchii-koma1-theme">オリエンテーション＋ロボット工学・制御工学基礎</td>
+          <td data-cell-id="kuchii-koma1-goal">ロボットアームやセンサの基本構造、フィードバック制御の考え方を理解する。半年で扱う3つの社会課題（医療・介護・製造）の全体像を共有する。</td>
+          <td data-cell-id="kuchii-koma1-activity">講義＋全体像のガイダンス<span class="methodTag">CDIO：構想（Conceive）／バックワードデザイン：目標（定期試験・レポート点数、面白さの実感）を最初に共有する起点</span></td>
+          <td>-</td>
+        </tr>
+        <tr class="teacherRow">
+          <td>2</td><td>先生</td><td data-cell-id="kuchii-koma2-theme">画像処理・センシング基礎</td>
+          <td data-cell-id="kuchii-koma2-goal">カメラ・センサによる物体認識の基礎（画像処理の流れ、機械学習による分類の考え方）を理解する。</td>
+          <td data-cell-id="kuchii-koma2-activity">講義・演習<span class="methodTag">CDIO：構想→設計（Design）への橋渡し</span></td>
+          <td>-</td>
+        </tr>
+        <tr class="companyRow">
+          <td>3</td><td>企業</td><td data-cell-id="kuchii-koma3-theme">医療現場のヒューマンエラー実態・注射薬仕分けの課題</td>
+          <td data-cell-id="kuchii-koma3-goal">実際の医療現場でなぜ人手だけではヒューマンエラーを防ぎきれないかを、現場目線で理解する。</td>
+          <td data-cell-id="kuchii-koma3-activity">企業講師によるゲスト講義<span class="methodTag">CDIO：実行（Implement）の入口／PBL連携：初期メンター＝既有知識の活性化・現場事例の例示</span></td>
+          <td data-cell-id="kuchii-koma3-company">医療機器ベンダー・病院DX担当部門（技術・インテグレーション区分）／依頼内容：注射薬の取り違え等、実際に起きているヒューマンエラー事例（匿名化範囲）を共有し、人手だけでは防ぎきれない理由を現場目線で解説してほしい</td>
+        </tr>
+        <tr class="teacherRow">
+          <td>4</td><td>先生</td><td data-cell-id="kuchii-koma4-theme">自動仕分けシステムの設計理論</td>
+          <td data-cell-id="kuchii-koma4-goal">画像認識×ロボットアームによる自動仕分けシステムの設計フローを理解する。</td>
+          <td data-cell-id="kuchii-koma4-activity">講義・設計演習<span class="methodTag">CDIO：設計（Design）</span></td>
+          <td>-</td>
+        </tr>
+        <tr class="companyRow">
+          <td>5</td><td>企業</td><td data-cell-id="kuchii-koma5-theme">自動仕分けロボットの実装例</td>
+          <td data-cell-id="kuchii-koma5-goal">実際のロボット開発で直面する技術的な壁（誤認識対策・安全設計等）を理解する。</td>
+          <td data-cell-id="kuchii-koma5-activity">デモ（動画可）＋技術解説<span class="methodTag">CDIO：実行（Implement）／PBL連携：初期〜中盤の技術的な例示</span></td>
+          <td data-cell-id="kuchii-koma5-company">医療ロボットメーカー（技術・プロダクト区分）／依頼内容：自動仕分けロボットのデモと、開発時に苦労した技術的ポイント（誤認識対策、安全設計等）の紹介</td>
+        </tr>
+        <tr class="teacherRow weakRow">
+          <td>6</td><td>先生</td><td data-cell-id="kuchii-koma6-theme">対話AIシステムの基礎（認知症ケア文脈）</td>
+          <td data-cell-id="kuchii-koma6-goal">対話AIの基本構造（音声認識→自然言語処理→応答生成）と、高齢者・認知症ケアで求められる配慮（話速・繰り返し等）を理解する。</td>
+          <td data-cell-id="kuchii-koma6-activity">講義<span class="methodTag">CDIO：構想（Conceive）→設計（Design）／※本コマを含む介護スレッドは裏取りが弱く、久池井先生への確認が最優先事項</span></td>
+          <td>-</td>
+        </tr>
+        <tr class="companyRow weakRow">
+          <td>7</td><td>企業</td><td data-cell-id="kuchii-koma7-theme">認知症ケア現場の担い手不足の実態</td>
+          <td data-cell-id="kuchii-koma7-goal">介護現場の人手不足の実態と、対話ロボット導入を検討した経緯・現場の反応を理解する。</td>
+          <td data-cell-id="kuchii-koma7-activity">企業講師によるゲスト講義<span class="methodTag">CDIO：実行（Implement）の入口／PBL連携：初期メンター＝現場事例の例示／※裏取りが弱く企業候補も未確定</span></td>
+          <td data-cell-id="kuchii-koma7-company">介護施設・介護ロボットベンチャー（スタッフ区分）／依頼内容：介護現場の人手不足の実態、対話ロボット導入を検討した経緯・現場の反応（好意的だった点・難しかった点）の紹介</td>
+        </tr>
+        <tr class="teacherRow weakRow">
+          <td>8</td><td>先生</td><td data-cell-id="kuchii-koma8-theme">対話AIロボットの設計ワーク</td>
+          <td data-cell-id="kuchii-koma8-goal">コマ6・7を踏まえ、簡易的な対話シナリオ・応答パターンを学生自身が設計する。</td>
+          <td data-cell-id="kuchii-koma8-activity">グループワーク<span class="methodTag">CDIO：設計（Design）→実行（Implement）</span></td>
+          <td>-</td>
+        </tr>
+        <tr class="companyRow weakRow">
+          <td>9</td><td>企業</td><td data-cell-id="kuchii-koma9-theme">実際の対話ロボット導入例・効果検証</td>
+          <td data-cell-id="kuchii-koma9-goal">導入施設での効果検証データ（利用者の反応、スタッフの負担軽減度合い等）をもとに、学生の設計ワークを振り返る。</td>
+          <td data-cell-id="kuchii-koma9-activity">事例紹介＋学生ワークへの講評<span class="methodTag">CDIO：運用（Operate）／PBL連携：後半メンター＝学生の応用への講評へ役割変化／※裏取りが弱く企業候補も未確定</span></td>
+          <td data-cell-id="kuchii-koma9-company">介護ロボットメーカーの技術営業／依頼内容：導入施設での効果検証データ（利用者の反応、スタッフの負担軽減度合い等）の紹介、学生の設計ワークへのフィードバック</td>
+        </tr>
+        <tr class="teacherRow">
+          <td>10</td><td>先生</td><td data-cell-id="kuchii-koma10-theme">粉体工学・製造プロセス基礎</td>
+          <td data-cell-id="kuchii-koma10-goal">製造現場における粉体・材料プロセスの基礎、材料の疲労・劣化という考え方を理解する（久池井先生ご自身の「接着材料の疲労寿命予測（機械学習）」研究とも接続可能）。</td>
+          <td data-cell-id="kuchii-koma10-activity">講義<span class="methodTag">CDIO：構想（Conceive）→設計（Design）</span></td>
+          <td>-</td>
+        </tr>
+        <tr class="companyRow">
+          <td>11</td><td>企業</td><td data-cell-id="kuchii-koma11-theme">DX人材不足の実態・現場課題（経営・人事視点）</td>
+          <td data-cell-id="kuchii-koma11-goal">中小製造業が自社でDX化を進めようとした際に直面する「人材不足」「何から手をつければよいか分からない」という経営課題を、経営者・現場責任者の立場から理解する。</td>
+          <td data-cell-id="kuchii-koma11-activity">企業講師によるゲスト講義<span class="methodTag">CDIO：実行（Implement）の入口／PBL連携：初期メンター＝経営課題の例示（久池井先生の既存リカレント教育先が候補）</span></td>
+          <td data-cell-id="kuchii-koma11-company">地元中小製造業（スタッフ・経営区分）／依頼内容：自社でDX化を進めようとした際に直面した経営課題を、経営者・現場責任者の立場から率直に共有</td>
+        </tr>
+        <tr class="teacherRow">
+          <td>12</td><td>先生</td><td data-cell-id="kuchii-koma12-theme">製造現場向けロボット導入設計ワーク</td>
+          <td data-cell-id="kuchii-koma12-goal">コマ11で聞いた実際の課題をもとに、簡易なロボット導入提案（コスト試算含む）をまとめる。</td>
+          <td data-cell-id="kuchii-koma12-activity">グループワーク<span class="methodTag">CDIO：設計（Design）→実行（Implement）</span></td>
+          <td>-</td>
+        </tr>
+        <tr class="companyRow">
+          <td>13</td><td>企業</td><td data-cell-id="kuchii-koma13-theme">中小企業向けDX導入の提案実例</td>
+          <td data-cell-id="kuchii-koma13-goal">実際に中小製造業へDX提案を行った事例（説得方法・予算感）を理解し、自分たちの提案への講評を受ける。</td>
+          <td data-cell-id="kuchii-koma13-activity">事例紹介＋学生提案への講評<span class="methodTag">CDIO：運用（Operate）／PBL連携：後半メンター＝学生の応用への講評へ役割変化</span></td>
+          <td data-cell-id="kuchii-koma13-company">製造業向けDXベンダー・SIer（久池井先生のNEC連携実績を踏まえNEC等も候補）／依頼内容：中小製造業へのDX提案事例を「どう説得したか」「予算感」まで含めて紹介し、コマ12の学生提案へ講評</td>
+        </tr>
+        <tr class="teacherRow">
+          <td>14</td><td>先生</td><td data-cell-id="kuchii-koma14-theme">3テーマ統合ワーク</td>
+          <td data-cell-id="kuchii-koma14-goal">医療・介護・製造の3現場に共通する技術基盤（画像処理・ロボット制御・AI）を振り返り、「どの現場でも使える技術者」という視点を持つ。</td>
+          <td data-cell-id="kuchii-koma14-activity">グループワーク<span class="methodTag">CDIO：運用（Operate）／バックワードデザイン：目標への到達度を振り返る評価に近いフェーズ</span></td>
+          <td>-</td>
+        </tr>
+        <tr class="teacherRow">
+          <td>15</td><td>先生</td><td data-cell-id="kuchii-koma15-theme">成果発表会・総括</td>
+          <td data-cell-id="kuchii-koma15-goal">半年の学びをポートフォリオにまとめ、3つの現場で得た気づきを今後の学習・進路選択に反映させる。</td>
+          <td data-cell-id="kuchii-koma15-activity">発表会<span class="methodTag">CDIO：運用（Operate）／バックワードデザイン：評価（定期試験・レポート）と接続する総括</span></td>
+          <td>-</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="footNote" data-cell-id="kuchii-curriculum-footnote">出典：Notion「📅 久池井茂先生（北九州高専）15コマカリキュラム提案」（2026-09-08更新）。企業タグ・依頼内容・手法注記は、いずれも久池井先生への確認前の仮説です。数値・実施実績は捏造せず、実施前は「実施前」「未算出」と明記しています。</p>
+</section>
+
+<section class="panel" id="panel-northstar">
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 14px">教育充実度指標（北極星＋補助指標）と、情報充足度レーダーによる自己診断です。本タブは「指標に基づく支援」タブとして機能し、下の「🗣️ 今日、ここを議論してください」で、カリキュラム案タブの具体的なコマ番号を挙げて不足点を指摘します。</p>
+
+  <div class="card">
+    <h3>🎯 北極星指標：定期試験・レポートの点数</h3>
+    <p data-cell-id="kuchii-northstar-goal" style="margin:6px 0 0;font-size:13px">Goal＝「医療・介護・製造の3現場を通じて、学生が『技術が人の役に立つ実感』を持ちながら学力を伸ばす」。Question＝「15コマのカリキュラムを終えた学生は、定期試験・レポートでどれだけ力を発揮できるか」。Metric＝「学期末の定期試験・レポート得点（実施後に算出）」と仮に定義しました。<b>本カリキュラムは実施前のため、北極星指標は未算出です。</b></p>
+  </div>
+
+  <h3 style="margin-top:18px">補助指標（GQM・補助⑤含む）</h3>
+  <div class="kpis" style="margin-top:8px;grid-template-columns:repeat(5,1fr)">
+    <div class="kpi"><b data-cell-id="kuchii-sub-1">未算出</b><span>補助①学生満足度アンケート（事後・未実施）</span></div>
+    <div class="kpi"><b data-cell-id="kuchii-sub-2">0/15コマ</b><span>補助②コマ実施進行度・完了率</span></div>
+    <div class="kpi"><b data-cell-id="kuchii-sub-3">未算出（確定0社）</b><span>補助③企業参画の多様性（想定5職種区分）</span></div>
+    <div class="kpi"><b data-cell-id="kuchii-sub-4">算出方法未確定</b><span>補助④マッチング精度（既存CRで改善要望中）</span></div>
+    <div class="kpi"><b data-cell-id="kuchii-sub-5">未算出</b><span>補助⑤「面白い・理解できた」実感度（最優先指標）</span></div>
+  </div>
+
+  <h3 style="margin-top:18px">情報充足度レーダー（5軸・見立てスコア）</h3>
+  <div class="radarWrap">
+    <svg id="radarChart" width="180" height="180" viewBox="0 0 180 180"></svg>
+    <div class="radarNotes">
+      <b>📡 情報充足度診断（2026-09-23・15コマ提案ページ＋Web調査時点の見立て）</b>
+      <p style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">スコアは久池井先生への確認前の見立てであり、実測値ではありません（0-100の目安）。バックワードデザイン／CDIOの4フェーズ／PBL連携ガイドラインの3手法から導かれる重要ポイントを反映しています。</p>
+      <ul>
+        <li><b>当事者の声 Legitimacy（15点）:</b> <span data-cell-id="kuchii-radar-legitimacy">久池井先生ご本人への15コマ内容の確認はまだ行っておらず、学生・企業講師の受け入れ意向も未確認。特にコマ6〜9（介護スレッド）はテーマ設定自体が先生の問題意識と合っているかも未確認。</span></li>
+        <li><b>外部知見 Evidence（25点）:</b> <span data-cell-id="kuchii-radar-evidence">researchmap・J-GLOBALで久池井先生の経歴・共同研究実績（ジョーダン社、NEC、機械学習による接着材料疲労寿命予測）は確認できたが、他高専の類似カリキュラムとの比較はまだ行っていない。介護スレッドの「対話AIロボット」実績は裏付けが取れていない。</span></li>
+        <li><b>上位方針整合 Alignment（35点）:</b> <span data-cell-id="kuchii-radar-alignment">北九州高専は高専機構COMPASS5.0のロボット分野拠点校であることをWeb調査で確認でき、Society5.0人材育成方針との接続候補が具体化した。ただし本カリキュラムとCOMPASS5.0教材の具体的な接続方法は未確認。</span></li>
+        <li><b>実行可能性 Feasibility（15点）:</b> <span data-cell-id="kuchii-radar-feasibility">5つの企業タイプ全てで具体的な企業候補リストアップが未実施（確定0社）。久池井先生の時間・企業講師の日程調整の現実性も未検討。</span></li>
+        <li><b>効果・リスク見通し Impact（10点）:</b> <span data-cell-id="kuchii-radar-impact">点数向上・進路選択への影響見通しは未算出。特にコマ6〜9はテーマ自体の裏取りが弱く、効果を見積もる前提情報が不足している。</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="discussBox">
+    <b>🗣️ 今日、ここを議論してください</b>
+    <p data-cell-id="kuchii-discuss-box">カリキュラム案タブの<b>コマ6〜9（介護・認知症ケアスレッド）</b>は、情報充足度が最も低い部分です。特に<b>コマ7（介護現場の担い手不足の実態）</b>と<b>コマ9（対話ロボット導入例・効果検証）</b>は、企業候補が未確定なうえ「対話AIロボット」というテーマ設定自体の裏付けが取れていないため、補助⑤「学生が面白く理解できているか」を判断する材料が現時点でありません。まず①久池井先生に介護スレッドの実在確認を最優先で行い、②裏付けの強い<b>コマ3・5（医療）</b>と<b>コマ11・13（製造DX）</b>から企業依頼文を先に固め、学生アンケート（補助⑤）の設計に着手することを提案します。また、<b>コマ9・コマ13</b>はPBL連携ガイドラインが示す「後半の企業メンターは学生の応用に講評する」という役割変化を前提に設計していますが、企業候補が未定のコマ9ではこの設計が実現できるか不透明です。CDIOの4フェーズは形式上は1〜15コマに揃っていますが、「運用（Operate）」に当たるコマ9・14・15の効果測定方法（定期試験・レポート以外の測り方）はまだ具体化していません。</p>
+  </div>
+</section>
+
+<section class="panel" id="panel-cases">
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 14px">世の中の企業教育（PBL・出前授業等）をWeb検索で調査し、久池井先生のカリキュラムで企業に依頼している内容（医療機器・医療ロボット、介護ロボット、中小製造業DX、SIer連携等）に近い実例を「参考になる事例」「要注意・調整が必要な事例」の2区分で整理しました。</p>
+
+  <h3>✅ 参考になる事例</h3>
+  <div class="measureCard">
+    <span class="pill pgreen">参考</span>
+    <b>釧路工業高等専門学校 × 地元企業のロボットSIer教育PBL</b>
+    <p data-cell-id="kuchii-case-1-desc" style="font-size:13px;margin:6px 0 0">地元企業がロボットを提供し、エンドエフェクタやIoTセンサなどロボット機能を学生が習得。企業のエンジニアが学生の成果物を直接評価する、高専×地元企業のSIer教育の実践報告（日本工学教育協会論文誌）。</p>
+    <div class="callout" style="margin-top:8px"><b>本カリキュラムのどの回に近いか：</b><span data-cell-id="kuchii-case-1-note">コマ5（医療ロボットメーカーによる実装デモ・技術解説）、コマ13（DXベンダー・SIerによる提案実例紹介）に近い、企業が実機・実装知見を持ち込む形式。</span></div>
+  </div>
+  <div class="measureCard">
+    <span class="pill pgreen">参考</span>
+    <b>高専機構 COMPASS5.0（ロボット分野・北九州高専が拠点校）</b>
+    <p data-cell-id="kuchii-case-2-desc" style="font-size:13px;margin:6px 0 0">「Society5.0型未来技術人財」育成事業の一環で、ロボット利活用人材に求められるスキルを調査し、効率的に習得できる教育パッケージを開発する取り組み。北九州高専・東京高専が拠点校。</p>
+    <div class="callout" style="margin-top:8px"><b>本カリキュラムのどの回に近いか：</b><span data-cell-id="kuchii-case-2-note">コマ1〜2（ロボット工学・画像処理の共通基礎）の設計方針の参考になる。久池井先生ご自身の所属校が拠点校であるため、他の3先生のケースより高専機構との接続が具体的に見込める点が強み。</span></div>
+  </div>
+  <div class="measureCard">
+    <span class="pill pgreen">参考</span>
+    <b>マナビDX Quest 地域企業協働プログラム（経済産業省・九州地域）</b>
+    <p data-cell-id="kuchii-case-3-desc" style="font-size:13px;margin:6px 0 0">受講生が実際の中小企業と2ヶ月間協働してDX課題に取り組むプログラム。九州管内では製造業（プラスチック射出成形・金属加工等）が参加企業の過半を占め、地域ハブ団体が企業開拓・案件組成を担う。</p>
+    <div class="callout" style="margin-top:8px"><b>本カリキュラムのどの回に近いか：</b><span data-cell-id="kuchii-case-3-note">コマ11（地元中小製造業によるDX人材不足の実態共有）、コマ13（DXベンダー・SIerの提案実例紹介）に近い。企業開拓を地域ハブ団体が担う仕組みは、5企業タイプの個別開拓が課題の久池井ケースへの示唆になりうる。</span></div>
+  </div>
+
+  <h3 style="margin-top:18px">⚠️ 要注意・調整が必要な事例</h3>
+  <div class="measureCard">
+    <span class="pill porange">要注意</span>
+    <b>東京情報大学（東京農業大学） × 介護施設のコミュニケーションロボット効果検証</b>
+    <p data-cell-id="kuchii-case-4-desc" style="font-size:13px;margin:6px 0 0">東京都荒川区の小規模多機能型居宅介護施設と連携し、コミュニケーションロボット「LOVOT」を用いて認知症高齢者の表情から感情を定量的に測定する効果検証を実施。教授陣による共同研究として報告されている。</p>
+    <div class="callout warn" style="margin-top:8px"><b>取り扱いの注意：</b><span data-cell-id="kuchii-case-4-note">学生の直接的な関与は明記されておらず、そのままではコマ9（学生の設計ワークへ企業がフィードバックする形式）に転用できない。また、久池井先生の「対話AIロボット」テーマ自体の裏付けが弱いため、この事例を根拠に介護スレッドを組み立てることは避け、まず先生ご本人への確認を優先すべき。</span></div>
+  </div>
+  <div class="measureCard">
+    <span class="pill porange">要注意</span>
+    <b>医療安全・ヒューマンエラー研修（医療従事者向け一般研修）</b>
+    <p data-cell-id="kuchii-case-5-desc" style="font-size:13px;margin:6px 0 0">Web調査では、病院内の医療従事者・医療安全管理者向けの一般的なヒューマンエラー研修資料は多数見つかったが、高専生向けの出前授業としてこのテーマを扱った実例は確認できなかった。</p>
+    <div class="callout warn" style="margin-top:8px"><b>取り扱いの注意：</b><span data-cell-id="kuchii-case-5-note">コマ3の「医療機器ベンダー・病院DX担当部門による現場目線の解説」は、既存の学生向けプログラムを流用できず、久池井先生の個別ネットワークを通じた新規の依頼設計が必要になる可能性が高い。</span></div>
+  </div>
+
+  <h3 style="margin-top:18px">候補支援制度</h3>
+  <div class="tableWrap">
+    <table>
+      <thead><tr><th>制度名（候補）</th><th>所管・拠点</th><th>概要</th><th>マッチ理由</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>高専機構 COMPASS5.0（ロボット分野）</b><br><span class="pill pblue">高専向け</span></td>
+          <td>北九州高専・東京高専（拠点校）</td>
+          <td data-cell-id="kuchii-funding-1-desc">Society5.0型未来技術人財育成のため、ロボット利活用スキルの教育パッケージを開発する高専機構の事業。</td>
+          <td data-cell-id="kuchii-funding-1-reason">久池井先生ご自身の所属校（北九州高専）が拠点校であるため、教材・企業ネットワークとの接続を最も具体的に見込める候補。</td>
+        </tr>
+        <tr>
+          <td><b>マナビDX Quest 地域企業協働プログラム</b><br><span class="pill pblue">中小企業・学習者向け</span></td>
+          <td>経済産業省・九州地域ハブ団体</td>
+          <td data-cell-id="kuchii-funding-2-desc">受講生が中小企業と2ヶ月間協働してDX課題に取り組む研修プログラム。九州管内は製造業が参加企業の中心。</td>
+          <td data-cell-id="kuchii-funding-2-reason">コマ11・13（中小製造業DX）の企業候補探索の入口として活用できる可能性がある（要：直接の学生連携可否の確認）。</td>
+        </tr>
+        <tr>
+          <td><b>久池井先生の既存連携先（NEC等）の活用</b><br><span class="pill pblue">個別ネットワーク</span></td>
+          <td>久池井先生ご本人の既存実績</td>
+          <td data-cell-id="kuchii-funding-3-desc">NECとの生成AIを活用したPBL学習の連携研究実績があり、本プラットフォーム開発元にとっても接点のある企業である可能性がある。</td>
+          <td data-cell-id="kuchii-funding-3-reason">コマ13（製造業向けDXベンダー・SIer）の企業候補として、既に接点があるため最も打診しやすい候補。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="footNote" data-cell-id="kuchii-cases-footnote">出典：釧路工業高等専門学校の産学連携ロボットSIer教育実践報告（日本工学教育協会論文誌）、高専機構COMPASS5.0公式サイト（kct.ac.jp/robot）、経済産業省九州経済産業局「マナビDX Quest」地域企業協働プログラム紹介ページ、共同通信PRワイヤー（東京情報大学プレスリリース）。2026年9月にWeb公開情報を調査。制度の詳細・締切は必ず一次情報でご確認ください。掲載内容はAIによる下書き（未検証部分を含む）です。</p>
+</section>
+
+</div>
+  </div>
+
+  <aside class="sidePanel right" id="rightPanel">
+    <button type="button" class="panelToggle" id="rightToggle">💬 ダッシュボードに質問する <span id="rightToggleIcon">▲</span></button>
+    <div class="panelBody" id="rightBody">
+      <div class="chatLog" id="chatLog">
+        <p class="chatMsg hint">久池井茂先生（北九州高専）のカリキュラム案について、気になることを質問できます。(例:「介護スレッドの懸念点は?」)</p>
+      </div>
+      <div class="chatProviderRow">
+        <label for="chatProvider">回答モデル</label>
+        <select id="chatProvider" title="回答に使うAIモデルを選べます(未選択時はClaude)">
+          <option value="anthropic">Claude(既定・安定)</option>
+          <option value="sakura-llmjp">LLM-jp(さくら・国産)</option>
+          <option value="sakura-cotomi">NEC cotomi v3(さくら・国産)</option>
+          <option value="sakura-plamo">PLaMo 2.0-31B(さくら・国産)</option>
+        </select>
+      </div>
+      <div class="chatRow">
+        <input type="text" id="chatInput" placeholder="質問を入力…">
+        <button type="button" id="chatSend">送信</button>
+      </div>
+      <p class="errMsg" id="chatErr" style="display:none">回答の生成に失敗しました。時間をおいて再度お試しください。</p>
+    </div>
+  </aside>
+</div>
+<script>
+function switchTab(tabName){
+  document.querySelectorAll('.tabBtn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  var btn = document.querySelector('.tabBtn[data-tab="' + tabName + '"]');
+  if (btn) btn.classList.add('active');
+  var panel = document.getElementById('panel-' + tabName);
+  if (panel) panel.classList.add('active');
+}
+document.querySelectorAll('.tabBtn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    switchTab(btn.dataset.tab);
+  });
+});
+// 5軸レーダーチャートを描画する共通関数。0-100のスコアを渡す。
+// 軸は「評価する人の立場」ではなく「何を根拠にしているか」で分解している
+// (Legitimacy=当事者の声／Evidence=外部知見／Alignment=上位方針との整合／
+//  Feasibility=実行可能性／Impact=効果・リスク見通し)。
+function renderRadar(svgId, scores){
+  var axes = [
+    {key:'legitimacy', label:'当事者の声'}, {key:'evidence', label:'外部知見'},
+    {key:'alignment', label:'方針整合'}, {key:'feasibility', label:'実行可能性'},
+    {key:'impact', label:'効果見通し'}
+  ];
+  var cx=90, cy=90, r=70, svg=document.getElementById(svgId);
+  if (!svg) return;
+  var pt = function(i, val){
+    var ang = -Math.PI/2 + i * (2*Math.PI/5);
+    var rad = r * (val/100);
+    return [cx + rad*Math.cos(ang), cy + rad*Math.sin(ang)];
+  };
+  var rings = '';
+  [0.25,0.5,0.75,1].forEach(function(f){
+    var pts = axes.map(function(a,i){ return pt(i, f*100).join(','); }).join(' ');
+    rings += '<polygon points="'+pts+'" fill="none" stroke="#ddd" stroke-width="1"/>';
+  });
+  var dataPts = axes.map(function(a,i){ return pt(i, scores[a.key]||0).join(','); }).join(' ');
+  var labels = axes.map(function(a,i){
+    var p = pt(i, 118);
+    return '<text x="'+p[0]+'" y="'+p[1]+'" font-size="9" text-anchor="middle" fill="#7D7A75">'+a.label+'</text>';
+  }).join('');
+  svg.innerHTML = rings + '<polygon points="'+dataPts+'" fill="#7A5CCF55" stroke="#7A5CCF" stroke-width="2"/>' + labels;
+}
+renderRadar('radarChart', {legitimacy:15, evidence:25, alignment:35, feasibility:15, impact:10});
+
+// --- 左右パネルの折りたたみ ---
+(function(){
+  function bindToggle(panelId, toggleId, iconId){
+    var panel = document.getElementById(panelId);
+    var toggle = document.getElementById(toggleId);
+    var icon = document.getElementById(iconId);
+    if (!panel || !toggle) return;
+    toggle.addEventListener('click', function(){
+      var collapsed = panel.classList.toggle('collapsed');
+      if (icon) icon.textContent = collapsed ? '▼' : '▲';
+    });
+  }
+  bindToggle('leftPanel', 'leftToggle', 'leftToggleIcon');
+  bindToggle('rightPanel', 'rightToggle', 'rightToggleIcon');
+})();
+
+// --- 左: 資料投入エリアのファイルアップロード(.txt/.md/.pdf) ---
+// .txt/.mdはブラウザ側でそのまま読み込み、.pdfは新設の /api/extract-document でAIに文字起こしさせる。
+(function(){
+  var fileInput = document.getElementById('genFile');
+  var fileStatus = document.getElementById('genFileStatus');
+  var notesEl = document.getElementById('genNotes');
+  if (!fileInput) return;
+
+  function readTextFile(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){ resolve(String(reader.result || '')); };
+      reader.onerror = function(){ reject(reader.error); };
+      reader.readAsText(file);
+    });
+  }
+  function readFileAsBase64(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){
+        var result = String(reader.result || '');
+        resolve(result.split(',')[1] || '');
+      };
+      reader.onerror = function(){ reject(reader.error); };
+      reader.readAsDataURL(file);
+    });
+  }
+  function appendNotes(text){
+    var current = notesEl.value.trim();
+    notesEl.value = current ? (current + '\n\n' + text) : text;
+  }
+
+  fileInput.addEventListener('change', async function(){
+    var file = fileInput.files && fileInput.files[0];
+    fileInput.value = '';
+    if (!file) return;
+    var lower = file.name.toLowerCase();
+    var isPdf = file.type === 'application/pdf' || lower.endsWith('.pdf');
+    var isTextLike = (file.type && file.type.indexOf('text/') === 0) || lower.endsWith('.txt') || lower.endsWith('.md');
+    if (!isPdf && !isTextLike) {
+      fileStatus.style.display = 'block';
+      fileStatus.style.color = 'var(--red)';
+      fileStatus.textContent = '.txt / .md / .pdf のいずれかのファイルを選択してください。';
+      return;
+    }
+    fileStatus.style.display = 'block';
+    fileStatus.style.color = 'var(--muted)';
+    fileStatus.textContent = isPdf ? 'PDFを読み取っています…(30秒ほどかかります)' : 'ファイルを読み込んでいます…';
+    try {
+      if (isTextLike) {
+        var text = await readTextFile(file);
+        appendNotes(text);
+      } else {
+        var dataBase64 = await readFileAsBase64(file);
+        var res = await fetch('/api/extract-document', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ fileName: file.name, mimeType: 'application/pdf', dataBase64: dataBase64 })
+        });
+        if (!res.ok) throw new Error('request failed');
+        var data = await res.json();
+        appendNotes(data.text);
+      }
+      fileStatus.style.display = 'none';
+    } catch (e) {
+      fileStatus.style.color = 'var(--red)';
+      fileStatus.textContent = 'ファイルの読み込みに失敗しました。時間をおいて再度お試しください。';
+    }
+  });
+})();
+
+// --- 左: 資料投入エリア → ダッシュボードに反映 ---
+(function(){
+  var submitBtn = document.getElementById('genSubmit');
+  var errEl = document.getElementById('genErr');
+  if (!submitBtn) return;
+  submitBtn.addEventListener('click', async function(){
+    var issueTitle = document.getElementById('genTitle').value.trim();
+    var sourceNotes = document.getElementById('genNotes').value.trim();
+    if (!sourceNotes) return;
+    errEl.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = '反映中…(30秒ほど)';
+    try {
+      var res = await fetch('/api/issue-summary', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ issueTitle: issueTitle, sourceNotes: sourceNotes })
+      });
+      if (!res.ok) throw new Error('request failed');
+      var data = await res.json();
+      window.__ieshimaDashboardDraft = data.draft;
+      alert('反映用の下書きを生成しました。内容は久池井先生への確認後に、カリキュラム案タブへ反映してください。');
+    } catch (e) {
+      errEl.style.display = 'block';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'この内容をダッシュボードに反映する';
+    }
+  });
+})();
+
+// --- 右: 質問チャット ---
+(function(){
+  var log = document.getElementById('chatLog');
+  var input = document.getElementById('chatInput');
+  var sendBtn = document.getElementById('chatSend');
+  var errEl = document.getElementById('chatErr');
+  var providerSelect = document.getElementById('chatProvider');
+  if (!sendBtn) return;
+
+  function appendMsg(role, text){
+    var div = document.createElement('div');
+    div.className = 'chatMsg ' + role;
+    div.textContent = text;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function currentDashboardContent(){
+    // 「カリキュラム案」タブの本文を質問の文脈として使う。
+    // 資料投入エリアからAI下書きが反映されている場合は、それも合わせて渡す。
+    var curriculum = document.getElementById('panel-curriculum');
+    var base = curriculum ? curriculum.innerText : '';
+    if (window.__ieshimaDashboardDraft) {
+      base += '\n\n---\n【資料投入エリアからの下書き】\n' + window.__ieshimaDashboardDraft;
+    }
+    return base;
+  }
+
+  async function send(){
+    var q = input.value.trim();
+    if (!q) return;
+    errEl.style.display = 'none';
+    appendMsg('user', q);
+    input.value = '';
+    sendBtn.disabled = true;
+    try {
+      var res = await fetch('/api/dashboard-chat', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          issueTitle: '久池井茂先生（北九州高専）ロボット×医療・介護・製造DX 15コマカリキュラム',
+          dashboardContent: currentDashboardContent(),
+          question: q,
+          provider: providerSelect ? providerSelect.value : undefined
+        })
+      });
+      if (!res.ok) throw new Error('request failed');
+      var data = await res.json();
+      var modelNote = (data.provider && data.provider !== 'anthropic') ? ('\n\n(回答モデル: ' + data.provider + ')') : '';
+      appendMsg('ai', data.draft + modelNote);
+    } catch (e) {
+      errEl.style.display = 'block';
+    } finally {
+      sendBtn.disabled = false;
+    }
+  }
+  sendBtn.addEventListener('click', send);
+  input.addEventListener('keydown', function(e){
+    // 日本語入力(IME)で変換を確定するEnterで誤送信しないようにする
+    if (e.key === 'Enter' && !(e.isComposing || e.keyCode === 229)) send();
+  });
+})();
+</script>
 <script src="/js/kosen-cell-editor.js"></script>
 </body>
+</html>

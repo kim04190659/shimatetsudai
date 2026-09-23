@@ -9,27 +9,53 @@
   --ink:#2C2C2B; --muted:#7D7A75; --line:#E6E5E3; --soft:#F9F8F7;
   --blue:#2783DE; --blueSoft:#E5F2FC; --green:#46A171; --greenSoft:#E8F1EC;
   --orange:#D5803B; --orangeSoft:#FBEBDE; --red:#E56458; --redSoft:#FCE9E7;
-  --purple:#7A5CCF; --purpleSoft:#EEE9FB;
+  --purple:#7A5CCF; --purpleSoft:#EEE9FB; --gray:#B9B6B0; --graySoft:#F1F0EE;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:var(--ink);background:var(--soft);font-size:14.5px;line-height:1.6}
-.appWrap{display:flex;gap:14px;padding:16px;align-items:flex-start}
-.paneToggle{border:1px solid var(--line);background:#fff;border-radius:10px;padding:4px 10px;font-size:11.5px;cursor:pointer;color:var(--muted)}
-.leftPane,.rightPane{flex:0 0 260px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
-.leftPane.collapsed,.rightPane.collapsed{display:none}
-.centerPane{flex:1;min-width:0}
-.paneTitle{font-weight:800;font-size:13px;margin:0 0 8px;display:flex;justify-content:space-between;align-items:center}
-.leftPane textarea{width:100%;min-height:100px;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px;resize:vertical}
-.leftPane input[type=file]{font-size:11.5px;margin:8px 0}
-.reflectBtn{width:100%;border:none;background:var(--blue);color:#fff;border-radius:8px;padding:9px;font-weight:800;font-size:12.5px;cursor:pointer;margin-top:6px}
-.rightPane .chatLog{min-height:160px;max-height:280px;overflow-y:auto;font-size:12.5px;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--soft);margin-bottom:8px}
-.rightPane .chatRow{display:flex;gap:6px}
-.rightPane input[type=text]{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px}
-.rightPane button{border:none;background:var(--blue);color:#fff;border-radius:8px;padding:8px 12px;font-size:12.5px;cursor:pointer}
+body{margin:0;background:#eee;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:var(--ink);font-size:14.5px;line-height:1.6}
 
-.hero{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:14px}
+/* --- 左右の折りたたみパネル(資料投入エリア/質問チャット)
+   しまてつだい側の完成形(public/case-studies/yakushima-route-model-dss.html 等)のCSSをそのまま流用。
+   デスクトップでは左右にstickyなcolumnsとして並べ、スマホ幅では縦積みにする。 --- */
+.layout{display:flex;align-items:flex-start;max-width:1800px;margin:0 auto}
+.appWrap{flex:1;min-width:0}
+.sidePanel{flex:none;width:280px;background:#fff;position:sticky;top:0;max-height:100vh;overflow-y:auto;font-size:13px}
+.sidePanel.left{border-right:1px solid var(--line)}
+.sidePanel.right{border-left:1px solid var(--line)}
+.sidePanel.collapsed{width:44px;overflow:hidden}
+.sidePanel .panelToggle{position:sticky;top:0;width:100%;background:var(--soft);border:none;border-bottom:1px solid var(--line);padding:12px 14px;font-weight:800;font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px;text-align:left;color:var(--ink)}
+.sidePanel.collapsed .panelToggle{writing-mode:vertical-rl;text-orientation:mixed;height:100%;justify-content:flex-start;padding:14px 6px}
+.sidePanel.collapsed .panelBody{display:none}
+.sidePanel .panelBody{padding:14px}
+.chatLog{max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.chatMsg{border-radius:10px;padding:8px 10px;font-size:12.5px;line-height:1.5;max-width:92%}
+.chatMsg.user{align-self:flex-end;background:var(--blue);color:#fff}
+.chatMsg.ai{align-self:flex-start;background:var(--soft);border:1px solid var(--line)}
+.chatMsg.hint{color:var(--muted);font-size:11.5px}
+.sidePanel input[type=text],.sidePanel textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px;font-family:inherit;box-sizing:border-box}
+.sidePanel textarea{resize:vertical}
+.sidePanel label{display:block;font-size:11px;font-weight:800;color:var(--muted);margin:0 0 4px}
+.sidePanel .field{margin-bottom:10px}
+.sidePanel button.primaryBtn{width:100%;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:10px;font-weight:800;font-size:12.5px;cursor:pointer}
+.sidePanel button.primaryBtn:disabled{opacity:.5;cursor:default}
+.sidePanel .chatRow{display:flex;gap:6px}
+.sidePanel .chatRow input{flex:1}
+.sidePanel .chatRow button{flex:none;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:0 14px;font-weight:800;font-size:12px;cursor:pointer}
+.sidePanel .chatProviderRow{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:11px;color:var(--muted)}
+.sidePanel .chatProviderRow select{flex:1;font-size:11px;padding:3px 6px;border-radius:8px;border:1px solid #ddd;background:#fff}
+.sidePanel .errMsg{color:var(--red);font-size:11.5px;margin-top:6px}
+@media(max-width:900px){
+  .layout{display:block}
+  .sidePanel{position:static;width:100%;max-height:none;border:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sidePanel.collapsed{width:100%}
+  .sidePanel.collapsed .panelToggle{writing-mode:horizontal-tb;height:auto;padding:12px 14px}
+}
+
+.app{max-width:1200px;margin:0 auto;background:#fff;min-height:100vh}
+.hero{background:#fff;border-bottom:1px solid var(--line);padding:18px 20px}
 .hero h1{font-size:17px;margin:0 0 4px}
-.hero .sub{color:var(--muted);font-size:12.5px;margin:0 0 14px}
+.hero .sub{color:var(--muted);font-size:12.5px;margin:0 0 10px}
+.methodNote{color:#165c9d;font-weight:700;font-size:12.5px;margin:0 0 12px}
 .decisionQ{background:var(--blueSoft);border-radius:10px;padding:9px 12px;font-size:12.5px;font-weight:700;color:#165c9d;margin:0 0 12px}
 .kpiRow{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
 .kpi{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
@@ -37,11 +63,11 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu G
 .kpi .value{font-size:19px;font-weight:800;margin-top:2px}
 .kpi .value.unknown{color:var(--muted);font-size:13px;font-weight:700}
 
-.tabs{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:6px;background:var(--soft);padding:6px 0 10px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.tabs{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:6px;background:var(--soft);padding:10px 20px;border-bottom:1px solid var(--line)}
 .tabBtn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;color:var(--ink)}
 .tabBtn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
 
-.panel{display:none;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.panel{display:none;background:#fff;padding:18px 20px 28px}
 .panel.active{display:block}
 .card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:var(--soft)}
 .callout{border-radius:12px;padding:10px 14px;margin:10px 0;font-size:13px}
@@ -57,64 +83,62 @@ table th{background:var(--soft)}
 .pill.pgreen{background:var(--greenSoft);color:#2f6b4f}
 .pill.porange{background:var(--orangeSoft);color:#8a5322}
 .pill.pred{background:var(--redSoft);color:#a3352c}
+.pill.pgray{background:var(--graySoft);color:#605d57}
+tr.confirmed td{background:var(--greenSoft)}
+.methodTag{display:block;margin-top:3px;font-size:11px;color:#5d47a3}
 
-/* タブ1: 決断まとめ(シンプル版)の5部品 */
-.highlights{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:12px 0}
-.hl{border-radius:12px;padding:10px 12px;font-size:12.5px;border:1px solid var(--line);background:var(--soft)}
-.hl b{display:block;margin-bottom:4px;font-size:12.5px}
-.hl.green{background:var(--greenSoft);border-color:var(--green)}
-.hl.orange{background:var(--orangeSoft);border-color:var(--orange)}
-.hl.purple{background:var(--purpleSoft);border-color:var(--purple)}
-.hl.red{background:var(--redSoft);border-color:var(--red)}
-.hl.gray{background:#fff}
-.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0}
-.opt{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
-.opt b{display:block;margin-bottom:6px}
-.voices{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0}
-.voice{border-radius:12px;padding:10px 12px;font-size:12.5px;border:1px solid var(--line)}
-.voice.support{background:var(--greenSoft)} .voice.oppose{background:var(--redSoft)}
-.voice.pending{background:var(--orangeSoft)} .voice.minority{background:#fff}
-.evidence-list{margin:12px 0}
-.ev{border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:6px;font-size:12.5px;display:flex;gap:10px;align-items:flex-start}
-.ev .lv{flex:0 0 34px;font-weight:800;border-radius:6px;text-align:center;padding:2px 0;font-size:11px;color:#fff}
-.ev .lv.l1{background:var(--green)} .ev .lv.l2{background:var(--blue)} .ev .lv.l3{background:var(--orange)} .ev .lv.l5{background:var(--muted)}
-.timeline{margin:12px 0;padding-left:20px}
-.timeline li{margin:6px 0;font-size:13px}
-.timeline li.done{color:var(--green);font-weight:700}
-.timeline li.done::marker{content:"✅ "}
-
-/* タブ2: 北極星指標 */
+/* 北極星指標タブ */
 .radarWrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:0 0 16px;padding:14px 16px;border:2px solid var(--purple);background:var(--purpleSoft);border-radius:14px}
 .discussBox{border:2px solid var(--orange);background:var(--orangeSoft);border-radius:12px;padding:12px 14px;margin:14px 0}
 .discussBox b{display:block;margin-bottom:6px}
+.discussBox ul{margin:6px 0 0;padding-left:18px}
+.discussBox li{margin:4px 0}
 .traceWrap{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--soft);margin:10px 0}
 .traceWrap ul{margin:6px 0 0;padding-left:18px;font-size:12.5px}
 .traceWrap li{margin:4px 0}
 
-/* タブ6: 過去のまとめ */
-.historyCard{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:#fff}
-.historyCard .metaRow{color:var(--muted);font-size:11.5px;margin:4px 0 8px}
-.historySnapshot summary{cursor:pointer;font-weight:700;color:var(--blue);font-size:12.5px}
+/* 事例タブ */
+.caseCard{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:#fff}
+.caseCard b{display:block;font-size:13.5px;margin-bottom:4px}
+.caseCard .near{display:block;margin-top:6px;font-size:11.5px;color:var(--muted)}
+.caseCard.good{border-left:5px solid var(--green)}
+.caseCard.watch{border-left:5px solid var(--red)}
+
+@media(max-width:900px){.kpiRow{grid-template-columns:1fr 1fr}}
 </style>
 </head>
-<body data-dashboard-slug="case-kagoshima-logitech" data-issue-page-id="3d6960a91e2381ee8242e4e8611b807f">
+<body data-kosen-slug="case-kagoshima" data-issue-page-id="3d6960a91e2381ee8242e4e8611b807f">
 
-<div class="appWrap">
+<div class="layout">
 
-  <aside class="leftPane" id="leftPane">
-    <p class="paneTitle">📥 資料投入エリア <button class="paneToggle" data-toggle="leftPane">隠す</button></p>
-    <textarea id="docText" placeholder="議事録・企業からの連絡・実施結果等を貼り付け"></textarea>
-    <input type="file" id="docFile" accept=".txt,.md,.pdf">
-    <button class="reflectBtn" id="reflectBtn">反映する</button>
-    <p style="font-size:11px;color:var(--muted);margin-top:8px">※ 投入内容は4分類(事実/意見/目標/決定)に整理し、了承後に北極星指標5軸を再計算します。</p>
+  <aside class="sidePanel left" id="leftPanel">
+    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▲</span></button>
+    <div class="panelBody" id="leftBody">
+      <div class="field">
+        <label for="genTitle">カリキュラムのタイトル</label>
+        <input type="text" id="genTitle" value="物流の2024年問題×2類技術（逆瀬川栄一先生・鹿児島高専）">
+      </div>
+      <div class="field">
+        <label for="genNotes">議事録・企業からの連絡・実施結果など(貼り付け)</label>
+        <textarea id="genNotes" rows="8" placeholder="逆瀬川先生とのやり取りや、企業からの連絡・実施結果をここに貼り付けてください"></textarea>
+      </div>
+      <div class="field">
+        <label for="genFile">または、ファイルをアップロード(.txt / .md / .pdf)</label>
+        <input type="file" id="genFile" accept=".txt,.md,.pdf,text/plain,text/markdown,application/pdf">
+        <p class="errMsg" id="genFileStatus" style="display:none;color:var(--muted)"></p>
+      </div>
+      <button type="button" class="primaryBtn" id="genSubmit">この内容をダッシュボードに反映する</button>
+      <p class="errMsg" id="genErr" style="display:none">生成中にエラーが発生しました。時間をおいて再度お試しください。</p>
+    </div>
   </aside>
 
-  <main class="centerPane">
+  <div class="appWrap" id="appWrap">
+  <div class="app">
 
     <div class="hero">
       <h1>📦 物流の2024年問題×2類技術（逆瀬川栄一先生・鹿児島高専 2類）</h1>
-      <p class="sub">共同担当：谷口先生｜半年15コマ（工学基礎実習の一部）｜カリキュラム作成エージェント版・v1（旧case-kagoshima.htmlの8セクション構成から移行）</p>
-      <p class="sub" style="color:#165c9d;font-weight:700">🎓 本カリキュラムはバックワードデザイン（逆向き設計）とCDIOフレームワーク（Conceive→Design→Implement→Operate）に基づいて設計されています。</p>
+      <p class="sub">共同担当：谷口先生｜半年15コマ（工学基礎実習の一部）｜カリキュラム作成エージェント版・v2（3タブ構成・2026-09-23改修）</p>
+      <p class="methodNote">🎓 本カリキュラムはバックワードデザイン（逆向き設計）とCDIOフレームワーク（Conceive→Design→Implement→Operate）に基づいて設計されています。</p>
       <div class="decisionQ">🎯 今回決めるべき問い：Mission in LOGI-TECH（コマ7・8）を核に、前後の13コマをどこまで・どう拡張するか？</div>
       <div class="kpiRow">
         <div class="kpi"><div class="label">15コマ中 確定済み</div><div class="value">2コマ</div></div>
@@ -125,88 +149,55 @@ table th{background:var(--soft)}
     </div>
 
     <nav class="tabs">
-      <button class="tabBtn active" data-tab="summary">📚 まとめ</button>
-      <button class="tabBtn" data-tab="curriculum">📅 カリキュラム</button>
-      <button class="tabBtn" data-tab="northstar">🌟 北極星指標</button>
-      <button class="tabBtn" data-tab="proposal">💡 提案と評価</button>
+      <button class="tabBtn active" data-tab="curriculum">📅 カリキュラム案</button>
+      <button class="tabBtn" data-tab="northstar">🌟 教育充実度指標</button>
       <button class="tabBtn" data-tab="cases">🌍 事例</button>
-      <button class="tabBtn" data-tab="raw">🗒️ 議事録・投入データ</button>
-      <button class="tabBtn" data-tab="history">📜 過去のまとめ</button>
     </nav>
 
-    <!-- ① 決断まとめ -->
-    <section class="panel active" id="panel-summary">
+    <!-- ① カリキュラム案(15コマ授業計画。旧「まとめ」「提案と評価」の役割を統合) -->
+    <section class="panel active" id="panel-curriculum">
+      <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">コマ7・8（Mission in LOGI-TECH本体）は日程・ゲスト講師が確定済み。他13コマは、確定済みの2コマを核にバックワードデザインで逆算した仮説段階（逆瀬川先生への確認前）。表の「設計手法上の位置づけ」列は、各回がCDIOのどのフェーズ（構想・設計・実行・運用）に対応するかを示す。</p>
 
-      <div class="highlights" data-cell-id="sum-highlights">
-        <div class="hl orange"><b>📊 判断材料</b>有効求人倍率2.78倍・2030年に25〜28万人不足・積載率40%以下という物流業界の危機データが、コマ1の教材として既に整理済み。</div>
-        <div class="hl purple"><b>💡 検討中の選択肢</b>コマ7・8（Mission in LOGI-TECH）以外の13コマをどこまで拡張するか、3案を提案タブで比較中。</div>
-        <div class="hl gray"><b>📈 将来予測</b>点数・満足度への効果は実施前のため未算出。評価基準（問題理解・システム思考・技術的リアリティ・社会的インパクトの4軸）はコマ8で既に定義済み。</div>
-        <div class="hl red"><b>🗣️ 現時点で分かっている声</b>逆瀬川先生ご本人が、拡張部分（仮説）に賛成しているかはまだ確認できていない（未確定事項として記録済み）。</div>
-        <div class="hl gray"><b>🌍 類似事例</b>他高専の同種カリキュラムとの比較はまだ行っていない。事例タブでは企業タイプ別の出前授業状況を整理。</div>
-        <div class="hl green"><b>✅ 結論・次の一手</b>コマ7・8は実行確定。次の一手は、逆瀬川先生への意向確認と、残り5企業タイプのリストアップ。</div>
+      <div class="callout ok" data-cell-id="cur-conclusion">
+        <b>✅ 結論・次の一手</b>
+        コマ7・8（Implement＝実行フェーズ）は実行確定。次の一手は、逆瀬川先生への拡張13コマの意向確認と、残り5企業タイプ（物流・運送／倉庫ロボット／自治体／環境／大手物流）のリストアップ。推奨案は下表の「案C：段階拡張」で、DAY1・DAY2の実施結果を見てから前後13コマを段階的に確定させる。
       </div>
 
-      <h3>案のトレードオフ比較（たたき台）</h3>
-      <p style="font-size:12px;color:var(--muted);margin-top:-4px">CDIOフレームワークでは、コマ7・8（Implement＝実行）を核に、前後をConceive/Design（構想・設計）とOperate（運用・振り返り）としてどこまで拡張するかという問い方になる。</p>
-      <div class="opts">
-        <div class="opt"><b>案A：コア最小化</b>コマ7・8のみを核に、前後を最小限（導入1〜2コマ＋振り返り1コマ）に絞る。<br>強み：確実に実施できる／弱み：半年15コマに届かない／合意しやすさ：★★★<br><span style="font-size:11px;color:var(--muted)">CDIO上の位置づけ：Design・Operateを最小化し、Implementに比重を置く案</span></div>
-        <div class="opt"><b>案B：一括フル拡張</b>15コマ全体を今から一括で企業手配・準備する。<br>強み：完成度が高い／弱み：残り5企業タイプの手配が未着手のまま強行するリスク／合意しやすさ：★<br><span style="font-size:11px;color:var(--muted)">CDIO上の位置づけ：4フェーズすべてを同時に確定させる案</span></div>
-        <div class="opt"><b>案C：段階拡張（推奨候補）</b>コマ7・8実施後の結果を見てから、前後13コマを段階的に確定させる。<br>強み：実施結果を反映できる／弱み：確定までに時間がかかる／合意しやすさ：★★<br><span style="font-size:11px;color:var(--muted)">CDIO上の位置づけ：バックワードデザインの原則通り、Implement実施結果をOperate設計に反映する案</span></div>
-      </div>
-
-      <h3>ステークホルダーの意見について</h3>
-      <div class="voices" data-cell-id="sum-voices">
-        <div class="voice pending"><b>保留：逆瀬川先生（本人）</b>拡張部分（コマ1〜6・9〜15）が先生の意向と一致しているか、まだ確認できていない（Notion記録上の未確定事項）。</div>
-        <div class="voice support"><b>賛成（実績ベース）：NEC 木村好孝氏</b>企業登録カードを自ら2件登録し、配送業界の課題解決型教育プログラムへの協力意向を明確に示している。</div>
-        <div class="voice minority">谷口先生（共同担当）・学生・他5企業タイプの声は未収集。</div>
-      </div>
-
-      <h3>元になった事実・出典（EvidenceRecord）</h3>
-      <div class="evidence-list" data-cell-id="sum-evidence">
-        <div class="ev"><span class="lv l2">L2</span>Mission in LOGI-TECH DAY1(2026-11-16)・DAY2(2026-11-30)の日程・ゲスト講師（木村好孝氏／NEC）が確定済み</div>
-        <div class="ev"><span class="lv l3">L3</span>NEC自身による企業登録カード2件（木村好孝氏個人・NEC法人、2026-09-12登録）。配送業課題解決型プログラムへの協力内容を具体的に記載</div>
-        <div class="ev"><span class="lv l1">L1</span>物流業界データ（有効求人倍率2.78倍・2030年25〜28万人不足・積載率40%以下）</div>
-        <div class="ev"><span class="lv l5">L5</span>コマ3・6・10・12・14の企業タイプは、必要性の仮説のみで実際の企業リストアップは未着手</div>
-      </div>
-
-      <h3>合意形成の現在地（想定・ロードマップ）</h3>
-      <ol class="timeline" data-cell-id="sum-timeline">
-        <li class="done">Mission in LOGI-TECH日程・講師確定（完了）</li>
-        <li>逆瀬川先生への拡張部分の意向確認（次のアクション・締切：11/16実施前が理想）</li>
-        <li>残り5企業タイプ（物流運送・倉庫ロボット・自治体・環境・大手物流）のリストアップ</li>
-        <li>DAY1(11/16)・DAY2(11/30)の実施</li>
-        <li>実施結果を踏まえた北極星指標（点数）の測定・カリキュラムの振り返り</li>
-      </ol>
-    </section>
-
-    <!-- ② カリキュラム（15コマ授業計画） -->
-    <section class="panel" id="panel-curriculum">
-      <h3>15コマ 授業計画（半年・工学基礎実習の一部）</h3>
-      <p style="font-size:12px;color:var(--muted)">コマ7・8（Mission in LOGI-TECH本体）は日程・講師確定済み。他13コマは活動内容・企業依頼文まで設計した仮説段階（先生への確認前）。</p>
+      <h3>案の比較（たたき台）</h3>
       <div class="tableWrap">
-        <table>
-          <tr><th>回</th><th>区分</th><th>テーマ</th><th>学習目標</th><th>活動内容／企業への依頼内容</th></tr>
-          <tr><td>1</td><td class="pill pblue">先生</td><td>オリエンテーション＋物流危機の全体像</td><td>物流の2024年問題の深刻さを理解する</td><td>統計データをグラフ提示しグループディスカッション。身近な物流を振り返るミニレポート提出</td></tr>
-          <tr><td>2</td><td class="pill pblue">先生</td><td>2類技術と物流課題の接続</td><td>半導体・ロボット・制御・電気電子の各技術が物流課題のどこに効くかを整理する</td><td>4技術カードを配布し、課題とのマトリクスを書き込むワーク</td></tr>
-          <tr><td>3</td><td class="pill porange">企業</td><td>物流現場の課題共有</td><td>現場のドライバー不足・積載率低下の実態を知る</td><td>【物流・運送会社へ依頼】現場の実態を差し支えない範囲で公開・解説してほしい</td></tr>
-          <tr><td>4</td><td class="pill pblue">先生</td><td>AI配車最適化・需要予測の基礎</td><td>配送ルート最適化アルゴリズムの考え方を理解する</td><td>最近傍法の手計算ワーク→TSPデモアプリで答え合わせ</td></tr>
-          <tr><td>5</td><td class="pill pblue">先生</td><td>自動運転・倉庫ロボットの基礎技術</td><td>倉庫自動化・積み下ろし支援ロボットの仕組みを理解する</td><td>AGV/AMRの動作原理講義＋シミュレータ操作</td></tr>
-          <tr><td>6</td><td class="pill porange">企業</td><td>倉庫自動化・ロボット導入の実例</td><td>自動化システムの実例を知る</td><td>【倉庫ロボット・自動化ベンダーへ依頼】デモ・導入効果を紹介してほしい</td></tr>
-          <tr style="background:var(--greenSoft)"><td>7</td><td class="pill pgreen">企業(確定)</td><td>DAY1 個人戦：問題理解とソリューション構築</td><td>社会課題を理解し個人でビジネスプランを作る</td><td>2026-11-16実施。ゲスト講師：木村好孝氏（NEC）。カードゲーム→個人実践→発表</td></tr>
-          <tr style="background:var(--greenSoft)"><td>8</td><td class="pill pgreen">企業(確定)</td><td>DAY2 チーム戦：共創とプレゼンテーション</td><td>チームで事業化提案を作り評価基準4軸で評価される</td><td>2026-11-30実施。チーム編成→提案書作成→生成AI診断→投資判断プレゼン</td></tr>
-          <tr><td>9</td><td class="pill pblue">先生</td><td>振り返り・技術的リアリティの検証</td><td>事業化提案が2類技術で実現可能か検証する</td><td>DAY2提案をチームごとに再提出、先生が技術的にフィードバックする対話形式の授業</td></tr>
-          <tr><td>10</td><td class="pill porange">企業</td><td>自治体・地域物流の視点</td><td>行政・地域の立場から見た物流課題を知る</td><td>【自治体・地域物流連携へ依頼】買い物難民支援・受け取り拠点の事例紹介</td></tr>
-          <tr><td>11</td><td class="pill pblue">先生</td><td>システム思考ワーク</td><td>ドライバー・企業・利用者・自治体をつなげて考える</td><td>4者を図に書き矢印で影響関係をつなぐワーク</td></tr>
-          <tr><td>12</td><td class="pill porange">企業</td><td>環境・CO2削減の視点</td><td>物流の環境負荷という視点を学ぶ</td><td>【環境・カーボンニュートラル関連企業へ依頼】CO2削減の取り組み紹介</td></tr>
-          <tr><td>13</td><td class="pill pblue">先生</td><td>提案のブラッシュアップワーク</td><td>自治体・環境の視点を加えて提案を改訂する</td><td>チームごとに提案書を改訂し発表</td></tr>
-          <tr><td>14</td><td class="pill porange">企業</td><td>別の物流企業からの講評</td><td>プロ視点での講評を受ける</td><td>【大手物流企業(ヤマト運輸等)へ依頼】学生提案に講評してほしい</td></tr>
-          <tr><td>15</td><td class="pill pblue">先生</td><td>成果発表会・総括</td><td>半年間の学びをポートフォリオにまとめる</td><td>発表会＋相互評価。評価はコマ8と同じ4軸基準を再利用</td></tr>
+        <table data-cell-id="cur-options">
+          <tr><th>案</th><th>内容</th><th>CDIO上の位置づけ</th><th>実施可能性</th><th>完成度</th><th>合意しやすさ</th></tr>
+          <tr><td>A. コア最小化</td><td>コマ7・8のみを核に、前後を最小限（導入1〜2コマ＋振り返り1コマ）に絞る</td><td>Design・Operateを最小化し、Implementに比重</td><td class="pill pgreen">◎</td><td class="pill porange">△</td><td class="pill pgreen">◎</td></tr>
+          <tr><td>B. 一括フル拡張</td><td>15コマ全体を今から一括で企業手配・準備する</td><td>4フェーズすべてを同時に確定</td><td class="pill pred">△</td><td class="pill pgreen">◎</td><td class="pill pred">△</td></tr>
+          <tr><td>C. 段階拡張（推奨候補）</td><td>コマ7・8実施後の結果を見てから、前後13コマを段階的に確定させる</td><td>バックワードデザインの原則通り、Implement実施結果をOperate設計に反映</td><td class="pill pblue">○</td><td class="pill pblue">○</td><td class="pill pblue">○</td></tr>
         </table>
       </div>
-      <div class="callout warn" style="margin-top:12px">コマ3・6・10・12・14の企業は未選定です。詳細な依頼文は「議事録・投入データ」タブに掲載しています。</div>
+
+      <h3 style="margin-top:16px">15コマ 授業計画（半年・工学基礎実習の一部）</h3>
+      <div class="tableWrap">
+        <table data-cell-id="cur-schedule">
+          <tr><th>回</th><th>区分</th><th>テーマ</th><th>学習目標</th><th>活動内容／企業への依頼内容</th><th>設計手法上の位置づけ</th></tr>
+          <tr><td>1</td><td class="pill pblue">先生</td><td>オリエンテーション＋物流危機の全体像</td><td>物流の2024年問題の深刻さを理解する</td><td>統計データ（有効求人倍率2.78倍・2030年25〜28万人不足・積載率40%以下）をグラフ提示しグループディスカッション。身近な物流を振り返るミニレポート提出</td><td><span class="methodTag">CDIO：Conceive（構想）／北極星から逆算した導入回</span></td></tr>
+          <tr><td>2</td><td class="pill pblue">先生</td><td>2類技術と物流課題の接続</td><td>半導体・ロボット・制御・電気電子の各技術が物流課題のどこに効くかを整理する</td><td>4技術カードを配布し、課題とのマトリクスを書き込むワーク</td><td><span class="methodTag">CDIO：Conceive→Design（構想→設計）</span></td></tr>
+          <tr><td>3</td><td class="pill porange">企業</td><td>物流現場の課題共有</td><td>現場のドライバー不足・積載率低下の実態を知る</td><td>【物流・運送会社へ依頼】現場の実態を差し支えない範囲で公開・解説してほしい</td><td><span class="methodTag">CDIO：Design（設計）／PBL連携：初期メンター＝既有知識の活性化・例示役</span></td></tr>
+          <tr><td>4</td><td class="pill pblue">先生</td><td>AI配車最適化・需要予測の基礎</td><td>配送ルート最適化アルゴリズムの考え方を理解する</td><td>最近傍法の手計算ワーク→TSPデモアプリで答え合わせ</td><td><span class="methodTag">CDIO：Design（設計）</span></td></tr>
+          <tr><td>5</td><td class="pill pblue">先生</td><td>自動運転・倉庫ロボットの基礎技術</td><td>倉庫自動化・積み下ろし支援ロボットの仕組みを理解する</td><td>AGV/AMRの動作原理講義＋シミュレータ操作</td><td><span class="methodTag">CDIO：Design（設計）</span></td></tr>
+          <tr><td>6</td><td class="pill porange">企業</td><td>倉庫自動化・ロボット導入の実例</td><td>自動化システムの実例を知る</td><td>【倉庫ロボット・自動化ベンダーへ依頼】デモ・導入効果を紹介してほしい</td><td><span class="methodTag">CDIO：Design（設計）／PBL連携：初期メンター＝例示役</span></td></tr>
+          <tr class="confirmed"><td>7</td><td class="pill pgreen">企業(確定)</td><td>DAY1 個人戦：問題理解とソリューション構築</td><td>社会課題を理解し個人でビジネスプランを作る</td><td>2026-11-16実施。ゲスト講師：木村好孝氏（NEC）。カードゲーム→個人実践→発表</td><td><span class="methodTag">CDIO：Implement（実行）／北極星指標：評価基準4軸の起点</span></td></tr>
+          <tr class="confirmed"><td>8</td><td class="pill pgreen">企業(確定)</td><td>DAY2 チーム戦：共創とプレゼンテーション</td><td>チームで事業化提案を作り評価基準4軸で評価される</td><td>2026-11-30実施。チーム編成→提案書作成→生成AI診断→投資判断プレゼン</td><td><span class="methodTag">CDIO：Implement（実行）／PBL連携：企業メンターが学生の応用を評価する後半フェーズ</span></td></tr>
+          <tr><td>9</td><td class="pill pblue">先生</td><td>振り返り・技術的リアリティの検証</td><td>事業化提案が2類技術で実現可能か検証する</td><td>DAY2提案をチームごとに再提出、先生が技術的にフィードバックする対話形式の授業</td><td><span class="methodTag">CDIO：Operate（運用）の開始／バックワードデザイン：北極星指標に向けた検証</span></td></tr>
+          <tr><td>10</td><td class="pill porange">企業</td><td>自治体・地域物流の視点</td><td>行政・地域の立場から見た物流課題を知る</td><td>【自治体・地域物流連携へ依頼】買い物難民支援・受け取り拠点の事例紹介</td><td><span class="methodTag">CDIO：Operate（運用）／PBL連携：後半メンター＝学生の応用範囲を広げる役</span></td></tr>
+          <tr><td>11</td><td class="pill pblue">先生</td><td>システム思考ワーク</td><td>ドライバー・企業・利用者・自治体をつなげて考える</td><td>4者を図に書き矢印で影響関係をつなぐワーク</td><td><span class="methodTag">CDIO：Operate（運用）</span></td></tr>
+          <tr><td>12</td><td class="pill porange">企業</td><td>環境・CO2削減の視点</td><td>物流の環境負荷という視点を学ぶ</td><td>【環境・カーボンニュートラル関連企業へ依頼】CO2削減の取り組み紹介</td><td><span class="methodTag">CDIO：Operate（運用）／PBL連携：後半メンター＝応用の幅出し</span></td></tr>
+          <tr><td>13</td><td class="pill pblue">先生</td><td>提案のブラッシュアップワーク</td><td>自治体・環境の視点を加えて提案を改訂する</td><td>チームごとに提案書を改訂し発表</td><td><span class="methodTag">CDIO：Operate（運用）</span></td></tr>
+          <tr><td>14</td><td class="pill porange">企業</td><td>別の物流企業からの講評</td><td>プロ視点での講評を受ける</td><td>【大手物流企業(ヤマト運輸等)へ依頼】学生提案に講評してほしい</td><td><span class="methodTag">CDIO：Operate（運用）／PBL連携：後半メンター＝評価者役</span></td></tr>
+          <tr><td>15</td><td class="pill pblue">先生</td><td>成果発表会・総括</td><td>半年間の学びをポートフォリオにまとめる</td><td>発表会＋相互評価。評価はコマ8と同じ4軸基準を再利用</td><td><span class="methodTag">CDIO：Operate（運用）の総括／北極星指標：最終評価の一部</span></td></tr>
+        </table>
+      </div>
+      <div class="callout warn" style="margin-top:12px" data-cell-id="cur-unassigned">コマ3・6・10・12・14の企業は未選定です（依頼文自体は下書き済み・企業リストアップが次の一手）。逆瀬川先生ご本人が、拡張部分（コマ1〜6・9〜15）に賛成しているかもまだ確認できていません。</div>
     </section>
 
-    <!-- ③ 北極星指標 -->
+    <!-- ② 教育充実度指標(北極星＋補助5指標＋情報充足度レーダー。「指標に基づく支援」タブ) -->
     <section class="panel" id="panel-northstar">
       <div class="callout warn" data-cell-id="ns-tldr">
         <b>🎯 北極星指標：定期試験・レポートの点数</b><br>
@@ -220,19 +211,27 @@ table th{background:var(--soft)}
         <div class="kpi"><div class="label">補助②コマ進行度</div><div class="value">2/15確定</div></div>
         <div class="kpi"><div class="label">補助③企業多様性</div><div class="value">1/6確定</div></div>
         <div class="kpi"><div class="label">補助④マッチング精度</div><div class="value unknown">未算出</div></div>
+        <div class="kpi"><div class="label">補助⑤面白い・理解できた実感度</div><div class="value unknown">未算出</div></div>
       </div>
+      <p style="font-size:11.5px;color:var(--muted);margin:0 0 14px">補助④マッチング精度は、高専プラットフォーム側の意味マッチング精度改善CRが未完了のため算出方法自体が未確定。補助⑤は企業回（コマ3・6・10・12・14）の依頼文設計・実施結果アンケートが揃うまで未算出。</p>
 
       <div class="radarWrap">
         <svg id="radarChart" width="180" height="180" viewBox="0 0 180 180"></svg>
         <div style="flex:1;min-width:220px;font-size:12.5px">
           <b>📡 情報充足度診断（5軸）</b>
+          <p style="font-size:11.5px;color:var(--muted);margin:4px 0 0">コマ7・8の日程・ゲスト講師・教材が確定しているため、他3先生案件よりFeasibility（実行可能性）はやや高めに評価しているが、根拠のない数値は置いていない。</p>
           <ul id="radarWeakPoints" style="margin:6px 0 0;padding-left:18px"></ul>
         </div>
       </div>
 
-      <div class="discussBox">
+      <div class="discussBox" data-cell-id="ns-discuss">
         <b>🗣️ 今日、ここを議論してください</b>
-        <p>情報充足度が最も低いのは「当事者の声（Legitimacy）」です。逆瀬川先生ご本人が、コマ1〜6・9〜15の拡張部分に賛成しているかがまだ確認できていません。次に取るべき行動は、この意向確認です。</p>
+        <p>情報充足度が最も低いのは「当事者の声（Legitimacy）」です。逆瀬川先生ご本人が、コマ1〜6・9〜15の拡張13コマに賛成しているかがまだ確認できていません（バックワードデザイン上、目標からの逆算は済んでいるが、先生本人の承認という起点が未確定）。加えて、補助⑤「学生が面白く理解できているか」の観点から、以下のコマを名指しで指摘します：</p>
+        <ul>
+          <li><b>コマ4・5（先生回・講義＋ワーク中心）</b>：TSPデモやシミュレータ操作は用意されているが、企業回（コマ7・8）と比べて「体験の面白さ」を測る仕掛けがなく、補助⑤の設計が手薄。</li>
+          <li><b>コマ3・6・10・12・14（企業未選定の5コマ）</b>：企業タイプの仮説はあるが実在の企業が決まっていないため、依頼文の具体性・当日の面白さを事前に見積もれない。CDIOのOperate（運用）フェーズに位置づく後半4コマ（10・12・13・14）は特に、企業メンターの役割が「初期の例示役」から「後半の応用評価役」へ変化する設計（PBL連携ガイドラインの知見）になっているかを、企業確定前にもう一度確認する必要がある。</li>
+          <li><b>コマ9（先生回・振り返り）</b>：DAY2直後の技術的フィードバックという重要な回だが、学生が「面白い」と感じる仕掛け（例：チーム対抗・実機デモ）がまだ設計されていない。</li>
+        </ul>
       </div>
 
       <div class="traceWrap">
@@ -241,92 +240,76 @@ table th{background:var(--soft)}
           <li>2026-09-07　旧page（case-kagoshima.html・8セクション構成）作成：Mission in LOGI-TECHのカードゲーム内容を反映</li>
           <li>2026-09-09　15コマ提案として拡張。コマ7・8を確定済み、他13コマを仮説として整理</li>
           <li>2026-09-12　NEC自身が企業登録カードを2件登録（木村好孝氏・NEC法人）— Evidence/Feasibilityの根拠が強化された</li>
-          <li>2026-09-15　カリキュラム作成エージェントにより6タブ構成へ再構築（本ページ）</li>
+          <li>2026-09-15　カリキュラム作成エージェントにより6タブ構成へ再構築</li>
+          <li>2026-09-23　カリキュラム作成エージェント マスター仕様書改訂（差分3）に伴い、3タブ構成（カリキュラム案→教育充実度指標→事例）へ全面改修。左右パネルをしまてつだい側の完成形（sidePanel方式）に統一し、セル編集スクリプトを高専専用のkosen-cell-editor.jsに切替</li>
         </ul>
       </div>
     </section>
 
-    <!-- ③ 提案と評価 -->
-    <section class="panel" id="panel-proposal">
-      <h3>各案の詳細</h3>
-      <div class="card"><b>案A：コア最小化</b><br>短期：11月実施に集中、準備負担が最小。中期：半年15コマに届かず、翌学期に拡張が必要。長期：実施実績を積みやすく、翌年度以降の拡張材料になる。</div>
-      <div class="card"><b>案B：一括フル拡張</b><br>短期：残り5企業タイプの手配が11月までに間に合わないリスクが高い。中期：完成度の高い15コマが最初から手に入る。長期：手配の質が粗くなるリスク。</div>
-      <div class="card"><b>案C：段階拡張（推奨候補）</b><br>短期：コマ1・2・9のみ先生回として先行実施。中期：DAY1・DAY2の結果を反映してコマ10〜15を確定。長期：実施結果に基づく質の高いカリキュラムに育つが、確定まで半年以上かかる可能性。</div>
-      <div class="tableWrap">
-        <table>
-          <tr><th>案</th><th>実施可能性</th><th>完成度</th><th>合意しやすさ</th></tr>
-          <tr><td>A. コア最小化</td><td class="pill pgreen">◎</td><td class="pill porange">△</td><td class="pill pgreen">◎</td></tr>
-          <tr><td>B. 一括フル拡張</td><td class="pill pred">△</td><td class="pill pgreen">◎</td><td class="pill pred">△</td></tr>
-          <tr><td>C. 段階拡張</td><td class="pill pblue">○</td><td class="pill pblue">○</td><td class="pill pblue">○</td></tr>
-        </table>
-      </div>
-    </section>
-
-    <!-- ④ 事例(企業タイプ別・出前授業一覧) -->
+    <!-- ③ 事例(世の中の企業教育の実例調査＋支援制度) -->
     <section class="panel" id="panel-cases">
-      <h3>企業タイプ別・出前授業一覧（設計したカリキュラムに近い企業）</h3>
+      <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">世の中の企業教育（PBL・出前授業等）をWeb検索で実際に調査し、本カリキュラムが企業に依頼している内容（物流DX・倉庫ロボット・カードゲーム型PBL・自治体連携・環境/CO2削減）に近い事例を選んで掲載する。</p>
+
+      <h3>✅ 参考になる事例</h3>
+      <div class="caseCard good" data-cell-id="case-good-1">
+        <b>苫小牧工業高等専門学校「専攻科共同教育・企業3社によるPBL授業」</b>
+        企業3社が参画し、実在の技術課題を高専生がチームで解決するPBL型の共同授業。企業が課題設定から評価まで一貫して伴走する構成は、Mission in LOGI-TECHのようなカードゲーム＋チーム提案型のPBLと同じ骨格を持つ。
+        <span class="near">近い回：コマ7・8（企業がファシリテーターとして参画するチーム型PBL本体）</span>
+      </div>
+      <div class="caseCard good" data-cell-id="case-good-2">
+        <b>株式会社プロジェクトデザイン「カードゲーム×探究学習プログラム」</b>
+        企業・自治体との協働を前提に、社会課題解決や新規事業創出をカードゲームで体験させる研修プログラムを学校向けに提供。ゲームのルール説明→個人/チーム実践→発表という流れが、Mission in LOGI-TECHのDAY1/DAY2構成と一致する。
+        <span class="near">近い回：コマ7・8（カードゲーム型PBLの進行設計そのもの）</span>
+      </div>
+      <div class="caseCard good" data-cell-id="case-good-3">
+        <b>佐世保工業高等専門学校「出前授業」プログラム</b>
+        高専側が企業・地域から講師を招く出前授業の運用実績があり、単発の企業訪問講義をカリキュラムに組み込む型の参考になる。
+        <span class="near">近い回：コマ3・6・10・12・14（企業未選定の単発企業回の運用モデル）</span>
+      </div>
+      <div class="caseCard good" data-cell-id="case-good-4">
+        <b>経済産業省「未来の教室」実証事業</b>
+        企業・自治体と学校が連携するPBL型学習を国の実証事業として制度化し、企業側の負担軽減や継続的な連携の型を蓄積している。自治体連携・環境教育を含む幅広い企業タイプの参画実績がある。
+        <span class="near">近い回：コマ10（自治体連携）・コマ12（環境・CO2削減）の企業依頼設計の参考</span>
+      </div>
+
+      <h3 style="margin-top:18px">⚠️ 要注意・調整が必要な事例</h3>
+      <div class="caseCard watch" data-cell-id="case-watch-1">
+        <b>三重大学ほか「産業界ニーズに対応した教育改善事業」アクティブラーニング失敗事例ハンドブック</b>
+        産学連携PBLで実際に生じた失敗（企業側の負担が学期末に偏る、学生の準備不足で企業講師の話が一方通行になる等）を体系的にまとめたハンドブック。コマ3・6・10・12・14のように企業が未確定のまま依頼文だけ先行していると、同様のミスマッチが起きるリスクがある。
+        <span class="near">近い回：コマ3・6・10・12・14（企業未選定の5コマ。依頼文と実際の企業のギャップに要注意）</span>
+      </div>
+      <div class="caseCard watch" data-cell-id="case-watch-2">
+        <b>倉庫自動化ベンダーのデモ主体プログラム（一般的な導入事例紹介型）</b>
+        ベンダーが自社製品のデモ・導入効果を紹介するだけの出前授業は、学生の「面白い・理解できた」実感（補助⑤）につながりにくいという指摘が一般的に多い。デモを見せるだけでなく、学生自身が操作・議論するワークを組み込む調整が必要。
+        <span class="near">近い回：コマ6（倉庫ロボット・自動化ベンダー回）。一方向のデモで終わらせない設計調整が必要</span>
+      </div>
+
+      <h3 style="margin-top:18px">💰 候補支援制度（小表・金額等は未確認のため「候補」扱い）</h3>
       <div class="tableWrap">
-        <table>
-          <tr><th>企業タイプ</th><th>該当コマ</th><th>手伝ってほしいこと</th><th>確定度</th></tr>
-          <tr><td>IT/DX企業（NEC）</td><td>7・8</td><td>企業活動講義・カードゲームファシリテーション</td><td><span class="pill pgreen">確定済み（木村好孝氏）</span></td></tr>
-          <tr><td>物流・運送会社</td><td>3</td><td>現場の人手不足・積載率低下の実態共有</td><td><span class="pill porange">未着手（仮説）</span></td></tr>
-          <tr><td>倉庫ロボット・自動化ベンダー</td><td>6</td><td>自動化システムのデモ・導入効果</td><td><span class="pill porange">未着手（仮説）</span></td></tr>
-          <tr><td>自治体・地域物流連携</td><td>10</td><td>地域内配送・受け取り拠点の実例紹介</td><td><span class="pill porange">未着手（仮説）</span></td></tr>
-          <tr><td>環境・カーボンニュートラル関連企業</td><td>12</td><td>物流の環境負荷低減取り組み紹介</td><td><span class="pill porange">未着手（仮説）</span></td></tr>
-          <tr><td>大手物流企業（ヤマト運輸等）</td><td>14</td><td>学生提案への講評</td><td><span class="pill pblue">中程度（DAY1で事例紹介済み）</span></td></tr>
+        <table data-cell-id="case-funding">
+          <tr><th>制度</th><th>想定される使いどころ</th><th>確認状況</th></tr>
+          <tr><td>経済産業省「未来の教室」実証事業</td><td>企業連携PBLの設計・運用ノウハウの参照、実証事業への応募</td><td class="pill porange">未確認（候補）</td></tr>
+          <tr><td>文部科学省 産業界ニーズ対応教育改善事業（高専・地域産業連携枠）</td><td>コマ3・6・10・12・14の企業リストアップ・連携体制構築の予算</td><td class="pill porange">未確認（候補）</td></tr>
+          <tr><td>J-FLEC（金融経済教育推進機構）の教育プログラム</td><td>事業化提案（コマ7・8）における投資判断プレゼンの評価基準づくりの参考</td><td class="pill porange">未確認（候補）</td></tr>
         </table>
       </div>
-      <div class="callout warn" style="margin-top:10px">他高専（米子・北九州・高知）の類似カリキュラムとの比較や、成功・失敗の事例収集はまだ行っていません。</div>
     </section>
 
-    <!-- ⑤ 議事録・投入データ -->
-    <section class="panel" id="panel-raw">
-      <h3>📄 先生の既存商材（事実）</h3>
-      <div class="tableWrap">
-        <table>
-          <tr><th>コマ</th><th>種別</th><th>内容</th></tr>
-          <tr><td>1</td><td>先生</td><td>オリエンテーション＋物流危機の全体像（有効求人倍率2.78倍・2030年25〜28万人不足・積載率40%以下）</td></tr>
-          <tr><td>2</td><td>先生</td><td>2類技術（半導体・ロボット・制御・電気電子）と物流課題の接続</td></tr>
-          <tr><td>7</td><td>企業(確定)</td><td>DAY1 個人戦：問題理解とソリューション構築（2026-11-16、木村好孝氏・NEC）</td></tr>
-          <tr><td>8</td><td>企業(確定)</td><td>DAY2 チーム戦：共創とプレゼンテーション（2026-11-30、評価基準4軸）</td></tr>
-          <tr><td>9</td><td>先生</td><td>振り返り・技術的リアリティの検証ワーク</td></tr>
-          <tr><td>15</td><td>先生</td><td>成果発表会・総括</td></tr>
-        </table>
-        <p style="font-size:11.5px;color:var(--muted)">※全15コマの詳細は元ページ（Notion）参照。コマ3〜6・10〜14は仮説。</p>
-      </div>
-      <h3 style="margin-top:16px">🗣️ ヒアリング・会議の発言（意見）</h3>
-      <div class="card">まだ議事メモは登録されていません。逆瀬川先生への意向確認結果を、ここに登録してください。</div>
-      <h3 style="margin-top:16px">📥 企業からの登録（NEC自己登録カード）</h3>
-      <div class="card"><b>木村好孝（NEC・デジタルワークプレイス統括部）</b>配送業界の課題解決を通じて「価値創造」の思考と方法論を学べる教育プログラムを提供可能。ペルソナ／問題／技術活用／パートナーシップの4観点で事業化を考える訓練ができる（2026-09-12登録）。</div>
-      <div class="card"><b>NEC（法人）</b>実験室の技術（ロボット・AI・センサー・ネットワーク）から現場課題へつなぐハッカソン形式の学習を展開可能。「誰が困っているか発見→仕組みを考える→AI/Webアプリで試作→使って直す」のサイクルを体験できる（2026-09-12登録）。</div>
-    </section>
+  </div>
+  </div>
 
-    <!-- ⑥ 過去のまとめ -->
-    <section class="panel" id="panel-history">
-      <div class="historyCard">
-        <b>旧版（2026-09-07・8セクション構成）</b>
-        <div class="metaRow">目的→企業紹介→問題提起→企業活動→社会価値創造→実行→成功事例→失敗事例、の8セクション構成。Mission in LOGI-TECHのカードゲーム内容を忠実に反映していたが、旧ナビ構造のため一時非表示だった。</div>
-        <details class="historySnapshot">
-          <summary>▼ 旧版の構成を見る</summary>
-          <p style="font-size:12.5px;margin-top:8px">目的（物流の2024年問題を2類技術で解決する人材育成）→企業紹介（NEC）→問題提起（ドライバー不足・積載率低下）→企業活動（Mission in LOGI-TECHカードゲーム）→社会価値創造→実行（DAY1/DAY2）→成功事例／失敗事例（実施前のため準備中）</p>
-        </details>
+  <aside class="sidePanel right" id="rightPanel">
+    <button type="button" class="panelToggle" id="rightToggle">💬 ダッシュボードに質問する <span id="rightToggleIcon">▲</span></button>
+    <div class="panelBody" id="rightBody">
+      <div class="chatLog" id="chatLog">
+        <p class="chatMsg hint">このカリキュラム（物流の2024年問題×2類技術）について、気になることを質問できます。（例：「まだ確定していない企業は？」）</p>
       </div>
-      <div class="historyCard">
-        <b>v1（2026-09-15・カリキュラム作成エージェント版・本ページ）</b>
-        <div class="metaRow">エージェント3の6タブ構成・北極星指標（定期試験・レポート点数）＋情報充足度5軸を導入。NEC自己登録カード（09-12）を反映。</div>
+      <div class="chatRow">
+        <input type="text" id="chatInput" placeholder="例：まだ確定していない企業は？">
+        <button type="button" id="chatSend">送信</button>
       </div>
-    </section>
-
-  </main>
-
-  <aside class="rightPane" id="rightPane">
-    <p class="paneTitle">💬 ダッシュボードに質問する <button class="paneToggle" data-toggle="rightPane">隠す</button></p>
-    <div class="chatLog" id="chatLog">中央の内容についてだけ、3〜5文で回答します。</div>
-    <div class="chatRow">
-      <input type="text" id="chatInput" placeholder="例：まだ確定していない企業は？">
-      <button id="chatSend">送信</button>
+      <p class="errMsg" id="chatErr" style="display:none">回答の生成に失敗しました。時間をおいて再度お試しください。</p>
     </div>
-    <p style="font-size:11px;color:var(--muted);margin-top:8px">※ 実装時は共通LLM抽象化レイヤー(dashboardChatモード)に接続してください。</p>
   </aside>
 
 </div>
@@ -342,11 +325,6 @@ function switchTab(tabName){
 }
 document.querySelectorAll('.tabBtn').forEach(function(btn){
   btn.addEventListener('click', function(){ switchTab(btn.dataset.tab); });
-});
-document.querySelectorAll('.paneToggle').forEach(function(btn){
-  btn.addEventListener('click', function(){
-    document.getElementById(btn.dataset.toggle).classList.toggle('collapsed');
-  });
 });
 
 function renderRadar(svgId, scores){
@@ -373,12 +351,11 @@ function renderRadar(svgId, scores){
   }).join('');
   svg.innerHTML = rings + '<polygon points="'+dataPts+'" fill="#7A5CCF55" stroke="#7A5CCF" stroke-width="2"/>' + labels;
 }
-var radarScores = { legitimacy: 30, evidence: 55, alignment: 75, feasibility: 45, impact: 35 };
+var radarScores = { legitimacy: 30, evidence: 55, alignment: 75, feasibility: 55, impact: 35 };
 renderRadar('radarChart', radarScores);
 var weakNotes = {
-  legitimacy: '次に確認：逆瀬川先生ご本人に、拡張13コマの構成でよいか意向確認する',
+  legitimacy: '次に確認：逆瀬川先生ご本人に、拡張13コマの構成でよいか意向確認する（コマ1〜6・9〜15）',
   evidence: '次に確認：他高専(米子・北九州・高知)の類似カリキュラムと比較する',
-  feasibility: '次に確認：残り5企業タイプ(物流・倉庫ロボット・自治体・環境・大手物流)の企業リストアップ',
   impact: '次に確認：コマ8の評価基準(4軸)を点数化の土台として、DAY1/DAY2実施後に測定する'
 };
 var wp = document.getElementById('radarWeakPoints');
@@ -390,23 +367,180 @@ Object.keys(weakNotes).forEach(function(k){
   }
 });
 
-var chatInput = document.getElementById('chatInput');
-chatInput.addEventListener('keydown', function(e){
-  if (e.key === 'Enter' && !(e.isComposing || e.keyCode === 229)) {
-    document.getElementById('chatSend').click();
+// --- 左右パネルの折りたたみ ---
+(function(){
+  function bindToggle(panelId, toggleId, iconId){
+    var panel = document.getElementById(panelId);
+    var toggle = document.getElementById(toggleId);
+    var icon = document.getElementById(iconId);
+    if (!panel || !toggle) return;
+    toggle.addEventListener('click', function(){
+      var collapsed = panel.classList.toggle('collapsed');
+      if (icon) icon.textContent = collapsed ? '▼' : '▲';
+    });
   }
-});
-document.getElementById('chatSend').addEventListener('click', function(){
-  var v = chatInput.value.trim();
-  if(!v) return;
+  bindToggle('leftPanel', 'leftToggle', 'leftToggleIcon');
+  bindToggle('rightPanel', 'rightToggle', 'rightToggleIcon');
+})();
+
+// --- 左: 資料投入エリアのファイルアップロード(.txt/.md/.pdf) ---
+(function(){
+  var fileInput = document.getElementById('genFile');
+  var fileStatus = document.getElementById('genFileStatus');
+  var notesEl = document.getElementById('genNotes');
+  if (!fileInput) return;
+
+  function readTextFile(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){ resolve(String(reader.result || '')); };
+      reader.onerror = function(){ reject(reader.error); };
+      reader.readAsText(file);
+    });
+  }
+  function readFileAsBase64(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){
+        var result = String(reader.result || '');
+        resolve(result.split(',')[1] || '');
+      };
+      reader.onerror = function(){ reject(reader.error); };
+      reader.readAsDataURL(file);
+    });
+  }
+  function appendNotes(text){
+    var current = notesEl.value.trim();
+    notesEl.value = current ? (current + '\n\n' + text) : text;
+  }
+
+  fileInput.addEventListener('change', async function(){
+    var file = fileInput.files && fileInput.files[0];
+    fileInput.value = '';
+    if (!file) return;
+    var lower = file.name.toLowerCase();
+    var isPdf = file.type === 'application/pdf' || lower.endsWith('.pdf');
+    var isTextLike = (file.type && file.type.indexOf('text/') === 0) || lower.endsWith('.txt') || lower.endsWith('.md');
+    if (!isPdf && !isTextLike) {
+      fileStatus.style.display = 'block';
+      fileStatus.style.color = 'var(--red)';
+      fileStatus.textContent = '.txt / .md / .pdf のいずれかのファイルを選択してください。';
+      return;
+    }
+    fileStatus.style.display = 'block';
+    fileStatus.style.color = 'var(--muted)';
+    fileStatus.textContent = isPdf ? 'PDFを読み取っています…(30秒ほどかかります)' : 'ファイルを読み込んでいます…';
+    try {
+      if (isTextLike) {
+        var text = await readTextFile(file);
+        appendNotes(text);
+      } else {
+        var dataBase64 = await readFileAsBase64(file);
+        var res = await fetch('/api/extract-document', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ fileName: file.name, mimeType: 'application/pdf', dataBase64: dataBase64 })
+        });
+        if (!res.ok) throw new Error('request failed');
+        var data = await res.json();
+        appendNotes(data.text);
+      }
+      fileStatus.style.display = 'none';
+    } catch (e) {
+      fileStatus.style.color = 'var(--red)';
+      fileStatus.textContent = 'ファイルの読み込みに失敗しました。時間をおいて再度お試しください。';
+    }
+  });
+})();
+
+// --- 左: 資料投入エリア → ダッシュボードに反映 ---
+(function(){
+  var submitBtn = document.getElementById('genSubmit');
+  var errEl = document.getElementById('genErr');
+  if (!submitBtn) return;
+  submitBtn.addEventListener('click', async function(){
+    var issueTitle = document.getElementById('genTitle').value.trim();
+    var sourceNotes = document.getElementById('genNotes').value.trim();
+    if (!sourceNotes) return;
+    errEl.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = '反映中…(30秒ほど)';
+    try {
+      var res = await fetch('/api/issue-summary', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ issueTitle: issueTitle, sourceNotes: sourceNotes })
+      });
+      if (!res.ok) throw new Error('request failed');
+      var data = await res.json();
+      window.__kagoshimaDashboardDraft = data.draft;
+      alert('内容を受け付けました。（先生の合い言葉での確認後、カリキュラムに反映されます）');
+    } catch (e) {
+      errEl.style.display = 'block';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'この内容をダッシュボードに反映する';
+    }
+  });
+})();
+
+// --- 右: 質問チャット ---
+(function(){
   var log = document.getElementById('chatLog');
-  log.innerHTML += '<div style="margin-top:6px"><b>Q:</b> '+v+'</div><div style="color:var(--muted)">（/api/dashboard-chat 実装後にAI回答がここに表示されます）</div>';
-  chatInput.value = '';
-});
-document.getElementById('reflectBtn').addEventListener('click', function(){
-  alert('この操作は /api/extract-document 等のバックエンド実装後に有効になります。');
-});
+  var input = document.getElementById('chatInput');
+  var sendBtn = document.getElementById('chatSend');
+  var errEl = document.getElementById('chatErr');
+  if (!sendBtn) return;
+
+  function appendMsg(role, text){
+    var div = document.createElement('div');
+    div.className = 'chatMsg ' + role;
+    div.textContent = text;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function currentDashboardContent(){
+    var curriculum = document.getElementById('panel-curriculum');
+    var base = curriculum ? curriculum.innerText : '';
+    if (window.__kagoshimaDashboardDraft) {
+      base += '\n\n---\n【資料投入エリアからの下書き】\n' + window.__kagoshimaDashboardDraft;
+    }
+    return base;
+  }
+
+  async function send(){
+    var q = input.value.trim();
+    if (!q) return;
+    errEl.style.display = 'none';
+    appendMsg('user', q);
+    input.value = '';
+    sendBtn.disabled = true;
+    try {
+      var res = await fetch('/api/dashboard-chat', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          issueTitle: '物流の2024年問題×2類技術（逆瀬川栄一先生・鹿児島高専）',
+          dashboardContent: currentDashboardContent(),
+          question: q
+        })
+      });
+      if (!res.ok) throw new Error('request failed');
+      var data = await res.json();
+      appendMsg('ai', data.draft);
+    } catch (e) {
+      errEl.style.display = 'block';
+    } finally {
+      sendBtn.disabled = false;
+    }
+  }
+  sendBtn.addEventListener('click', send);
+  input.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' && !(e.isComposing || e.keyCode === 229)) send();
+  });
+})();
 </script>
-<script src="/js/dashboard-cell-editor.js"></script>
+<script src="/js/kosen-cell-editor.js"></script>
 </body>
 </html>
