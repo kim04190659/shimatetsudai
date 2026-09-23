@@ -304,6 +304,15 @@ tr.confirmed td{background:var(--greenSoft)}
       <div class="chatLog" id="chatLog">
         <p class="chatMsg hint">このカリキュラム（物流の2024年問題×2類技術）について、気になることを質問できます。（例：「まだ確定していない企業は？」）</p>
       </div>
+            <div class="chatProviderRow">
+        <label for="chatProvider">回答モデル</label>
+        <select id="chatProvider" title="回答に使うAIモデルを選べます(未選択時はClaude)">
+          <option value="anthropic">Claude(既定・安定)</option>
+          <option value="sakura-llmjp">LLM-jp(さくら・国産)</option>
+          <option value="sakura-cotomi">NEC cotomi v3(さくら・国産)</option>
+          <option value="sakura-plamo">PLaMo 2.0-31B(さくら・国産)</option>
+        </select>
+      </div>
       <div class="chatRow">
         <input type="text" id="chatInput" placeholder="例：まだ確定していない企業は？">
         <button type="button" id="chatSend">送信</button>
@@ -490,6 +499,7 @@ Object.keys(weakNotes).forEach(function(k){
   var input = document.getElementById('chatInput');
   var sendBtn = document.getElementById('chatSend');
   var errEl = document.getElementById('chatErr');
+  var providerSelect = document.getElementById('chatProvider');
   if (!sendBtn) return;
 
   function appendMsg(role, text){
@@ -523,12 +533,14 @@ Object.keys(weakNotes).forEach(function(k){
         body: JSON.stringify({
           issueTitle: '物流の2024年問題×2類技術（逆瀬川栄一先生・鹿児島高専）',
           dashboardContent: currentDashboardContent(),
-          question: q
+          question: q,
+          provider: providerSelect ? providerSelect.value : undefined
         })
       });
       if (!res.ok) throw new Error('request failed');
       var data = await res.json();
-      appendMsg('ai', data.draft);
+      var modelNote = (data.provider && data.provider !== 'anthropic') ? ('\n\n(回答モデル: ' + data.provider + ')') : '';
+      appendMsg('ai', data.draft + modelNote);
     } catch (e) {
       errEl.style.display = 'block';
     } finally {
