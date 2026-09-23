@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>画像認識AI×水産業DX | 志久修先生（佐世保高専） カリキュラムダッシュボード</title>
+<style>
+:root{
+  --ink:#2C2C2B; --muted:#7D7A75; --line:#E6E5E3; --soft:#F9F8F7;
+  --blue:#2783DE; --blueSoft:#E5F2FC; --green:#46A171; --greenSoft:#E8F1EC;
+  --orange:#D5803B; --orangeSoft:#FBEBDE; --red:#E56458; --redSoft:#FCE9E7;
+  --purple:#7A5CCF; --purpleSoft:#EEE9FB; --gray:#B9B6B0; --graySoft:#F1F0EE;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#eee;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:var(--ink);font-size:14.5px;line-height:1.6}
+
+/* --- 左右の折りたたみパネル(資料投入エリア/質問チャット)
+   しまてつだい側の完成形(public/case-studies/yakushima-route-model-dss.html 等)のCSSをそのまま流用。 --- */
+.layout{display:flex;align-items:flex-start;max-width:1800px;margin:0 auto}
+.appWrap{flex:1;min-width:0}
+.sidePanel{flex:none;width:280px;background:#fff;position:sticky;top:0;max-height:100vh;overflow-y:auto;font-size:13px}
+.sidePanel.left{border-right:1px solid var(--line)}
+.sidePanel.right{border-left:1px solid var(--line)}
+.sidePanel.collapsed{width:44px;overflow:hidden}
+.sidePanel .panelToggle{position:sticky;top:0;width:100%;background:var(--soft);border:none;border-bottom:1px solid var(--line);padding:12px 14px;font-weight:800;font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px;text-align:left;color:var(--ink)}
+.sidePanel.collapsed .panelToggle{writing-mode:vertical-rl;text-orientation:mixed;height:100%;justify-content:flex-start;padding:14px 6px}
+.sidePanel.collapsed .panelBody{display:none}
+.sidePanel .panelBody{padding:14px}
+.chatLog{max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.chatMsg{border-radius:10px;padding:8px 10px;font-size:12.5px;line-height:1.5;max-width:92%}
+.chatMsg.user{align-self:flex-end;background:var(--blue);color:#fff}
+.chatMsg.ai{align-self:flex-start;background:var(--soft);border:1px solid var(--line)}
+.chatMsg.hint{color:var(--muted);font-size:11.5px}
+.sidePanel input[type=text],.sidePanel textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px;font-family:inherit;box-sizing:border-box}
+.sidePanel textarea{resize:vertical}
+.sidePanel label{display:block;font-size:11px;font-weight:800;color:var(--muted);margin:0 0 4px}
+.sidePanel .field{margin-bottom:10px}
+.sidePanel button.primaryBtn{width:100%;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:10px;font-weight:800;font-size:12.5px;cursor:pointer}
+.sidePanel button.primaryBtn:disabled{opacity:.5;cursor:default}
+.sidePanel .chatRow{display:flex;gap:6px}
+.sidePanel .chatRow input{flex:1}
+.sidePanel .chatRow button{flex:none;border:none;background:var(--blue);color:#fff;border-radius:999px;padding:0 14px;font-weight:800;font-size:12px;cursor:pointer}
+.sidePanel .chatProviderRow{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:11px;color:var(--muted)}
+.sidePanel .chatProviderRow select{flex:1;font-size:11px;padding:3px 6px;border-radius:8px;border:1px solid #ddd;background:#fff}
+.sidePanel .errMsg{color:var(--red);font-size:11.5px;margin-top:6px}
+@media(max-width:900px){
+  .layout{display:block}
+  .sidePanel{position:static;width:100%;max-height:none;border:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sidePanel.collapsed{width:100%}
+  .sidePanel.collapsed .panelToggle{writing-mode:horizontal-tb;height:auto;padding:12px 14px}
+}
+
+.app{max-width:1200px;margin:0 auto;background:#fff;min-height:100vh}
+.hero{background:#fff;border-bottom:1px solid var(--line);padding:18px 20px}
+.hero h1{font-size:17px;margin:0 0 4px}
+.hero .sub{color:var(--muted);font-size:12.5px;margin:0 0 10px}
+.methodNote{color:#165c9d;font-weight:700;font-size:12.5px;margin:0 0 12px}
+.decisionQ{background:var(--blueSoft);border-radius:10px;padding:9px 12px;font-size:12.5px;font-weight:700;color:#165c9d;margin:0 0 12px}
+.kpiRow{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.kpi{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.kpi .label{font-size:11px;color:var(--muted)}
+.kpi .value{font-size:19px;font-weight:800;margin-top:2px}
+.kpi .value.unknown{color:var(--muted);font-size:13px;font-weight:700}
+
+.tabs{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:6px;background:var(--soft);padding:10px 20px;border-bottom:1px solid var(--line)}
+.tabBtn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;color:var(--ink)}
+.tabBtn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+.panel{display:none;background:#fff;padding:18px 20px 28px}
+.panel.active{display:block}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:var(--soft)}
+.callout{border-radius:12px;padding:10px 14px;margin:10px 0;font-size:13px}
+.callout.ok{background:var(--greenSoft);border:1px solid var(--green)}
+.callout.warn{background:var(--orangeSoft);border:1px solid var(--orange)}
+.callout.risk{background:var(--redSoft);border:1px solid var(--red)}
+.tableWrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+table th,table td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+table th{background:var(--soft)}
+.pill{display:inline-block;border-radius:999px;padding:2px 9px;font-size:11px;font-weight:800}
+.pill.pblue{background:var(--blueSoft);color:#165c9d}
+.pill.pgreen{background:var(--greenSoft);color:#2f6b4f}
+.pill.porange{background:var(--orangeSoft);color:#8a5322}
+.pill.pred{background:var(--redSoft);color:#a3352c}
+.pill.pgray{background:var(--graySoft);color:#605d57}
+tr.confirmed td{background:var(--greenSoft)}
+.methodTag{display:block;margin-top:3px;font-size:11px;color:#5d47a3}
+
+/* 北極星指標タブ */
+.radarWrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:0 0 16px;padding:14px 16px;border:2px solid var(--purple);background:var(--purpleSoft);border-radius:14px}
+.discussBox{border:2px solid var(--orange);background:var(--orangeSoft);border-radius:12px;padding:12px 14px;margin:14px 0}
+.discussBox b{display:block;margin-bottom:6px}
+.discussBox ul{margin:6px 0 0;padding-left:18px}
+.discussBox li{margin:4px 0}
+.traceWrap{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--soft);margin:10px 0}
+.traceWrap ul{margin:6px 0 0;padding-left:18px;font-size:12.5px}
+.traceWrap li{margin:4px 0}
+
+/* 事例タブ */
+.caseCard{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:#fff}
+.caseCard b{display:block;font-size:13.5px;margin-bottom:4px}
+.caseCard .near{display:block;margin-top:6px;font-size:11.5px;color:var(--muted)}
+.caseCard.good{border-left:5px solid var(--green)}
+.caseCard.watch{border-left:5px solid var(--red)}
+
+@media(max-width:900px){.kpiRow{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body data-kosen-slug="case-sasebo" data-issue-page-id="3e4960a91e2381df9430fdba41b5394c">
+
+<div class="layout">
+
+  <aside class="sidePanel left" id="leftPanel">
+    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▲</span></button>
+    <div class="panelBody" id="leftBody">
+      <div class="field">
+        <label for="genTitle">カリキュラムのタイトル</label>
+        <input type="text" id="genTitle" value="画像認識AI×水産業DX（志久修先生・佐世保高専）">
+      </div>
+      <div class="field">
+        <label for="genNotes">議事録・企業からの連絡・実施結果など(貼り付け)</label>
+        <textarea id="genNotes" rows="8" placeholder="志久先生とのやり取りや、企業からの連絡・実施結果をここに貼り付けてください"></textarea>
+      </div>
+      <div class="field">
+        <label for="genFile">または、ファイルをアップロード(.txt / .md / .pdf)</label>
+        <input type="file" id="genFile" accept=".txt,.md,.pdf,text/plain,text/markdown,application/pdf">
+        <p class="errMsg" id="genFileStatus" style="display:none;color:var(--muted)"></p>
+      </div>
+      <button type="button" class="primaryBtn" id="genSubmit">この内容をダッシュボードに反映する</button>
+      <p class="errMsg" id="genErr" style="display:none">生成中にエラーが発生しました。時間をおいて再度お試しください。</p>
+    </div>
+  </aside>
+
+  <div class="appWrap" id="appWrap">
+  <div class="app">
+
+    <div class="hero">
+      <h1>🐟 画像認識AI×水産業DX（志久修先生・佐世保高専 仮説案）</h1>
+      <p class="sub">情報知能工学科 教授｜半年15コマ（年間30コマの前半・想定）｜カリキュラム作成エージェント版・3タブ構成（2026-09-23作成）</p>
+      <p class="sub" style="color:#a3352c;font-weight:800">⚠️ 本ページは志久先生ご本人への確認前の仮説です。researchmap上で確認できたA-STEP採択課題「魚市場での魚種選別のための深層学習を用いた魚画像認識技術の開発」（実在の競争的資金つき研究）をもとにしていますが、教育活動・出前授業としての実績はresearchmap上に見当たらず、この方向性への関心はご本人に未確認です。</p>
+      <p class="methodNote">🎓 本カリキュラムはバックワードデザイン（逆向き設計）とCDIOフレームワーク（Conceive→Design→Implement→Operate）に基づいて設計されています（ただし方向性自体が本人未確認である点に留意）。</p>
+      <div class="decisionQ">🎯 今回決めるべき問い：志久先生ご本人に、水産業DX（魚種選別AI）をテーマにした教育活動への関心があるかを、どう確認するか？</div>
+      <div class="kpiRow">
+        <div class="kpi"><div class="label">15コマ中 確定済み</div><div class="value">0コマ（全て仮説）</div></div>
+        <div class="kpi"><div class="label">候補企業タイプ</div><div class="value">5タイプ（全て未着手）</div></div>
+        <div class="kpi"><div class="label">先生ご本人への確認</div><div class="value unknown">未実施</div></div>
+        <div class="kpi"><div class="label">研究実績との一致</div><div class="value" style="font-size:14px">中〜高（A-STEP採択あり）</div></div>
+      </div>
+    </div>
+
+    <nav class="tabs">
+      <button class="tabBtn active" data-tab="curriculum">📅 カリキュラム案</button>
+      <button class="tabBtn" data-tab="northstar">🌟 教育充実度指標</button>
+      <button class="tabBtn" data-tab="cases">🌍 事例</button>
+    </nav>
+
+    <!-- ① カリキュラム案(15コマ授業計画) -->
+    <section class="panel active" id="panel-curriculum">
+      <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">志久先生は文字認識・画像処理・パターン認識を長年専門とし、近年は科学技術振興機構A-STEP（研究成果最適展開支援プログラム）トライアウトに採択された「魚市場での魚種選別のための深層学習を用いた魚画像認識技術の開発」に取り組んでいる。水産業が盛んな佐世保・長崎という地域性とも直結するテーマであり、本カリキュラムはこの研究を教材化する仮説案。表の「設計手法上の位置づけ」列は、各回がCDIOのどのフェーズ（構想・設計・実行・運用）に対応するかを示す。</p>
+
+      <div class="callout warn" data-cell-id="cur-conclusion">
+        <b>⚠️ 現在のステータス・次の一手</b>
+        15コマの骨格は、志久先生の実在の研究テーマ（A-STEP採択課題）から逆算して設計した仮説です。確定済みコマ・確定企業は現時点で0です。次の一手はカリキュラムの精緻化ではなく、志久先生ご本人に「魚種選別AI×水産業DX」というテーマでの教育活動に関心があるかを確認することです。
+      </div>
+
+      <h3>先生への確認方法（案の比較）</h3>
+      <div class="tableWrap">
+        <table data-cell-id="cur-options">
+          <tr><th>案</th><th>内容</th><th>CDIO上の位置づけ</th><th>実施可能性</th><th>完成度</th><th>合意しやすさ</th></tr>
+          <tr><td>A. 仮説のまま提示</td><td>現在の15コマ仮説案をそのまま見せて意見を聞く</td><td>Conceiveの起点を仮説から始める</td><td class="pill pblue">○</td><td class="pill pgreen">◎</td><td class="pill porange">△</td></tr>
+          <tr><td>B. 白紙で関心を伺う</td><td>テーマを提示せず「どんな社会実装に関心があるか」から聞く</td><td>Conceiveを先生本人の意向から始める</td><td class="pill pgreen">◎</td><td class="pill pred">△</td><td class="pill pgreen">◎</td></tr>
+          <tr><td>C. 仮説を参考資料として添えつつ白紙で聞く（推奨候補）</td><td>「一案として水産業DXも考えられますが、他にご関心はありますか」という聞き方をする</td><td>Conceiveの起点（先生の意向）を尊重しつつ仮説を無駄にしない</td><td class="pill pblue">○</td><td class="pill pblue">○</td><td class="pill pblue">○</td></tr>
+        </table>
+      </div>
+
+      <h3 style="margin-top:16px">15コマ 授業計画（半年・仮説ベース／志久先生への確認前）</h3>
+      <div class="tableWrap">
+        <table data-cell-id="cur-schedule">
+          <tr><th>回</th><th>区分</th><th>テーマ</th><th>学習目標</th><th>活動内容／企業への依頼内容</th><th>設計手法上の位置づけ</th></tr>
+          <tr><td>1</td><td class="pill pblue">先生</td><td>オリエンテーション＋パターン認識とは何か</td><td>「コンピュータが見る」ことの難しさと、文字認識研究の歴史を理解する</td><td>講義＋簡単な画像分類デモ体験</td><td><span class="methodTag">CDIO：Conceive（構想）／北極星から逆算した導入回</span></td></tr>
+          <tr><td>2</td><td class="pill pblue">先生</td><td>画像処理の基礎</td><td>特徴量抽出・エッジ検出など画像処理の基本操作を理解する</td><td>講義＋演習（簡易な画像フィルタ処理）</td><td><span class="methodTag">CDIO：Conceive→Design（構想→設計）</span></td></tr>
+          <tr><td>3</td><td class="pill porange">企業</td><td>魚市場・水産現場の課題共有</td><td>熟練の目利きが担ってきた魚種選別の技術と、後継者不足という現場課題を知る</td><td>【地元漁協・魚市場関係者へ依頼】目利きの技術・後継者不足の実態を現場目線で紹介してほしい</td><td><span class="methodTag">CDIO：Design（設計）／PBL連携：初期メンター＝既有知識の活性化・例示役</span></td></tr>
+          <tr><td>4</td><td class="pill pblue">先生</td><td>深層学習（CNN）の基礎</td><td>畳み込みニューラルネットワークによる画像分類の考え方を理解する</td><td>講義＋簡易なCNNモデルの仕組み解説</td><td><span class="methodTag">CDIO：Design（設計）</span></td></tr>
+          <tr><td>5</td><td class="pill pblue">先生</td><td>魚種分類モデル構築ワーク①</td><td>公開データセットを使い、簡易な魚種分類モデルを組んでみる</td><td>グループでのモデル構築演習</td><td><span class="methodTag">CDIO：Design（設計）</span></td></tr>
+          <tr><td>6</td><td class="pill porange">企業</td><td>AI×水産業導入の実例</td><td>実際の魚市場でのAI魚種選別機導入事例・効果・課題を知る</td><td>【AI×水産DXベンダー・水産研究機関へ依頼】実証試験・導入事例を紹介してほしい</td><td><span class="methodTag">CDIO：Design（設計）／PBL連携：初期メンター＝例示役</span></td></tr>
+          <tr><td>7</td><td class="pill pblue">先生</td><td>モデル精度評価とその限界</td><td>誤分類がなぜ起きるか、モデルの限界をどう理解するかを学ぶ</td><td>精度評価指標の講義＋誤分類事例の分析ワーク</td><td><span class="methodTag">CDIO：Implement（実行）の開始／バックワードデザイン：評価設計への接続</span></td></tr>
+          <tr><td>8</td><td class="pill porange">企業</td><td>実データを使ったケーススタディ提供</td><td>コマ5のモデルを実際の魚市場データで検証する</td><td>【地元魚市場・漁協(コマ3とは別)へ依頼】検証用の魚画像データ（匿名化・簡略化可）を提供してほしい</td><td><span class="methodTag">CDIO：Implement（実行）／PBL連携：後半メンター＝応用の検証役</span></td></tr>
+          <tr><td>9</td><td class="pill pblue">先生</td><td>モデル改良ワーク②</td><td>フィードバックを踏まえてモデルを改良する</td><td>グループでのモデル改良演習</td><td><span class="methodTag">CDIO：Implement（実行）</span></td></tr>
+          <tr><td>10</td><td class="pill porange">企業</td><td>画像認識AI技術者の実務</td><td>画像認識技術が水産業以外の分野でどう実務活用されているかを知る</td><td>【画像認識AI技術者・スタートアップへ依頼】実務での画像認識活用実例を紹介してほしい</td><td><span class="methodTag">CDIO：Implement（実行）／PBL連携：後半メンター＝応用の幅出し</span></td></tr>
+          <tr><td>11</td><td class="pill pblue">先生</td><td>実データ検証・改善サイクルワーク</td><td>検証→改良のサイクルを繰り返し体験する</td><td>グループワーク</td><td><span class="methodTag">CDIO：Implement（実行）</span></td></tr>
+          <tr><td>12</td><td class="pill porange">企業</td><td>学生モデルへの講評</td><td>プロの視点での講評（前提の現実性、見落としているリスク等）を受ける</td><td>【水産加工・流通企業へ依頼】学生モデルへの講評、現場での使われ方の視点から意見してほしい</td><td><span class="methodTag">CDIO：Implement→Operate橋渡し／PBL連携：後半メンター＝学生の応用を評価する役</span></td></tr>
+          <tr><td>13</td><td class="pill pblue">先生</td><td>振り返り：パターン認識技術の社会実装の広がり</td><td>文字認識研究から魚種認識への展開のように、一つの技術が複数分野に広がる面白さを整理する</td><td>振り返り講義＋ディスカッション</td><td><span class="methodTag">CDIO：Operate（運用・振り返り）</span></td></tr>
+          <tr><td>14</td><td class="pill porange">企業</td><td>地域におけるAI・データサイエンス人材の実例紹介</td><td>「地元でAI・データサイエンスの力を使って働く」という選択肢の実例を知る</td><td>【地元IT・データサイエンス企業へ依頼】AI・画像認識分野で働く社員（できれば高専出身者）を紹介してほしい</td><td><span class="methodTag">CDIO：Operate（地域接続）</span></td></tr>
+          <tr><td>15</td><td class="pill pblue">先生</td><td>成果発表会・総括</td><td>半年間の学びをポートフォリオにまとめ、企業回で得た知見を自分の関心・キャリアに反映させる</td><td>発表会＋相互評価</td><td><span class="methodTag">CDIO：Operate（運用）の総括／バックワードデザイン：評価の回収</span></td></tr>
+        </table>
+      </div>
+      <div class="callout warn" style="margin-top:12px" data-cell-id="cur-unassigned">コマ3・6・8・10・12・14の企業（5タイプ：地元漁協・魚市場関係者／AI×水産DXベンダー・水産研究機関／画像認識AI技術者・スタートアップ／水産加工・流通企業／地元IT・データサイエンス企業）は全て未選定・未着手です。志久先生ご本人がこの方向性に賛成しているかもまだ確認できていません。</div>
+    </section>
+
+    <!-- ② 教育充実度指標(北極星＋補助5指標＋情報充足度レーダー。「指標に基づく支援」タブ) -->
+    <section class="panel" id="panel-northstar">
+      <div class="callout warn" data-cell-id="ns-tldr">
+        <b>🎯 北極星指標：定期試験・レポートの点数</b><br>
+        ①現在値：<b>未算出・実施前</b>（そもそも実施するかどうかも先生確認前の段階）<br>
+        ②比較対象：他高専の類似カリキュラムとまだ比較できていない<br>
+        ③原因：カリキュラム自体が志久先生への確認前の仮説段階<br>
+        ④次のアクション：点数化の土台を作る前に、まず志久先生へ「水産業DX（魚種選別AI）」というテーマ自体への関心を確認する
+      </div>
+      <div class="kpiRow" style="margin-bottom:14px">
+        <div class="kpi"><div class="label">補助①学生満足度</div><div class="value unknown">未算出</div></div>
+        <div class="kpi"><div class="label">補助②コマ進行度</div><div class="value">0/15確定</div></div>
+        <div class="kpi"><div class="label">補助③企業多様性</div><div class="value">0/5着手</div></div>
+        <div class="kpi"><div class="label">補助④マッチング精度</div><div class="value unknown">未算出</div></div>
+        <div class="kpi"><div class="label">補助⑤面白い・理解できた実感度</div><div class="value unknown">未算出</div></div>
+      </div>
+      <p style="font-size:11.5px;color:var(--muted);margin:0 0 14px">補助④マッチング精度は、高専プラットフォーム側の意味マッチング精度改善CRが未完了のため算出方法自体が未確定。補助⑤は企業回（コマ3・6・8・10・12・14）の依頼文設計・実施結果アンケートが揃うまで未算出。</p>
+
+      <div class="radarWrap">
+        <svg id="radarChart" width="180" height="180" viewBox="0 0 180 180"></svg>
+        <div style="flex:1;min-width:220px;font-size:12.5px">
+          <b>📡 情報充足度診断（5軸）</b>
+          <p style="font-size:11.5px;color:var(--muted);margin:4px 0 0">A-STEP採択という具体的な競争的資金の裏付けがあるためEvidenceは他の低確度案件より高めだが、志久先生ご本人の意向確認・企業選定がまだのため、LegitimacyとImpactは低い。</p>
+          <ul id="radarWeakPoints" style="margin:6px 0 0;padding-left:18px"></ul>
+        </div>
+      </div>
+
+      <div class="discussBox" data-cell-id="ns-discuss">
+        <b>🗣️ 今日、ここを議論してください</b>
+        <p>情報充足度が最も低いのは「当事者の声（Legitimacy）」です。志久先生ご本人が、この15コマ全体の前提である「魚種選別AI×水産業DX」という方向性に関心をお持ちかどうか、一切確認できていません。加えて、補助⑤「学生が面白く理解できているか」の観点から、以下のコマを名指しで指摘します：</p>
+        <ul>
+          <li><b>コマ4・7（CNNの基礎・精度評価と限界）</b>：深層学習の専門用語（畳み込み・精度指標等）が先行し、「難しくてわからない」という感想になりやすい回。補助⑤の観点で、数式だけでなく実際に触って結果を見られる工夫が手薄。</li>
+          <li><b>コマ3・8（地元漁協・魚市場への依頼・現場課題共有とデータ提供）</b>：現場の話を聞く・データをもらうだけで終わると、学生自身が「自分ごと」として考える仕掛けが弱くなるリスクがある。CDIOのDesign〜Implementフェーズに位置づく回だが、企業メンターが「例示役」から「学生の応用を促す役」へ変化する設計（PBL連携ガイドラインの知見）になっているか、企業確定前にもう一度確認する必要がある。</li>
+          <li><b>コマ13（振り返り：パターン認識技術の社会実装の広がり）</b>：志久先生ご自身の30年以上にわたる文字認識研究から魚種認識への展開という「研究者としてのストーリー」を先生ご本人の言葉で語っていただけると、補助⑤の観点で最も効果が高いと見込まれる回。ただし先生の関心・協力度合いが未確認のため実現できるかは不透明。</li>
+        </ul>
+      </div>
+
+      <div class="traceWrap">
+        <b>🧵 決定の跡（Decision Trace）</b>
+        <ul id="decisionTrace">
+          <li>2026-09-23　researchmap調査（志久修先生プロフィール・A-STEP採択課題「魚市場での魚種選別のための深層学習を用いた魚画像認識技術の開発」）に基づき、仮説カリキュラム15コマをNotionに作成</li>
+          <li>2026-09-23　カリキュラム作成エージェントにより3タブ構成のダッシュボードとして新規作成。他4先生分と同じsidePanel方式・kosen-cell-editor.jsを採用</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ③ 事例(世の中の企業教育の実例調査＋支援制度) -->
+    <section class="panel" id="panel-cases">
+      <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">世の中の企業教育（PBL・出前授業等）をWeb検索で実際に調査し、本カリキュラムが企業に依頼している内容（魚市場・水産現場の課題共有、AI×水産DX事例、実データ提供、画像認識AI実務、地域IT人材紹介）に近い事例を選んで掲載する。</p>
+
+      <h3>✅ 参考になる事例</h3>
+      <div class="caseCard good" data-cell-id="case-good-1">
+        <b>石巻魚市場でのAI魚種選別機の実証試験（日刊水産経済新聞報道）</b>
+        東北最大級の水揚げ拠点である石巻魚市場で、AIによる魚種自動選別機の実証試験が行われ、水産関係者が見学するなど注目を集めた実例。現場の目利き技術をAIがどう補完・代替しうるかという、本カリキュラムのテーマそのものの実証事例。
+        <span class="near">近い回：コマ3・6・8（現場の課題共有、AI×水産業導入の実例、実データでのケーススタディ）</span>
+      </div>
+      <div class="caseCard good" data-cell-id="case-good-2">
+        <b>東京大学 数理・データサイエンス・AI教育強化拠点コンソーシアム「MDA教育におけるPBLのつくり方（ベータ版）」</b>
+        データサイエンス・AI分野のPBL設計を体系化した公的なマニュアル。モデル構築→検証→改善というサイクル型のワーク設計の参考になる。
+        <span class="near">近い回：コマ5・9・11（モデル構築ワーク・改良ワーク・検証改善サイクルワーク群）</span>
+      </div>
+      <div class="caseCard good" data-cell-id="case-good-3">
+        <b>Study Valley「企業連携PBLで育むAI時代の探究力」</b>
+        企業と生徒が協働してAI時代の社会課題解決に取り組むPBLプログラムの設計知見を紹介する記事。企業側の技術者が生徒の探究にどう伴走するかという視点は、本カリキュラムの企業回設計の参考になる。
+        <span class="near">近い回：コマ10・14（画像認識AI技術者の実務紹介、地域IT・データサイエンス人材の実例紹介）</span>
+      </div>
+
+      <h3 style="margin-top:18px">⚠️ 要注意・調整が必要な事例</h3>
+      <div class="caseCard watch" data-cell-id="case-watch-1">
+        <b>AI×水産業の一般的な導入事例紹介（各種AI活用事例メディア）</b>
+        Web上で見つかるAI×漁業・水産業の事例の多くは、企業の「導入効果」を紹介するにとどまり、学生・生徒が自分で手を動かして体験する教育プログラムとしての実例は少ない。コマ6（AI×水産DXベンダーへの依頼）がデモ・事例紹介だけで終わると、補助⑤「面白い・理解できた」実感につながりにくいリスクがある。
+        <span class="near">近い回：コマ6（AI×水産業導入の実例紹介）。一方向の事例紹介で終わらせない設計調整が必要</span>
+      </div>
+      <div class="caseCard watch" data-cell-id="case-watch-2">
+        <b>深層学習モデル構築ワークにおける専門用語の壁（一般的な指摘）</b>
+        CNN・畳み込み・精度評価指標といった深層学習の専門用語は、他分野（金融教育のNPV/IRR等）と同様、先行して提示すると学習者が「難しくてわからない」と感じやすいという指摘が一般的に多い。コマ4・7は専門用語が集中する回であり、補助⑤の観点で調整が必要。
+        <span class="near">近い回：コマ4・7（CNNの基礎、モデル精度評価とその限界）</span>
+      </div>
+
+      <h3 style="margin-top:18px">💰 候補支援制度（小表・金額等は未確認のため「候補」扱い）</h3>
+      <div class="tableWrap">
+        <table data-cell-id="case-funding">
+          <tr><th>制度</th><th>想定される使いどころ</th><th>確認状況</th></tr>
+          <tr><td>科学技術振興機構 A-STEP（研究成果最適展開支援プログラム）</td><td>志久先生の既存採択課題そのもの。教材化・企業連携の際の相談先候補</td><td class="pill porange">未確認（候補・志久先生の既存採択課題）</td></tr>
+          <tr><td>文部科学省 産業界ニーズ対応教育改善事業（高専・地域産業連携枠）</td><td>コマ3・6・8・10・12・14の企業リストアップ・連携体制構築の予算</td><td class="pill porange">未確認（候補）</td></tr>
+          <tr><td>東京大学 数理・データサイエンス・AI教育強化拠点コンソーシアム 関連教材</td><td>コマ5・9・11のモデル構築・改良ワークの教材設計の参考</td><td class="pill porange">未確認（候補）</td></tr>
+        </table>
+      </div>
+    </section>
+
+  </div>
+  </div>
+
+  <aside class="sidePanel right" id="rightPanel">
+    <button type="button" class="panelToggle" id="rightToggle">💬 ダッシュボードに質問する <span id="rightToggleIcon">▲</span></button>
+    <div class="panelBody" id="rightBody">
+      <div class="chatLog" id="chatLog">
+        <p class="chatMsg hint">このカリキュラム（画像認識AI×水産業DX）について、気になることを質問できます。（例：「まだ確定していない企業は？」）</p>
+      </div>
+      <div class="chatProviderRow">
+        <label for="chatProvider">回答モデル</label>
+        <select id="chatProvider" title="回答に使うAIモデルを選べます(未選択時はClaude)">
+          <option value="anthropic">Claude(既定・安定)</option>
+          <option value="sakura-llmjp">LLM-jp(さくら・国産)</option>
+          <option value="sakura-cotomi">NEC cotomi v3(さくら・国産)</option>
+          <option value="sakura-plamo">PLaMo 2.0-31B(さくら・国産)</option>
+        </select>
+      </div>
+      <div class="chatRow">
+        <input type="text" id="chatInput" placeholder="例：まだ確定していない企業は？">
+        <button type="button" id="chatSend">送信</button>
+      </div>
+      <p class="errMsg" id="chatErr" style="display:none">回答の生成に失敗しました。時間をおいて再度お試しください。</p>
+    </div>
+  </aside>
+
+</div>
+
+<script>
+function switchTab(tabName){
+  document.querySelectorAll('.tabBtn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  var btn = document.querySelector('.tabBtn[data-tab="' + tabName + '"]');
+  var panel = document.getElementById('panel-' + tabName);
+  if (btn) btn.classList.add('active');
+  if (panel) panel.classList.add('active');
+}
+document.querySelectorAll('.tabBtn').forEach(function(btn){
+  btn.addEventListener('click', function(){ switchTab(btn.dataset.tab); });
+});
+
+function renderRadar(svgId, scores){
+  var axes = [
+    {key:'legitimacy', label:'当事者の声'}, {key:'evidence', label:'外部知見'},
+    {key:'alignment', label:'方針整合'}, {key:'feasibility', label:'実行可能性'},
+    {key:'impact', label:'効果見通し'}
+  ];
+  var cx=90, cy=90, r=70, svg=document.getElementById(svgId);
+  var pt = function(i, val){
+    var ang = -Math.PI/2 + i * (2*Math.PI/5);
+    var rad = r * (val/100);
+    return [cx + rad*Math.cos(ang), cy + rad*Math.sin(ang)];
+  };
+  var rings = '';
+  [0.25,0.5,0.75,1].forEach(function(f){
+    var pts = axes.map(function(a,i){ return pt(i, f*100).join(','); }).join(' ');
+    rings += '<polygon points="'+pts+'" fill="none" stroke="#ddd" stroke-width="1"/>';
+  });
+  var dataPts = axes.map(function(a,i){ return pt(i, scores[a.key]||0).join(','); }).join(' ');
+  var labels = axes.map(function(a,i){
+    var p = pt(i, 118);
+    return '<text x="'+p[0]+'" y="'+p[1]+'" font-size="9" text-anchor="middle" fill="#7D7A75">'+a.label+'</text>';
+  }).join('');
+  svg.innerHTML = rings + '<polygon points="'+dataPts+'" fill="#7A5CCF55" stroke="#7A5CCF" stroke-width="2"/>' + labels;
+}
+var radarScores = { legitimacy: 15, evidence: 55, alignment: 45, feasibility: 20, impact: 15 };
+renderRadar('radarChart', radarScores);
+var weakNotes = {
+  legitimacy: '次に確認：志久先生ご本人に、水産業DX（魚種選別AI）をテーマにした教育活動への関心があるか確認する（最優先）',
+  alignment: '次に確認：高専機構のSociety5.0人材育成方針・データサイエンス教育強化方針との具体的な接続を検証する',
+  feasibility: '次に確認：候補5企業タイプ（地元漁協・魚市場／AI×水産DXベンダー／画像認識AI技術者／水産加工・流通企業／地元IT企業）のリストアップに着手する',
+  impact: '次に確認：先生の意向確認後、コマ7の評価基準を点数化の土台として設計する'
+};
+var wp = document.getElementById('radarWeakPoints');
+Object.keys(weakNotes).forEach(function(k){
+  if ((radarScores[k]||0) < 50){
+    var li = document.createElement('li');
+    li.textContent = weakNotes[k];
+    wp.appendChild(li);
+  }
+});
+
+// --- 左右パネルの折りたたみ ---
+(function(){
+  function bindToggle(panelId, toggleId, iconId){
+    var panel = document.getElementById(panelId);
+    var toggle = document.getElementById(toggleId);
+    var icon = document.getElementById(iconId);
+    if (!panel || !toggle) return;
+    toggle.addEventListener('click', function(){
+      var collapsed = panel.classList.toggle('collapsed');
+      if (icon) icon.textContent = collapsed ? '▼' : '▲';
+    });
+  }
+  bindToggle('leftPanel', 'leftToggle', 'leftToggleIcon');
+  bindToggle('rightPanel', 'rightToggle', 'rightToggleIcon');
+})();
+
+// --- 左: 資料投入エリアのファイルアップロード(.txt/.md/.pdf) ---
+(function(){
+  var fileInput = document.getElementById('genFile');
+  var fileStatus = document.getElementById('genFileStatus');
+  var notesEl = document.getElementById('genNotes');
+  if (!fileInput) return;
+
+  function readTextFile(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){ resolve(String(reader.result || '')); };
+      reader.onerror = function(){ reject(reader.error); };
+      reader.readAsText(file);
+    });
+  }
+  function readFileAsBase64(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){
+        var result = String(reader.result || '');
+        resolve(result.split(',')[1] || '');
+      };
+      reader.onerror = function(){ reject(reader.error); };
+      reader.readAsDataURL(file);
+    });
+  }
+  function appendNotes(text){
+    var current = notesEl.value.trim();
+    notesEl.value = current ? (current + '\n\n' + text) : text;
+  }
+
+  fileInput.addEventListener('change', async function(){
+    var file = fileInput.files && fileInput.files[0];
+    fileInput.value = '';
+    if (!file) return;
+    var lower = file.name.toLowerCase();
+    var isPdf = file.type === 'application/pdf' || lower.endsWith('.pdf');
+    var isTextLike = (file.type && file.type.indexOf('text/') === 0) || lower.endsWith('.txt') || lower.endsWith('.md');
+    if (!isPdf && !isTextLike) {
+      fileStatus.style.display = 'block';
+      fileStatus.style.color = 'var(--red)';
+      fileStatus.textContent = '.txt / .md / .pdf のいずれかのファイルを選択してください。';
+      return;
+    }
+    fileStatus.style.display = 'block';
+    fileStatus.style.color = 'var(--muted)';
+    fileStatus.textContent = isPdf ? 'PDFを読み取っています…(30秒ほどかかります)' : 'ファイルを読み込んでいます…';
+    try {
+      if (isTextLike) {
+        var text = await readTextFile(file);
+        appendNotes(text);
+      } else {
+        var dataBase64 = await readFileAsBase64(file);
+        var res = await fetch('/api/extract-document', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ fileName: file.name, mimeType: 'application/pdf', dataBase64: dataBase64 })
+        });
+        if (!res.ok) throw new Error('request failed');
+        var data = await res.json();
+        appendNotes(data.text);
+      }
+      fileStatus.style.display = 'none';
+    } catch (e) {
+      fileStatus.style.color = 'var(--red)';
+      fileStatus.textContent = 'ファイルの読み込みに失敗しました。時間をおいて再度お試しください。';
+    }
+  });
+})();
+
+// --- 左: 資料投入エリア → ダッシュボードに反映 ---
+(function(){
+  var submitBtn = document.getElementById('genSubmit');
+  var errEl = document.getElementById('genErr');
+  if (!submitBtn) return;
+  submitBtn.addEventListener('click', async function(){
+    var issueTitle = document.getElementById('genTitle').value.trim();
+    var sourceNotes = document.getElementById('genNotes').value.trim();
+    if (!sourceNotes) return;
+    errEl.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = '反映中…(30秒ほど)';
+    try {
+      var res = await fetch('/api/issue-summary', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ issueTitle: issueTitle, sourceNotes: sourceNotes })
+      });
+      if (!res.ok) throw new Error('request failed');
+      var data = await res.json();
+      window.__saseboDashboardDraft = data.draft;
+      alert('内容を受け付けました。（先生の合い言葉での確認後、カリキュラムに反映されます）');
+    } catch (e) {
+      errEl.style.display = 'block';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'この内容をダッシュボードに反映する';
+    }
+  });
+})();
+
+// --- 右: 質問チャット ---
+(function(){
+  var log = document.getElementById('chatLog');
+  var input = document.getElementById('chatInput');
+  var sendBtn = document.getElementById('chatSend');
+  var errEl = document.getElementById('chatErr');
+  var providerSelect = document.getElementById('chatProvider');
+  if (!sendBtn) return;
+
+  function appendMsg(role, text){
+    var div = document.createElement('div');
+    div.className = 'chatMsg ' + role;
+    div.textContent = text;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function currentDashboardContent(){
+    var curriculum = document.getElementById('panel-curriculum');
+    var base = curriculum ? curriculum.innerText : '';
+    if (window.__saseboDashboardDraft) {
+      base += '\n\n---\n【資料投入エリアからの下書き】\n' + window.__saseboDashboardDraft;
+    }
+    return base;
+  }
+
+  async function send(){
+    var q = input.value.trim();
+    if (!q) return;
+    errEl.style.display = 'none';
+    appendMsg('user', q);
+    input.value = '';
+    sendBtn.disabled = true;
+    try {
+      var res = await fetch('/api/dashboard-chat', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          issueTitle: '画像認識AI×水産業DX（志久修先生・佐世保高専）',
+          dashboardContent: currentDashboardContent(),
+          question: q,
+          provider: providerSelect ? providerSelect.value : undefined
+        })
+      });
+      if (!res.ok) throw new Error('request failed');
+      var data = await res.json();
+      var modelNote = (data.provider && data.provider !== 'anthropic') ? ('\n\n(回答モデル: ' + data.provider + ')') : '';
+      appendMsg('ai', data.draft + modelNote);
+    } catch (e) {
+      errEl.style.display = 'block';
+    } finally {
+      sendBtn.disabled = false;
+    }
+  }
+  sendBtn.addEventListener('click', send);
+  input.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' && !(e.isComposing || e.keyCode === 229)) send();
+  });
+})();
+</script>
+<script src="/js/kosen-cell-editor.js"></script>
+</body>
+</html>
