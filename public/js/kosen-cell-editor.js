@@ -67,6 +67,7 @@
           }
           var target = document.querySelector('[data-cell-id="' + cssEscape(ov.cellId) + '"]');
           if (!target) return;
+          if (isTableLike(target)) return; // 表(TABLE)は上書き対象外(HTML構造破壊を防ぐ。下記isTableLike参照)
           target.textContent = ov.content;
           target.setAttribute("data-edited", "true");
           target.title = "先生による修正: " + (ov.editorName || "匿名") + "(" + formatDate(ov.updatedAt) + ")";
@@ -201,10 +202,19 @@
     });
   }
 
+  // 2026-09-27追記: テーブル(15コマ授業計画など)をcontenteditableにすると、
+  // クリックして離れた(blur)だけで全行が1本のテキストに潰れてNotionへ保存されてしまい、
+  // 表の構造(<tr><td>...)が壊れる事故が実際に発生した(米子高専・case-yonago cur-schedule)。
+  // TABLE要素そのもの、およびTABLEを内包する要素は、この手修正の対象から除外する。
+  function isTableLike(cell) {
+    return cell.tagName === "TABLE" || !!cell.querySelector("table");
+  }
+
   // ---- 4. 編集モードのON/OFF ----
   function enableEditMode() {
     editMode = true;
     document.querySelectorAll("[data-cell-id]").forEach(function (cell) {
+      if (isTableLike(cell)) return; // 表は手修正の対象外(上記の事故防止)
       cell.style.outline = "2px dashed #c96f42";
       cell.style.cursor = "text";
       cell.setAttribute("contenteditable", "true");
@@ -215,6 +225,7 @@
   function disableEditMode() {
     editMode = false;
     document.querySelectorAll("[data-cell-id]").forEach(function (cell) {
+      if (isTableLike(cell)) return;
       cell.style.outline = "";
       cell.style.cursor = "";
       cell.removeAttribute("contenteditable");
