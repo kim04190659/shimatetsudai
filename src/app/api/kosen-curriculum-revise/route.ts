@@ -23,6 +23,20 @@ import { upsertKosenCellOverride, appendCurriculumRevisionRecord } from "@/lib/n
 
 export const runtime = "nodejs";
 
+// 2026-09-27(第2版): 15コマ表(cur-schedule)を「行データのJSON配列」として安全に更新できるようにした。
+// (経緯: 当初は表を直接書き換えないルールだったが、それとは別口で、先生ページの手修正モードが
+//  TABLE要素をcontenteditableにしてしまい、表がテキストとして潰れて壊れる事故が実際に発生した。
+//  そこで表は常に「構造化データ→DOM組み立て」を経由させ、プレーンテキストのtextContent代入を
+//  一切経由しないようにした。これにより、AIによる表の更新も安全に行えるようになった)
+type ScheduleRow = {
+  no: number;
+  category: string; // "先生" | "企業"
+  theme: string;
+  goal: string;
+  activity: string;
+  methodNote: string;
+};
+
 type CurrentDashboardContent = {
   conclusionText: string;
   unassignedText: string;
@@ -30,6 +44,7 @@ type CurrentDashboardContent = {
   discussText: string;
   radarScores: Record<string, number>;
   weakNotes: Record<string, string>;
+  scheduleRows?: ScheduleRow[];
 };
 
 type CurriculumRevisionResult = {
@@ -40,7 +55,25 @@ type CurriculumRevisionResult = {
   discussText: string;
   radarScores: Record<string, number>;
   weakNotes: Record<string, string>;
+  scheduleRows?: ScheduleRow[];
 };
+
+function isValidScheduleRows(value: unknown): value is ScheduleRow[] {
+  if (!Array.isArray(value) || value.length !== 15) return false;
+  return value.every((row, i) => {
+    if (!row || typeof row !== "object") return false;
+    const r = row as Record<string, unknown>;
+    return (
+      typeof r.no === "number" &&
+      r.no === i + 1 &&
+      typeof r.category === "string" &&
+      typeof r.theme === "string" &&
+      typeof r.goal === "string" &&
+      typeof r.activity === "string" &&
+      typeof r.methodNote === "string"
+    );
+  });
+}
 
 // Claudeへは「コードフェンスなしでJSONのみ返す」よう指示しているが(prompt.ts参照)、
 // 実際には ```json ... ``` で囲んで返してくることがある(2026-09-27 実運用で確認)。
@@ -132,6 +165,13 @@ export async function POST(req: NextRequest) {
       radarScores: typeof parsed.radarScores === "object" && parsed.radarScores ? parsed.radarScores : current.radarScores,
       weakNotes: typeof parsed.weakNotes === "object" && parsed.weakNotes ? parsed.weakNotes : current.weakNotes,
     };
+    // scheduleRowsは表の変更依頼のときだけAIが返す(出力ルール参照)。
+    // 15要素・no=1..15の並びが崩れている場合は、表の破損を防ぐため無視する(他の更新は継続する)。
+    if (isValidScheduleRows(parsed.scheduleRows)) {
+      result.scheduleRows = parsed.scheduleRows;
+    } else if (parsed.scheduleRows !== undefined) {
+      console.warn("kosen-curriculum-revise: scheduleRowsの形式が不正なため無視しました", parsed.scheduleRows);
+    }
   } catch (err) {
     console.error("kosen-curriculum-revise LLM error:", err);
     return NextResponse.json({ error: "AIによる反映案の生成に失敗しました" }, { status: 502 });
@@ -139,7 +179,7 @@ export async function POST(req: NextRequest) {
 
   const editorName = session.editorName;
   try {
-    await Promise.all([
+    const writes = [
       upsertKosenCellOverride({ slug, cellId: "cur-conclusion", content: result.conclusionText, editorName }),
       upsertKosenCellOverride({ slug, cellId: "cur-unassigned", content: result.unassignedText, editorName }),
       upsertKosenCellOverride({ slug, cellId: "ns-tldr", content: result.northstarTldrText, editorName }),
@@ -156,7 +196,20 @@ export async function POST(req: NextRequest) {
         content: JSON.stringify(result.weakNotes),
         editorName,
       }),
-    ]);
+    ];
+    // 表(15コマ授業計画)の変更依頼だったときだけ、行データを予約セルID(cur-schedule-rows)に保存する。
+    // 通常のcur-scheduleセル(TABLE要素本体)には絶対に書き込まない(textContent代入による構造破壊を防ぐため)。
+    if (result.scheduleRows) {
+      writes.push(
+        upsertKosenCellOverride({
+          slug,
+          cellId: "cur-schedule-rows",
+          content: JSON.stringify(result.scheduleRows),
+          editorName,
+        })
+      );
+    }
+    await Promise.all(writes);
   } catch (err) {
     console.error("kosen-curriculum-revise save error:", err);
     return NextResponse.json({ error: "反映内容の保存に失敗しました" }, { status: 502 });

@@ -388,6 +388,63 @@ window.__kosenApplyWeakNotes = function(notes){
   rebuildRadarWeakPoints();
 };
 
+// 2026-09-27(第2版)追記: 15コマ授業計画の表(cur-schedule)を、先生自身による修正依頼から
+// 安全に更新できるようにする。表を直接textContentで上書きするとHTML構造(<tr><td>)が壊れるため、
+// 表の中身は常に「行データの配列(scheduleRows)」として持ち、renderScheduleTable()がDOM APIで
+// <tr><td>を都度組み立て直す(innerHTML/textContentの丸ごと代入は一切行わない)。
+var scheduleRows = [
+  { no: 1, category: '先生', theme: 'オリエンテーション＋太陽光発電の技術基礎', goal: '発電原理・変換効率・設置条件を理解する', activity: '講義＋発電量計算の演習（自宅や学校の屋根で試算）', methodNote: 'CDIO：Conceive（構想）／北極星から逆算した導入回' },
+  { no: 2, category: '先生', theme: '発電量計算・投資回収の基本モデル', goal: '回収年数を試算できるようになる', activity: 'Excel等での回収年数シミュレーション演習', methodNote: 'CDIO：Conceive→Design（構想→設計）' },
+  { no: 3, category: '企業', theme: '実際の発電所運営・収益構造の実例', goal: '教科書の計算式と現実のブレを知る', activity: '【再エネデベロッパー・発電事業者へ依頼】稼働データを差し支えない範囲で公開してほしい', methodNote: 'CDIO：Design（設計）／PBL連携：初期メンター＝既有知識の活性化・例示役' },
+  { no: 4, category: '先生', theme: '金融リテラシー基礎', goal: '分散投資・リスク許容度・複利を理解する', activity: '銀行預金・株式・不動産の分散投資のリスクを話し合うワーク', methodNote: 'CDIO：Design（設計）' },
+  { no: 5, category: '先生', theme: '投資判断の基礎理論（NPV/IRR）', goal: 'NPV・IRRを計算できるようになる', activity: 'NPV/IRRを自動計算するシートを作る演習', methodNote: 'CDIO：Design（設計）' },
+  { no: 6, category: '企業', theme: '資産形成相談の現場・金融教育の実例', goal: '実際の資産形成の現場を知る', activity: '【J-FLEC認定講師へ依頼】出張授業制度で資産形成・リスク管理を解説してほしい（公的無料制度・難易度低）', methodNote: 'CDIO：Design（設計）／PBL連携：初期メンター＝例示役' },
+  { no: 7, category: '先生', theme: 'キャリア形成理論', goal: '技術者のキャリアパスの分岐を理解する', activity: '3つのキャリアパス（専門職・管理職・独立）をカードにして選ぶワーク', methodNote: 'CDIO：Design（設計）' },
+  { no: 8, category: '企業', theme: '技術者のキャリアパス実例', goal: '技術者のキャリアの幅を知る', activity: '【エンジニア採用・人材会社へ依頼】キャリア分岐事例を2〜3パターン紹介してほしい', methodNote: 'CDIO：Design（設計）／PBL連携：初期メンター＝例示役' },
+  { no: 9, category: '先生', theme: '投資教材ワーク①：モデル構築', goal: '発電量計算・NPV/IRR・キャリア理論を統合する', activity: '自分のモデルをExcelにまとめる作業。先生が巡回して相談に応じる', methodNote: 'CDIO：Implement（実行）の開始／バックワードデザイン：評価設計への接続' },
+  { no: 10, category: '企業', theme: '現場データを使ったケーススタディ', goal: 'モデルを現場データで検証する', activity: '【発電事業者(コマ3とは別)へ依頼】匿名化した現場データを提供してほしい', methodNote: 'CDIO：Implement（実行）／PBL連携：後半メンター＝応用の検証役' },
+  { no: 11, category: '先生', theme: '投資教材ワーク②：投資判断シミュレーション', goal: '複数シナリオでの投資判断を行う', activity: '好条件・悪条件の2シナリオでNPVを比べる演習', methodNote: 'CDIO：Implement（実行）' },
+  { no: 12, category: '企業', theme: '投資判断へのフィードバック・講評', goal: 'プロの視点での講評を受ける', activity: '【金融機関へ依頼】投資判断シミュレーションに講評してほしい', methodNote: 'CDIO：Implement（実行）／PBL連携：後半メンター＝学生の応用を評価する役' },
+  { no: 13, category: '先生', theme: '振り返り：キャリアと金融の統合理論', goal: '学びを一つのストーリーに統合する', activity: 'モデルとキャリアプランをA4一枚にまとめるワーク', methodNote: 'CDIO：Operate（運用）の開始' },
+  { no: 14, category: '企業', theme: '地域における再エネ×キャリアの実例紹介', goal: '地元で技術者として働く選択肢を知る', activity: '【地元エネルギー企業(鳥取・島根)へ依頼】地元で働く社員を紹介してほしい', methodNote: 'CDIO：Operate（運用）／PBL連携：後半メンター＝応用の幅出し' },
+  { no: 15, category: '先生', theme: '成果発表会・総括', goal: '学びをポートフォリオにまとめキャリアプランに反映する', activity: '発表会。先生と企業担当者が同じ基準（発電量計算の正確さ・NPV/IRRの妥当性・キャリアプランの具体性）で評価', methodNote: 'CDIO：Operate（運用）の総括／北極星指標：最終評価の一部' }
+];
+function renderScheduleTable(){
+  var table = document.querySelector('[data-cell-id="cur-schedule"]');
+  if (!table) return;
+  var rows = table.querySelectorAll('tr');
+  // 先頭行(ヘッダー)は残し、それ以降(データ行)だけを削除してから作り直す
+  for (var i = rows.length - 1; i >= 1; i--) {
+    rows[i].parentNode.removeChild(rows[i]);
+  }
+  scheduleRows.forEach(function(row){
+    var tr = document.createElement('tr');
+    var tdNo = document.createElement('td');
+    tdNo.textContent = row.no;
+    var tdCat = document.createElement('td');
+    tdCat.className = 'pill ' + (row.category === '企業' ? 'porange' : 'pblue');
+    tdCat.textContent = row.category;
+    var tdTheme = document.createElement('td');
+    tdTheme.textContent = row.theme;
+    var tdGoal = document.createElement('td');
+    tdGoal.textContent = row.goal;
+    var tdActivity = document.createElement('td');
+    tdActivity.textContent = row.activity;
+    var tdMethod = document.createElement('td');
+    var span = document.createElement('span');
+    span.className = 'methodTag';
+    span.textContent = row.methodNote;
+    tdMethod.appendChild(span);
+    [tdNo, tdCat, tdTheme, tdGoal, tdActivity, tdMethod].forEach(function(td){ tr.appendChild(td); });
+    table.appendChild(tr);
+  });
+}
+window.__kosenApplyScheduleRows = function(rows){
+  if (!Array.isArray(rows) || rows.length === 0) return;
+  scheduleRows = rows;
+  renderScheduleTable();
+};
+
 // --- 左右パネルの折りたたみ ---
 (function(){
   function bindToggle(panelId, toggleId, iconId){
@@ -472,7 +529,10 @@ window.__kosenApplyWeakNotes = function(notes){
       northstarTldrText: cellText('ns-tldr'),
       discussText: cellText('ns-discuss'),
       radarScores: (typeof radarScores !== 'undefined') ? radarScores : {},
-      weakNotes: (typeof weakNotes !== 'undefined') ? weakNotes : {}
+      weakNotes: (typeof weakNotes !== 'undefined') ? weakNotes : {},
+      // 2026-09-27(第2版): 表(15コマ授業計画)の変更依頼にもAIが安全に答えられるよう、
+      // 現在の行データもあわせて渡す(表そのものはtextContentで送らない。壊れるため)
+      scheduleRows: (typeof scheduleRows !== 'undefined') ? scheduleRows : []
     };
   }
 
@@ -491,6 +551,11 @@ window.__kosenApplyWeakNotes = function(notes){
     }
     if (result.weakNotes && typeof window.__kosenApplyWeakNotes === 'function') {
       window.__kosenApplyWeakNotes(result.weakNotes);
+    }
+    // 表が変更依頼の対象だった場合のみ、AIからscheduleRowsが返る(renderScheduleTable()がDOM APIで
+    // <tr><td>を安全に組み立て直す。textContentの丸ごと代入は行わない)
+    if (result.scheduleRows && typeof window.__kosenApplyScheduleRows === 'function') {
+      window.__kosenApplyScheduleRows(result.scheduleRows);
     }
   }
 

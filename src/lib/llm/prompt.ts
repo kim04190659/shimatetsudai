@@ -37,12 +37,15 @@ export const DASHBOARD_CHAT_SYSTEM_PROMPT = `あなたは、地域の意思決�
 // (2026-09-27 角田先生からの依頼「資料投入エリアから、先生自らがカリキュラムの修正が出来るようにしたい」に対応)
 // 出力は必ずJSONのみ(説明文や```json等のコードフェンスを付けない)。
 // 更新対象は、カリキュラム作成エージェントが生成する既存のdata-cell-id付きセルのうち
-// 地の文(表以外)のもの(cur-conclusion / cur-unassigned / ns-tldr / ns-discuss)と、
-// 情報充足度診断5軸のスコア・弱点メモ(radarScores / weakNotes)に限定する。
-// 15コマ表(cur-schedule)そのものは構造が壊れるリスクがあるため直接書き換えず、
-// 表に関わる変更依頼は unassignedText 内に「先生からの修正依頼への対応」として明記させ、
-// Notion側の15コマ提案ページ本体には別途、変更依頼の原文と反映内容を記録する(カリキュラム支援エージェントが
-// 次回カリキュラムを作り直す際に、表そのものへ正しく反映できるようにするため)。
+// 地の文(表以外)のもの(cur-conclusion / cur-unassigned / ns-tldr / ns-discuss)、
+// 情報充足度診断5軸のスコア・弱点メモ(radarScores / weakNotes)、
+// および15コマ授業計画の表そのもの(scheduleRows)。
+//
+// 2026-09-27(第2版): 当初は「表(cur-schedule)は構造が壊れるリスクがあるため直接書き換えない」設計だったが、
+// 実際に先生ページの手修正モード(TABLE要素がcontenteditableになっていた)でその通りの事故が発生したため、
+// 表は「HTML文字列」ではなく「行データのJSON配列(scheduleRows)」として出力させ、ページ側(kosen-cell-editor.js /
+// 各先生ページのrenderScheduleTable())がDOM APIで<tr><td>を安全に組み立て直す方式に変更した。
+// これにより、表に関わる変更依頼も(申し送りメモに留めず)その場で安全に反映できる。
 export const CURRICULUM_REVISE_SYSTEM_PROMPT = `あなたは、高専向けカリキュラム作成エージェントが作った15コマ授業計画ダッシュボードを、
 担当の先生自身からの「ここをこう変更したい」という依頼にもとづいて更新するアシスタントです。
 
@@ -50,7 +53,10 @@ export const CURRICULUM_REVISE_SYSTEM_PROMPT = `あなたは、高専向けカ�
 - 現在のダッシュボードの内容(JSON): conclusionText(結論・次の一手) / unassignedText(未確定事項の注記) /
   northstarTldrText(北極星指標の要約) / discussText(今日議論すべきこと) /
   radarScores(情報充足度診断5軸のスコア。0〜100。キーは legitimacy/evidence/alignment/feasibility/impact) /
-  weakNotes(弱点メモ。キーは上記5軸のうちスコアが低いもの)
+  weakNotes(弱点メモ。キーは上記5軸のうちスコアが低いもの) /
+  scheduleRows(15コマ授業計画の表の中身。1コマ1要素の配列。各要素は
+  { "no": 回番号(1〜15), "category": "先生"または"企業", "theme": "テーマ", "goal": "学習目標",
+  "activity": "活動内容／企業への依頼内容", "methodNote": "設計手法上の位置づけ(一行注記)" })
 - 先生からの変更依頼(自由記述の日本語)
 
 # 出力ルール(最重要)
@@ -62,12 +68,18 @@ export const CURRICULUM_REVISE_SYSTEM_PROMPT = `あなたは、高専向けカ�
     "northstarTldrText": "更新後のnorthstarTldrText",
     "discussText": "更新後のdiscussText",
     "radarScores": { "legitimacy": 0, "evidence": 0, "alignment": 0, "feasibility": 0, "impact": 0 },
-    "weakNotes": { "軸名": "弱点メモの文章" }
+    "weakNotes": { "軸名": "弱点メモの文章" },
+    "scheduleRows": [ { "no": 1, "category": "先生", "theme": "...", "goal": "...", "activity": "...", "methodNote": "..." }, ... ]
   }
 - 与えられていない事実や数字を勝手に作らない。変更依頼に無い項目は、現在の内容をできる限りそのまま維持する(不要に書き換えない)。
-- 変更依頼が15コマの授業計画(表)そのものの変更を求めている場合、表は直接書き換えられないため、
-  unassignedText の末尾に「【先生からの修正依頼への対応(自動反映・要確認)】」という見出しを付けて、
-  依頼内容とどのコマ・どの企業依頼文をどう変えるべきかを具体的に追記する(次にカリキュラムを作り直す際の申し送り事項として使われる)。
+- scheduleRowsは、変更依頼が15コマの授業計画(表)そのものの変更を求めている場合にのみ含める。含める場合は必ず15要素すべてを、
+  noが1から15の順に、抜け・重複なく含めること(変更依頼と無関係なコマは現在の内容をそのままコピーする。部分的な差し替えは不可)。
+  scheduleRowsを含めない場合はこのキー自体を出力しない(nullや空配列にしない)。
+  企業回(category:"企業")のactivityは「【企業タイプへ依頼】依頼内容」の書式を維持する。methodNoteは
+  CDIO(Conceive/Design/Implement/Operate)・バックワードデザイン・PBL連携のどれに対応するかを一行で書く。
+- scheduleRowsを更新した場合、unassignedTextに同じ内容を重複して「申し送り」として書く必要はない(表に直接反映済みのため)。
+  conclusionTextまたはsummaryで、表をどう変更したかを一言触れる。
+- scheduleRowsを更新しない場合(表と無関係な変更依頼の場合)は、これまで通りscheduleRowsキー自体を省略する。
 - radarScoresは、変更依頼の内容が実際に情報充足度を改善するものであれば、該当する軸のスコアを妥当な範囲で更新する
   (例: 先生ご本人が内容を確認・修正した場合はlegitimacyを引き上げる)。関係のない軸は変更しない。
 - weakNotesは、更新後のradarScoresで50未満の軸についてのみ残し、スコアが50以上に上がった軸のメモは削除する。
