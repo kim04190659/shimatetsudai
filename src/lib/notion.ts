@@ -533,6 +533,73 @@ export async function upsertKosenCellOverride(params: {
   }
 }
 
+// ------------------------------------------------------------------
+// 高専サイト「先生自身によるカリキュラム修正」機能(2026-09-27 角田直輝先生の依頼)。
+// 「資料投入エリアから、先生自らがカリキュラムの修正が出来るようにしたい」への対応の一部。
+// 表示側のセル上書き(upsertKosenCellOverride)とは別に、対象の15コマ提案ページ本体にも
+// 「先生からの修正依頼(原文)」と「反映内容」を追記しておく。ページの既存構造は書き換えず、
+// 末尾にtoggleブロックとして追記するだけなので、カリキュラム作成エージェントが次回このページを
+// fetchしたときに、過去の先生からの申し送り事項として参照できる(=カリキュラム支援エージェントへの反映)。
+// ------------------------------------------------------------------
+
+export type CurriculumRevisionRecordInput = {
+  issuePageId: string;
+  editorName: string;
+  changeRequest: string;
+  summary: string;
+};
+
+/** 15コマ提案ページ本体の末尾に、先生からの修正依頼と反映内容を記録する(追記のみ・既存構造は変更しない) */
+export async function appendCurriculumRevisionRecord(input: CurriculumRevisionRecordInput): Promise<void> {
+  const notion = getClient();
+  const nowLabel = new Date().toLocaleString("ja-JP", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  await notion.blocks.children.append({
+    block_id: input.issuePageId,
+    children: [
+      {
+        object: "block",
+        type: "toggle",
+        toggle: {
+          rich_text: [
+            {
+              type: "text",
+              text: { content: `📝 先生による修正依頼(自動反映) — ${nowLabel}・${input.editorName || "匿名"}` },
+            },
+          ],
+          children: [
+            {
+              object: "block",
+              type: "paragraph",
+              paragraph: {
+                rich_text: [
+                  { type: "text", text: { content: `【依頼内容(原文)】\n${input.changeRequest.slice(0, 1900)}` } },
+                ],
+              },
+            },
+            {
+              object: "block",
+              type: "paragraph",
+              paragraph: {
+                rich_text: [
+                  { type: "text", text: { content: `【反映内容】\n${(input.summary || "(要約なし)").slice(0, 1900)}` } },
+                ],
+              },
+            },
+          ],
+        },
+      },
+    ],
+  });
+}
+
 /** 補助金・交付金マッチングDB(全団体共通)を、「対象自治体」タグで絞り込んで取得する */
 export async function getFundingMatches(
   fundingDataSourceId: string,

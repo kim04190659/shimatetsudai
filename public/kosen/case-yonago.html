@@ -129,6 +129,16 @@ tr.confirmed td{background:var(--greenSoft)}
       </div>
       <button type="button" class="primaryBtn" id="genSubmit">この内容をダッシュボードに反映する</button>
       <p class="errMsg" id="genErr" style="display:none">生成中にエラーが発生しました。時間をおいて再度お試しください。</p>
+
+      <hr style="margin:18px 0;border:none;border-top:1px solid var(--line)">
+
+      <div class="field">
+        <label for="reviseText">カリキュラムの内容について、ここをこう変更したい</label>
+        <textarea id="reviseText" rows="6" placeholder="例：コマ3の企業依頼先を、再エネデベロッパーではなく地元の発電事業者に変更してほしい"></textarea>
+      </div>
+      <button type="button" class="primaryBtn" id="reviseSubmit">この内容をカリキュラムに反映する</button>
+      <p class="errMsg" id="reviseErr" style="display:none">反映中にエラーが発生しました。時間をおいて再度お試しください。</p>
+      <p class="errMsg" id="reviseNote" style="display:none;color:var(--muted)"></p>
     </div>
   </aside>
 
@@ -361,20 +371,40 @@ function renderRadar(svgId, scores){
   svg.innerHTML = rings + '<polygon points="'+dataPts+'" fill="#7A5CCF55" stroke="#7A5CCF" stroke-width="2"/>' + labels;
 }
 var radarScores = { legitimacy: 25, evidence: 65, alignment: 80, feasibility: 45, impact: 20 };
-renderRadar('radarChart', radarScores);
 var weakNotes = {
   legitimacy: '次に確認：角田先生ご本人に15コマ構成・企業依頼内容でよいか意向確認する',
   impact: '次に確認：評価設計（発電量計算・NPV/IRR・キャリアプランの評価基準）の点数化を実施後に検証する',
-  feasibility: '次に確認：発電事業者・エンジニア人材会社・地元エネルギー企業の個別探索を進める'
+  feasibility: '次に確認９発電事業者・エンジニア人材会社・地元エネルギー企業の個別探索を進める'
 };
-var wp = document.getElementById('radarWeakPoints');
-Object.keys(weakNotes).forEach(function(k){
-  if ((radarScores[k]||0) < 50){
-    var li = document.createElement('li');
-    li.textContent = weakNotes[k];
-    wp.appendChild(li);
-  }
-});
+function rebuildRadarWeakPoints(){
+  var wp = document.getElementById('radarWeakPoints');
+  if (!wp) return;
+  wp.innerHTML = '';
+  Object.keys(weakNotes).forEach(function(k){
+    if ((radarScores[k]||0) < 50){
+      var li = document.createElement('li');
+      li.textContent = weakNotes[k];
+      wp.appendChild(li);
+    }
+  });
+}
+renderRadar('radarChart', radarScores);
+rebuildRadarWeakPoints();
+
+// 2026-09-27 角田先生の依頼「先生自らがカリキュラムの修正が出来るようにしたい」対応。
+// ns-radar-scores / ns-weaknotes というdata-cell-idを持つDOM要素は存在しないため、
+// public/js/kosen-cell-editor.js が該当セルの上書きを見つけたときに、このフックを直接呼び出す。
+window.__kosenApplyRadarScores = function(scores){
+  if (!scores || typeof scores !== 'object') return;
+  Object.keys(scores).forEach(function(k){ radarScores[k] = scores[k]; });
+  renderRadar('radarChart', radarScores);
+  rebuildRadarWeakPoints();
+};
+window.__kosenApplyWeakNotes = function(notes){
+  if (!notes || typeof notes !== 'object') return;
+  weakNotes = notes;
+  rebuildRadarWeakPoints();
+};
 
 // --- 左右パネルの折りたたみ ---
 (function(){
@@ -491,6 +521,137 @@ Object.keys(weakNotes).forEach(function(k){
       submitBtn.textContent = 'この内容をダッシュボードに反映する';
     }
   });
+})();
+
+// --- 左: 資料投入エリア → 先生自身によるカリキュラム修正(2026-09-27 角田先生の依頼) ---
+(function(){
+  var submitBtn = document.getElementById('reviseSubmit');
+  var textEl = document.getElementById('reviseText');
+  var errEl = document.getElementById('reviseErr');
+  var noteEl = document.getElementById('reviseNote');
+  if (!submitBtn) return;
+
+  var ISSUE_PAGE_ID = document.body.getAttribute('data-issue-page-id');
+  var SLUG = document.body.getAttribute('data-kosen-slug');
+  var ISSUE_TITLE = '太陽光発電×金融・キャリア教育（角田直輝先生・米子高専）';
+
+  function el(tag, attrs, children){
+    var node = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function(k){
+      if (k === 'text') node.textContent = attrs[k]; else node.setAttribute(k, attrs[k]);
+    });
+    (children || []).forEach(function(c){ node.appendChild(c); });
+    return node;
+  }
+
+  function openLoginDialog(onSuccess){
+    var overlay = el('div', { style: 'position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:10000;display:flex;align-items:center;justify-content:center;' });
+    var nameInput = el('input', { type:'text', placeholder:'お名前(例：角田)', style:'display:block;width:100%;margin-bottom:10px;padding:8px;font-size:14px;box-sizing:border-box;' });
+    var passInput = el('input', { type:'password', placeholder:'編集用の合い言葉', style:'display:block;width:100%;margin-bottom:14px;padding:8px;font-size:14px;box-sizing:border-box;' });
+    var errorMsg = el('div', { style:'color:#dc2626;font-size:13px;margin-bottom:10px;min-height:16px;' });
+    var submit = el('button', { type:'button', text:'ログインして反映する', style:'padding:8px 16px;border:none;border-radius:6px;background:#c96f42;color:#fff;cursor:pointer;margin-right:8px;' });
+    var cancel = el('button', { type:'button', text:'キャンセル', style:'padding:8px 16px;border:none;border-radius:6px;background:#e5e7eb;color:#111;cursor:pointer;' });
+    var box = el('div', { style:'background:#fff;border-radius:10px;padding:24px;width:320px;max-width:90vw;font-family:sans-serif;' }, [
+      el('h3', { text:'先生ページ編集モード', style:'margin:0 0 8px;font-size:16px;' }),
+      el('p', { text:'カリキュラムを修正するには、先に編集モードへのログインが必要です。', style:'margin:0 0 12px;font-size:12px;color:#6b7280;' }),
+      nameInput, passInput, errorMsg, submit, cancel
+    ]);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+    cancel.addEventListener('click', function(){ document.body.removeChild(overlay); });
+    submit.addEventListener('click', function(){
+      var name = nameInput.value.trim();
+      var pass = passInput.value;
+      if (!name) { errorMsg.textContent = 'お名前を入力してください'; return; }
+      fetch('/api/kosen-edit/login', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ editorName: name, passphrase: pass })
+      }).then(function(res){
+        return res.json().then(function(data){ return { ok: res.ok, data: data }; });
+      }).then(function(result){
+        if (!result.ok) { errorMsg.textContent = result.data.error || 'ログインに失敗しました'; return; }
+        document.body.removeChild(overlay);
+        onSuccess();
+      }).catch(function(){
+        errorMsg.textContent = '通信に失敗しました';
+      });
+    });
+  }
+
+  function cellText(id){
+    var e = document.querySelector('[data-cell-id="' + id + '"]');
+    return e ? e.textContent.trim() : '';
+  }
+
+  function currentContentSnapshot(){
+    return {
+      conclusionText: cellText('cur-conclusion'),
+      unassignedText: cellText('cur-unassigned'),
+      northstarTldrText: cellText('ns-tldr'),
+      discussText: cellText('ns-discuss'),
+      radarScores: (typeof radarScores !== 'undefined') ? radarScores : {},
+      weakNotes: (typeof weakNotes !== 'undefined') ? weakNotes : {}
+    };
+  }
+
+  function applyRevisionResult(result){
+    if (!result) return;
+    function setCell(id, text){
+      var e = document.querySelector('[data-cell-id="' + id + '"]');
+      if (e && typeof text === 'string') e.textContent = text;
+    }
+    setCell('cur-conclusion', result.conclusionText);
+    setCell('cur-unassigned', result.unassignedText);
+    setCell('ns-tldr', result.northstarTldrText);
+    setCell('ns-discuss', result.discussText);
+    if (result.radarScores && typeof window.__kosenApplyRadarScores === 'function') {
+      window.__kosenApplyRadarScores(result.radarScores);
+    }
+    if (result.weakNotes && typeof window.__kosenApplyWeakNotes === 'function') {
+      window.__kosenApplyWeakNotes(result.weakNotes);
+    }
+  }
+
+  async function submitRevision(){
+    var changeRequest = textEl.value.trim();
+    if (!changeRequest) return;
+    errEl.style.display = 'none';
+    noteEl.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = '反映中…(30秒ほど)';
+    try {
+      var res = await fetch('/api/kosen-curriculum-revise', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          slug: SLUG,
+          issuePageId: ISSUE_PAGE_ID,
+          issueTitle: ISSUE_TITLE,
+          changeRequest: changeRequest,
+          current: currentContentSnapshot()
+        })
+      });
+      if (res.status === 401) {
+        openLoginDialog(submitRevision);
+        return;
+      }
+      if (!res.ok) throw new Error('request failed');
+      var data = await res.json();
+      applyRevisionResult(data.result);
+      textEl.value = '';
+      noteEl.style.display = 'block';
+      noteEl.style.color = '#2e7d32';
+      noteEl.textContent = '反映しました：' + (data.result && data.result.summary ? data.result.summary : '');
+    } catch (e) {
+      errEl.style.display = 'block';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'この内容をカリキュラムに反映する';
+    }
+  }
+
+  submitBtn.addEventListener('click', submitRevision);
 })();
 
 // --- 右: 質問チャット ---

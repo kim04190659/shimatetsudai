@@ -33,6 +33,56 @@ export const DASHBOARD_CHAT_SYSTEM_PROMPT = `あなたは、地域の意思決�
 - 会議中にそのまま読み上げられるくらい簡潔に、日本語で3〜5文程度にまとめる
 - 専門用語は避け、自治体職員や住民が読んでも分かる言葉で書く`;
 
+// 高専の先生ページ「資料投入エリア」から、先生自身がカリキュラムの修正を依頼できるようにする機能用のプロンプト。
+// (2026-09-27 角田先生からの依頼「資料投入エリアから、先生自らがカリキュラムの修正が出来るようにしたい」に対応)
+// 出力は必ずJSONのみ(説明文や```json等のコードフェンスを付けない)。
+// 更新対象は、カリキュラム作成エージェントが生成する既存のdata-cell-id付きセルのうち
+// 地の文(表以外)のもの(cur-conclusion / cur-unassigned / ns-tldr / ns-discuss)と、
+// 情報充足度診断5軸のスコア・弱点メモ(radarScores / weakNotes)に限定する。
+// 15コマ表(cur-schedule)そのものは構造が壊れるリスクがあるため直接書き換えず、
+// 表に関わる変更依頼は unassignedText 内に「先生からの修正依頼への対応」として明記させ、
+// Notion側の15コマ提案ページ本体には別途、変更依頼の原文と反映内容を記録する(カリキュラム支援エージェントが
+// 次回カリキュラムを作り直す際に、表そのものへ正しく反映できるようにするため)。
+export const CURRICULUM_REVISE_SYSTEM_PROMPT = `あなたは、高専向けカリキュラム作成エージェントが作った15コマ授業計画ダッシュボードを、
+担当の先生自身からの「ここをこう変更したい」という依頼にもとづいて更新するアシスタントです。
+
+# 入力として渡されるもの
+- 現在のダッシュボードの内容(JSON): conclusionText(結論・次の一手) / unassignedText(未確定事項の注記) /
+  northstarTldrText(北極星指標の要約) / discussText(今日議論すべきこと) /
+  radarScores(情報充足度診断5軸のスコア。0〜100。キーは legitimacy/evidence/alignment/feasibility/impact) /
+  weakNotes(弱点メモ。キーは上記5軸のうちスコアが低いもの)
+- 先生からの変更依頼(自由記述の日本語)
+
+# 出力ルール(最重要)
+- 出力は次のキーを持つJSONオブジェクトのみ。説明文・コードフェンス・前置きは一切付けない。
+  {
+    "summary": "先生向けの一言まとめ(何をどう反映したか。60字程度)",
+    "conclusionText": "更新後のconclusionText",
+    "unassignedText": "更新後のunassignedText",
+    "northstarTldrText": "更新後のnorthstarTldrText",
+    "discussText": "更新後のdiscussText",
+    "radarScores": { "legitimacy": 0, "evidence": 0, "alignment": 0, "feasibility": 0, "impact": 0 },
+    "weakNotes": { "軸名": "弱点メモの文章" }
+  }
+- 与えられていない事実や数字を勝手に作らない。変更依頼に無い項目は、現在の内容をできる限りそのまま維持する(不要に書き換えない)。
+- 変更依頼が15コマの授業計画(表)そのものの変更を求めている場合、表は直接書き換えられないため、
+  unassignedText の末尾に「【先生からの修正依頼への対応(自動反映・要確認)】」という見出しを付けて、
+  依頼内容とどのコマ・どの企業依頼文をどう変えるべきかを具体的に追記する(次にカリキュラムを作り直す際の申し送り事項として使われる)。
+- radarScoresは、変更依頼の内容が実際に情報充足度を改善するものであれば、該当する軸のスコアを妥当な範囲で更新する
+  (例: 先生ご本人が内容を確認・修正した場合はlegitimacyを引き上げる)。関係のない軸は変更しない。
+- weakNotesは、更新後のradarScoresで50未満の軸についてのみ残し、スコアが50以上に上がった軸のメモは削除する。
+- 専門用語は避け、先生・学生が読んでも分かる言葉で書く。`;
+
+function buildCurriculumReviseUserPrompt(input: SummaryInput): string {
+  return `# 現在のダッシュボードの内容(JSON)
+${input.sourceNotes}
+
+# 先生からの変更依頼
+${input.question ?? ""}
+
+上記の変更依頼にもとづいて、出力ルールの通りJSONのみで更新後の内容を返してください。`;
+}
+
 function buildLetterDraftUserPrompt(input: SummaryInput): string {
   return `# 論点タイトル
 ${input.issueTitle}
@@ -63,6 +113,9 @@ export function buildSummaryUserPrompt(input: SummaryInput): string {
   if (input.mode === "dashboardChat") {
     return buildDashboardChatUserPrompt(input);
   }
+  if (input.mode === "curriculumRevise") {
+    return buildCurriculumReviseUserPrompt(input);
+  }
   const indicators =
     input.relatedIndicators && input.relatedIndicators.length > 0
       ? input.relatedIndicators.join("、")
@@ -83,5 +136,6 @@ ${input.sourceNotes}
 export function getSystemPrompt(mode: SummaryInput["mode"]): string {
   if (mode === "letterDraft") return LETTER_DRAFT_SYSTEM_PROMPT;
   if (mode === "dashboardChat") return DASHBOARD_CHAT_SYSTEM_PROMPT;
+  if (mode === "curriculumRevise") return CURRICULUM_REVISE_SYSTEM_PROMPT;
   return SUMMARY_SYSTEM_PROMPT;
 }

@@ -26,7 +26,8 @@ export class AnthropicProvider implements LlmProvider {
         },
         body: JSON.stringify({
           model: MODEL,
-          max_tokens: 1024,
+          // curriculumRevise は複数セル分の更新後テキストを含むJSONを返すため、既定より広めに確保する
+          max_tokens: input.mode === "curriculumRevise" ? 2048 : 1024,
           system: getSystemPrompt(input.mode),
           messages: [{ role: "user", content: buildSummaryUserPrompt(input) }],
         }),

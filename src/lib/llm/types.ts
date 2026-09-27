@@ -14,8 +14,11 @@ export type SummaryInput = {
   // 生成する下書きの種類。省略時は"a3"(A3意思決定支援シート下書き)。
   // "letterDraft" は、決定事項からritokei.com「読者だより」向けの一人称の記事下書きを作る(有料オプション②用)。
   // "dashboardChat" は、生成済みダッシュボードの内容について、利用者からの質問にAIが答える(質問チャットエリア用)。
-  mode?: "a3" | "letterDraft" | "dashboardChat";
-  // mode: "dashboardChat" のときの、利用者からの質問文
+  // "curriculumRevise" は、高専の先生が「ここをこう変更したい」と入力した内容をもとに、
+  // カリキュラム案・教育充実度指標の該当セルを構造化JSONで更新する(2026-09-27 角田先生の依頼で追加)。
+  mode?: "a3" | "letterDraft" | "dashboardChat" | "curriculumRevise";
+  // mode: "dashboardChat" のときの利用者からの質問文。
+  // mode: "curriculumRevise" のときは、先生からの変更依頼の原文として使う。
   question?: string;
 };
 

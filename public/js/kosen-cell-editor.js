@@ -39,6 +39,14 @@
     return node;
   }
 
+  // 予約セルID: 通常の data-cell-id 要素には対応せず、JSON文字列としてページ側のフックに渡す。
+  // 「先生自身によるカリキュラム修正」機能(2026-09-27)で、情報充足度診断のレーダースコア・弱点メモを
+  // 更新するために使う(これらはdata-cell-idを持つDOM要素ではなく、ページ内のJS変数として保持されているため)。
+  var RESERVED_STRUCTURED_CELL_IDS = {
+    "ns-radar-scores": "__kosenApplyRadarScores",
+    "ns-weaknotes": "__kosenApplyWeakNotes",
+  };
+
   // ---- 1. 起動時に既存の手修正を反映する ----
   function applyOverrides() {
     fetch("/api/kosen-edit/cell?slug=" + encodeURIComponent(slug), { cache: "no-store" })
@@ -47,6 +55,16 @@
       })
       .then(function (data) {
         (data.overrides || []).forEach(function (ov) {
+          var hookName = RESERVED_STRUCTURED_CELL_IDS[ov.cellId];
+          if (hookName) {
+            if (typeof window[hookName] !== "function") return;
+            try {
+              window[hookName](JSON.parse(ov.content));
+            } catch (e) {
+              console.warn("先生ページの構造化データ(" + ov.cellId + ")の解析に失敗しました", e);
+            }
+            return;
+          }
           var target = document.querySelector('[data-cell-id="' + cssEscape(ov.cellId) + '"]');
           if (!target) return;
           target.textContent = ov.content;
