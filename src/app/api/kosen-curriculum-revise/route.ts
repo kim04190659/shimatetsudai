@@ -42,6 +42,18 @@ type CurriculumRevisionResult = {
   weakNotes: Record<string, string>;
 };
 
+// Claudeへは「コードフェンスなしでJSONのみ返す」よう指示しているが(prompt.ts参照)、
+// 実際には ```json ... ``` で囲んで返してくることがある(2026-09-27 実運用で確認)。
+// 素の JSON.parse だとこの場合に構文エラーで落ちてしまうため、コードフェンスを剥がしてから
+// パースする。フェンスが無い場合はそのまま解析する。
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function parseLlmJson(raw: string): any {
+  const trimmed = raw.trim();
+  const fenced = trimmed.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/i);
+  const candidate = fenced ? fenced[1] : trimmed;
+  return JSON.parse(candidate);
+}
+
 function isCurrentDashboardContent(value: unknown): value is CurrentDashboardContent {
   if (!value || typeof value !== "object") return false;
   const v = value as Record<string, unknown>;
@@ -100,7 +112,7 @@ export async function POST(req: NextRequest) {
       question: changeRequest,
       mode: "curriculumRevise",
     });
-    const parsed = JSON.parse(llmResult.draft);
+    const parsed = parseLlmJson(llmResult.draft);
     if (
       typeof parsed !== "object" ||
       parsed === null ||
