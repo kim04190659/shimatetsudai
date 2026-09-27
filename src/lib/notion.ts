@@ -492,6 +492,25 @@ export async function getKosenCellOverrides(slug: string): Promise<KosenCellOver
   }));
 }
 
+// Notion APIのrich_textは、1個のtextオブジェクトあたり2000文字までという制限がある。
+// (2026-09-27発覚: 15コマ表のscheduleRows(JSON)のように2000字を超える内容を
+//  content.slice(0, 2000)で単純に切り詰めて保存していたため、JSON文字列が途中で
+//  切れて壊れ、次回読み込み時にJSON.parseが失敗して先生ページの表が反映されない
+//  事故が発生した。rich_textプロパティ自体は複数のtextオブジェクトを配列で持てるため、
+//  2000字ごとに分割して複数セグメントとして保存するようにした。読み込み側の
+//  plainTextFromProperty()は元々複数セグメントを連結する実装になっているため、
+//  読み込み側の変更は不要)
+const NOTION_RICH_TEXT_SEGMENT_LIMIT = 2000;
+
+function chunkForRichText(text: string, maxTotalLength = 8000): { text: { content: string } }[] {
+  const truncated = text.slice(0, maxTotalLength);
+  const segments: { text: { content: string } }[] = [];
+  for (let i = 0; i < truncated.length; i += NOTION_RICH_TEXT_SEGMENT_LIMIT) {
+    segments.push({ text: { content: truncated.slice(i, i + NOTION_RICH_TEXT_SEGMENT_LIMIT) } });
+  }
+  return segments.length > 0 ? segments : [{ text: { content: "" } }];
+}
+
 /** 1セル分の手修正を保存する(既存の(slug, cellId)行があれば上書き=upsert、なければ新規作成) */
 export async function upsertKosenCellOverride(params: {
   slug: string;
@@ -517,7 +536,7 @@ export async function upsertKosenCellOverride(params: {
     Name: { title: [{ text: { content: `${params.slug}::${params.cellId}` } }] },
     ページSlug: { select: { name: params.slug } },
     セルID: { rich_text: [{ text: { content: params.cellId.slice(0, 200) } }] },
-    内容: { rich_text: [{ text: { content: params.content.slice(0, 2000) } }] },
+    内容: { rich_text: chunkForRichText(params.content) },
     編集者名: { rich_text: [{ text: { content: params.editorName.slice(0, 200) } }] },
     更新日時: { date: { start: nowIso } },
   };
