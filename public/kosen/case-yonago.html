@@ -112,26 +112,8 @@ tr.confirmed td{background:var(--greenSoft)}
 <div class="layout">
 
   <aside class="sidePanel left" id="leftPanel">
-    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▲</span></button>
+    <button type="button" class="panelToggle" id="leftToggle">✏️ カリキュラムの修正依頼 <span id="leftToggleIcon">▲</span></button>
     <div class="panelBody" id="leftBody">
-      <div class="field">
-        <label for="genTitle">カリキュラムのタイトル</label>
-        <input type="text" id="genTitle" value="太陽光発電×金融・キャリア教育（角田直輝先生・米子高専）">
-      </div>
-      <div class="field">
-        <label for="genNotes">議事録・企業からの連絡・実施結果など(貼り付け)</label>
-        <textarea id="genNotes" rows="8" placeholder="角田先生とのやり取りや、企業からの連絡・実施結果をここに貼り付けてください"></textarea>
-      </div>
-      <div class="field">
-        <label for="genFile">または、ファイルをアップロード(.txt / .md / .pdf)</label>
-        <input type="file" id="genFile" accept=".txt,.md,.pdf,text/plain,text/markdown,application/pdf">
-        <p class="errMsg" id="genFileStatus" style="display:none;color:var(--muted)"></p>
-      </div>
-      <button type="button" class="primaryBtn" id="genSubmit">この内容をダッシュボードに反映する</button>
-      <p class="errMsg" id="genErr" style="display:none">生成中にエラーが発生しました。時間をおいて再度お試しください。</p>
-
-      <hr style="margin:18px 0;border:none;border-top:1px solid var(--line)">
-
       <div class="field">
         <label for="reviseText">カリキュラムの内容について、ここをこう変更したい</label>
         <textarea id="reviseText" rows="6" placeholder="例：コマ3の企業依頼先を、再エネデベロッパーではなく地元の発電事業者に変更してほしい"></textarea>
@@ -422,107 +404,6 @@ window.__kosenApplyWeakNotes = function(notes){
   bindToggle('rightPanel', 'rightToggle', 'rightToggleIcon');
 })();
 
-// --- 左: 資料投入エリアのファイルアップロード(.txt/.md/.pdf) ---
-(function(){
-  var fileInput = document.getElementById('genFile');
-  var fileStatus = document.getElementById('genFileStatus');
-  var notesEl = document.getElementById('genNotes');
-  if (!fileInput) return;
-
-  function readTextFile(file){
-    return new Promise(function(resolve, reject){
-      var reader = new FileReader();
-      reader.onload = function(){ resolve(String(reader.result || '')); };
-      reader.onerror = function(){ reject(reader.error); };
-      reader.readAsText(file);
-    });
-  }
-  function readFileAsBase64(file){
-    return new Promise(function(resolve, reject){
-      var reader = new FileReader();
-      reader.onload = function(){
-        var result = String(reader.result || '');
-        resolve(result.split(',')[1] || '');
-      };
-      reader.onerror = function(){ reject(reader.error); };
-      reader.readAsDataURL(file);
-    });
-  }
-  function appendNotes(text){
-    var current = notesEl.value.trim();
-    notesEl.value = current ? (current + '\n\n' + text) : text;
-  }
-
-  fileInput.addEventListener('change', async function(){
-    var file = fileInput.files && fileInput.files[0];
-    fileInput.value = '';
-    if (!file) return;
-    var lower = file.name.toLowerCase();
-    var isPdf = file.type === 'application/pdf' || lower.endsWith('.pdf');
-    var isTextLike = (file.type && file.type.indexOf('text/') === 0) || lower.endsWith('.txt') || lower.endsWith('.md');
-    if (!isPdf && !isTextLike) {
-      fileStatus.style.display = 'block';
-      fileStatus.style.color = 'var(--red)';
-      fileStatus.textContent = '.txt / .md / .pdf のいずれかのファイルを選択してください。';
-      return;
-    }
-    fileStatus.style.display = 'block';
-    fileStatus.style.color = 'var(--muted)';
-    fileStatus.textContent = isPdf ? 'PDFを読み取っています…(30秒ほどかかります)' : 'ファイルを読み込んでいます…';
-    try {
-      if (isTextLike) {
-        var text = await readTextFile(file);
-        appendNotes(text);
-      } else {
-        var dataBase64 = await readFileAsBase64(file);
-        var res = await fetch('/api/extract-document', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ fileName: file.name, mimeType: 'application/pdf', dataBase64: dataBase64 })
-        });
-        if (!res.ok) throw new Error('request failed');
-        var data = await res.json();
-        appendNotes(data.text);
-      }
-      fileStatus.style.display = 'none';
-    } catch (e) {
-      fileStatus.style.color = 'var(--red)';
-      fileStatus.textContent = 'ファイルの読み込みに失敗しました。時間をおいて再度お試しください。';
-    }
-  });
-})();
-
-// --- 左: 資料投入エリア → ダッシュボードに反映 ---
-(function(){
-  var submitBtn = document.getElementById('genSubmit');
-  var errEl = document.getElementById('genErr');
-  if (!submitBtn) return;
-  submitBtn.addEventListener('click', async function(){
-    var issueTitle = document.getElementById('genTitle').value.trim();
-    var sourceNotes = document.getElementById('genNotes').value.trim();
-    if (!sourceNotes) return;
-    errEl.style.display = 'none';
-    submitBtn.disabled = true;
-    submitBtn.textContent = '反映中…(30秒ほど)';
-    try {
-      var res = await fetch('/api/issue-summary', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ issueTitle: issueTitle, sourceNotes: sourceNotes })
-      });
-      if (!res.ok) throw new Error('request failed');
-      var data = await res.json();
-      window.__yonagoDashboardDraft = data.draft;
-      alert('内容を受け付けました。（先生の合い言葉での確認後、カリキュラムに反映されます）');
-    } catch (e) {
-      errEl.style.display = 'block';
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'この内容をダッシュボードに反映する';
-    }
-  });
-})();
-
 // --- 左: 資料投入エリア → 先生自身によるカリキュラム修正(2026-09-27 角田先生の依頼) ---
 (function(){
   var submitBtn = document.getElementById('reviseSubmit');
@@ -673,11 +554,7 @@ window.__kosenApplyWeakNotes = function(notes){
 
   function currentDashboardContent(){
     var curriculum = document.getElementById('panel-curriculum');
-    var base = curriculum ? curriculum.innerText : '';
-    if (window.__yonagoDashboardDraft) {
-      base += '\n\n---\n【資料投入エリアからの下書き】\n' + window.__yonagoDashboardDraft;
-    }
-    return base;
+    return curriculum ? curriculum.innerText : '';
   }
 
   async function send(){
