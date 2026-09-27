@@ -112,23 +112,15 @@ tr.confirmed td{background:var(--greenSoft)}
 <div class="layout">
 
   <aside class="sidePanel left" id="leftPanel">
-    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▲</span></button>
+    <button type="button" class="panelToggle" id="leftToggle">✏️ カリキュラムの修正依頼 <span id="leftToggleIcon">▲</span></button>
     <div class="panelBody" id="leftBody">
       <div class="field">
-        <label for="genTitle">カリキュラムのタイトル</label>
-        <input type="text" id="genTitle" value="物流の2024年問題×2類技術（逆瀬川栄一先生・鹿児島高専）">
+        <label for="reviseText">カリキュラムの内容について、ここをこう変更したい</label>
+        <textarea id="reviseText" rows="6" placeholder="例：コマ3の企業依頼先の想定を変更してほしい"></textarea>
       </div>
-      <div class="field">
-        <label for="genNotes">議事録・企業からの連絡・実施結果など(貼り付け)</label>
-        <textarea id="genNotes" rows="8" placeholder="逆瀬川先生とのやり取りや、企業からの連絡・実施結果をここに貼り付けてください"></textarea>
-      </div>
-      <div class="field">
-        <label for="genFile">または、ファイルをアップロード(.txt / .md / .pdf)</label>
-        <input type="file" id="genFile" accept=".txt,.md,.pdf,text/plain,text/markdown,application/pdf">
-        <p class="errMsg" id="genFileStatus" style="display:none;color:var(--muted)"></p>
-      </div>
-      <button type="button" class="primaryBtn" id="genSubmit">この内容をダッシュボードに反映する</button>
-      <p class="errMsg" id="genErr" style="display:none">生成中にエラーが発生しました。時間をおいて再度お試しください。</p>
+      <button type="button" class="primaryBtn" id="reviseSubmit">この内容をカリキュラムに反映する</button>
+      <p class="errMsg" id="reviseErr" style="display:none">反映中にエラーが発生しました。時間をおいて再度お試しください。</p>
+      <p class="errMsg" id="reviseNote" style="display:none;color:var(--muted)"></p>
     </div>
   </aside>
 
@@ -361,20 +353,38 @@ function renderRadar(svgId, scores){
   svg.innerHTML = rings + '<polygon points="'+dataPts+'" fill="#7A5CCF55" stroke="#7A5CCF" stroke-width="2"/>' + labels;
 }
 var radarScores = { legitimacy: 30, evidence: 55, alignment: 75, feasibility: 55, impact: 35 };
-renderRadar('radarChart', radarScores);
 var weakNotes = {
   legitimacy: '次に確認：逆瀬川先生ご本人に、拡張13コマの構成でよいか意向確認する（コマ1〜6・9〜15）',
   evidence: '次に確認：他高専(米子・北九州・高知)の類似カリキュラムと比較する',
   impact: '次に確認：コマ8の評価基準(4軸)を点数化の土台として、DAY1/DAY2実施後に測定する'
 };
-var wp = document.getElementById('radarWeakPoints');
-Object.keys(weakNotes).forEach(function(k){
-  if ((radarScores[k]||0) < 50){
-    var li = document.createElement('li');
-    li.textContent = weakNotes[k];
-    wp.appendChild(li);
-  }
-});
+function rebuildRadarWeakPoints(){
+  var wp = document.getElementById('radarWeakPoints');
+  if (!wp) return;
+  wp.innerHTML = '';
+  Object.keys(weakNotes).forEach(function(k){
+    if ((radarScores[k]||0) < 50){
+      var li = document.createElement('li');
+      li.textContent = weakNotes[k];
+      wp.appendChild(li);
+    }
+  });
+}
+renderRadar('radarChart', radarScores);
+rebuildRadarWeakPoints();
+
+// 2026-09-27 マスター仕様書 差分6準拠。先生自身によるカリキュラム修正機能用のフック。
+window.__kosenApplyRadarScores = function(scores){
+  if (!scores || typeof scores !== 'object') return;
+  Object.keys(scores).forEach(function(k){ radarScores[k] = scores[k]; });
+  renderRadar('radarChart', radarScores);
+  rebuildRadarWeakPoints();
+};
+window.__kosenApplyWeakNotes = function(notes){
+  if (!notes || typeof notes !== 'object') return;
+  weakNotes = notes;
+  rebuildRadarWeakPoints();
+};
 
 // --- 左右パネルの折りたたみ ---
 (function(){
@@ -392,105 +402,135 @@ Object.keys(weakNotes).forEach(function(k){
   bindToggle('rightPanel', 'rightToggle', 'rightToggleIcon');
 })();
 
-// --- 左: 資料投入エリアのファイルアップロード(.txt/.md/.pdf) ---
+// --- 左: 資料投入エリア → 先生自身によるカリキュラム修正(2026-09-27 マスター仕様書 差分6準拠) ---
 (function(){
-  var fileInput = document.getElementById('genFile');
-  var fileStatus = document.getElementById('genFileStatus');
-  var notesEl = document.getElementById('genNotes');
-  if (!fileInput) return;
-
-  function readTextFile(file){
-    return new Promise(function(resolve, reject){
-      var reader = new FileReader();
-      reader.onload = function(){ resolve(String(reader.result || '')); };
-      reader.onerror = function(){ reject(reader.error); };
-      reader.readAsText(file);
-    });
-  }
-  function readFileAsBase64(file){
-    return new Promise(function(resolve, reject){
-      var reader = new FileReader();
-      reader.onload = function(){
-        var result = String(reader.result || '');
-        resolve(result.split(',')[1] || '');
-      };
-      reader.onerror = function(){ reject(reader.error); };
-      reader.readAsDataURL(file);
-    });
-  }
-  function appendNotes(text){
-    var current = notesEl.value.trim();
-    notesEl.value = current ? (current + '\n\n' + text) : text;
-  }
-
-  fileInput.addEventListener('change', async function(){
-    var file = fileInput.files && fileInput.files[0];
-    fileInput.value = '';
-    if (!file) return;
-    var lower = file.name.toLowerCase();
-    var isPdf = file.type === 'application/pdf' || lower.endsWith('.pdf');
-    var isTextLike = (file.type && file.type.indexOf('text/') === 0) || lower.endsWith('.txt') || lower.endsWith('.md');
-    if (!isPdf && !isTextLike) {
-      fileStatus.style.display = 'block';
-      fileStatus.style.color = 'var(--red)';
-      fileStatus.textContent = '.txt / .md / .pdf のいずれかのファイルを選択してください。';
-      return;
-    }
-    fileStatus.style.display = 'block';
-    fileStatus.style.color = 'var(--muted)';
-    fileStatus.textContent = isPdf ? 'PDFを読み取っています…(30秒ほどかかります)' : 'ファイルを読み込んでいます…';
-    try {
-      if (isTextLike) {
-        var text = await readTextFile(file);
-        appendNotes(text);
-      } else {
-        var dataBase64 = await readFileAsBase64(file);
-        var res = await fetch('/api/extract-document', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ fileName: file.name, mimeType: 'application/pdf', dataBase64: dataBase64 })
-        });
-        if (!res.ok) throw new Error('request failed');
-        var data = await res.json();
-        appendNotes(data.text);
-      }
-      fileStatus.style.display = 'none';
-    } catch (e) {
-      fileStatus.style.color = 'var(--red)';
-      fileStatus.textContent = 'ファイルの読み込みに失敗しました。時間をおいて再度お試しください。';
-    }
-  });
-})();
-
-// --- 左: 資料投入エリア → ダッシュボードに反映 ---
-(function(){
-  var submitBtn = document.getElementById('genSubmit');
-  var errEl = document.getElementById('genErr');
+  var submitBtn = document.getElementById('reviseSubmit');
+  var textEl = document.getElementById('reviseText');
+  var errEl = document.getElementById('reviseErr');
+  var noteEl = document.getElementById('reviseNote');
   if (!submitBtn) return;
-  submitBtn.addEventListener('click', async function(){
-    var issueTitle = document.getElementById('genTitle').value.trim();
-    var sourceNotes = document.getElementById('genNotes').value.trim();
-    if (!sourceNotes) return;
+
+  var ISSUE_PAGE_ID = document.body.getAttribute('data-issue-page-id');
+  var SLUG = document.body.getAttribute('data-kosen-slug');
+  var ISSUE_TITLE = '物流の2024年問題×2類技術（逆瀬川栄一先生・鹿児島高専）';
+
+  function el(tag, attrs, children){
+    var node = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function(k){
+      if (k === 'text') node.textContent = attrs[k]; else node.setAttribute(k, attrs[k]);
+    });
+    (children || []).forEach(function(c){ node.appendChild(c); });
+    return node;
+  }
+
+  function openLoginDialog(onSuccess){
+    var overlay = el('div', { style: 'position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:10000;display:flex;align-items:center;justify-content:center;' });
+    var nameInput = el('input', { type:'text', placeholder:'お名前', style:'display:block;width:100%;margin-bottom:10px;padding:8px;font-size:14px;box-sizing:border-box;' });
+    var passInput = el('input', { type:'password', placeholder:'編集用の合い言葉', style:'display:block;width:100%;margin-bottom:14px;padding:8px;font-size:14px;box-sizing:border-box;' });
+    var errorMsg = el('div', { style:'color:#dc2626;font-size:13px;margin-bottom:10px;min-height:16px;' });
+    var submit = el('button', { type:'button', text:'ログインして反映する', style:'padding:8px 16px;border:none;border-radius:6px;background:#c96f42;color:#fff;cursor:pointer;margin-right:8px;' });
+    var cancel = el('button', { type:'button', text:'キャンセル', style:'padding:8px 16px;border:none;border-radius:6px;background:#e5e7eb;color:#111;cursor:pointer;' });
+    var box = el('div', { style:'background:#fff;border-radius:10px;padding:24px;width:320px;max-width:90vw;font-family:sans-serif;' }, [
+      el('h3', { text:'先生ページ編集モード', style:'margin:0 0 8px;font-size:16px;' }),
+      el('p', { text:'カリキュラムを修正するには、先に編集モードへのログインが必要です。', style:'margin:0 0 12px;font-size:12px;color:#6b7280;' }),
+      nameInput, passInput, errorMsg, submit, cancel
+    ]);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+    cancel.addEventListener('click', function(){ document.body.removeChild(overlay); });
+    submit.addEventListener('click', function(){
+      var name = nameInput.value.trim();
+      var pass = passInput.value;
+      if (!name) { errorMsg.textContent = 'お名前を入力してください'; return; }
+      fetch('/api/kosen-edit/login', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ editorName: name, passphrase: pass })
+      }).then(function(res){
+        return res.json().then(function(data){ return { ok: res.ok, data: data }; });
+      }).then(function(result){
+        if (!result.ok) { errorMsg.textContent = result.data.error || 'ログインに失敗しました'; return; }
+        document.body.removeChild(overlay);
+        onSuccess();
+      }).catch(function(){
+        errorMsg.textContent = '通信に失敗しました';
+      });
+    });
+  }
+
+  function cellText(id){
+    var e = document.querySelector('[data-cell-id="' + id + '"]');
+    return e ? e.textContent.trim() : '';
+  }
+
+  function currentContentSnapshot(){
+    return {
+      conclusionText: cellText('cur-conclusion'),
+      unassignedText: cellText('cur-unassigned'),
+      northstarTldrText: cellText('ns-tldr'),
+      discussText: cellText('ns-discuss'),
+      radarScores: (typeof radarScores !== 'undefined') ? radarScores : {},
+      weakNotes: (typeof weakNotes !== 'undefined') ? weakNotes : {}
+    };
+  }
+
+  function applyRevisionResult(result){
+    if (!result) return;
+    function setCell(id, text){
+      var e = document.querySelector('[data-cell-id="' + id + '"]');
+      if (e && typeof text === 'string') e.textContent = text;
+    }
+    setCell('cur-conclusion', result.conclusionText);
+    setCell('cur-unassigned', result.unassignedText);
+    setCell('ns-tldr', result.northstarTldrText);
+    setCell('ns-discuss', result.discussText);
+    if (result.radarScores && typeof window.__kosenApplyRadarScores === 'function') {
+      window.__kosenApplyRadarScores(result.radarScores);
+    }
+    if (result.weakNotes && typeof window.__kosenApplyWeakNotes === 'function') {
+      window.__kosenApplyWeakNotes(result.weakNotes);
+    }
+  }
+
+  async function submitRevision(){
+    var changeRequest = textEl.value.trim();
+    if (!changeRequest) return;
     errEl.style.display = 'none';
+    noteEl.style.display = 'none';
     submitBtn.disabled = true;
     submitBtn.textContent = '反映中…(30秒ほど)';
     try {
-      var res = await fetch('/api/issue-summary', {
+      var res = await fetch('/api/kosen-curriculum-revise', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ issueTitle: issueTitle, sourceNotes: sourceNotes })
+        body: JSON.stringify({
+          slug: SLUG,
+          issuePageId: ISSUE_PAGE_ID,
+          issueTitle: ISSUE_TITLE,
+          changeRequest: changeRequest,
+          current: currentContentSnapshot()
+        })
       });
+      if (res.status === 401) {
+        openLoginDialog(submitRevision);
+        return;
+      }
       if (!res.ok) throw new Error('request failed');
       var data = await res.json();
-      window.__kagoshimaDashboardDraft = data.draft;
-      alert('内容を受け付けました。（先生の合い言葉での確認後、カリキュラムに反映されます）');
+      applyRevisionResult(data.result);
+      textEl.value = '';
+      noteEl.style.display = 'block';
+      noteEl.style.color = '#2e7d32';
+      noteEl.textContent = '反映しました：' + (data.result && data.result.summary ? data.result.summary : '');
     } catch (e) {
       errEl.style.display = 'block';
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = 'この内容をダッシュボードに反映する';
+      submitBtn.textContent = 'この内容をカリキュラムに反映する';
     }
-  });
+  }
+
+  submitBtn.addEventListener('click', submitRevision);
 })();
 
 // --- 右: 質問チャット ---
@@ -512,11 +552,7 @@ Object.keys(weakNotes).forEach(function(k){
 
   function currentDashboardContent(){
     var curriculum = document.getElementById('panel-curriculum');
-    var base = curriculum ? curriculum.innerText : '';
-    if (window.__kagoshimaDashboardDraft) {
-      base += '\n\n---\n【資料投入エリアからの下書き】\n' + window.__kagoshimaDashboardDraft;
-    }
-    return base;
+    return curriculum ? curriculum.innerText : '';
   }
 
   async function send(){
