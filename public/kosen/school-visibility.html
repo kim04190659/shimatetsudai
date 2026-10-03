@@ -1,0 +1,425 @@
+<title>鹿児島高専 見える化ボード｜次世代高専教育カンファレンス</title>
+<base href="/kosen/">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brand: '#e08a5b', 'brand-dark': '#c96f42', 'brand-soft': '#f7e0cf',
+          'accent-green': '#7a9a7e', background: '#fdf8f2', foreground: '#4a3f35', card: '#ffffff'
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html{ font-size:113%; }
+  /*
+    鹿児島高専 見える化ボード（校長先生への意見伺い用）。2026-10-03追加。
+    構成：理念・目標(最上位) → ①目標とKPI → ②データで見える姿(立場別・仮想データ) → ③ご意見。
+    デモの数値はすべて仮想データ（実データではない）。実データは K11(志願倍率)・K12(求人倍率)のみ①の表に記載（学校公式サイトの公開値）。
+    ご意見の送信は既存の /api/kosen/register を再利用（新規バックエンドなし）。種別「先生」、内容の先頭に【見える化ボードへのご意見】を付けて記録する。
+    元の試作：Claude artifact（school_mvp）。ここでは標準のスタイルに合わせ、#sv 配下にスコープしたCSSで実装。
+  */
+  body{ background:#fdf8f2; color:#4a3f35; font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; }
+  h1,h2,h3{ text-wrap:balance; }
+  #sv{--bg:#fdf8f2;--surface:#fff;--surface2:#f6efe7;--fg:#4a3f35;--muted:#7a6f64;--line:#e8dccf;
+    --accent:#c96f42;--accent-soft:#f7e0cf;--sea:#2f5d7c;--sea-soft:#e3edf4;--ok:#3f7a55;--ok-soft:#e2f0e7;--warn:#8a5a00;--warn-soft:#fbf0d2;--bad:#a23a3a;--bad-soft:#f8e1e1;
+    font-size:15px;line-height:1.7}
+  #sv .wrap{max-width:1040px;margin:0 auto;padding:20px 16px 56px;display:flex;flex-direction:column;gap:20px}
+  #sv h1,#sv h2,#sv h3,#sv h4,#sv p{margin:0}
+  #sv a{color:var(--sea);text-decoration:underline}
+  #sv .lead{color:var(--muted);font-size:13px}
+  #sv .philo{background:var(--sea);color:#fff;border-radius:14px;padding:16px 20px;display:flex;flex-direction:column;gap:8px}
+  #sv .philo .k{font-size:12px;letter-spacing:.08em;opacity:.85}
+  #sv .philo b{font-size:clamp(20px,4vw,28px);font-weight:800;line-height:1.35}
+  #sv .goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin-top:4px}
+  #sv .goals div{background:rgba(255,255,255,.14);border-radius:10px;padding:8px 12px;font-size:13px;line-height:1.55}
+  #sv .goals b{font-size:13.5px;display:block;font-weight:700}
+  #sv .note{font-size:12px;opacity:.85}
+  #sv .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  #sv button.tab{font:inherit;font-size:14px;font-weight:700;color:var(--muted);background:none;border:none;border-bottom:4px solid transparent;padding:9px 14px;cursor:pointer}
+  #sv button.tab[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+  #sv .pane[hidden]{display:none!important}
+  #sv .pane{display:flex;flex-direction:column;gap:18px}
+  #sv .demo-note{background:var(--warn-soft);color:var(--warn);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:700}
+  #sv .mvp{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+  #sv .mvp div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:13px}
+  #sv .mvp b{display:block;font-size:13.5px;margin-bottom:2px}
+  #sv .pbar{position:sticky;top:56px;z-index:5;background:var(--bg);padding-block:8px;display:flex;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--line)}
+  #sv button.pb{font:inherit;font-size:13.5px;color:inherit;background:var(--surface);border:2px solid var(--line);border-radius:99px;padding:4px 14px;cursor:pointer}
+  #sv button.pb[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:700}
+  #sv .phead{display:flex;flex-direction:column;gap:2px}
+  #sv .phead h2{font-size:20px;font-weight:800}
+  #sv .phead .q{font-size:13.5px;color:var(--muted)}
+  #sv .ins{background:var(--sea-soft);border-left:5px solid var(--sea);border-radius:10px;padding:12px 16px;display:flex;flex-direction:column;gap:4px}
+  #sv .ins h4{font-size:12px;letter-spacing:.05em;color:var(--sea)}
+  #sv .ins ul,#sv .act ul,#sv .open ul{margin:0;padding-left:1.1em;display:grid;gap:3px;font-size:13.5px}
+  #sv .sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px}
+  #sv .w{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+  #sv .w:has(table){grid-column:1/-1}
+  #sv .wh{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+  #sv .wh b{font-size:14px;line-height:1.5}
+  #sv .vb{font-size:10.5px;font-weight:700;padding:0 8px;border-radius:99px;background:var(--warn-soft);color:var(--warn);white-space:nowrap}
+  #sv .big{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  #sv .big .v{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:28px;line-height:1}
+  #sv .big .u{font-size:12px;color:var(--muted)}
+  #sv .dl{font-size:12.5px;font-weight:700}
+  #sv .dl.up{color:var(--ok)}#sv .dl.dn{color:var(--bad)}#sv .dl.fl{color:var(--muted)}
+  #sv .stt{font-size:11px;font-weight:700;padding:1px 9px;border-radius:99px}
+  #sv .stt.ok{background:var(--ok-soft);color:var(--ok)}#sv .stt.watch{background:var(--warn-soft);color:var(--warn)}#sv .stt.bad{background:var(--bad-soft);color:var(--bad)}
+  #sv .wn{font-size:12px;color:var(--muted)}
+  #sv svg{width:100%;height:auto;display:block}
+  #sv svg text{font-size:9.5px;fill:var(--muted)}
+  #sv .tw{overflow-x:auto}
+  #sv table{border-collapse:collapse;width:100%;min-width:480px;font-size:12.5px}
+  #sv th,#sv td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+  #sv th{color:var(--muted);font-weight:700;font-size:12px}
+  #sv td.ok{background:var(--ok-soft);color:var(--ok);font-weight:700}#sv td.watch{background:var(--warn-soft);color:var(--warn);font-weight:700}#sv td.bad{background:var(--bad-soft);color:var(--bad);font-weight:700}
+  #sv td.n{font-family:ui-monospace,Menlo,Consolas,monospace}
+  #sv .act{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:10px;padding:12px 16px}
+  #sv .act h4{font-size:12px;letter-spacing:.05em;color:var(--accent);margin-bottom:2px}
+  #sv .shape{background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+  #sv .shape h3{font-size:14px}
+  #sv .sec{display:flex;flex-direction:column;gap:10px}
+  #sv .sec h2{font-size:17px;font-weight:800}
+  #sv .get{font-size:11px;padding:0 8px;border-radius:99px;font-weight:700;white-space:nowrap}
+  #sv .get.pub{background:var(--ok-soft);color:var(--ok)}#sv .get.req{background:var(--warn-soft);color:var(--warn)}#sv .get.new{background:var(--accent-soft);color:var(--accent)}
+  #sv .cyc{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}
+  #sv .cyc span{background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:2px 12px}
+  #sv .open{background:var(--warn-soft);border-radius:10px;padding:12px 16px}
+  #sv .open h3{color:var(--warn);font-size:14px;margin-bottom:4px}
+  #sv select.kv,#sv textarea,#sv input[type=text]{font:inherit;font-size:13px;color:var(--fg);background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 8px;width:100%}
+  #sv select.kv{width:auto;min-width:84px}
+  #sv textarea{resize:vertical;min-height:72px}
+  #sv .qa{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+  #sv .qa label{font-weight:700;font-size:14px;line-height:1.55}
+  #sv .qa .hint{font-size:12px;color:var(--muted)}
+  #sv .go{display:flex;justify-content:flex-end}
+  #sv button.next,#sv button.send{font:inherit;font-size:14px;font-weight:700;border-radius:99px;border:none;padding:10px 22px;cursor:pointer;background:var(--accent);color:#fff}
+  #sv button.next.sub{background:var(--surface);color:var(--accent);border:2px solid var(--accent)}
+  #sv button.send:disabled{opacity:.6;cursor:default}
+  #sv .msg{font-size:13px;font-weight:700}
+  #sv footer{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px;display:flex;flex-direction:column;gap:4px}
+</style>
+
+<header class="sticky top-0 z-50 border-b border-brand-soft bg-background/90 backdrop-blur">
+  <div class="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3 sm:px-5 sm:py-4">
+    <a class="flex shrink-0 items-center gap-2" href="index.html">
+      <span class="text-xl sm:text-2xl">🎓</span>
+      <span class="leading-tight">
+        <span class="block text-[10px] font-semibold text-accent-green sm:text-xs">先生×企業人による社会価値教育</span>
+        <span class="block whitespace-nowrap text-sm font-bold tracking-wide text-brand-dark sm:text-lg">次世代高専教育カンファレンス</span>
+      </span>
+    </a>
+    <nav class="flex flex-wrap justify-end gap-2 text-xs sm:gap-5 sm:text-base">
+      <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="index.html">ホーム</a>
+      <a class="whitespace-nowrap font-bold text-brand-dark" href="teachers.html">先生</a>
+      <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="companies.html">企業人</a>
+      <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="matching.html">マッチング</a>
+      <a class="whitespace-nowrap font-medium text-foreground/80 transition hover:text-brand-dark" href="contact.html">お問い合わせ</a>
+    </nav>
+  </div>
+</header>
+
+<div id="sv"><div class="wrap">
+
+<section class="sec">
+  <p class="text-sm font-semibold tracking-wide text-brand-dark" style="color:var(--accent);font-size:13px;font-weight:700">鹿児島高専 見える化ボード　校長先生への意見伺い（たたき台）</p>
+  <h1 style="font-size:clamp(22px,4.4vw,30px);font-weight:800;line-height:1.35">理念と目標から、学校の「今」を見えるようにする。</h1>
+  <p class="lead">学校にある生のデータを組み合わせて、校長先生・リーダーの意思決定を支える画面を作る構想です。数字は全て仮想データで、「こういうデータがあれば、こう見せられる」を確かめていただくための見本です。</p>
+</section>
+
+<section class="philo" aria-label="鹿児島高専の理念と目標">
+  <span class="k">最上位：鹿児島高専の教育理念とミッション（公式）</span>
+  <b>未来の技術を創る人を育てる</b>
+  <span style="font-size:13px">ミッション：①国際的で創造性豊かな技術者の養成　②開発型教育・研究による社会経済的価値の創出　③地域産業・文化・生活を支える地域密着型の機関</span>
+  <div class="goals">
+    <div><b>G1 人材育成</b>国際的で創造性豊かな技術者を育てる</div>
+    <div><b>G2 価値創出</b>開発型の教育・研究で社会経済的価値を生む</div>
+    <div><b>G3 地域密着</b>地域の産業・文化・生活を支える</div>
+    <div><b>G4 国際・選ばれる学校</b>国際性を備え、志願者・進路先から選ばれる</div>
+  </div>
+  <span class="note">G1〜G4は、公式のミッションを見える化のために私たちが整理した案です。言葉や切り分けのご意見をお願いします。</span>
+</section>
+
+<div class="tabs" id="tabs" role="tablist">
+  <button class="tab" role="tab" aria-selected="true" data-t="design">① 目標とKPI</button>
+  <button class="tab" role="tab" aria-selected="false" data-t="demo">② データで見える姿（仮想）</button>
+  <button class="tab" role="tab" aria-selected="false" data-t="voice">③ ご意見</button>
+</div>
+
+<!-- ===== ① 目標とKPI ===== -->
+<div class="pane" id="pane-design">
+  <div class="sec">
+    <h2>KPI（13件・仮説）と、データの手元状況</h2>
+    <div class="tw"><table>
+      <tr><th>目標</th><th>KPI</th><th>元データ</th><th>接続</th><th>見る人</th><th>校長先生のご意見</th></tr>
+      <tr><td>G1 人材育成</td><td>K1 学んだことを活用できた学生の割合（北極星）</td><td>振り返りカード・半年後フォロー</td><td><span class="get new">新規蓄積</span></td><td>校長・教員・学生</td><td><select class="kv" data-k="K1" aria-label="K1 への意見"><option value="">—</option><option>残す</option><option>見直す</option><option>外す</option></select></td></tr>
+      <tr><td>G1</td><td>K2 「面白い・自分ごと」の平均</td><td>3問カード・学生生活アンケート</td><td><span class="get new">新規蓄積</span></td><td>校長・教員・学生</td><td><select class="kv" data-k="K2" aria-label="K2 への意見"><option value="">—</option><option>残す</option><option>見直す</option><option>外す</option></select></td></tr>
+      <tr><td>G1</td><td>K3 当事者と接した学生の割合</td><td>活動記録</td><td><span class="get new">新規蓄積</span></td><td>校長・教員・学生・外部</td><td><select class="kv" data-k="K3" aria-label="K3 への意見"><option value="">—</option><option>残す</option><option>見直す</option><option>外す</option></select></td></tr>
+      <tr><td>G1</td><td>K4 単位修得率・進級率</td><td>教務</td><td><span class="get req">要依頼</span></td><td>校長・運営・教員</td><td><select class="kv" data-k="K4" aria-label="K4 への意見"><option value="">—</option><option>残す</option><option>見直す</option><option>外す</option></select></td></tr>
+      <tr><td>G2 価値創出</td><td>K5 学外の評価の場での成果</td><td>学生活動の記録・大会結果</td><td><span class="get req">要依頼</span></td><td>校長・教員・学生</td><td><select class="kv" data-k="K5" aria-label="K5 への意見"><option value="">—</option><option>残す</option><option>見直す</option><option>外す</option></select></td></tr>
+      <tr><td>G2</td><td>K6 共同研究・受託研究の件数</td><td>産学連携・事務</td><td><span class="get req">要依頼</span></td><td>校長・運営・外部</td><td><select class="kv" data-k="K6" aria-label="K6 への意見"><option value="">—</option><option>残す</option><option>見直す</option><option>外す</option></select></td></tr>
+      <tr><td>G3 地域密着</td><td>K7 連携先の数と幅</td><td>連携先の一覧・協定</td><td><span class="get req">要依頼</span></td><td>校長・運営・外部</td><td><select class="kv" data-k="K7" aria-label="K7 への意見"><option value="">—</option><option>残す</option><option>見直す</option><option>外す</option></select></td></tr>
+      <tr><td>G3</td><td>K8 翌年度も続いた連携の割合</td><td>連携先・活動記録</td><td><span class="get new">新規蓄積</span></td><td>校長・運営・外部</td><td><select class="kv" data-k="K8" aria-label="K8 への意見"><option value="">—</option><option>残す</option><option>見直す</option><option>外す</option></select></td></tr>
+      <tr><td>G3</td><td>K9 公開講座・出前授業の回数</td><td>産学連携・広報</td><td><span class="get req">要依頼</span></td><td>運営・外部・学生</td><td><select class="kv" data-k="K9" aria-label="K9 への意見"><option value="">—</option><option>残す</option><option>見直す</option><option>外す</option></select></td></tr>
+      <tr><td>G4 国際・選ばれる</td><td>K10 国際的な経験をした学生の割合</td><td>国際交流</td><td><span class="get req">要依頼</span></td><td>校長・運営・学生</td><td><select class="kv" data-k="K10" aria-label="K10 への意見"><option value="">—</option><option>残す</option><option>見直す</option><option>外す</option></select></td></tr>
+      <tr><td>G4</td><td>K11 志願・入学の状況<br><small>実データ（令和8年度入学）：倍率1.34、入学者208名（定員200）</small></td><td><a href="https://www.kagoshima-ct.ac.jp/examination/status/">志願者状況（学校サイト）</a></td><td><span class="get pub">公開データ</span></td><td>校長・運営</td><td><select class="kv" data-k="K11" aria-label="K11 への意見"><option value="">—</option><option>残す</option><option>見直す</option><option>外す</option></select></td></tr>
+      <tr><td>G4</td><td>K12 卒業後の進路<br><small>実データ（令和8年3月卒業）：卒業184名、進学63、就職120、求人倍率67.1倍</small></td><td><a href="https://www.kagoshima-ct.ac.jp/student/graduate/">卒業生の進路状況（学校サイト）</a></td><td><span class="get pub">公開データ</span></td><td>校長・運営・教員・学生</td><td><select class="kv" data-k="K12" aria-label="K12 への意見"><option value="">—</option><option>残す</option><option>見直す</option><option>外す</option></select></td></tr>
+      <tr><td>土台</td><td>K13 教員の関与時間（集計のみ）</td><td>自己申告・人事の集計</td><td><span class="get new">新規蓄積</span></td><td>校長・運営・教員</td><td><select class="kv" data-k="K13" aria-label="K13 への意見"><option value="">—</option><option>残す</option><option>見直す</option><option>外す</option></select></td></tr>
+    </table></div>
+    <p class="lead">目標値はすべて未設定。校長・リーダーと合意してから置く。</p>
+  </div>
+  <div class="sec">
+    <h2>進化し続ける仕組み</h2>
+    <div class="cyc"><span>見る</span>→<span>気づく</span>→<span>決める</span>→<span>動く</span>→<span>確かめる</span>→<span>KPIを育てる</span></div>
+    <p class="lead">月次：運営担当がデータ更新／学期ごと：校長・リーダーが状況を見て決める／年1回：KPIの棚卸し。KPIを増やす条件は「目標につながる」「元データが学校にある」「見た誰かの行動が変わる」。</p>
+  </div>
+  <div class="open"><h3>まだ確認できていないこと</h3><ul>
+    <li>KPIと立場は公式の目標から私たちが導いた仮説。校長・リーダーの感覚との確認が必要</li>
+    <li>各KPIの目標値（中期計画・年度計画の目標と実績を確認）、学校にある生データの種類・取得可否、個人情報と公開範囲</li>
+  </ul></div>
+  <div class="go"><button class="next" data-go="demo">② データで見える姿を見る →</button></div>
+</div>
+
+<!-- ===== ② デモ ===== -->
+<div class="pane" id="pane-demo" hidden>
+  <div class="demo-note">この画面の数値はすべて仮想データです。実データではありません。見せ方を確かめるためのものです。</div>
+  <div class="mvp">
+    <div><b>① こんなデータがあれば</b>こう見える、を立場ごとに確かめる</div>
+    <div><b>② 変化が見える</b>推移・目標との差・前回比で、状況の変化に気づく</div>
+    <div><b>③ 次の行動が分かる</b>気づきから、その立場がとる行動につなげる</div>
+  </div>
+  <div class="pbar" id="pbar" role="group" aria-label="立場を選ぶ"></div>
+  <div id="page" class="sec"></div>
+  <div class="shape">
+    <h3>仮想データの正体：Notionに置く形（1行＝1期間×1KPI×1区分）</h3>
+    <div class="tw"><table id="shape"></table></div>
+    <p class="lead">実データに差し替えるときは、学校にある生データから、この形の表を作る。画面は同じ形のまま、数字だけが入れ替わる。</p>
+  </div>
+  <div class="go"><button class="next" data-go="voice">③ ご意見をお寄せいただく →</button></div>
+</div>
+
+<!-- ===== ③ ご意見 ===== -->
+<div class="pane" id="pane-voice" hidden>
+  <div class="sec">
+    <h2>校長先生にご意見をいただきたい点</h2>
+    <p class="lead">一言・箇条書きで構いません。答えにくい項目は空欄のままで結構です。①の表で選んだ「残す／見直す／外す」も一緒に送られます。</p>
+  </div>
+  <form id="voiceForm" class="sec" style="gap:12px">
+    <div class="qa"><label for="q1">Q1　理念・目標の整理（G1〜G4）は、校長先生のお考えと合っていますか。足りない視点や、言葉の違いはありますか。</label><textarea id="q1"></textarea></div>
+    <div class="qa"><label for="q2">Q2　学校の状況を判断・決定されるとき、実際に見ているデータ、あるいは「これが見えたら助かる」というデータは何ですか。</label><textarea id="q2"></textarea></div>
+    <div class="qa"><label for="q3">Q3　13のKPI（①の表）のうち、残したいもの・外したいもの・足したいものはありますか。</label><textarea id="q3"></textarea><span class="hint">①の表の選択欄でも入力できます。</span></div>
+    <div class="qa"><label for="q4">Q4　運営担当・教員・学生・外部（OB・企業・自治体）に見せてよい範囲、見せたくない範囲はありますか。</label><textarea id="q4"></textarea></div>
+    <div class="qa"><label for="q5">Q5　最初の一歩として、どの範囲から試すのがよいと思われますか（例：特定の類・コース、特定のKPIのみ）。</label><textarea id="q5"></textarea></div>
+    <div class="qa"><label for="vname">お名前・ご所属（任意）</label><input id="vname" type="text" placeholder="例：校長　道地"></div>
+    <div class="go" style="justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><span id="vmsg" class="msg" role="status"></span><button type="submit" class="send" id="vsend">ご意見を送信する</button></div>
+  </form>
+  <div class="go"><button class="next sub" data-go="design">← ① 目標とKPIに戻る</button></div>
+</div>
+
+<footer>
+  <span>提案イメージ。デモの数値は仮想データ、KPIは仮説で、決定事項ではありません。実データは K11（志願倍率）・K12（求人倍率）のみ、学校の公開情報から記載しています。</span>
+  <span>出典（鹿児島工業高等専門学校）：<a href="https://www.kagoshima-ct.ac.jp/education-policy/">教育基本方針</a>／<a href="https://www.kagoshima-ct.ac.jp/school-guide/philosophy/">教育理念、学習・教育目標</a>／<a href="https://www.kagoshima-ct.ac.jp/courses/creative_design/">創造デザイン工学科</a>／<a href="https://www.kagoshima-ct.ac.jp/examination/status/">志願者状況</a>／<a href="https://www.kagoshima-ct.ac.jp/student/graduate/">卒業生の進路状況</a></span>
+  <span>作成：NEC 木村 好孝（鹿児島高専 OB）</span>
+</footer>
+</div></div>
+
+<script>
+
+(function(){
+  /* ===== 仮想データ（すべてデモ用） ===== */
+  var TERM=["R6前","R6後","R7前","R7後","R8前"], YEAR=["R4","R5","R6","R7","R8"];
+  var K={
+    K1:{n:"学んだことを活用できた学生の割合",u:"%",d:1,t:60,l:TERM,v:[38,41,45,52,58],dec:0},
+    K2:{n:"「面白い・自分ごと」の平均",u:"点/5",d:1,t:4.0,l:TERM,v:[3.4,3.5,3.6,3.9,3.7],dec:1},
+    K3:{n:"当事者と接した学生の割合",u:"%",d:1,t:50,l:TERM,v:[12,15,22,31,40],dec:0},
+    K4:{n:"単位修得率",u:"%",d:1,t:95,l:TERM,v:[93,92,93,92,91],dec:0},
+    K5:{n:"学外の評価の場での受賞数",u:"件",d:1,t:6,l:YEAR,v:[1,2,2,4,5],dec:0},
+    K6:{n:"共同研究・受託研究の件数",u:"件",d:1,t:18,l:YEAR,v:[9,10,12,12,15],dec:0},
+    K7:{n:"連携先の数",u:"先",d:1,t:40,l:YEAR,v:[14,18,23,29,34],dec:0},
+    K8:{n:"翌年度も続いた連携の割合",u:"%",d:1,t:70,l:YEAR,v:[40,45,50,58,62],dec:0},
+    K9:{n:"公開講座・出前授業の回数",u:"回",d:1,t:48,l:YEAR,v:[22,25,31,36,41],dec:0},
+    K10:{n:"国際的な経験をした学生の割合",u:"%",d:1,t:15,l:YEAR,v:[6,6,8,9,11],dec:0},
+    K11:{n:"本科の志願倍率",u:"倍",d:1,t:1.5,l:YEAR,v:[1.40,1.33,1.28,1.25,1.31],dec:2},
+    K12:{n:"求人倍率",u:"倍",d:1,t:70,l:YEAR,v:[48,53,57,61,64],dec:0},
+    K13:{n:"教員の関与時間（月・1人平均）",u:"時間",d:-1,t:28,l:TERM,v:[22,24,27,32,36],dec:0}
+  };
+  var K7TYPE=[{n:"自治体",v:[3,4,5,6,7]},{n:"企業",v:[8,10,13,17,20]},{n:"OB",v:[3,4,5,6,7]}];
+  var COURSE=[
+    {n:"共創デザイン（新科目・試行）",K1:62,K2:4.1,K4:95,K3:55},
+    {n:"PBL実習Ⅰ",K1:48,K2:3.6,K4:92,K3:30},
+    {n:"情報演習",K1:41,K2:3.4,K4:90,K3:10},
+    {n:"地域課題演習",K1:55,K2:3.9,K4:93,K3:45}
+  ];
+  var SESS=[3.2,3.6,3.9,4.1,3.8,4.0,4.2,4.4,3.9,3.7,4.0,4.1,4.5,4.3,4.2], MENTOR=[8,13];
+  var GRADE=["1年","2年","3年","4年","5年"], G_K1=[30,41,55,62,68], G_K3=[8,15,32,45,60], G_K10=[2,4,8,14,20];
+  var EXTW=[{n:"出前授業",s:120,r:4.1},{n:"外部メンター",s:85,r:4.4},{n:"共同研究",s:24,r:4.0},{n:"インターン",s:36,r:4.3}];
+  var FEED=[ // データ更新状況：最終更新(年,月), 想定頻度(月)
+    {n:"教務（単位修得）",y:2026,m:9,f:6},{n:"入試広報（説明会）",y:2026,m:9,f:1},{n:"産学連携（共同研究）",y:2026,m:6,f:3},
+    {n:"国際交流",y:2026,m:4,f:3},{n:"活動記録（授業）",y:2026,m:9,f:1},{n:"連携先の一覧",y:2026,m:8,f:3},{n:"教員の関与時間",y:2026,m:7,f:6}
+  ];
+  var NOW={y:2026,m:10};
+
+  /* ===== 計算 ===== */
+  function last(a){return a[a.length-1]}
+  function ratio(k,v){return k.d===1?v/k.t:k.t/v}
+  function stat(k,v){var r=ratio(k,v);return r>=0.95?"ok":(r>=0.8?"watch":"bad")}
+  function fmt(v,dec){return Number(v).toFixed(dec==null?0:dec)}
+  var SL={ok:"目標に近い",watch:"注意",bad:"課題"};
+  function delta(k){var a=k.v,d=last(a)-a[a.length-2],good=(k.d===1?d>0:d<0);
+    var c=d===0?"fl":(good?"up":"dn"),ar=d===0?"→":(d>0?"▲":"▼");
+    return '<span class="dl '+c+'">'+ar+' '+fmt(Math.abs(d),k.dec)+' '+(k.l===TERM?"前期比":"前年度比")+'</span>'}
+
+  /* ===== 図（SVG） ===== */
+  function svgOpen(W,H,label){return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+label+'">'}
+  function line(labels,vals,o){o=o||{};var W=320,H=150,L=34,R=14,T=14,B=26;
+    var all=vals.slice();if(o.target!=null)all.push(o.target);
+    var mn=Math.min.apply(null,all),mx=Math.max.apply(null,all),pd=(mx-mn)*0.25||1;mn-=pd;mx+=pd;
+    function X(i){return L+(W-L-R)*(vals.length===1?0.5:i/(vals.length-1))}
+    function Y(v){return T+(H-T-B)*(1-(v-mn)/(mx-mn))}
+    var s=svgOpen(W,H,o.label||"推移");
+    for(var g=0;g<3;g++){var tv=mn+(mx-mn)*g/2,y=Y(tv);
+      s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y+'" y2="'+y+'" style="stroke:var(--line)" stroke-width="1"/><text x="'+(L-4)+'" y="'+(y+3)+'" text-anchor="end">'+fmt(tv,o.dec)+'</text>'}
+    if(o.target!=null){var ty=Y(o.target);
+      s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+ty+'" y2="'+ty+'" style="stroke:var(--accent)" stroke-width="1.5" stroke-dasharray="4 3"/><text x="'+(W-R)+'" y="'+(ty-4)+'" text-anchor="end" style="fill:var(--accent)">目標(仮) '+fmt(o.target,o.dec)+'</text>'}
+    var p="";vals.forEach(function(v,i){p+=(i?"L":"M")+X(i)+" "+Y(v)+" "});
+    s+='<path d="'+p+'" fill="none" style="stroke:var(--sea)" stroke-width="2.2"/>';
+    vals.forEach(function(v,i){var an=o.mark&&o.mark.indexOf(i)>=0;
+      s+='<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="'+(an?5:(i===vals.length-1?4.5:2.6))+'" style="fill:'+(an?'var(--accent)':'var(--sea)')+'"/>';
+      if(i===vals.length-1||an)s+='<text x="'+X(i)+'" y="'+(Y(v)-8)+'" text-anchor="middle" style="fill:var(--fg);font-weight:700">'+fmt(v,o.dec)+'</text>'});
+    var step=Math.ceil(labels.length/6);
+    labels.forEach(function(lb,i){if(i%step===0||i===labels.length-1)s+='<text x="'+X(i)+'" y="'+(H-8)+'" text-anchor="middle">'+lb+'</text>'});
+    return s+'</svg>'}
+  function bars(labels,vals,o){o=o||{};var W=320,H=150,L=30,R=10,T=16,B=26,mx=Math.max.apply(null,vals)*1.15;
+    var bw=(W-L-R)/vals.length*0.58,s=svgOpen(W,H,o.label||"棒グラフ");
+    s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+(H-B)+'" y2="'+(H-B)+'" style="stroke:var(--line)"/>';
+    vals.forEach(function(v,i){var cx=L+(W-L-R)*(i+0.5)/vals.length,h=(H-T-B)*v/mx,hl=(o.hl==null?i===vals.length-1:i===o.hl);
+      s+='<rect x="'+(cx-bw/2)+'" y="'+(H-B-h)+'" width="'+bw+'" height="'+h+'" rx="3" style="fill:'+(hl?'var(--sea)':'var(--sea-soft)')+';stroke:var(--sea)" stroke-width="1"/>'
+        +'<text x="'+cx+'" y="'+(H-B-h-4)+'" text-anchor="middle" style="fill:var(--fg);font-weight:700">'+fmt(v,o.dec)+'</text>'
+        +'<text x="'+cx+'" y="'+(H-8)+'" text-anchor="middle">'+labels[i]+'</text>'});
+    if(o.target!=null){var ty=H-B-(H-T-B)*o.target/mx;
+      s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+ty+'" y2="'+ty+'" style="stroke:var(--accent)" stroke-width="1.5" stroke-dasharray="4 3"/><text x="'+(W-R)+'" y="'+(ty-4)+'" text-anchor="end" style="fill:var(--accent)">目標(仮) '+fmt(o.target,o.dec)+'</text>'}
+    return s+'</svg>'}
+  function stack(labels,series){var W=320,H=160,L=30,R=10,T=14,B=40,tot=labels.map(function(_,i){return series.reduce(function(a,s){return a+s.v[i]},0)}),mx=Math.max.apply(null,tot)*1.12,
+      col=["var(--sea)","var(--accent)","var(--ok)"],bw=(W-L-R)/labels.length*0.58,s=svgOpen(W,H,"積み上げ棒グラフ");
+    s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+(H-B)+'" y2="'+(H-B)+'" style="stroke:var(--line)"/>';
+    labels.forEach(function(lb,i){var cx=L+(W-L-R)*(i+0.5)/labels.length,y=H-B;
+      series.forEach(function(sr,j){var h=(H-T-B)*sr.v[i]/mx;y-=h;s+='<rect x="'+(cx-bw/2)+'" y="'+y+'" width="'+bw+'" height="'+h+'" style="fill:'+col[j]+'"/>'});
+      s+='<text x="'+cx+'" y="'+(y-4)+'" text-anchor="middle" style="fill:var(--fg);font-weight:700">'+tot[i]+'</text><text x="'+cx+'" y="'+(H-B+12)+'" text-anchor="middle">'+lb+'</text>'});
+    series.forEach(function(sr,j){var x=L+j*70;s+='<rect x="'+x+'" y="'+(H-14)+'" width="9" height="9" style="fill:'+col[j]+'"/><text x="'+(x+13)+'" y="'+(H-6)+'">'+sr.n+'</text>'});
+    return s+'</svg>'}
+
+  /* ===== ウィジェット ===== */
+  function kcard(id,o){var k=K[id],v=last(k.v),st=stat(k,v);o=o||{};
+    return '<div class="w"><div class="wh"><b>'+id+' '+k.n+'</b><span class="vb">仮想</span></div>'
+      +'<div class="big"><span class="v">'+fmt(v,k.dec)+'</span><span class="u">'+k.u+'</span><span class="stt '+st+'">'+SL[st]+'</span></div>'+delta(k)
+      +(o.noChart?'':(o.bar?bars(k.l,k.v,{target:k.t,dec:k.dec,label:k.n}):line(k.l,k.v,{target:k.t,dec:k.dec,label:k.n})))
+      +(o.note?'<p class="wn">'+o.note+'</p>':'')+'</div>'}
+  function wbox(title,html,note){return '<div class="w"><div class="wh"><b>'+title+'</b><span class="vb">仮想</span></div>'+html+(note?'<p class="wn">'+note+'</p>':'')+'</div>'}
+  function list(a){return '<ul>'+a.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>'}
+  function ins(items){return '<div class="ins"><h4>気づき（データから自動で導いたもの）</h4>'+list(items)+'</div>'}
+  function act(items){return '<div class="act"><h4>次にとる行動（例）</h4>'+list(items)+'</div>'}
+  function head(t,q){return '<div class="phead"><h2>'+t+'</h2><p class="q">'+q+'</p></div>'}
+  var DEC={K13:"教員の負荷分散や支援員の配置を検討する",K10:"国際プログラムを広げるか検討する",K3:"当事者と接する機会（出前授業・フィールド）を増やす",K2:"面白さが下がった科目を確認して授業設計を見直す",K12:"企業との関係の厚みを確認する",K11:"広報・発信の打ち出し方を見直す",K7:"連携先を増やす分野を決める",K8:"続かなかった連携の理由を聞く",K9:"公開講座・出前授業の枠を増やす",K5:"学外の評価の場への出場体制を決める",K6:"共同研究の窓口と体制を見直す"};
+
+  /* ===== 立場ページ ===== */
+  function mean(a){return a.reduce(function(x,y){return x+y},0)/a.length}
+  var PAGES={
+    head:{t:"校長",f:function(){
+      var ids=Object.keys(K).sort(function(a,b){return ratio(K[a],last(K[a].v))-ratio(K[b],last(K[b].v))});
+      var bad=ids.filter(function(i){return stat(K[i],last(K[i].v))==="bad"}),watch=ids.filter(function(i){return stat(K[i],last(K[i].v))==="watch"});
+      var items=bad.map(function(i){var k=K[i];return '<b>'+i+' '+k.n+'</b>：現在 '+fmt(last(k.v),k.dec)+k.u+'（目標(仮) '+fmt(k.t,k.dec)+'）→ <span class="stt bad">課題</span>'});
+      var k2=K.K2,d2=k2.v[4]-k2.v[3];if(d2<0)items.push('<b>K2 面白い・自分ごと</b>：前期から '+fmt(Math.abs(d2),1)+' 点下がった（K13の教員時間が増えた時期と重なる）');
+      items.push('「注意」は ほか '+watch.length+' 件。目標に近づいている指標が多い');
+      var tbl='<div class="tw"><table><tr><th>KPI</th><th>現在</th><th>目標(仮)</th><th>変化</th><th>状態</th></tr>'+Object.keys(K).map(function(i){var k=K[i],v=last(k.v),st=stat(k,v),d=v-k.v[k.v.length-2];
+        return '<tr><td>'+i+' '+k.n+'</td><td class="n">'+fmt(v,k.dec)+k.u+'</td><td class="n">'+fmt(k.t,k.dec)+'</td><td class="n">'+(d>0?"▲":(d<0?"▼":"→"))+fmt(Math.abs(d),k.dec)+'</td><td class="'+st+'">'+SL[st]+'</td></tr>'}).join('')+'</table></div>';
+      var acts=bad.map(function(i){return '<b>'+i+'</b>：'+(DEC[i]||"")});
+      return head("校長のページ","目標に対して学校全体がどうなっているか。何を重点にするか。")+ins(items)
+        +'<div class="sgrid">'+kcard("K1")+kcard("K2")+kcard("K13")+wbox("全KPIの状況",tbl,"目標(仮)との比で判定：95%以上=目標に近い／80%以上=注意／それ未満=課題")+'</div>'
+        +act(acts.concat(["決めたことと理由を記録に残し、次の学期に変化を確かめる"]))}},
+    ops:{t:"運営担当",f:function(){
+      var rows=FEED.map(function(x){var age=(NOW.y-x.y)*12+(NOW.m-x.m),late=age>x.f;return {n:x.n,age:age,late:late,f:x.f}});
+      var lt=rows.filter(function(r){return r.late});
+      var tbl='<div class="tw"><table><tr><th>データ</th><th>最終更新から</th><th>想定頻度</th><th>状態</th></tr>'+rows.map(function(r){return '<tr><td>'+r.n+'</td><td class="n">'+r.age+'か月</td><td class="n">'+r.f+'か月ごと</td><td class="'+(r.late?'bad':'ok')+'">'+(r.late?"更新遅れ":"最新")+'</td></tr>'}).join('')+'</table></div>';
+      var items=lt.map(function(r){return '<b>'+r.n+'</b>が、想定頻度（'+r.f+'か月）を超えて '+r.age+' か月更新されていない'});
+      items.push('志願倍率は前年度から '+fmt(K.K11.v[4]-K.K11.v[3],2)+' 上がった（K11）');
+      return head("運営担当のページ","自分の部署のデータが正しく入り、更新されているか。")+ins(items)
+        +'<div class="sgrid">'+wbox("データの更新状況",tbl,"最終更新と想定頻度から自動判定")+kcard("K11",{bar:true})+kcard("K12")+wbox("K7 連携先の数と種別",stack(YEAR,K7TYPE),"企業が最も増えている")+kcard("K9",{bar:true})+'</div>'
+        +act(lt.map(function(r){return r.n+'の担当へ更新を依頼する'}).concat(["更新できたら「現状」が自動で入れ替わることを確認する"]))}},
+    fac:{t:"教員・類コースのリーダー",f:function(){
+      var m=[],o=[];SESS.forEach(function(v,i){(MENTOR.indexOf(i+1)>=0?m:o).push(v)});
+      var cls=function(id,v){var k=K[id];return stat(k,v)};
+      var tbl='<div class="tw"><table><tr><th>科目</th><th>活用 K1</th><th>面白い K2</th><th>当事者 K3</th><th>修得率 K4</th></tr>'+COURSE.map(function(c){
+        return '<tr><td>'+c.n+'</td><td class="n '+cls("K1",c.K1)+'">'+c.K1+'%</td><td class="n '+cls("K2",c.K2)+'">'+c.K2+'</td><td class="n '+cls("K3",c.K3)+'">'+c.K3+'%</td><td class="n '+cls("K4",c.K4)+'">'+c.K4+'%</td></tr>'}).join('')+'</table></div>';
+      var low=COURSE.slice().sort(function(a,b){return a.K2-b.K2})[0];
+      var items=['外部メンターの回の「面白い」平均は '+fmt(mean(m),2)+'、それ以外は '+fmt(mean(o),2)+'（新科目の15回）',
+        '科目別で「面白い」が最も低いのは <b>'+low.n+'</b>（'+low.K2+'）。当事者と接した割合も '+low.K3+'% と低い'];
+      return head("教員・類コースのリーダーのページ","自分の授業や類が、目標に効いているか。")+ins(items)
+        +'<div class="sgrid">'+wbox("科目別の状況",tbl,"目標(仮)との比で色分け")
+        +wbox("新科目：毎回の「面白い・理解できた」（15回）",line(SESS.map(function(_,i){return i+1}),SESS,{target:4.0,dec:1,mark:MENTOR,label:"毎回の面白い"}),"橙の点＝外部メンターの回（第8・13回）")
+        +kcard("K2")+kcard("K4")+'</div>'
+        +act(['当事者と接する場面が少ない科目（'+low.n+'）に、外部の人が入る回を足す','外部メンターの回の進め方を、他の回にも取り入れる','次の学期に、この科目の「面白い」の変化を確かめる'])}},
+    stu:{t:"学生",f:function(){
+      var items=['「当事者と接した」は5年生で '+G_K3[4]+'%、1年生で '+G_K3[0]+'%。学年が上がるほど機会が増えている','「学んだことを活用できた」も、学年が上がるほど高い（1年 '+G_K1[0]+'% → 5年 '+G_K1[4]+'%）'];
+      return head("学生のページ（集計の数字のみ）","自分たちの学びと成長、学校の状況はどうか。")+ins(items)
+        +'<div class="sgrid">'+wbox("学年別：学んだことを活用できた割合（K1）",bars(GRADE,G_K1,{hl:null,label:"学年別K1"}),"全学年の平均は 全体の推移（下）で確認")
+        +wbox("学年別：当事者と接した割合（K3）",bars(GRADE,G_K3,{label:"学年別K3"}))
+        +wbox("学年別：国際的な経験をした割合（K10）",bars(GRADE,G_K10,{label:"学年別K10"}))
+        +kcard("K1")+'</div>'
+        +act(['出前授業の見学や外部メンターの回に参加して、当事者と接してみる','国際交流の説明会に参加して、次の学期の選択肢を知る','自分の振り返りを書いて、学んだことを何に使えたか確かめる'])}},
+    ext:{t:"外部（OB・企業・自治体）",f:function(){
+      var best=EXTW.slice().sort(function(a,b){return b.r-a.r})[0];
+      var tbl='<div class="tw"><table><tr><th>関わり方</th><th>参加学生（仮）</th><th>学生の「活用できた」評価（5点）</th></tr>'+EXTW.map(function(x){return '<tr><td>'+x.n+'</td><td class="n">'+x.s+'名</td><td class="n">'+x.r+'</td></tr>'}).join('')+'</table></div>';
+      var items=['学生の評価が最も高い関わり方は <b>'+best.n+'</b>（'+best.r+'）','連携先は '+K.K7.v[0]+' → '+last(K.K7.v)+'。続いた連携の割合は '+last(K.K8.v)+'%（前年度から '+fmt(K.K8.v[4]-K.K8.v[3],0)+' ポイント上昇）'];
+      return head("外部（OB・企業・自治体）のページ","自分たちの関わりが、どう活かされているか。")+ins(items)
+        +'<div class="sgrid">'+wbox("関わり方ごとの学生の評価",tbl)+kcard("K8")+wbox("K7 連携先の数と種別",stack(YEAR,K7TYPE))+kcard("K9",{bar:true})+kcard("K3")+'</div>'
+        +act(['学生の評価が高い関わり方（'+best.n+'）を、次の学期にも設定する','続かなかった連携の理由を聞き、関わりやすい形に直す'])}}
+  };
+  var ORDER=["head","ops","fac","stu","ext"],cur="head";
+  var pbar=document.getElementById("pbar"),page=document.getElementById("page");
+  function renderPage(){
+    pbar.innerHTML=ORDER.map(function(k){return '<button class="pb" data-p="'+k+'" aria-pressed="'+(k===cur)+'">'+PAGES[k].t+'</button>'}).join('');
+    pbar.querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){cur=b.dataset.p;renderPage();try{localStorage.setItem("kosen-mvp-p",cur)}catch(e){}})});
+    page.innerHTML=PAGES[cur].f();
+  }
+  /* データの形 */
+  (function(){var rows=[["R7後","K1","52","全体"],["R8前","K1","58","全体"],["R8前","K2","3.7","全体"],["R8前","K2","4.1","共創デザイン"],["R8前","K13","36","全体"],["R8","K7","34","全体"],["R8","K7","20","企業"]];
+    document.getElementById("shape").innerHTML='<tr><th>期間</th><th>KPI</th><th>値</th><th>区分</th></tr>'+rows.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td class="n">'+r[2]+'</td><td>'+r[3]+'</td></tr>'}).join('')})();
+  /* タブ */
+  var tabs=document.querySelectorAll("button.tab"),PANES=["design","demo","voice"];
+  function showTab(t){tabs.forEach(function(b){b.setAttribute("aria-selected",b.dataset.t===t?"true":"false")});
+    PANES.forEach(function(p){document.getElementById("pane-"+p).hidden=p!==t});
+    try{history.replaceState(null,"","#"+t)}catch(e){}}
+  tabs.forEach(function(b){b.addEventListener("click",function(){showTab(b.dataset.t)})});
+  document.querySelectorAll("[data-go]").forEach(function(b){b.addEventListener("click",function(){showTab(b.dataset.go);window.scrollTo({top:document.getElementById("tabs").offsetTop-8,behavior:"smooth"})})});
+  var h=(location.hash||"").slice(1);if(PANES.indexOf(h)>=0)showTab(h);
+  try{var sp=localStorage.getItem("kosen-mvp-p");if(sp&&PAGES[sp])cur=sp}catch(e){}
+  renderPage();
+})();
+
+</script>
+<script>
+(function(){
+  var f=document.getElementById("voiceForm"),btn=document.getElementById("vsend"),msg=document.getElementById("vmsg");
+  function v(id){return (document.getElementById(id).value||"").trim().slice(0,260)}
+  f.addEventListener("submit",async function(e){
+    e.preventDefault();
+    var ks=[];document.querySelectorAll("select.kv").forEach(function(s){if(s.value)ks.push(s.dataset.k+s.value)});
+    var qs=[["Q1 理念・目標","q1"],["Q2 見たいデータ","q2"],["Q3 KPI","q3"],["Q4 見せる範囲","q4"],["Q5 最初の一歩","q5"]].map(function(x){var t=v(x[1]);return t?x[0]+"："+t:""}).filter(Boolean);
+    if(!qs.length&&!ks.length){msg.textContent="いずれかの欄にご記入ください。";msg.style.color="var(--bad)";return}
+    var content="【見える化ボードへのご意見】\n"+qs.join("\n")+(ks.length?"\nKPIへの選択："+ks.join("、"):"");
+    var who=v("vname");
+    btn.disabled=true;btn.textContent="送信中…";msg.textContent="";
+    try{
+      var r=await fetch("/api/kosen/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"先生",name:who||"（無記名）",affiliation:"鹿児島高専 見える化ボード",content:content})});
+      var d=await r.json();if(!r.ok||!d.ok)throw new Error(d.error||"failed");
+      f.reset();document.querySelectorAll("select.kv").forEach(function(s){s.value=""});
+      msg.textContent="ご意見を受け付けました。ありがとうございます。";msg.style.color="var(--ok)";
+    }catch(err){msg.textContent="送信に失敗しました。時間をおいて再度お試しください。";msg.style.color="var(--bad)"}
+    finally{btn.disabled=false;btn.textContent="ご意見を送信する"}
+  });
+})();
+</script>
