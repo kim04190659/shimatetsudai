@@ -19,6 +19,11 @@
   var slug = document.body.getAttribute("data-dashboard-slug");
   if (!mount || !notesEl || !slug) return;
 
+  // 入力の上限(画面表示・チェックとも同じ値。サーバー側 /api/dashboard-update, /api/extract-document にも同じ上限がある)
+  var LIMIT_CHARS = 30000;            // 本文の合計(貼り付け+ファイルから読み込んだ分)
+  var LIMIT_TEXT_MB = 1;              // .txt / .md
+  var LIMIT_PDF_MB = 3;               // .pdf(Vercelの本文上限4.5MBに、base64化で約1.33倍になる分を見込んだ値)
+
   var css = document.createElement("style");
   css.textContent =
     ".gpSeg{display:flex;gap:6px;margin-bottom:10px}" +
@@ -35,7 +40,14 @@
     ".gpItem .gpWhy{color:var(--muted);font-size:11px;margin-top:4px}" +
     ".gpTag{display:inline-block;background:var(--orangeSoft);color:#9a5a1f;border-radius:6px;padding:1px 6px;font-size:10.5px;margin-left:4px}" +
     ".gpBtn2{width:100%;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px;font-weight:800;font-size:12px;cursor:pointer;margin-top:6px;color:var(--ink)}" +
-    ".gpBtn2:disabled{opacity:.5;cursor:default}";
+    ".gpBtn2:disabled{opacity:.5;cursor:default}" +
+    ".gpLimit{border:1px solid var(--line);border-radius:8px;background:var(--soft);padding:8px 10px;margin:0 0 10px;font-size:11px;line-height:1.6;color:var(--ink)}" +
+    ".gpLimit b{font-size:11.5px}.gpCount{font-size:11px;color:var(--muted);text-align:right;margin:2px 0 8px}.gpCount.over{color:var(--red);font-weight:800}" +
+    ".gpHist{margin-top:12px;border-top:1px solid var(--line);padding-top:8px}.gpHist summary{cursor:pointer;font-weight:800;font-size:12px}" +
+    ".gpHist button.gpLink{display:block;width:100%;text-align:left;background:none;border:none;border-bottom:1px dashed var(--line);padding:6px 2px;font-size:11.5px;color:var(--blue);cursor:pointer;line-height:1.5}" +
+    ".gpHist button.gpLink:hover{background:var(--soft)}.gpHist .gpMeta{color:var(--muted);font-size:10.5px}" +
+    ".gpView{margin-top:8px;border:1px solid var(--line);border-radius:8px;padding:8px}" +
+    ".gpView pre{white-space:pre-wrap;word-break:break-word;font-family:inherit;font-size:12px;line-height:1.6;max-height:260px;overflow:auto;margin:6px 0;background:var(--soft);border-radius:6px;padding:8px}";
   document.head.appendChild(css);
 
   function el(tag, attrs, text) {
@@ -84,11 +96,99 @@
   var msg = el("p", { class: "gpMsg", style: "display:none" });
   var box = el("div", { class: "gpBox", style: "display:none" });
 
+  // 入力の上限の表示(ファイル選択の前に読めるよう、本文欄の下に置く)
+  var limitBox = el("div", { class: "gpLimit" });
+  limitBox.appendChild(el("b", {}, "入力できる量の上限"));
+  [
+    "本文の合計: " + LIMIT_CHARS.toLocaleString() + "字まで(貼り付けとファイルの合計)",
+    ".txt / .md: 1ファイル " + LIMIT_TEXT_MB + "MBまで",
+    ".pdf: 1ファイル " + LIMIT_PDF_MB + "MBまで。文字に起こせるのは目安で約8,000字までで、長い場合は途中までになります(その旨を表示します)",
+    "ファイルは1つずつ選びます。複数あるときは、1つ反映してから次を選んでください"
+  ].forEach(function (t) { limitBox.appendChild(el("div", {}, "・" + t)); });
+  var counter = el("div", { class: "gpCount", id: "gpCount" }, "0 / " + LIMIT_CHARS.toLocaleString() + "字");
+  notesEl.insertAdjacentElement("afterend", counter);
+  mount.appendChild(limitBox);
+  function updateCount() {
+    var n = notesEl.value.length;
+    counter.textContent = n.toLocaleString() + " / " + LIMIT_CHARS.toLocaleString() + "字" + (n > LIMIT_CHARS ? "(超えています。分けて反映してください)" : "");
+    counter.className = "gpCount" + (n > LIMIT_CHARS ? " over" : "");
+  }
+  notesEl.addEventListener("input", updateCount);
+  setInterval(updateCount, 500); // ファイル読み込みで値がプログラムから追記される場合にも追従する
+
   mount.appendChild(seg);
   mount.appendChild(selField);
   mount.appendChild(planBtn);
   mount.appendChild(msg);
   mount.appendChild(box);
+
+  // ---- 入力履歴(編集モードのログイン後に見られる) ----
+  var hist = el("details", { class: "gpHist" });
+  hist.appendChild(el("summary", {}, "🕘 入力履歴(過去に入力した議事録・資料)"));
+  var histList = el("div", {});
+  var histView = el("div", { class: "gpView", style: "display:none" });
+  hist.appendChild(histList);
+  hist.appendChild(histView);
+  mount.appendChild(hist);
+
+  function fmt(iso) {
+    try { return new Date(iso).toLocaleString("ja-JP", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }); }
+    catch (e) { return iso; }
+  }
+  async function loadHistory() {
+    histList.textContent = "読み込み中…";
+    try {
+      var res = await fetch("/api/dashboard-input-history?slug=" + encodeURIComponent(slug), { cache: "no-store" });
+      if (res.status === 401) { histList.textContent = "編集モードにログインすると、履歴を見られます(右下の「✏️ 編集モード」)。"; return; }
+      var data = await res.json();
+      histList.textContent = "";
+      if (!data.items || !data.items.length) { histList.appendChild(el("p", { class: "gpNote" }, "まだ履歴はありません。")); return; }
+      data.items.forEach(function (it) {
+        var b = el("button", { type: "button", class: "gpLink" });
+        b.appendChild(document.createTextNode(fmt(it.createdAt) + " " + (it.kind === "material" ? "資料" : "議事録") + "(" + it.charCount.toLocaleString() + "字)"));
+        b.appendChild(el("div", { class: "gpMeta" }, (it.editorName || "ログイン者不明") + " ・ " + (it.appliedCount ? it.appliedCount + "件を反映済み" : "未反映")));
+        b.addEventListener("click", function () { openHistory(it); });
+        histList.appendChild(b);
+      });
+    } catch (e) { histList.textContent = "履歴を読み込めませんでした。"; }
+  }
+  async function openHistory(it) {
+    histView.style.display = "block";
+    histView.textContent = "読み込み中…";
+    try {
+      var res = await fetch("/api/dashboard-input-history?slug=" + encodeURIComponent(slug) + "&id=" + it.id, { cache: "no-store" });
+      if (!res.ok) throw new Error("x");
+      var data = await res.json();
+      histView.textContent = "";
+      histView.appendChild(el("div", { class: "gpMeta" }, fmt(it.createdAt) + " ・ " + (it.kind === "material" ? "資料" : "議事録") + " ・ " + it.charCount.toLocaleString() + "字"));
+      histView.appendChild(el("pre", {}, data.body));
+      var back = el("button", { type: "button", class: "gpBtn2" }, "この内容を入力欄に戻す");
+      back.addEventListener("click", function () { notesEl.value = data.body; updateCount(); say("入力欄に戻しました。", "ok"); });
+      var close = el("button", { type: "button", class: "gpBtn2" }, "閉じる");
+      close.addEventListener("click", function () { histView.style.display = "none"; });
+      histView.appendChild(back);
+      histView.appendChild(close);
+    } catch (e) { histView.textContent = "本文を読み込めませんでした。"; }
+  }
+  hist.addEventListener("toggle", function () { if (hist.open) loadHistory(); });
+
+  // 入力履歴への保存(ログイン中のみ。未ログインなら黙って保存しない)。同じ本文は1回だけ保存する。
+  var savedText = null, historyId = null;
+  async function saveHistory(notes, kind, provider) {
+    if (savedText === notes && historyId) return historyId;
+    try {
+      var res = await fetch("/api/dashboard-input-history", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ slug: slug, kind: kind, title: (document.getElementById("genTitle") || {}).value || "", body: notes, provider: provider })
+      });
+      if (!res.ok) return null;
+      var data = await res.json();
+      savedText = notes; historyId = data.id;
+      if (hist.open) loadHistory();
+      return historyId;
+    } catch (e) { return null; }
+  }
 
   function say(text, cls) {
     msg.className = "gpMsg" + (cls ? " " + cls : "");
@@ -199,6 +299,9 @@
         undoStack = done;
         undoBtn.disabled = false;
         say(done.length + "件を反映しました。右の質問チャットにも反映後の内容が使われます。", "ok");
+        var k = seg.querySelector("input:checked");
+        var hid = await saveHistory(notesEl.value.trim(), k ? k.value : "minutes", lastPlan && lastPlan.provider);
+        if (hid) fetch("/api/dashboard-input-history", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ slug: slug, id: hid, appliedCount: done.length }) }).then(function () { if (hist.open) loadHistory(); });
       }
     } catch (e) {
       say("保存に失敗しました。時間をおいて再度お試しください。" + (done.length ? "(" + done.length + "件は反映済み)" : ""), "err");
@@ -230,6 +333,7 @@
   planBtn.addEventListener("click", async function () {
     var notes = notesEl.value.trim();
     if (!notes) { say("議事録または資料の本文を貼り付けるか、ファイルを選んでください。", "err"); return; }
+    if (notes.length > LIMIT_CHARS) { say("本文が長すぎます(" + notes.length.toLocaleString() + "字)。" + LIMIT_CHARS.toLocaleString() + "字までに分けて反映してください。", "err"); return; }
     var kindInput = seg.querySelector("input:checked");
     var cells = collectCells();
     say("", "");
@@ -252,6 +356,7 @@
       if (!res.ok) { say(data.error || "反映案の作成に失敗しました。", "err"); return; }
       lastPlan = data;
       render(data);
+      saveHistory(notes, kindInput ? kindInput.value : "minutes", data.provider);
     } catch (e) {
       say("反映案の作成に失敗しました。時間をおいて再度お試しください。", "err");
     } finally {

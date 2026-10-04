@@ -11,6 +11,13 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "nodejs";
+export const maxDuration = 90;
+
+// 上限(2026-10-04 追加): Vercelのリクエスト本文は4.5MBまで。PDFはbase64で約1.33倍になるため、
+// 元のPDFは3MBまでとする(base64で約4.0MB)。画面側(左メニュー)にも同じ上限を表示している。
+const MAX_BASE64_CHARS = 4_200_000;
+// 文字起こしの出力上限(トークン)。超えた分は読み取られないため、その場合は truncated:true を返す。
+const MAX_OUTPUT_TOKENS = 8000;
 
 const MODEL = "claude-haiku-4-5-20251001";
 
@@ -34,6 +41,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "dataBase64 は必須です(文字列)" }, { status: 400 });
     }
 
+    if (dataBase64.length > MAX_BASE64_CHARS) {
+      return NextResponse.json({ error: "PDFが大きすぎます(3MBまで)。分割してアップロードしてください" }, { status: 413 });
+    }
+
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
       return NextResponse.json({ error: "ANTHROPIC_API_KEY が未設定です" }, { status: 500 });
@@ -50,7 +61,7 @@ export async function POST(req: NextRequest) {
         },
         body: JSON.stringify({
           model: MODEL,
-          max_tokens: 4096,
+          max_tokens: MAX_OUTPUT_TOKENS,
           system: SYSTEM_PROMPT,
           messages: [
             {
@@ -68,7 +79,7 @@ export async function POST(req: NextRequest) {
             },
           ],
         }),
-        signal: AbortSignal.timeout(60_000),
+        signal: AbortSignal.timeout(80_000),
       });
     } catch {
       return NextResponse.json({ error: "PDFの読み取りに失敗しました(接続エラー)" }, { status: 502 });
@@ -86,7 +97,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "PDFからテキストを取得できませんでした" }, { status: 502 });
     }
 
-    return NextResponse.json({ text });
+    return NextResponse.json({ text, truncated: data.stop_reason === "max_tokens" });
   } catch (err) {
     console.error("extract-document error:", err);
     return NextResponse.json({ error: "PDFの読み取りに失敗しました" }, { status: 502 });

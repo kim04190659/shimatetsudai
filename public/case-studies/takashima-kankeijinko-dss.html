@@ -230,7 +230,7 @@ details.bgDetails>summary{cursor:pointer;font-weight:800;font-size:13px;color:#4
         <textarea id="genNotes" rows="8" placeholder="共創ワークショップの議事録やメモをここに貼り付けてください"></textarea>
       </div>
       <div class="field">
-        <label for="genFile">または、ファイルをアップロード(.txt / .md / .pdf)</label>
+        <label for="genFile">または、ファイルをアップロード(.txt / .md は1MBまで、.pdf は3MBまで)</label>
         <input type="file" id="genFile" accept=".txt,.md,.pdf,text/plain,text/markdown,application/pdf">
         <p class="errMsg" id="genFileStatus" style="display:none;color:var(--muted)"></p>
       </div>
@@ -895,6 +895,14 @@ renderRadar('radarChart', window.__radarScores = {legitimacy:40, evidence:40, al
       fileStatus.textContent = '.txt / .md / .pdf のいずれかのファイルを選択してください。';
       return;
     }
+    // LIMIT_FILE_PATCH: ファイルサイズの上限(.txt/.md は1MB、.pdf は3MB)
+    var maxMb = isPdf ? 3 : 1;
+    if (file.size > maxMb * 1024 * 1024) {
+      fileStatus.style.display = 'block';
+      fileStatus.style.color = 'var(--red)';
+      fileStatus.textContent = '「' + file.name + '」は大きすぎます(' + (file.size / 1024 / 1024).toFixed(1) + 'MB)。' + (isPdf ? 'PDF' : '.txt / .md') + 'は' + maxMb + 'MBまでです。分割してください。';
+      return;
+    }
     fileStatus.style.display = 'block';
     fileStatus.style.color = 'var(--muted)';
     fileStatus.textContent = isPdf ? 'PDFを読み取っています…(30秒ほどかかります)' : 'ファイルを読み込んでいます…';
@@ -912,8 +920,15 @@ renderRadar('radarChart', window.__radarScores = {legitimacy:40, evidence:40, al
         if (!res.ok) throw new Error('request failed');
         var data = await res.json();
         appendNotes(data.text);
+        window.__genPdfTruncated = !!data.truncated;
       }
-      fileStatus.style.display = 'none';
+      if (window.__genPdfTruncated) {
+        window.__genPdfTruncated = false;
+        fileStatus.style.color = 'var(--orange)';
+        fileStatus.textContent = 'PDFが長いため、途中までしか読み取れていません。残りの部分は、分けてアップロードしてください。';
+      } else {
+        fileStatus.style.display = 'none';
+      }
     } catch (e) {
       fileStatus.style.color = 'var(--red)';
       fileStatus.textContent = 'ファイルの読み込みに失敗しました。時間をおいて再度お試しください。';
