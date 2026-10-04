@@ -190,12 +190,36 @@ tr:last-child td{border-bottom:0}
 .poSection .poDone{color:var(--green);font-size:12px;margin:0;font-weight:700}
 .poSection .poNote{font-size:11.5px;color:var(--muted);margin:0}
 .poSection .poDraftText{white-space:pre-wrap;font-size:12.5px;line-height:1.6;background:var(--soft);border-radius:8px;padding:10px;margin:0}
+
+.dh{border:2px solid #1d4f7a;border-radius:12px;overflow:hidden;margin-top:14px;background:#fff}
+.dh>.dhHead{background:#1d4f7a;color:#fff;padding:10px 16px;font-size:14px;font-weight:800}
+.dh .dhSec{padding:14px 16px;border-bottom:1px solid var(--line)}
+.dh .dhSec:last-child{border-bottom:none}
+.dh .dhNum{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#1d4f7a;color:#fff;font-size:12px;font-weight:800;margin-right:8px}
+.dh .dhLabel{font-size:13px;font-weight:800;color:#1d4f7a;display:flex;align-items:center;margin-bottom:8px}
+.dh .dhTwo{display:grid;grid-template-columns:1fr 1fr;padding:0}
+.dh .dhTwo>.dhSec{border-bottom:none;border-right:1px solid var(--line)}
+.dh .dhTwo>.dhSec:last-child{border-right:none}
+.dh .dhNext{background:#eff6ff}
+.dh .decisionQ,.dh .decision{border:none;background:transparent;padding:0;margin:0;border-radius:0}
+.dh .hl{border:none;background:transparent;padding:0;margin:0}
+.dh .hl h4{display:none}
+.dh .tilt{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px;text-align:center;font-size:12px}
+.dh .tilt div{background:var(--soft);border-radius:6px;padding:6px}
+.dh .tilt b{display:block;font-size:16px}
+.dh .dhNote{font-size:11.5px;color:var(--muted);margin-top:6px}
+.dhChips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:12px}
+.dhChips span{background:#e5e7eb;color:#374151;font-weight:700;padding:3px 10px;border-radius:4px}
+.dhChips span.done{background:#dcfce7;color:#166534}
+details.bgDetails{margin-top:12px;border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:#fff}
+details.bgDetails>summary{cursor:pointer;font-weight:800;font-size:13px;color:#4b5563}
+@media(max-width:900px){.dh .dhTwo{grid-template-columns:1fr}.dh .dhTwo>.dhSec{border-right:none;border-bottom:1px solid var(--line)}}
 </style>
 </head>
 <body data-dashboard-slug="takashima-kankeijinko-dss" data-issue-page-id="3cb960a9-1e23-81f6-b5b0-fa7134349b4a">
 <div class="layout">
-  <aside class="sidePanel left" id="leftPanel">
-    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▲</span></button>
+  <aside class="sidePanel left collapsed" id="leftPanel">
+    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▼</span></button>
     <div class="panelBody" id="leftBody">
       <div class="field">
         <label for="genTitle">論点のタイトル</label>
@@ -261,15 +285,10 @@ tr:last-child td{border-bottom:0}
   </div>
   <div class="title">生活航路を守りながら、関係人口で来島を持続させるには？</div>
   <div class="subtitle">高島(長崎県長崎市・人口215人)で、長崎市地域おこし協力隊の池田美和子さんが提起したテーマです。年間約2億4,000万円の赤字が生じている生活航路を、補助金だけに頼らず、関係人口を増やすことで支えられないかを検討しています。</div>
-  <div class="kidBox">
-    <b>🌱 かんたんに言うと</b>
-    <p data-cell-id="tk-kidbox">高島には215人が暮らしていて、船が病院や学校に行くための命綱です。でも、この船を走らせるには毎年2億4,000万円もの赤字が出ていて、国や県、市のお金で何とか走らせています。そこで「1回来て終わり」ではなく、何度も遊びに来てくれる仲間(関係人口)を増やして、船に乗る理由をたくさん作ろう、というアイデアです。</p>
-  </div>
-  <div class="decision">
-    <span class="badge">📝 現在のステータス：共創ワークショップ進行中(第1回・9/17実施済み)</span>
-    <p data-cell-id="tk-decision-status">本論点は「未来のシマ共創会議2026」テーマオーナー案件として、2026年8月に提起されました。2026年9月17日にオンラインで第1回共創ワークショップが実施され、テーマオーナー池田さんの詳細な事実共有と、専門家(美木先生・都市計画/観光マネジメント)を交えた議論が行われました。10月8日(第2回・県庁担当者参加予定)・10月23日(対面)を経て、実際の合意形成が進みます。このシートは特定の案を推奨するものではなく、9/17ワークショップの議事録をもとに論点を整理し、議論の出発点として作成したものです。</p>
-  </div>
-  <div class="decisionQ">
+  <div class="dhChips"><span class="done">第1回ワークショップ(9/24)実施済み</span><span>次回:第2回(10/15 オンライン)</span><span>方向性を仮決め:10/23 対面セッション</span></div>
+  <div class="dh">
+<div class="dhHead">判断に必要な情報 (この枠だけで、決めること・選択肢・現状・次の一手が分かります)</div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">1</span>決めること</div><div class="decisionQ">
     <b>🧭 今回考えるべき問い：関係人口1,000人をどの手段(観光/企業研修/教育旅行)で、どの順番で作っていくか</b>
     <div class="metaRow">
       <div><em>決断する人</em><span data-cell-id="tk-decisionq-who">テーマオーナー・共創ワークショップ参加者</span></div>
@@ -277,21 +296,86 @@ tr:last-child td{border-bottom:0}
       <div><em>後戻りのしやすさ</em><span data-cell-id="tk-decisionq-reversibility">易しい(まずは試行から)</span></div>
       <div><em>影響範囲</em><span data-cell-id="tk-decisionq-scope">高島島民215人・年間来島者5万人</span></div>
     </div>
+  </div></div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">2</span>選択肢の比較(たたき台)</div><p style="font-size:12px;color:var(--muted);margin:0 0 8px">強み・弱み・着手しやすさは、下の「提案と評価」タブの記述をもとにした定性的な目安です。共創ワークショップでの議論を経て更新します。詳しい短中期長期の見通しは「提案と評価」タブをご覧ください。</p><div class="opts">
+    <div class="opt A">
+      <span class="tag">案A</span>
+      <h4>既存資源でリピーター化</h4>
+      <p data-cell-id="tk-opt-a-summary">サンゴ礁でのシュノーケリングや世界遺産「高島炭鉱跡」など、既存の観光資源を活用したリピーター施策を強化する案。</p>
+      <ul>
+        <li data-cell-id="tk-opt-a-strength">強み：既存資源を活かせるため着手しやすい</li>
+        <li data-cell-id="tk-opt-a-weakness">弱み：夏季レジャーへの偏りが残る可能性がある</li>
+        <li data-cell-id="tk-opt-a-ease">着手しやすさ：<span class="pill pgreen">◎</span></li>
+      </ul>
+    </div>
+    <div class="opt B">
+      <span class="tag">案B</span>
+      <h4>企業研修・ワーケーション</h4>
+      <p data-cell-id="tk-opt-b-summary">企業向けのSDGs研修プログラムや新しい働き方の実証の場として島を活用する案。</p>
+      <ul>
+        <li data-cell-id="tk-opt-b-strength">強み：季節を問わない来島需要を生み出せる</li>
+        <li data-cell-id="tk-opt-b-weakness">弱み：受け入れ体制(宿泊・通信環境等)の整備が必要</li>
+        <li data-cell-id="tk-opt-b-ease">着手しやすさ：<span class="pill porange">△</span></li>
+      </ul>
+    </div>
+    <div class="opt C">
+      <span class="tag">案C</span>
+      <h4>教育旅行・大学連携</h4>
+      <p data-cell-id="tk-opt-c-summary">修学旅行・教育旅行や、長崎大学などと連携した海の環境学習プログラムを軸にする案。カードゲーム経由の島民の声(匿名1件)でも支持されている。</p>
+      <ul>
+        <li data-cell-id="tk-opt-c-strength">強み：次世代への環境教育としての波及効果が期待できる</li>
+        <li data-cell-id="tk-opt-c-weakness">弱み：学校側との調整・カリキュラム設計に時間がかかる</li>
+        <li data-cell-id="tk-opt-c-ease">着手しやすさ：<span class="pill porange">△</span></li>
+      </ul>
+    </div>
+  </div></div>
+<div class="dhTwo">
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">3</span>今の傾き</div><div class="decision">
+    <span class="badge">📝 現在のステータス：共創ワークショップ進行中(第1回・9/17実施済み)</span>
+    <p data-cell-id="tk-decision-status">本論点は「未来のシマ共創会議2026」テーマオーナー案件として、2026年8月に提起されました。2026年9月17日にオンラインで第1回共創ワークショップが実施され、テーマオーナー池田さんの詳細な事実共有と、専門家(美木先生・都市計画/観光マネジメント)を交えた議論が行われました。10月8日(第2回・県庁担当者参加予定)・10月23日(対面)を経て、実際の合意形成が進みます。このシートは特定の案を推奨するものではなく、9/17ワークショップの議事録をもとに論点を整理し、議論の出発点として作成したものです。</p>
   </div>
-  <div class="kpis">
+<div class="tilt"><div>賛成<b id="dhTiltSupport">-</b></div><div>保留<b id="dhTiltPending">-</b></div><div>少数意見・懸念<b id="dhTiltMinor">-</b></div></div>
+<div class="dhNote">「③ステークホルダーの意見」に掲載中の意見の件数です。正式な立場表明の集計ではありません。</div></div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">4</span>決めるのに足りない情報</div><div class="hl orange">
+      <h4>📈 将来予測ハイライト</h4>
+      <ul>
+        <li data-cell-id="tk-mini-forecast-1">人口は最盛期1万人以上→2020年約300人→現在215人(年間約10%減、2026年中にも200人割れの見通し)</li>
+        <li data-cell-id="tk-mini-forecast-2"><span class="pill porange">未算出</span> 関係人口施策による来島者増・赤字縮小の効果試算は行っていない</li>
+      </ul>
+    </div>
+<div class="dhNote" id="dhLowAxes"></div></div>
+</div>
+<div class="dhSec dhNext"><div class="dhLabel"><span class="dhNum">5</span>次の一手</div><div class="hl gray">
+      <h4>✅ 現時点の結論・次の一手</h4>
+      <ul>
+        <li data-cell-id="tk-mini-conclusion-1">特定の案への合意はまだ形成されておらず、共創ワークショップが議論の出発点</li>
+        <li data-cell-id="tk-mini-conclusion-2">次の一手：「やったろうde高島」の既存プログラムに、通年で来てもらえる仕組みを1本追加するところから動き出すのが現実的</li>
+      </ul>
+    </div>
+<div class="dhNote">担当・期日は未設定です。次回の議論で決めます。</div></div>
+</div>
+<details class="bgDetails"><summary>背景データ・補足(かんたん説明/主要数値/北極星指標)を開く</summary>
+<div class="kidBox">
+    <b>🌱 かんたんに言うと</b>
+    <p data-cell-id="tk-kidbox">高島には215人が暮らしていて、船が病院や学校に行くための命綱です。でも、この船を走らせるには毎年2億4,000万円もの赤字が出ていて、国や県、市のお金で何とか走らせています。そこで「1回来て終わり」ではなく、何度も遊びに来てくれる仲間(関係人口)を増やして、船に乗る理由をたくさん作ろう、というアイデアです。</p>
+  </div><div class="kpis">
     <div class="kpi"><b>215人</b><span>高島の人口(2026年5月末時点)</span></div>
     <div class="kpi"><b>約2.4億円</b><span>生活航路の年間赤字(令和5年度実績)</span></div>
     <div class="kpi"><b>5万人</b><span>長崎から高島への年間来島者数</span></div>
     <div class="kpi"><b>1,000人</b><span>目標とする「関係人口」</span></div>
-  </div>
-  <div class="northStar">
+  </div><div class="northStar">
     <b>🌟 北極星指標：生活航路を支える「関係人口」の育ち具合</b>
     <p data-cell-id="tk-northstar-status-hero" style="margin:6px 0 0">補助金に頼り続けなくても航路を支えられるだけの「何度も来る仲間(関係人口)」がどれだけ育っているかを表す指標です。9/17ワークショップで論点の解像度は上がりましたが、「関係人口1000人」の定義自体の曖昧さが複数指摘されており、指標としての正式な算出はまだ行っていません。詳しい内訳・レーダーチャート・「次に議論すべきこと」は「🌟 北極星指標」タブをご覧ください。</p>
-  </div>
-  <div class="callout warn" style="margin-top:14px">
+  </div><div class="callout warn" style="margin-top:14px">
     <b>📎 この論点の位置づけについて</b>
     <p style="margin-top:6px">本論点は屋久島町・渡名喜村のような、しまてつだいが直接関わる自治体の論点ではなく、りとけいが主催する「未来のシマ共創会議2026」のテーマオーナー案件(全国の島々から公募)です。りとけい分室のページに、他のテーマオーナー案件と合わせて掲載しています。また本ページは、意思決定支援ダッシュボード作成エージェント3(6タブ・シンプル構成版)を適用して、旧12タブ構成から作り直したものです(2026-09-22)。</p>
-  </div>
+  </div></details>
+  
+  
+  
+  
+  
+  
 </div>
 
 
@@ -325,13 +409,7 @@ tr:last-child td{border-bottom:0}
         <li data-cell-id="tk-mini-options-3">案C：学校の教育旅行・大学連携の体験プログラムを軸にする</li>
       </ul>
     </div>
-    <div class="hl orange">
-      <h4>📈 将来予測ハイライト</h4>
-      <ul>
-        <li data-cell-id="tk-mini-forecast-1">人口は最盛期1万人以上→2020年約300人→現在215人(年間約10%減、2026年中にも200人割れの見通し)</li>
-        <li data-cell-id="tk-mini-forecast-2"><span class="pill porange">未算出</span> 関係人口施策による来島者増・赤字縮小の効果試算は行っていない</li>
-      </ul>
-    </div>
+    
     <div class="hl purple">
       <h4>🗣️ 現時点で分かっている声</h4>
       <ul>
@@ -347,49 +425,9 @@ tr:last-child td{border-bottom:0}
         <li data-cell-id="tk-mini-cases-2"><span class="pill porange">要検証</span> ワーケーション誘致に取り組む他地域の事例</li>
       </ul>
     </div>
-    <div class="hl gray">
-      <h4>✅ 現時点の結論・次の一手</h4>
-      <ul>
-        <li data-cell-id="tk-mini-conclusion-1">特定の案への合意はまだ形成されておらず、共創ワークショップが議論の出発点</li>
-        <li data-cell-id="tk-mini-conclusion-2">次の一手：「やったろうde高島」の既存プログラムに、通年で来てもらえる仕組みを1本追加するところから動き出すのが現実的</li>
-      </ul>
-    </div>
+    
   </div>
-
-  <h3 style="margin-top:20px">②案のトレードオフ比較(たたき台)</h3>
-  <p style="font-size:12px;color:var(--muted);margin:0 0 8px">強み・弱み・着手しやすさは、下の「提案と評価」タブの記述をもとにした定性的な目安です。共創ワークショップでの議論を経て更新します。詳しい短中期長期の見通しは「提案と評価」タブをご覧ください。</p>
-  <div class="opts">
-    <div class="opt A">
-      <span class="tag">案A</span>
-      <h4>既存資源でリピーター化</h4>
-      <p data-cell-id="tk-opt-a-summary">サンゴ礁でのシュノーケリングや世界遺産「高島炭鉱跡」など、既存の観光資源を活用したリピーター施策を強化する案。</p>
-      <ul>
-        <li data-cell-id="tk-opt-a-strength">強み：既存資源を活かせるため着手しやすい</li>
-        <li data-cell-id="tk-opt-a-weakness">弱み：夏季レジャーへの偏りが残る可能性がある</li>
-        <li data-cell-id="tk-opt-a-ease">着手しやすさ：<span class="pill pgreen">◎</span></li>
-      </ul>
-    </div>
-    <div class="opt B">
-      <span class="tag">案B</span>
-      <h4>企業研修・ワーケーション</h4>
-      <p data-cell-id="tk-opt-b-summary">企業向けのSDGs研修プログラムや新しい働き方の実証の場として島を活用する案。</p>
-      <ul>
-        <li data-cell-id="tk-opt-b-strength">強み：季節を問わない来島需要を生み出せる</li>
-        <li data-cell-id="tk-opt-b-weakness">弱み：受け入れ体制(宿泊・通信環境等)の整備が必要</li>
-        <li data-cell-id="tk-opt-b-ease">着手しやすさ：<span class="pill porange">△</span></li>
-      </ul>
-    </div>
-    <div class="opt C">
-      <span class="tag">案C</span>
-      <h4>教育旅行・大学連携</h4>
-      <p data-cell-id="tk-opt-c-summary">修学旅行・教育旅行や、長崎大学などと連携した海の環境学習プログラムを軸にする案。カードゲーム経由の島民の声(匿名1件)でも支持されている。</p>
-      <ul>
-        <li data-cell-id="tk-opt-c-strength">強み：次世代への環境教育としての波及効果が期待できる</li>
-        <li data-cell-id="tk-opt-c-weakness">弱み：学校側との調整・カリキュラム設計に時間がかかる</li>
-        <li data-cell-id="tk-opt-c-ease">着手しやすさ：<span class="pill porange">△</span></li>
-      </ul>
-    </div>
-  </div>
+  
 
   <h3 style="margin-top:20px">③ステークホルダーの意見について</h3>
   <p style="font-size:12px;color:var(--muted);margin:0 0 8px" data-cell-id="tk-voices-caveat">2026年9月17日、第1回共創ワークショップ(オンライン)が実施されました。以下は現時点で確認できている声で、10月8日(県庁担当者参加予定)・10月23日(対面)を経てさらに収集を進めます。</p>
@@ -793,7 +831,7 @@ function renderRadar(svgId, scores, prevScores){
 }
 // v4(2026-09-08時点。テーマオーナー池田さんの公開発言とカードゲーム経由の匿名1件のみ)のスコアを
 // 「前回」として点線表示し、v5(2026-09-22。9/17共創ワークショップ本番の議事録を反映)を実線で重ねる。
-renderRadar('radarChart', {legitimacy:40, evidence:40, alignment:50, feasibility:35, impact:15}, {legitimacy:15, evidence:20, alignment:45, feasibility:20, impact:10});
+renderRadar('radarChart', window.__radarScores = {legitimacy:40, evidence:40, alignment:50, feasibility:35, impact:15}, {legitimacy:15, evidence:20, alignment:45, feasibility:20, impact:10});
 
 // --- 左右パネルの折りたたみ ---
 (function(){
@@ -1086,5 +1124,20 @@ renderRadar('radarChart', {legitimacy:40, evidence:40, alignment:50, feasibility
 })();
 </script>
 <script src="/js/dashboard-cell-editor.js"></script>
+<script>
+window.addEventListener('load',function(){
+  try{
+    var n=function(c){return document.querySelectorAll('#panel-summary .voices .voice.'+c).length;};
+    var set=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
+    set('dhTiltSupport',n('support'));set('dhTiltPending',n('pending'));set('dhTiltMinor',n('minority'));
+    var sc=window.__radarScores;
+    if(sc){
+      var lab={legitimacy:'当事者の声',evidence:'外部知見',alignment:'上位方針との整合',feasibility:'実行可能性',impact:'効果・リスク見通し'};
+      var ks=Object.keys(lab).sort(function(a,b){return sc[a]-sc[b];}).slice(0,2);
+      set('dhLowAxes','情報充足度が最も低い軸:'+ks.map(function(k){return lab[k]+'('+sc[k]+'点)';}).join('、'));
+    }
+  }catch(e){}
+});
+</script>
 </body>
 </html>

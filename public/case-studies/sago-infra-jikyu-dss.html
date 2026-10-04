@@ -190,12 +190,36 @@ tr:last-child td{border-bottom:0}
 .poSection .poDone{color:var(--green);font-size:12px;margin:0;font-weight:700}
 .poSection .poNote{font-size:11.5px;color:var(--muted);margin:0}
 .poSection .poDraftText{white-space:pre-wrap;font-size:12.5px;line-height:1.6;background:var(--soft);border-radius:8px;padding:10px;margin:0}
+
+.dh{border:2px solid #1d4f7a;border-radius:12px;overflow:hidden;margin-top:14px;background:#fff}
+.dh>.dhHead{background:#1d4f7a;color:#fff;padding:10px 16px;font-size:14px;font-weight:800}
+.dh .dhSec{padding:14px 16px;border-bottom:1px solid var(--line)}
+.dh .dhSec:last-child{border-bottom:none}
+.dh .dhNum{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#1d4f7a;color:#fff;font-size:12px;font-weight:800;margin-right:8px}
+.dh .dhLabel{font-size:13px;font-weight:800;color:#1d4f7a;display:flex;align-items:center;margin-bottom:8px}
+.dh .dhTwo{display:grid;grid-template-columns:1fr 1fr;padding:0}
+.dh .dhTwo>.dhSec{border-bottom:none;border-right:1px solid var(--line)}
+.dh .dhTwo>.dhSec:last-child{border-right:none}
+.dh .dhNext{background:#eff6ff}
+.dh .decisionQ,.dh .decision{border:none;background:transparent;padding:0;margin:0;border-radius:0}
+.dh .hl{border:none;background:transparent;padding:0;margin:0}
+.dh .hl h4{display:none}
+.dh .tilt{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px;text-align:center;font-size:12px}
+.dh .tilt div{background:var(--soft);border-radius:6px;padding:6px}
+.dh .tilt b{display:block;font-size:16px}
+.dh .dhNote{font-size:11.5px;color:var(--muted);margin-top:6px}
+.dhChips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:12px}
+.dhChips span{background:#e5e7eb;color:#374151;font-weight:700;padding:3px 10px;border-radius:4px}
+.dhChips span.done{background:#dcfce7;color:#166534}
+details.bgDetails{margin-top:12px;border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:#fff}
+details.bgDetails>summary{cursor:pointer;font-weight:800;font-size:13px;color:#4b5563}
+@media(max-width:900px){.dh .dhTwo{grid-template-columns:1fr}.dh .dhTwo>.dhSec{border-right:none;border-bottom:1px solid var(--line)}}
 </style>
 </head>
 <body data-dashboard-slug="sago-infra-jikyu-dss" data-issue-page-id="3cb960a9-1e23-81a7-abe5-d2dcce979d13">
 <div class="layout">
-  <aside class="sidePanel left" id="leftPanel">
-    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▲</span></button>
+  <aside class="sidePanel left collapsed" id="leftPanel">
+    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▼</span></button>
     <div class="panelBody" id="leftBody">
       <div class="field">
         <label for="genTitle">論点のタイトル</label>
@@ -261,15 +285,10 @@ tr:last-child td{border-bottom:0}
   </div>
   <div class="title">電気や水の維持コストを下げながら、災害にも強いインフラを自給するには？</div>
   <div class="subtitle">佐合島(山口県平生町・人口5人)で、「人口5人の島から未来をつくる会」の梅本将輝さんが提起したテーマです。人口が減るほど跳ね上がる上下水道・電気の維持コストを、井戸の自家浄水や太陽光・蓄電池の複線化で「フェーズフリー」に自給できないかを検討しています。</div>
-  <div class="kidBox">
-    <b>🌱 かんたんに言うと</b>
-    <p data-cell-id="kidbox-explanation">佐合島には今5人しか住んでいません。でも水道や電気は、たくさん人がいる街と同じような仕組みで維持されていて、人が減るほど一人あたりの費用がどんどん高くなります。このままだと「まだ大丈夫」のうちに気づかず、いつか誰も住めない島になってしまうかもしれません。そこで、井戸の水や太陽光発電など、少ない人数でも自分たちで賄える仕組みに変えていけないか、というアイデアです。</p>
-  </div>
-  <div class="decision">
-    <span class="badge">📝 現在のステータス：論点提起(共創ワークショップ前)</span>
-    <p data-cell-id="decision-status">本論点は2026年8月時点で「提起」段階です。りとけい主催「未来のシマ共創会議2026」の共創ワークショップ(9月24日・10月15日オンライン、10月23日リアル)を経て、実際の議論が始まります。このシートは特定の案を推奨するものではなく、テーマオーナー・梅本さんの公開発言をもとに論点と選択肢を整理し、ワークショップでの議論の出発点として作成したものです。</p>
-  </div>
-  <div class="decisionQ">
+  <div class="dhChips"><span class="done">第1回ワークショップ(9/24)実施済み</span><span>次回:第2回(10/15 オンライン)</span><span>方向性を仮決め:10/23 対面セッション</span></div>
+  <div class="dh">
+<div class="dhHead">判断に必要な情報 (この枠だけで、決めること・選択肢・現状・次の一手が分かります)</div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">1</span>決めること</div><div class="decisionQ">
     <b>🎯 今回、決めるべき問いは何か</b>
     <p data-cell-id="decisionq-text" style="margin:8px 0 0;font-size:13px">浅井戸の自家浄水(案A)・電力の複線化(案B)・型化して横展開(案C)のうち、共創ワークショップでどれから着手を優先するか。人口5人という極小規模のため、大規模投資よりも小さく試せる案から始める方が現実的という見立てが現時点の仮説です。</p>
     <div class="metaRow">
@@ -278,21 +297,88 @@ tr:last-child td{border-bottom:0}
       <div><em>不可逆性</em><span data-cell-id="decisionq-reversibility">低〜中(小規模な試験導入は後戻りしやすいが、財源を投入する本格整備の判断は不可逆性が高まる)</span></div>
       <div><em>影響範囲</em><span data-cell-id="decisionq-scope">佐合島の島民5人(4世帯)、平生町上下水道・防災担当、電力会社、オフグリッド技術者</span></div>
     </div>
+  </div></div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">2</span>選択肢の比較(たたき台)</div><p style="font-size:12px;color:var(--muted);margin:0 0 8px">強み・弱み・着手しやすさは、下の「提案と評価」タブの記述をもとにした定性的な目安です。共創ワークショップでの議論を経て更新します。詳しい短中期長期の見通しは「提案と評価」タブをご覧ください。</p><div class="opts">
+    <div class="opt A">
+      <span class="tag">案A</span>
+      <h4>浅井戸の自家浄水を整備する</h4>
+      <p data-cell-id="opt-a-summary">既存の浅井戸をベースに、簡易な浄水設備を各家庭に整備し、公共水道への依存度を下げる案。</p>
+      <ul>
+        <li data-cell-id="opt-a-strength">強み：既存の井戸を活用できるため着手しやすい</li>
+        <li data-cell-id="opt-a-weakness">弱み：水質管理の仕組みづくりが別途必要</li>
+        <li data-cell-id="opt-a-ease">着手しやすさ：<span class="pill pgreen">◎</span></li>
+      </ul>
+    </div>
+    <div class="opt B">
+      <span class="tag">案B</span>
+      <h4>電力の複線化を進める</h4>
+      <p data-cell-id="opt-b-summary">送電鉄塔からの電力供給に加え、太陽光発電と蓄電池を組み合わせた自家発電系統を整備する案。</p>
+      <ul>
+        <li data-cell-id="opt-b-strength">強み：断線時の発電車頼みから脱却でき、災害時にも途絶しない「フェーズフリー」な電力供給に近づく</li>
+        <li data-cell-id="opt-b-weakness">弱み：設備投資の初期費用が課題</li>
+        <li data-cell-id="opt-b-ease">着手しやすさ：<span class="pill porange">△</span></li>
+      </ul>
+    </div>
+    <div class="opt C">
+      <span class="tag">案C</span>
+      <h4>型化して横展開する</h4>
+      <p data-cell-id="opt-c-summary">水・下水・電気の自給の仕組みをマニュアル化し、同じ課題を抱える他の離島・中山間地域に展開できる形にする案。</p>
+      <ul>
+        <li data-cell-id="opt-c-strength">強み：全国の過疎地域への波及効果が期待できる</li>
+        <li data-cell-id="opt-c-weakness">弱み：型化の作業に時間とコストがかかる</li>
+        <li data-cell-id="opt-c-ease">着手しやすさ：<span class="pill pblue">○</span></li>
+      </ul>
+    </div>
+  </div></div>
+<div class="dhTwo">
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">3</span>今の傾き</div><div class="decision">
+    <span class="badge">📝 現在のステータス：論点提起(共創ワークショップ前)</span>
+    <p data-cell-id="decision-status">本論点は2026年8月時点で「提起」段階です。りとけい主催「未来のシマ共創会議2026」の共創ワークショップ(9月24日・10月15日オンライン、10月23日リアル)を経て、実際の議論が始まります。このシートは特定の案を推奨するものではなく、テーマオーナー・梅本さんの公開発言をもとに論点と選択肢を整理し、ワークショップでの議論の出発点として作成したものです。</p>
   </div>
-  <div class="kpis">
+<div class="tilt"><div>賛成<b id="dhTiltSupport">-</b></div><div>保留<b id="dhTiltPending">-</b></div><div>少数意見・懸念<b id="dhTiltMinor">-</b></div></div>
+<div class="dhNote">「③ステークホルダーの意見」に掲載中の意見の件数です。正式な立場表明の集計ではありません。</div></div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">4</span>決めるのに足りない情報</div><div class="hl orange">
+      <h4>📈 将来予測ハイライト</h4>
+      <ul>
+        <li data-cell-id="mini-forecast-1">案ごとの導入コスト・効果試算は共創ワークショップ前のため<b>未算出</b></li>
+        <li data-cell-id="mini-forecast-2"><span class="pill porange">PoC概算</span> 北極星指標(生活インフラ自給率)もまだ算出できていない</li>
+        <li data-cell-id="mini-forecast-3">対策を先送りした場合の将来リスクも、基礎データ不足のため<b>未算出</b></li>
+      </ul>
+    </div>
+<div class="dhNote" id="dhLowAxes"></div></div>
+</div>
+<div class="dhSec dhNext"><div class="dhLabel"><span class="dhNum">5</span>次の一手</div><div class="hl gray">
+      <h4>✅ 現時点の結論・次の一手</h4>
+      <ul>
+        <li data-cell-id="mini-conclusion-1">特定の案への合意はまだ形成されておらず、共創ワークショップが出発点</li>
+        <li data-cell-id="mini-conclusion-2">次の一手：4世帯のうち1世帯で、浅井戸の水質検査と簡易浄水器の試験導入を検討する</li>
+        <li data-cell-id="mini-conclusion-3">ワークショップ後、実際の議論を踏まえてPositionRecordを登録する</li>
+      </ul>
+    </div>
+<div class="dhNote">担当・期日は未設定です。次回の議論で決めます。</div></div>
+</div>
+<details class="bgDetails"><summary>背景データ・補足(かんたん説明/主要数値/北極星指標)を開く</summary>
+<div class="kidBox">
+    <b>🌱 かんたんに言うと</b>
+    <p data-cell-id="kidbox-explanation">佐合島には今5人しか住んでいません。でも水道や電気は、たくさん人がいる街と同じような仕組みで維持されていて、人が減るほど一人あたりの費用がどんどん高くなります。このままだと「まだ大丈夫」のうちに気づかず、いつか誰も住めない島になってしまうかもしれません。そこで、井戸の水や太陽光発電など、少ない人数でも自分たちで賄える仕組みに変えていけないか、というアイデアです。</p>
+  </div><div class="kpis">
     <div class="kpi"><b>5人</b><span>佐合島の人口(4世帯・2026年時点)</span></div>
     <div class="kpi"><b>約1,000人</b><span>かつての人口規模</span></div>
     <div class="kpi"><b>日量2万L</b><span>公共深井戸の給水能力</span></div>
     <div class="kpi"><b>3〜6ヶ月</b><span>汲み取り式下水の運び出し頻度</span></div>
-  </div>
-  <div class="northStar">
+  </div><div class="northStar">
     <b>🌟 北極星指標：生活インフラ自給率(電気・水)</b>
     <p data-cell-id="northstar-status-hero" style="margin:6px 0 0">現時点では正式な算出前(基礎データ収集中・共創ワークショップ前)です。指標の内訳・レーダーチャート・「今日議論すべきこと」は「🌟 北極星指標」タブをご覧ください。</p>
-  </div>
-  <div class="callout warn" style="margin-top:14px">
+  </div><div class="callout warn" style="margin-top:14px">
     <b>📎 この論点の位置づけについて</b>
     <p style="margin-top:6px">本論点はりとけいが主催する「未来のシマ共創会議2026」のテーマオーナー案件(全国の島々から公募)です。りとけい分室のページに、他のテーマオーナー案件と合わせて掲載しています。また本ページは、意思決定支援ダッシュボード作成エージェント3(6タブ・シンプル構成版)を最初から適用して作り直したものです(2026-09-15)。</p>
-  </div>
+  </div></details>
+  
+  
+  
+  
+  
+  
 </div>
 
 
@@ -327,14 +413,7 @@ tr:last-child td{border-bottom:0}
         <li data-cell-id="mini-options-3">案C：下水処理を含めたインフラ全体を「型」として文書化し横展開する</li>
       </ul>
     </div>
-    <div class="hl orange">
-      <h4>📈 将来予測ハイライト</h4>
-      <ul>
-        <li data-cell-id="mini-forecast-1">案ごとの導入コスト・効果試算は共創ワークショップ前のため<b>未算出</b></li>
-        <li data-cell-id="mini-forecast-2"><span class="pill porange">PoC概算</span> 北極星指標(生活インフラ自給率)もまだ算出できていない</li>
-        <li data-cell-id="mini-forecast-3">対策を先送りした場合の将来リスクも、基礎データ不足のため<b>未算出</b></li>
-      </ul>
-    </div>
+    
     <div class="hl purple">
       <h4>🗣️ 現時点で分かっている声</h4>
       <ul>
@@ -350,50 +429,9 @@ tr:last-child td{border-bottom:0}
         <li data-cell-id="mini-cases-2"><span class="pill porange">要検証</span> フェーズフリーの考え方を防災インフラに応用した事例</li>
       </ul>
     </div>
-    <div class="hl gray">
-      <h4>✅ 現時点の結論・次の一手</h4>
-      <ul>
-        <li data-cell-id="mini-conclusion-1">特定の案への合意はまだ形成されておらず、共創ワークショップが出発点</li>
-        <li data-cell-id="mini-conclusion-2">次の一手：4世帯のうち1世帯で、浅井戸の水質検査と簡易浄水器の試験導入を検討する</li>
-        <li data-cell-id="mini-conclusion-3">ワークショップ後、実際の議論を踏まえてPositionRecordを登録する</li>
-      </ul>
-    </div>
+    
   </div>
-
-  <h3 style="margin-top:20px">②案のトレードオフ比較(たたき台)</h3>
-  <p style="font-size:12px;color:var(--muted);margin:0 0 8px">強み・弱み・着手しやすさは、下の「提案と評価」タブの記述をもとにした定性的な目安です。共創ワークショップでの議論を経て更新します。詳しい短中期長期の見通しは「提案と評価」タブをご覧ください。</p>
-  <div class="opts">
-    <div class="opt A">
-      <span class="tag">案A</span>
-      <h4>浅井戸の自家浄水を整備する</h4>
-      <p data-cell-id="opt-a-summary">既存の浅井戸をベースに、簡易な浄水設備を各家庭に整備し、公共水道への依存度を下げる案。</p>
-      <ul>
-        <li data-cell-id="opt-a-strength">強み：既存の井戸を活用できるため着手しやすい</li>
-        <li data-cell-id="opt-a-weakness">弱み：水質管理の仕組みづくりが別途必要</li>
-        <li data-cell-id="opt-a-ease">着手しやすさ：<span class="pill pgreen">◎</span></li>
-      </ul>
-    </div>
-    <div class="opt B">
-      <span class="tag">案B</span>
-      <h4>電力の複線化を進める</h4>
-      <p data-cell-id="opt-b-summary">送電鉄塔からの電力供給に加え、太陽光発電と蓄電池を組み合わせた自家発電系統を整備する案。</p>
-      <ul>
-        <li data-cell-id="opt-b-strength">強み：断線時の発電車頼みから脱却でき、災害時にも途絶しない「フェーズフリー」な電力供給に近づく</li>
-        <li data-cell-id="opt-b-weakness">弱み：設備投資の初期費用が課題</li>
-        <li data-cell-id="opt-b-ease">着手しやすさ：<span class="pill porange">△</span></li>
-      </ul>
-    </div>
-    <div class="opt C">
-      <span class="tag">案C</span>
-      <h4>型化して横展開する</h4>
-      <p data-cell-id="opt-c-summary">水・下水・電気の自給の仕組みをマニュアル化し、同じ課題を抱える他の離島・中山間地域に展開できる形にする案。</p>
-      <ul>
-        <li data-cell-id="opt-c-strength">強み：全国の過疎地域への波及効果が期待できる</li>
-        <li data-cell-id="opt-c-weakness">弱み：型化の作業に時間とコストがかかる</li>
-        <li data-cell-id="opt-c-ease">着手しやすさ：<span class="pill pblue">○</span></li>
-      </ul>
-    </div>
-  </div>
+  
 
   <h3 style="margin-top:20px">③ステークホルダーの意見について</h3>
   <p style="font-size:12px;color:var(--muted);margin:0 0 8px" data-cell-id="voices-caveat">本論点は2026年8月時点で「提起」段階です。Stakeholder・PositionRecord(立場表明ログ)は、共創ワークショップでの議論を経るまで空のままにしています。ここに掲載しているのは、テーマオーナー・梅本さんが公開の場(りとけいフォーラム記事)で発言した内容と、島民の合意についての伝聞のみです。</p>
@@ -803,7 +841,7 @@ function renderRadar(svgId, scores){
   }).join('');
   svg.innerHTML = rings + '<polygon points="'+dataPts+'" fill="#7A5CCF55" stroke="#7A5CCF" stroke-width="2"/>' + labels;
 }
-renderRadar('radarChart', {legitimacy:15, evidence:25, alignment:15, feasibility:40, impact:20});
+renderRadar('radarChart', window.__radarScores = {legitimacy:15, evidence:25, alignment:15, feasibility:40, impact:20});
 (function(){
   var wizard = document.getElementById('wizard');
   var wizardSkip = document.getElementById('wizardSkip');
@@ -1107,5 +1145,20 @@ renderRadar('radarChart', {legitimacy:15, evidence:25, alignment:15, feasibility
 })();
 </script>
 <script src="/js/dashboard-cell-editor.js"></script>
+<script>
+window.addEventListener('load',function(){
+  try{
+    var n=function(c){return document.querySelectorAll('#panel-summary .voices .voice.'+c).length;};
+    var set=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
+    set('dhTiltSupport',n('support'));set('dhTiltPending',n('pending'));set('dhTiltMinor',n('minority'));
+    var sc=window.__radarScores;
+    if(sc){
+      var lab={legitimacy:'当事者の声',evidence:'外部知見',alignment:'上位方針との整合',feasibility:'実行可能性',impact:'効果・リスク見通し'};
+      var ks=Object.keys(lab).sort(function(a,b){return sc[a]-sc[b];}).slice(0,2);
+      set('dhLowAxes','情報充足度が最も低い軸:'+ks.map(function(k){return lab[k]+'('+sc[k]+'点)';}).join('、'));
+    }
+  }catch(e){}
+});
+</script>
 </body>
 </html>

@@ -190,12 +190,36 @@ tr:last-child td{border-bottom:0}
 .poSection .poDone{color:var(--green);font-size:12px;margin:0;font-weight:700}
 .poSection .poNote{font-size:11.5px;color:var(--muted);margin:0}
 .poSection .poDraftText{white-space:pre-wrap;font-size:12.5px;line-height:1.6;background:var(--soft);border-radius:8px;padding:10px;margin:0}
+
+.dh{border:2px solid #1d4f7a;border-radius:12px;overflow:hidden;margin-top:14px;background:#fff}
+.dh>.dhHead{background:#1d4f7a;color:#fff;padding:10px 16px;font-size:14px;font-weight:800}
+.dh .dhSec{padding:14px 16px;border-bottom:1px solid var(--line)}
+.dh .dhSec:last-child{border-bottom:none}
+.dh .dhNum{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#1d4f7a;color:#fff;font-size:12px;font-weight:800;margin-right:8px}
+.dh .dhLabel{font-size:13px;font-weight:800;color:#1d4f7a;display:flex;align-items:center;margin-bottom:8px}
+.dh .dhTwo{display:grid;grid-template-columns:1fr 1fr;padding:0}
+.dh .dhTwo>.dhSec{border-bottom:none;border-right:1px solid var(--line)}
+.dh .dhTwo>.dhSec:last-child{border-right:none}
+.dh .dhNext{background:#eff6ff}
+.dh .decisionQ,.dh .decision{border:none;background:transparent;padding:0;margin:0;border-radius:0}
+.dh .hl{border:none;background:transparent;padding:0;margin:0}
+.dh .hl h4{display:none}
+.dh .tilt{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px;text-align:center;font-size:12px}
+.dh .tilt div{background:var(--soft);border-radius:6px;padding:6px}
+.dh .tilt b{display:block;font-size:16px}
+.dh .dhNote{font-size:11.5px;color:var(--muted);margin-top:6px}
+.dhChips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:12px}
+.dhChips span{background:#e5e7eb;color:#374151;font-weight:700;padding:3px 10px;border-radius:4px}
+.dhChips span.done{background:#dcfce7;color:#166534}
+details.bgDetails{margin-top:12px;border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:#fff}
+details.bgDetails>summary{cursor:pointer;font-weight:800;font-size:13px;color:#4b5563}
+@media(max-width:900px){.dh .dhTwo{grid-template-columns:1fr}.dh .dhTwo>.dhSec{border-right:none;border-bottom:1px solid var(--line)}}
 </style>
 </head>
 <body data-dashboard-slug="iwaishima-bukatsu-jikyu-dss" data-issue-page-id="3cb960a9-1e23-812d-8c50-f169695c971a">
 <div class="layout">
-  <aside class="sidePanel left" id="leftPanel">
-    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▲</span></button>
+  <aside class="sidePanel left collapsed" id="leftPanel">
+    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▼</span></button>
     <div class="panelBody" id="leftBody">
       <div class="field">
         <label for="genTitle">論点のタイトル</label>
@@ -261,15 +285,10 @@ tr:last-child td{border-bottom:0}
   </div>
   <div class="title">部活動の場を島で「自給」するには？</div>
   <div class="subtitle">祝島(山口県上関町・人口約250人)で、祝島有志の会の秋山鈴明さんが提起したテーマです。中学校進学時に本土の学校へ通うことになり、部活動の選択肢の少なさや帰りの船の時間的制約から「教育流出」が繰り返されてきた課題に向き合っています。</div>
-  <div class="kidBox">
-    <b>🌱 かんたんに言うと</b>
-    <p data-cell-id="iw-kidbox">祝島には中学校がなく、中学生になると船で本土の学校に通います。でも帰りの船の時間が決まっていて、部活動をする時間がほとんどありません。やりたい部活もほとんど選べません。そこで「島の中で、自分たちの部活を作れないか」と考えたのがこのアイデアです。サッカーでも吹奏楽でもなく、島でしかできない部活を作れば、逆に「その部活をやりたいから祝島に来たい」と言われる島になるかもしれません。</p>
-  </div>
-  <div class="decision">
-    <span class="badge">📝 現在のステータス：論点提起(共創ワークショップ進行中)</span>
-    <p data-cell-id="iw-decision-status">本論点は「未来のシマ共創会議2026」テーマオーナー案件として、2026年8月に提起されました。共創ワークショップ(9月10日実施済み・10月1日オンライン、10月23日対面)を経て、実際の議論が進んでいます。このシートは特定の案を推奨するものではなく、テーマオーナー・秋山さんの公開発言と、9/10のオンラインワークショップでの意見交換をもとに論点を整理し、議論の出発点として作成したものです。</p>
-  </div>
-  <div class="decisionQ">
+  <div class="dhChips"><span class="done">第1回ワークショップ(9/24)実施済み</span><span>次回:第2回(10/15 オンライン)</span><span>方向性を仮決め:10/23 対面セッション</span></div>
+  <div class="dh">
+<div class="dhHead">判断に必要な情報 (この枠だけで、決めること・選択肢・現状・次の一手が分かります)</div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">1</span>決めること</div><div class="decisionQ">
     <b>🎯 今回、決めるべき問いは何か</b>
     <p data-cell-id="iw-decisionq-text" style="margin:8px 0 0;font-size:13px">「島内でシーカヤック等の海洋部活を新設するか(案A)／スクールボートを復活させるか(案B)／世代混合型のコミュニティ部活として設計するか(案C)」— 共創ワークショップで検討する3つの方向性のうち、どれを軸に議論を深めるか。</p>
     <div class="metaRow">
@@ -278,21 +297,86 @@ tr:last-child td{border-bottom:0}
       <div><em>後戻りのしやすさ</em><span data-cell-id="iw-decisionq-reversibility">中(指導者・安全管理体制などの運用投資はやり直しがきくが、来年度入学予定の中学生の在学期間は待ってくれない)</span></div>
       <div><em>影響範囲</em><span data-cell-id="iw-decisionq-scope">祝島の児童・生徒とその保護者、上関中学校、上関町教育委員会、祝島の地域コミュニティ全体</span></div>
     </div>
+  </div></div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">2</span>選択肢の比較(たたき台)</div><p style="font-size:12px;color:var(--muted);margin:0 0 8px">強み・弱み・合意しやすさ(★の数)は、下の「提案と評価」タブの記述をもとにした定性的な目安です。共創ワークショップでの議論を経て更新します。</p><div class="opts">
+    <div class="opt A">
+      <span class="tag">案A</span>
+      <h4>海洋部活の新設</h4>
+      <p data-cell-id="iw-opt-a-summary">海に囲まれた環境を生かし、シーカヤックやマリンスポーツなど、島でしかできない部活を新設する案。まずは指導者を島外オンライン顧問で補いながら、休日の体験会から小さく始めることが提案されている。</p>
+      <ul>
+        <li data-cell-id="iw-opt-a-strength">強み：島内完結で着手しやすく、休日体験会から小さく始められる</li>
+        <li data-cell-id="iw-opt-a-weakness">弱み：指導者・安全管理体制の整備が必要</li>
+        <li data-cell-id="iw-opt-a-ease">合意しやすさ：★★★</li>
+      </ul>
+    </div>
+    <div class="opt B">
+      <span class="tag">案B</span>
+      <h4>スクールボート復活</h4>
+      <p data-cell-id="iw-opt-b-summary">10年前に運行していたスクールボートを、財源・運行体制を再設計して復活させる案。財源確保のハードルが高く、当面は優先度を下げてよいのではという意見が9/10ワークショップで出ている。</p>
+      <ul>
+        <li data-cell-id="iw-opt-b-strength">強み：既存の部活動の選択肢をそのまま活用できる</li>
+        <li data-cell-id="iw-opt-b-weakness">弱み：運行事業者の確保・財源確保が課題。町財政への継続的な負担が残る可能性</li>
+        <li data-cell-id="iw-opt-b-ease">合意しやすさ：★</li>
+      </ul>
+    </div>
+    <div class="opt C">
+      <span class="tag">案C</span>
+      <h4>世代混合コミュニティ部活</h4>
+      <p data-cell-id="iw-opt-c-summary">小学生・中学生・移住者・島のベテラン漁師などが世代を超えて混ざり合う「新しいコミュニティの核」として部活を設計する案。中長期の方向性として引き続き検討したいという声がある。</p>
+      <ul>
+        <li data-cell-id="iw-opt-c-strength">強み：子育て・高齢者ケアの機能も自然に生まれる可能性、祝島の自治の力を継承</li>
+        <li data-cell-id="iw-opt-c-weakness">弱み：運営の仕組み・役割分担の設計に時間がかかる</li>
+        <li data-cell-id="iw-opt-c-ease">合意しやすさ：★★</li>
+      </ul>
+    </div>
+  </div></div>
+<div class="dhTwo">
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">3</span>今の傾き</div><div class="decision">
+    <span class="badge">📝 現在のステータス：論点提起(共創ワークショップ進行中)</span>
+    <p data-cell-id="iw-decision-status">本論点は「未来のシマ共創会議2026」テーマオーナー案件として、2026年8月に提起されました。共創ワークショップ(9月10日実施済み・10月1日オンライン、10月23日対面)を経て、実際の議論が進んでいます。このシートは特定の案を推奨するものではなく、テーマオーナー・秋山さんの公開発言と、9/10のオンラインワークショップでの意見交換をもとに論点を整理し、議論の出発点として作成したものです。</p>
   </div>
-  <div class="kpis">
+<div class="tilt"><div>賛成<b id="dhTiltSupport">-</b></div><div>保留<b id="dhTiltPending">-</b></div><div>少数意見・懸念<b id="dhTiltMinor">-</b></div></div>
+<div class="dhNote">「③ステークホルダーの意見」に掲載中の意見の件数です。正式な立場表明の集計ではありません。</div></div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">4</span>決めるのに足りない情報</div><div class="hl orange">
+      <h4>📈 将来予測ハイライト</h4>
+      <ul>
+        <li data-cell-id="iw-mini-forecast-1">上関町は令和32年(2050年)に人口1,000人以上の確保を目標としている</li>
+        <li data-cell-id="iw-mini-forecast-2"><span class="pill porange">未算出</span> 案A/B/Cごとの運営費・定住効果の試算はまだできていない</li>
+      </ul>
+    </div>
+<div class="dhNote" id="dhLowAxes"></div></div>
+</div>
+<div class="dhSec dhNext"><div class="dhLabel"><span class="dhNum">5</span>次の一手</div><div class="hl gray">
+      <h4>✅ 現時点の結論・次の一手</h4>
+      <ul>
+        <li data-cell-id="iw-mini-conclusion-1">案Aを軸に、休日のシーカヤック体験会から小さく試すことに関係者の意見が集まっている</li>
+        <li data-cell-id="iw-mini-conclusion-2">次の一手：休日のシーカヤック体験会(1回目)の実施可能性の検討と、補助金・交付金の対象要件の確認</li>
+      </ul>
+    </div>
+<div class="dhNote">担当・期日は未設定です。次回の議論で決めます。</div></div>
+</div>
+<details class="bgDetails"><summary>背景データ・補足(かんたん説明/主要数値/北極星指標)を開く</summary>
+<div class="kidBox">
+    <b>🌱 かんたんに言うと</b>
+    <p data-cell-id="iw-kidbox">祝島には中学校がなく、中学生になると船で本土の学校に通います。でも帰りの船の時間が決まっていて、部活動をする時間がほとんどありません。やりたい部活もほとんど選べません。そこで「島の中で、自分たちの部活を作れないか」と考えたのがこのアイデアです。サッカーでも吹奏楽でもなく、島でしかできない部活を作れば、逆に「その部活をやりたいから祝島に来たい」と言われる島になるかもしれません。</p>
+  </div><div class="kpis">
     <div class="kpi"><b>約250人</b><span>祝島の人口</span></div>
     <div class="kpi"><b>8人</b><span>祝島小学校の児童数</span></div>
     <div class="kpi"><b>2つ</b><span>上関中学校の部活動選択肢(テニス部・文化サークル)</span></div>
     <div class="kpi"><b>片道30分</b><span>祝島—上関間の定期船(1日3便)</span></div>
-  </div>
-  <div class="northStar">
+  </div><div class="northStar">
     <b>🌟 北極星指標：部活動を島で「自給」できている度合い</b>
     <p data-cell-id="iw-northstar-status-hero" style="margin:6px 0 0">子どもが実際に参加できる部活動の選択肢が、島の外に頼らずどれだけ島内で成り立っているかを表す指標です。共創ワークショップ進行中の現段階では、指標としての正式な算出はまだ行っていません。詳しい内訳・レーダーチャート・「今日議論すべきこと」は「🌟 北極星指標」タブをご覧ください。</p>
-  </div>
-  <div class="callout warn" style="margin-top:14px">
+  </div><div class="callout warn" style="margin-top:14px">
     <b>📎 この論点の位置づけについて</b>
     <p style="margin-top:6px">本論点はりとけいが主催する「未来のシマ共創会議2026」のテーマオーナー案件(全国の島々から公募)です。りとけい分室のページに、他のテーマオーナー案件と合わせて掲載しています。また本ページは、意思決定支援ダッシュボード作成エージェント3(6タブ・シンプル構成版)を適用して、旧13タブ構成から作り直したものです(2026-09-22)。</p>
-  </div>
+  </div></details>
+  
+  
+  
+  
+  
+  
 </div>
 
 
@@ -326,13 +410,7 @@ tr:last-child td{border-bottom:0}
         <li data-cell-id="iw-mini-options-3">案C：世代混合型のコミュニティ部活として設計する(中長期の方向性)</li>
       </ul>
     </div>
-    <div class="hl orange">
-      <h4>📈 将来予測ハイライト</h4>
-      <ul>
-        <li data-cell-id="iw-mini-forecast-1">上関町は令和32年(2050年)に人口1,000人以上の確保を目標としている</li>
-        <li data-cell-id="iw-mini-forecast-2"><span class="pill porange">未算出</span> 案A/B/Cごとの運営費・定住効果の試算はまだできていない</li>
-      </ul>
-    </div>
+    
     <div class="hl purple">
       <h4>🗣️ 現時点で分かっている声</h4>
       <ul>
@@ -348,49 +426,9 @@ tr:last-child td{border-bottom:0}
         <li data-cell-id="iw-mini-cases-2"><span class="pill porange">要検証</span> 離島・中山間地域での部活動の地域運営事例</li>
       </ul>
     </div>
-    <div class="hl gray">
-      <h4>✅ 現時点の結論・次の一手</h4>
-      <ul>
-        <li data-cell-id="iw-mini-conclusion-1">案Aを軸に、休日のシーカヤック体験会から小さく試すことに関係者の意見が集まっている</li>
-        <li data-cell-id="iw-mini-conclusion-2">次の一手：休日のシーカヤック体験会(1回目)の実施可能性の検討と、補助金・交付金の対象要件の確認</li>
-      </ul>
-    </div>
+    
   </div>
-
-  <h3 style="margin-top:20px">②案のトレードオフ比較(たたき台)</h3>
-  <p style="font-size:12px;color:var(--muted);margin:0 0 8px">強み・弱み・合意しやすさ(★の数)は、下の「提案と評価」タブの記述をもとにした定性的な目安です。共創ワークショップでの議論を経て更新します。</p>
-  <div class="opts">
-    <div class="opt A">
-      <span class="tag">案A</span>
-      <h4>海洋部活の新設</h4>
-      <p data-cell-id="iw-opt-a-summary">海に囲まれた環境を生かし、シーカヤックやマリンスポーツなど、島でしかできない部活を新設する案。まずは指導者を島外オンライン顧問で補いながら、休日の体験会から小さく始めることが提案されている。</p>
-      <ul>
-        <li data-cell-id="iw-opt-a-strength">強み：島内完結で着手しやすく、休日体験会から小さく始められる</li>
-        <li data-cell-id="iw-opt-a-weakness">弱み：指導者・安全管理体制の整備が必要</li>
-        <li data-cell-id="iw-opt-a-ease">合意しやすさ：★★★</li>
-      </ul>
-    </div>
-    <div class="opt B">
-      <span class="tag">案B</span>
-      <h4>スクールボート復活</h4>
-      <p data-cell-id="iw-opt-b-summary">10年前に運行していたスクールボートを、財源・運行体制を再設計して復活させる案。財源確保のハードルが高く、当面は優先度を下げてよいのではという意見が9/10ワークショップで出ている。</p>
-      <ul>
-        <li data-cell-id="iw-opt-b-strength">強み：既存の部活動の選択肢をそのまま活用できる</li>
-        <li data-cell-id="iw-opt-b-weakness">弱み：運行事業者の確保・財源確保が課題。町財政への継続的な負担が残る可能性</li>
-        <li data-cell-id="iw-opt-b-ease">合意しやすさ：★</li>
-      </ul>
-    </div>
-    <div class="opt C">
-      <span class="tag">案C</span>
-      <h4>世代混合コミュニティ部活</h4>
-      <p data-cell-id="iw-opt-c-summary">小学生・中学生・移住者・島のベテラン漁師などが世代を超えて混ざり合う「新しいコミュニティの核」として部活を設計する案。中長期の方向性として引き続き検討したいという声がある。</p>
-      <ul>
-        <li data-cell-id="iw-opt-c-strength">強み：子育て・高齢者ケアの機能も自然に生まれる可能性、祝島の自治の力を継承</li>
-        <li data-cell-id="iw-opt-c-weakness">弱み：運営の仕組み・役割分担の設計に時間がかかる</li>
-        <li data-cell-id="iw-opt-c-ease">合意しやすさ：★★</li>
-      </ul>
-    </div>
-  </div>
+  
 
   <h3 style="margin-top:20px">③ステークホルダーの意見について</h3>
   <p style="font-size:12px;color:var(--muted);margin:0 0 8px" data-cell-id="iw-voices-caveat">本論点は2026年8月時点で「提起」段階です。以下は2026/9/10のオンラインワークショップ(関係者中心)で確認できている声で、正式なPositionRecordとしてのヒアリングではありません。保護者・生徒本人への正式なヒアリングは10月の共創ワークショップでさらに進めます。</p>
@@ -769,7 +807,7 @@ function renderRadar(svgId, scores){
   }).join('');
   svg.innerHTML = rings + '<polygon points="'+dataPts+'" fill="#7A5CCF55" stroke="#7A5CCF" stroke-width="2"/>' + labels;
 }
-renderRadar('radarChart', {legitimacy:20, evidence:20, alignment:55, feasibility:30, impact:10});
+renderRadar('radarChart', window.__radarScores = {legitimacy:20, evidence:20, alignment:55, feasibility:30, impact:10});
 
 // --- 左右パネルの折りたたみ ---
 (function(){
@@ -1062,5 +1100,20 @@ renderRadar('radarChart', {legitimacy:20, evidence:20, alignment:55, feasibility
 })();
 </script>
 <script src="/js/dashboard-cell-editor.js"></script>
+<script>
+window.addEventListener('load',function(){
+  try{
+    var n=function(c){return document.querySelectorAll('#panel-summary .voices .voice.'+c).length;};
+    var set=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
+    set('dhTiltSupport',n('support'));set('dhTiltPending',n('pending'));set('dhTiltMinor',n('minority'));
+    var sc=window.__radarScores;
+    if(sc){
+      var lab={legitimacy:'当事者の声',evidence:'外部知見',alignment:'上位方針との整合',feasibility:'実行可能性',impact:'効果・リスク見通し'};
+      var ks=Object.keys(lab).sort(function(a,b){return sc[a]-sc[b];}).slice(0,2);
+      set('dhLowAxes','情報充足度が最も低い軸:'+ks.map(function(k){return lab[k]+'('+sc[k]+'点)';}).join('、'));
+    }
+  }catch(e){}
+});
+</script>
 </body>
 </html>

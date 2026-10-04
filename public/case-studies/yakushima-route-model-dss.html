@@ -190,12 +190,36 @@ tr:last-child td{border-bottom:0}
 .poSection .poDone{color:var(--green);font-size:12px;margin:0;font-weight:700}
 .poSection .poNote{font-size:11.5px;color:var(--muted);margin:0}
 .poSection .poDraftText{white-space:pre-wrap;font-size:12.5px;line-height:1.6;background:var(--soft);border-radius:8px;padding:10px;margin:0}
+
+.dh{border:2px solid #1d4f7a;border-radius:12px;overflow:hidden;margin-top:14px;background:#fff}
+.dh>.dhHead{background:#1d4f7a;color:#fff;padding:10px 16px;font-size:14px;font-weight:800}
+.dh .dhSec{padding:14px 16px;border-bottom:1px solid var(--line)}
+.dh .dhSec:last-child{border-bottom:none}
+.dh .dhNum{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#1d4f7a;color:#fff;font-size:12px;font-weight:800;margin-right:8px}
+.dh .dhLabel{font-size:13px;font-weight:800;color:#1d4f7a;display:flex;align-items:center;margin-bottom:8px}
+.dh .dhTwo{display:grid;grid-template-columns:1fr 1fr;padding:0}
+.dh .dhTwo>.dhSec{border-bottom:none;border-right:1px solid var(--line)}
+.dh .dhTwo>.dhSec:last-child{border-right:none}
+.dh .dhNext{background:#eff6ff}
+.dh .decisionQ,.dh .decision{border:none;background:transparent;padding:0;margin:0;border-radius:0}
+.dh .hl{border:none;background:transparent;padding:0;margin:0}
+.dh .hl h4{display:none}
+.dh .tilt{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px;text-align:center;font-size:12px}
+.dh .tilt div{background:var(--soft);border-radius:6px;padding:6px}
+.dh .tilt b{display:block;font-size:16px}
+.dh .dhNote{font-size:11.5px;color:var(--muted);margin-top:6px}
+.dhChips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:12px}
+.dhChips span{background:#e5e7eb;color:#374151;font-weight:700;padding:3px 10px;border-radius:4px}
+.dhChips span.done{background:#dcfce7;color:#166534}
+details.bgDetails{margin-top:12px;border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:#fff}
+details.bgDetails>summary{cursor:pointer;font-weight:800;font-size:13px;color:#4b5563}
+@media(max-width:900px){.dh .dhTwo{grid-template-columns:1fr}.dh .dhTwo>.dhSec{border-right:none;border-bottom:1px solid var(--line)}}
 </style>
 </head>
 <body data-dashboard-slug="yakushima-route-model-dss" data-issue-page-id="3cb960a9-1e23-8124-a23d-ea9cd01a8a8f">
 <div class="layout">
-  <aside class="sidePanel left" id="leftPanel">
-    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▲</span></button>
+  <aside class="sidePanel left collapsed" id="leftPanel">
+    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▼</span></button>
     <div class="panelBody" id="leftBody">
       <div class="field">
         <label for="genTitle">論点のタイトル</label>
@@ -261,15 +285,10 @@ tr:last-child td{border-bottom:0}
   </div>
   <div class="title">地域主体で航路を支える新モデルとは？</div>
   <div class="subtitle">本土―屋久島間の定期航路で電源喪失による漂流事故が発生し、老朽船の更新には約100億円規模の投資判断が必要になっています。屋久島観光協会 荒木政孝会長が、りとけい「島会議2026」テーマ06として提起した論点です。既存の論点「屋久島航路の持続可能性」(運賃・収容率・コスト改善が中心)とは別に、「地域が主体となって航路の運営体制そのものをどう組み立て直すか(上下分離・複数事業者調整など)」という、より上流の構造的な論点として整理しています。</div>
-  <div class="kidBox">
-    <b>🌱 かんたんに言うと</b>
-    <p data-cell-id="yk-kidbox">屋久島とほかの島をむすぶ船が、電気のトラブルで一時ただよってしまう事故がありました。この船を新しくするには、とても大きなお金(約100億円)がかかります。「今まで通り自治体だけで頑張るのか」「船を持つ人と動かす人を分けるのか」「地域みんなでお金を出し合う会社をつくるのか」。この資料は、その選択肢を整理して、これから始まる話し合いの土台にするためのものです。</p>
-  </div>
-  <div class="decision">
-    <span class="badge">📝 現在のステータス：議論中(共創ワークショップ進行中)</span>
-    <p data-cell-id="yk-decision-status">本論点は2026年8月に「提起」段階として登録され、2026年9月8日に非公式の事前検討会(第1回)、9月17日にりとけい主催の共創ワークショップ本番(第1回・オンライン)が実施されました。本番では、住民署名1万41筆・国交省の補助拡充方針(8/28概算要求発表)・中古船先行購入の方向性という新しい情報が共有され、論点の重心が「誰が船を作るか」から「住民がどう関わるか」へと移っています。10月8日(第2回オンライン)・10月23日(対面)を経て、実際の話し合いがさらに深まります。このシートは特定の案を推奨するものではなく、荒木会長ほか出席者の発言をもとに論点と選択肢を整理し、議論の土台として作成したものです。屋久島観光協会との正式な連携についても、引き続き検討段階であることを申し添えます。</p>
-  </div>
-  <div class="decisionQ">
+  <div class="dhChips"><span class="done">第1回ワークショップ(9/24)実施済み</span><span>次回:第2回(10/15 オンライン)</span><span>方向性を仮決め:10/23 対面セッション</span></div>
+  <div class="dh">
+<div class="dhHead">判断に必要な情報 (この枠だけで、決めること・選択肢・現状・次の一手が分かります)</div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">1</span>決めること</div><div class="decisionQ">
     <b>🎯 今回、決めるべき問いは何か</b>
     <p data-cell-id="yk-decisionq-text" style="margin:8px 0 0;font-size:13px">「現行体制を維持しつつ財源確保を目指すか(案A)／船体・港湾を公的主体、運航を民間に分ける上下分離方式にするか(案B)／地域出資型の新会社を設立するか(案C)」— 共創ワークショップで検討する3つの方向性のうち、どれを軸に議論を深めるか。</p>
     <div class="metaRow">
@@ -278,21 +297,86 @@ tr:last-child td{border-bottom:0}
       <div><em>後戻りのしやすさ</em><span data-cell-id="yk-decisionq-reversibility">低(約100億円規模の投資判断のため、方向性を大きく変えるほど後戻りのコストが大きい)</span></div>
       <div><em>影響範囲</em><span data-cell-id="yk-decisionq-scope">屋久島全島の住民・観光客・複数の運航事業者、屋久島町の財政</span></div>
     </div>
+  </div></div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">2</span>選択肢の比較(たたき台)</div><p style="font-size:12px;color:var(--muted);margin:0 0 8px">強み・弱み・合意しやすさ(★の数)は、下の「提案と評価」タブの記述をもとにした定性的な目安です。共創ワークショップでの議論を経て更新します。</p><div class="opts">
+    <div class="opt A">
+      <span class="tag">案A</span>
+      <h4>現行維持＋財源確保</h4>
+      <p data-cell-id="yk-opt-a-summary">現在の事業者・運営体制を維持したまま、国・県の補助金や地域未来交付金などを活用して更新費用を確保する案。</p>
+      <ul>
+        <li data-cell-id="yk-opt-a-strength">強み：調整コストが小さく着手しやすい</li>
+        <li data-cell-id="yk-opt-a-weakness">弱み：財源確保の見通しが不透明だと更新が遅れるリスク</li>
+        <li data-cell-id="yk-opt-a-ease">合意しやすさ：★★★</li>
+      </ul>
+    </div>
+    <div class="opt B">
+      <span class="tag">案B</span>
+      <h4>上下分離方式</h4>
+      <p data-cell-id="yk-opt-b-summary">船体や港湾施設の保有・更新は自治体などの公的主体が担い、実際の運航は民間事業者に委ねる方式。隠岐諸島の枠組みに近い考え方(詳細は要検証)。</p>
+      <ul>
+        <li data-cell-id="yk-opt-b-strength">強み：更新費用の負担を公的主体に移すことで事業者の経営リスクが下がる</li>
+        <li data-cell-id="yk-opt-b-weakness">弱み：制度設計・財源スキームの検討に時間がかかる</li>
+        <li data-cell-id="yk-opt-b-ease">合意しやすさ：★★</li>
+      </ul>
+    </div>
+    <div class="opt C">
+      <span class="tag">案C</span>
+      <h4>地域出資型運営会社</h4>
+      <p data-cell-id="yk-opt-c-summary">住民・観光協会・商工会などが出資する新会社を設立し、地域が主体となって運航・投資判断を行う案。</p>
+      <ul>
+        <li data-cell-id="yk-opt-c-strength">強み：地域の意思決定が反映されやすくなる</li>
+        <li data-cell-id="yk-opt-c-weakness">弱み：合意形成・設立準備に時間とコストがかかり、財務的な持続可能性の検証も必要</li>
+        <li data-cell-id="yk-opt-c-ease">合意しやすさ：★</li>
+      </ul>
+    </div>
+  </div></div>
+<div class="dhTwo">
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">3</span>今の傾き</div><div class="decision">
+    <span class="badge">📝 現在のステータス：議論中(共創ワークショップ進行中)</span>
+    <p data-cell-id="yk-decision-status">本論点は2026年8月に「提起」段階として登録され、2026年9月8日に非公式の事前検討会(第1回)、9月17日にりとけい主催の共創ワークショップ本番(第1回・オンライン)が実施されました。本番では、住民署名1万41筆・国交省の補助拡充方針(8/28概算要求発表)・中古船先行購入の方向性という新しい情報が共有され、論点の重心が「誰が船を作るか」から「住民がどう関わるか」へと移っています。10月8日(第2回オンライン)・10月23日(対面)を経て、実際の話し合いがさらに深まります。このシートは特定の案を推奨するものではなく、荒木会長ほか出席者の発言をもとに論点と選択肢を整理し、議論の土台として作成したものです。屋久島観光協会との正式な連携についても、引き続き検討段階であることを申し添えます。</p>
   </div>
-  <div class="kpis">
+<div class="tilt"><div>賛成<b id="dhTiltSupport">-</b></div><div>保留<b id="dhTiltPending">-</b></div><div>少数意見・懸念<b id="dhTiltMinor">-</b></div></div>
+<div class="dhNote">「③ステークホルダーの意見」に掲載中の意見の件数です。正式な立場表明の集計ではありません。</div></div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">4</span>決めるのに足りない情報</div><div class="hl orange">
+      <h4>📈 将来予測ハイライト</h4>
+      <ul>
+        <li data-cell-id="yk-mini-forecast-1"><span class="pill porange">未算出</span> 案A/B/Cそれぞれの財源スキーム・財政負担・必要出資額は、共創ワークショップ前の現時点ではまだ試算できていない</li>
+        <li data-cell-id="yk-mini-forecast-2">屋久島町 第三期総合戦略の社会増減・事業所数の指標は既存論点と共通で参照可能</li>
+      </ul>
+    </div>
+<div class="dhNote" id="dhLowAxes"></div></div>
+</div>
+<div class="dhSec dhNext"><div class="dhLabel"><span class="dhNum">5</span>次の一手</div><div class="hl gray">
+      <h4>✅ 現時点の結論・次の一手</h4>
+      <ul>
+        <li data-cell-id="yk-mini-conclusion-1">国の補助拡充方針(概算要求)により「誰が船を作るか」の前提が変化。ただし補助率次第で30〜45億円規模の自己負担が残る可能性があり、案A/B/Cのどれを軸にするかの合意はまだ形成されていない</li>
+        <li data-cell-id="yk-mini-conclusion-2">次の一手(10/8第2回に向けて)：①国の補助制度の詳細確認、②自己負担分の資金調達策の洗い出し(粟島事例等)、③住民が実際に関われる領域(利用促進・船員確保の奨学金制度・教育連携)の具体化</li>
+      </ul>
+    </div>
+<div class="dhNote">担当・期日は未設定です。次回の議論で決めます。</div></div>
+</div>
+<details class="bgDetails"><summary>背景データ・補足(かんたん説明/主要数値/北極星指標)を開く</summary>
+<div class="kidBox">
+    <b>🌱 かんたんに言うと</b>
+    <p data-cell-id="yk-kidbox">屋久島とほかの島をむすぶ船が、電気のトラブルで一時ただよってしまう事故がありました。この船を新しくするには、とても大きなお金(約100億円)がかかります。「今まで通り自治体だけで頑張るのか」「船を持つ人と動かす人を分けるのか」「地域みんなでお金を出し合う会社をつくるのか」。この資料は、その選択肢を整理して、これから始まる話し合いの土台にするためのものです。</p>
+  </div><div class="kpis">
     <div class="kpi"><b>約100億円</b><span>老朽船更新の投資規模</span></div>
     <div class="kpi"><b>1万41筆</b><span>住民署名数(8/25時点。人口約1.1万人のほぼ半数)</span></div>
     <div class="kpi"><b>8/28</b><span>国交省が離島航路 船舶建造支援拡充を概算要求で発表</span></div>
     <div class="kpi"><b>25名</b><span>ワークショップ定員(オンライン+対面)</span></div>
-  </div>
-  <div class="northStar">
+  </div><div class="northStar">
     <b>🌟 北極星指標：地域主体で航路を支える新しい運営モデルの合意形成ができている度合い</b>
     <p data-cell-id="yk-northstar-status-hero" style="margin:6px 0 0">案A/B/Cのうちどの方向性を軸に議論を進めるかについて、ステークホルダー間で実質的な合意がどれだけ進んでいるかを表す指標です。9/17の共創ワークショップ本番で、国の補助拡充方針という新しい前提が共有され、論点は「誰が船を作るか」から「住民がどう関わるか」へ重心が移りました。情報充足度レーダーは前回(9/8時点)に比べ当事者の声・外部知見・方針整合の3軸が大きく前進しましたが、実行可能性・効果見通しはまだ薄いままです。詳しい内訳・レーダーチャート(前回比較つき)・「次の議論で埋めるべきこと」は「🌟 北極星指標」タブをご覧ください。</p>
-  </div>
-  <div class="callout warn" style="margin-top:14px">
+  </div><div class="callout warn" style="margin-top:14px">
     <b>📎 関連する既存論点について</b>
     <p style="margin-top:6px">屋久島町分室には、運賃・収容率・コスト改善を扱う既存の論点「屋久島航路の持続可能性」があります。本論点はそれとは別に、屋久島観光協会側から独立して整理している構造的な論点です。また本ページは、意思決定支援ダッシュボード作成エージェント3(6タブ・シンプル構成版)を適用して、旧12タブ構成(ウィザード付き)から作り直したものです(2026-09-22)。</p>
-  </div>
+  </div></details>
+  
+  
+  
+  
+  
+  
 </div>
 
 
@@ -326,13 +410,7 @@ tr:last-child td{border-bottom:0}
         <li data-cell-id="yk-mini-options-3">案C：地域出資型の運営会社を新設し、地域が主体で運航</li>
       </ul>
     </div>
-    <div class="hl orange">
-      <h4>📈 将来予測ハイライト</h4>
-      <ul>
-        <li data-cell-id="yk-mini-forecast-1"><span class="pill porange">未算出</span> 案A/B/Cそれぞれの財源スキーム・財政負担・必要出資額は、共創ワークショップ前の現時点ではまだ試算できていない</li>
-        <li data-cell-id="yk-mini-forecast-2">屋久島町 第三期総合戦略の社会増減・事業所数の指標は既存論点と共通で参照可能</li>
-      </ul>
-    </div>
+    
     <div class="hl purple">
       <h4>🗣️ 現時点で分かっている声(9/17時点)</h4>
       <ul>
@@ -350,49 +428,9 @@ tr:last-child td{border-bottom:0}
         <li data-cell-id="yk-mini-cases-3"><span class="pill porange">一部成功</span> ロードハウ島(オーストラリア)の小規模空輸サービス維持計画</li>
       </ul>
     </div>
-    <div class="hl gray">
-      <h4>✅ 現時点の結論・次の一手</h4>
-      <ul>
-        <li data-cell-id="yk-mini-conclusion-1">国の補助拡充方針(概算要求)により「誰が船を作るか」の前提が変化。ただし補助率次第で30〜45億円規模の自己負担が残る可能性があり、案A/B/Cのどれを軸にするかの合意はまだ形成されていない</li>
-        <li data-cell-id="yk-mini-conclusion-2">次の一手(10/8第2回に向けて)：①国の補助制度の詳細確認、②自己負担分の資金調達策の洗い出し(粟島事例等)、③住民が実際に関われる領域(利用促進・船員確保の奨学金制度・教育連携)の具体化</li>
-      </ul>
-    </div>
+    
   </div>
-
-  <h3 style="margin-top:20px">②案のトレードオフ比較(たたき台)</h3>
-  <p style="font-size:12px;color:var(--muted);margin:0 0 8px">強み・弱み・合意しやすさ(★の数)は、下の「提案と評価」タブの記述をもとにした定性的な目安です。共創ワークショップでの議論を経て更新します。</p>
-  <div class="opts">
-    <div class="opt A">
-      <span class="tag">案A</span>
-      <h4>現行維持＋財源確保</h4>
-      <p data-cell-id="yk-opt-a-summary">現在の事業者・運営体制を維持したまま、国・県の補助金や地域未来交付金などを活用して更新費用を確保する案。</p>
-      <ul>
-        <li data-cell-id="yk-opt-a-strength">強み：調整コストが小さく着手しやすい</li>
-        <li data-cell-id="yk-opt-a-weakness">弱み：財源確保の見通しが不透明だと更新が遅れるリスク</li>
-        <li data-cell-id="yk-opt-a-ease">合意しやすさ：★★★</li>
-      </ul>
-    </div>
-    <div class="opt B">
-      <span class="tag">案B</span>
-      <h4>上下分離方式</h4>
-      <p data-cell-id="yk-opt-b-summary">船体や港湾施設の保有・更新は自治体などの公的主体が担い、実際の運航は民間事業者に委ねる方式。隠岐諸島の枠組みに近い考え方(詳細は要検証)。</p>
-      <ul>
-        <li data-cell-id="yk-opt-b-strength">強み：更新費用の負担を公的主体に移すことで事業者の経営リスクが下がる</li>
-        <li data-cell-id="yk-opt-b-weakness">弱み：制度設計・財源スキームの検討に時間がかかる</li>
-        <li data-cell-id="yk-opt-b-ease">合意しやすさ：★★</li>
-      </ul>
-    </div>
-    <div class="opt C">
-      <span class="tag">案C</span>
-      <h4>地域出資型運営会社</h4>
-      <p data-cell-id="yk-opt-c-summary">住民・観光協会・商工会などが出資する新会社を設立し、地域が主体となって運航・投資判断を行う案。</p>
-      <ul>
-        <li data-cell-id="yk-opt-c-strength">強み：地域の意思決定が反映されやすくなる</li>
-        <li data-cell-id="yk-opt-c-weakness">弱み：合意形成・設立準備に時間とコストがかかり、財務的な持続可能性の検証も必要</li>
-        <li data-cell-id="yk-opt-c-ease">合意しやすさ：★</li>
-      </ul>
-    </div>
-  </div>
+  
 
   <h3 style="margin-top:20px">③ステークホルダーの意見について</h3>
   <p style="font-size:12px;color:var(--muted);margin:0 0 8px" data-cell-id="yk-voices-caveat">2026年9月8日の非公式事前検討会(第1回)で収集した5名分のPositionRecordです。共創ワークショップ本番(9月・10月)ではさらに多くの声を収集する想定です。</p>
@@ -848,7 +886,7 @@ function renderRadar(svgId, scores, prevScores){
 }
 // v4(2026-09-08時点。非公式事前検討会のみ反映)のスコアを「前回」として点線表示し、
 // v5(2026-09-22。9/17共創ワークショップ本番の議事録を反映)を実線で重ねる。
-renderRadar('radarChart', {legitimacy:70, evidence:45, alignment:55, feasibility:40, impact:20}, {legitimacy:35, evidence:15, alignment:20, feasibility:20, impact:10});
+renderRadar('radarChart', window.__radarScores = {legitimacy:70, evidence:45, alignment:55, feasibility:40, impact:20}, {legitimacy:35, evidence:15, alignment:20, feasibility:20, impact:10});
 
 // --- 左右パネルの折りたたみ ---
 (function(){
@@ -1141,5 +1179,20 @@ renderRadar('radarChart', {legitimacy:70, evidence:45, alignment:55, feasibility
 })();
 </script>
 <script src="/js/dashboard-cell-editor.js"></script>
+<script>
+window.addEventListener('load',function(){
+  try{
+    var n=function(c){return document.querySelectorAll('#panel-summary .voices .voice.'+c).length;};
+    var set=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
+    set('dhTiltSupport',n('support'));set('dhTiltPending',n('pending'));set('dhTiltMinor',n('minority'));
+    var sc=window.__radarScores;
+    if(sc){
+      var lab={legitimacy:'当事者の声',evidence:'外部知見',alignment:'上位方針との整合',feasibility:'実行可能性',impact:'効果・リスク見通し'};
+      var ks=Object.keys(lab).sort(function(a,b){return sc[a]-sc[b];}).slice(0,2);
+      set('dhLowAxes','情報充足度が最も低い軸:'+ks.map(function(k){return lab[k]+'('+sc[k]+'点)';}).join('、'));
+    }
+  }catch(e){}
+});
+</script>
 </body>
 </html>

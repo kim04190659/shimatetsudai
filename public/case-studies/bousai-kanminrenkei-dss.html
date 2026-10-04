@@ -190,12 +190,36 @@ tr:last-child td{border-bottom:0}
 .poSection .poDone{color:var(--green);font-size:12px;margin:0;font-weight:700}
 .poSection .poNote{font-size:11.5px;color:var(--muted);margin:0}
 .poSection .poDraftText{white-space:pre-wrap;font-size:12.5px;line-height:1.6;background:var(--soft);border-radius:8px;padding:10px;margin:0}
+
+.dh{border:2px solid #1d4f7a;border-radius:12px;overflow:hidden;margin-top:14px;background:#fff}
+.dh>.dhHead{background:#1d4f7a;color:#fff;padding:10px 16px;font-size:14px;font-weight:800}
+.dh .dhSec{padding:14px 16px;border-bottom:1px solid var(--line)}
+.dh .dhSec:last-child{border-bottom:none}
+.dh .dhNum{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#1d4f7a;color:#fff;font-size:12px;font-weight:800;margin-right:8px}
+.dh .dhLabel{font-size:13px;font-weight:800;color:#1d4f7a;display:flex;align-items:center;margin-bottom:8px}
+.dh .dhTwo{display:grid;grid-template-columns:1fr 1fr;padding:0}
+.dh .dhTwo>.dhSec{border-bottom:none;border-right:1px solid var(--line)}
+.dh .dhTwo>.dhSec:last-child{border-right:none}
+.dh .dhNext{background:#eff6ff}
+.dh .decisionQ,.dh .decision{border:none;background:transparent;padding:0;margin:0;border-radius:0}
+.dh .hl{border:none;background:transparent;padding:0;margin:0}
+.dh .hl h4{display:none}
+.dh .tilt{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px;text-align:center;font-size:12px}
+.dh .tilt div{background:var(--soft);border-radius:6px;padding:6px}
+.dh .tilt b{display:block;font-size:16px}
+.dh .dhNote{font-size:11.5px;color:var(--muted);margin-top:6px}
+.dhChips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:12px}
+.dhChips span{background:#e5e7eb;color:#374151;font-weight:700;padding:3px 10px;border-radius:4px}
+.dhChips span.done{background:#dcfce7;color:#166534}
+details.bgDetails{margin-top:12px;border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:#fff}
+details.bgDetails>summary{cursor:pointer;font-weight:800;font-size:13px;color:#4b5563}
+@media(max-width:900px){.dh .dhTwo{grid-template-columns:1fr}.dh .dhTwo>.dhSec{border-right:none;border-bottom:1px solid var(--line)}}
 </style>
 </head>
 <body data-dashboard-slug="bousai-kanminrenkei-dss" data-issue-page-id="3cb960a9-1e23-816c-be89-c43487274131">
 <div class="layout">
-  <aside class="sidePanel left" id="leftPanel">
-    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▲</span></button>
+  <aside class="sidePanel left collapsed" id="leftPanel">
+    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▼</span></button>
     <div class="panelBody" id="leftBody">
       <div class="field">
         <label for="genTitle">論点のタイトル</label>
@@ -261,15 +285,10 @@ tr:last-child td{border-bottom:0}
   </div>
   <div class="title">大規模災害時の復旧復興に「必要な機能」を官民連携で備えるには？</div>
   <div class="subtitle">全国1,500超の自治体とつながる大和リース株式会社と、全国の離島ネットワークを持つりとけいが共同で提起する特別テーマです。使われないまま維持費だけがかかる防災施設ではなく、日常はコミュニティスペース、有事には防災拠点となる「生きた防災施設」のあり方を検討しています。本論点は特定の市町村案件ではなく、全国レベルの官民連携・制度提言を目指す特別テーマです。</div>
-  <div class="kidBox">
-    <b>🌱 かんたんに言うと</b>
-    <p data-cell-id="bs-kidbox">津波などの災害に備えて建てられた避難タワーが、30年経って古くなり、直すお金が足りずに使えなくなっている島があります。もし避難タワーが、普段は住民がおしゃべりしたり集まったりできる場所になっていれば、毎日使われるので大事にされ、いざという時にも役立ちます。でも今の国のルールでは、そういう「普段使い」の設計にすると補助金の対象から外れてしまうことがあります。このズレを、島の人たちと会社と国が一緒に解決できないか、というアイデアです。</p>
-  </div>
-  <div class="decision">
-    <span class="badge">📝 現在のステータス：論点提起(共創ワークショップ進行中)</span>
-    <p data-cell-id="bs-decision-status">本論点は2026年8月時点で「提起」段階として登録されました。りとけい主催「未来のシマ共創会議2026」の共創ワークショップ(9月24日・10月15日オンライン、10月23日リアル)を通じて実際の議論が進む想定です。このシートは特定の案を推奨するものではなく、大和リース・りとけい両者の公開発言(りとけいフォーラム記事)をもとに論点と選択肢を整理し、議論の出発点として作成したものです。</p>
-  </div>
-  <div class="decisionQ">
+  <div class="dhChips"><span class="done">第1回ワークショップ(9/24)実施済み</span><span>次回:第2回(10/15 オンライン)</span><span>方向性を仮決め:10/23 対面セッション</span></div>
+  <div class="dh">
+<div class="dhHead">判断に必要な情報 (この枠だけで、決めること・選択肢・現状・次の一手が分かります)</div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">1</span>決めること</div><div class="decisionQ">
     <b>🎯 今回、決めるべき問いは何か</b>
     <p data-cell-id="bs-decisionq-text" style="margin:8px 0 0;font-size:13px">「既存の防災施設に日常利用機能を後付けする改修モデル(案A)／新設施設をフェーズフリー前提で設計し交付金要件の緩和を提言する(案B)／りとけいのネットワークを平時の見守り・有事の情報網として制度に組み込む(案C)」— 共創ワークショップで検討する3つの方向性のうち、どれを軸に議論を深め、国の防災交付金要件のミスマッチ解消に向けた制度提言の骨子をどう組み立てるか。</p>
     <div class="metaRow">
@@ -278,21 +297,86 @@ tr:last-child td{border-bottom:0}
       <div><em>後戻りのしやすさ</em><span data-cell-id="bs-decisionq-reversibility">中〜低(個別施設の改修はやり直しがきくが、国の交付金要件そのものの見直し・制度提言は実現までに時間と関係機関との調整を要する)</span></div>
       <div><em>影響範囲</em><span data-cell-id="bs-decisionq-scope">全国の離島自治体の防災担当職員、内閣府防災庁準備室、フェーズフリー・防災技術を持つ民間企業、奥尻町など個別自治体の防災施設運用</span></div>
     </div>
+  </div></div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">2</span>選択肢の比較(たたき台)</div><p style="font-size:12px;color:var(--muted);margin:0 0 8px">強み・弱み・合意しやすさ(★の数)は、下の「提案と評価」タブの記述をもとにした定性的な目安です。共創ワークショップでの議論を経て更新します。</p><div class="opts">
+    <div class="opt A">
+      <span class="tag">案A</span>
+      <h4>既存施設の改修</h4>
+      <p data-cell-id="bs-opt-a-summary">老朽化した避難タワー等の既存施設を、住民が日常的に使えるコミュニティスペースとして改修する案。既存施設を活用するため着手しやすい。</p>
+      <ul>
+        <li data-cell-id="bs-opt-a-strength">強み：既存施設を活用できるため着手しやすい</li>
+        <li data-cell-id="bs-opt-a-weakness">弱み：改修費用の財源確保が課題</li>
+        <li data-cell-id="bs-opt-a-ease">合意しやすさ：★★★</li>
+      </ul>
+    </div>
+    <div class="opt B">
+      <span class="tag">案B</span>
+      <h4>制度提言による要件緩和</h4>
+      <p data-cell-id="bs-opt-b-summary">新設する防災施設を最初からフェーズフリー設計とし、国の防災交付金の要件そのものの見直しを提言する案。実現すれば全国の新設施設に適用可能になる波及効果があるが、実現までの調整に時間がかかる。</p>
+      <ul>
+        <li data-cell-id="bs-opt-b-strength">強み：実現すれば全国の新設施設に適用可能になる波及効果</li>
+        <li data-cell-id="bs-opt-b-weakness">弱み：制度提言には時間と関係機関との調整が必要</li>
+        <li data-cell-id="bs-opt-b-ease">合意しやすさ：★</li>
+      </ul>
+    </div>
+    <div class="opt C">
+      <span class="tag">案C</span>
+      <h4>NPOネットワークの制度化</h4>
+      <p data-cell-id="bs-opt-c-summary">2025年の緊急支援実績のように、りとけいの全国ネットワークを公式な防災連携の枠組みに位置づける案。実績はあるが、公式な位置づけの制度設計が必要。</p>
+      <ul>
+        <li data-cell-id="bs-opt-c-strength">強み：2025年の緊急支援実績(総額5,000万円・89事業者)という裏付けがある</li>
+        <li data-cell-id="bs-opt-c-weakness">弱み：民間NPOと行政の連携スキームの公式な設計が必要</li>
+        <li data-cell-id="bs-opt-c-ease">合意しやすさ：★★</li>
+      </ul>
+    </div>
+  </div></div>
+<div class="dhTwo">
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">3</span>今の傾き</div><div class="decision">
+    <span class="badge">📝 現在のステータス：論点提起(共創ワークショップ進行中)</span>
+    <p data-cell-id="bs-decision-status">本論点は2026年8月時点で「提起」段階として登録されました。りとけい主催「未来のシマ共創会議2026」の共創ワークショップ(9月24日・10月15日オンライン、10月23日リアル)を通じて実際の議論が進む想定です。このシートは特定の案を推奨するものではなく、大和リース・りとけい両者の公開発言(りとけいフォーラム記事)をもとに論点と選択肢を整理し、議論の出発点として作成したものです。</p>
   </div>
-  <div class="kpis">
+<div class="tilt"><div>賛成<b id="dhTiltSupport">-</b></div><div>保留<b id="dhTiltPending">-</b></div><div>少数意見・懸念<b id="dhTiltMinor">-</b></div></div>
+<div class="dhNote">「③ステークホルダーの意見」に掲載中の意見の件数です。正式な立場表明の集計ではありません。</div></div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">4</span>決めるのに足りない情報</div><div class="hl orange">
+      <h4>📈 将来予測ハイライト</h4>
+      <ul>
+        <li data-cell-id="bs-mini-forecast-1"><span class="pill porange">未算出</span> 本論点は全国的な制度提言案件であり、具体的な経済効果・削減効果の試算はまだ行っていない</li>
+        <li data-cell-id="bs-mini-forecast-2">個別施設(奥尻町等)の改修コスト・維持費削減効果の試算は、共創ワークショップ後の検討課題</li>
+      </ul>
+    </div>
+<div class="dhNote" id="dhLowAxes"></div></div>
+</div>
+<div class="dhSec dhNext"><div class="dhLabel"><span class="dhNum">5</span>次の一手</div><div class="hl gray">
+      <h4>✅ 現時点の結論・次の一手</h4>
+      <ul>
+        <li data-cell-id="bs-mini-conclusion-1">特定の案への合意はまだ形成されておらず、共創ワークショップが議論の出発点</li>
+        <li data-cell-id="bs-mini-conclusion-2">次の一手：防災交付金要件のミスマッチを具体的に洗い出し、ワークショップ後に制度提言の骨子を作成する</li>
+      </ul>
+    </div>
+<div class="dhNote">担当・期日は未設定です。次回の議論で決めます。</div></div>
+</div>
+<details class="bgDetails"><summary>背景データ・補足(かんたん説明/主要数値/北極星指標)を開く</summary>
+<div class="kidBox">
+    <b>🌱 かんたんに言うと</b>
+    <p data-cell-id="bs-kidbox">津波などの災害に備えて建てられた避難タワーが、30年経って古くなり、直すお金が足りずに使えなくなっている島があります。もし避難タワーが、普段は住民がおしゃべりしたり集まったりできる場所になっていれば、毎日使われるので大事にされ、いざという時にも役立ちます。でも今の国のルールでは、そういう「普段使い」の設計にすると補助金の対象から外れてしまうことがあります。このズレを、島の人たちと会社と国が一緒に解決できないか、というアイデアです。</p>
+  </div><div class="kpis">
     <div class="kpi"><b>1,500超</b><span>大和リースがつながる自治体数(全国1,741中)</span></div>
     <div class="kpi"><b>32年</b><span>奥尻町の防災施設の経過年数</span></div>
     <div class="kpi"><b>5,000万円</b><span>2025年台風被災支援で集まった総額</span></div>
     <div class="kpi"><b>89事業者</b><span>台風22号・23号での支援金届け先</span></div>
-  </div>
-  <div class="northStar">
+  </div><div class="northStar">
     <b>🌟 北極星指標：官民連携で「生きた防災施設」を実現できている度合い</b>
     <p data-cell-id="bs-northstar-status-hero" style="margin:6px 0 0">日常はコミュニティスペース、有事には防災拠点となる「生きた防災施設」が、官民連携・制度の後押しでどれだけ実現しているかを表す指標です。共創ワークショップ進行中の現段階では、指標としての正式な算出はまだ行っていません。詳しい内訳・レーダーチャート・「今日議論すべきこと」は「🌟 北極星指標」タブをご覧ください。</p>
-  </div>
-  <div class="callout warn" style="margin-top:14px">
+  </div><div class="callout warn" style="margin-top:14px">
     <b>📎 この論点の位置づけについて</b>
     <p style="margin-top:6px">本論点は特定の島の論点ではなく、りとけいが主催する「未来のシマ共創会議2026」の特別テーマ(全国レベルの官民連携・制度提言案件)です。りとけい分室のページに、他のテーマオーナー案件と合わせて掲載しています。また本ページは、意思決定支援ダッシュボード作成エージェント3(6タブ・シンプル構成版)を適用して、旧6タブ構成(ウィザード付き)から作り直したものです(2026-09-22)。</p>
-  </div>
+  </div></details>
+  
+  
+  
+  
+  
+  
 </div>
 
 
@@ -326,13 +410,7 @@ tr:last-child td{border-bottom:0}
         <li data-cell-id="bs-mini-options-3">案C：りとけいのネットワークを平時の見守り・有事の情報網として制度に組み込む</li>
       </ul>
     </div>
-    <div class="hl orange">
-      <h4>📈 将来予測ハイライト</h4>
-      <ul>
-        <li data-cell-id="bs-mini-forecast-1"><span class="pill porange">未算出</span> 本論点は全国的な制度提言案件であり、具体的な経済効果・削減効果の試算はまだ行っていない</li>
-        <li data-cell-id="bs-mini-forecast-2">個別施設(奥尻町等)の改修コスト・維持費削減効果の試算は、共創ワークショップ後の検討課題</li>
-      </ul>
-    </div>
+    
     <div class="hl purple">
       <h4>🗣️ 現時点で分かっている声</h4>
       <ul>
@@ -348,49 +426,9 @@ tr:last-child td{border-bottom:0}
         <li data-cell-id="bs-mini-cases-2"><span class="pill pgreen">実績あり</span> 2025年台風被災時のりとけい緊急支援プロジェクト(総額5,000万円・89事業者)</li>
       </ul>
     </div>
-    <div class="hl gray">
-      <h4>✅ 現時点の結論・次の一手</h4>
-      <ul>
-        <li data-cell-id="bs-mini-conclusion-1">特定の案への合意はまだ形成されておらず、共創ワークショップが議論の出発点</li>
-        <li data-cell-id="bs-mini-conclusion-2">次の一手：防災交付金要件のミスマッチを具体的に洗い出し、ワークショップ後に制度提言の骨子を作成する</li>
-      </ul>
-    </div>
+    
   </div>
-
-  <h3 style="margin-top:20px">②案のトレードオフ比較(たたき台)</h3>
-  <p style="font-size:12px;color:var(--muted);margin:0 0 8px">強み・弱み・合意しやすさ(★の数)は、下の「提案と評価」タブの記述をもとにした定性的な目安です。共創ワークショップでの議論を経て更新します。</p>
-  <div class="opts">
-    <div class="opt A">
-      <span class="tag">案A</span>
-      <h4>既存施設の改修</h4>
-      <p data-cell-id="bs-opt-a-summary">老朽化した避難タワー等の既存施設を、住民が日常的に使えるコミュニティスペースとして改修する案。既存施設を活用するため着手しやすい。</p>
-      <ul>
-        <li data-cell-id="bs-opt-a-strength">強み：既存施設を活用できるため着手しやすい</li>
-        <li data-cell-id="bs-opt-a-weakness">弱み：改修費用の財源確保が課題</li>
-        <li data-cell-id="bs-opt-a-ease">合意しやすさ：★★★</li>
-      </ul>
-    </div>
-    <div class="opt B">
-      <span class="tag">案B</span>
-      <h4>制度提言による要件緩和</h4>
-      <p data-cell-id="bs-opt-b-summary">新設する防災施設を最初からフェーズフリー設計とし、国の防災交付金の要件そのものの見直しを提言する案。実現すれば全国の新設施設に適用可能になる波及効果があるが、実現までの調整に時間がかかる。</p>
-      <ul>
-        <li data-cell-id="bs-opt-b-strength">強み：実現すれば全国の新設施設に適用可能になる波及効果</li>
-        <li data-cell-id="bs-opt-b-weakness">弱み：制度提言には時間と関係機関との調整が必要</li>
-        <li data-cell-id="bs-opt-b-ease">合意しやすさ：★</li>
-      </ul>
-    </div>
-    <div class="opt C">
-      <span class="tag">案C</span>
-      <h4>NPOネットワークの制度化</h4>
-      <p data-cell-id="bs-opt-c-summary">2025年の緊急支援実績のように、りとけいの全国ネットワークを公式な防災連携の枠組みに位置づける案。実績はあるが、公式な位置づけの制度設計が必要。</p>
-      <ul>
-        <li data-cell-id="bs-opt-c-strength">強み：2025年の緊急支援実績(総額5,000万円・89事業者)という裏付けがある</li>
-        <li data-cell-id="bs-opt-c-weakness">弱み：民間NPOと行政の連携スキームの公式な設計が必要</li>
-        <li data-cell-id="bs-opt-c-ease">合意しやすさ：★★</li>
-      </ul>
-    </div>
-  </div>
+  
 
   <h3 style="margin-top:20px">③ステークホルダーの意見について</h3>
   <p style="font-size:12px;color:var(--muted);margin:0 0 8px" data-cell-id="bs-voices-caveat">本論点は2026年8月時点で「提起」段階です。以下は大和リース・りとけい両者、および奥尻町職員が公開の場(りとけいフォーラム記事)で発言した内容のみで、正式なPositionRecordとしてのヒアリングではありません。Stakeholder・PositionRecordの正式収集は、共創ワークショップ(9月・10月)を経て進める想定です。</p>
@@ -813,7 +851,7 @@ function renderRadar(svgId, scores){
   }).join('');
   svg.innerHTML = rings + '<polygon points="'+dataPts+'" fill="#7A5CCF55" stroke="#7A5CCF" stroke-width="2"/>' + labels;
 }
-renderRadar('radarChart', {legitimacy:15, evidence:20, alignment:30, feasibility:20, impact:10});
+renderRadar('radarChart', window.__radarScores = {legitimacy:15, evidence:20, alignment:30, feasibility:20, impact:10});
 
 // --- 左右パネルの折りたたみ ---
 (function(){
@@ -1106,5 +1144,20 @@ renderRadar('radarChart', {legitimacy:15, evidence:20, alignment:30, feasibility
 })();
 </script>
 <script src="/js/dashboard-cell-editor.js"></script>
+<script>
+window.addEventListener('load',function(){
+  try{
+    var n=function(c){return document.querySelectorAll('#panel-summary .voices .voice.'+c).length;};
+    var set=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
+    set('dhTiltSupport',n('support'));set('dhTiltPending',n('pending'));set('dhTiltMinor',n('minority'));
+    var sc=window.__radarScores;
+    if(sc){
+      var lab={legitimacy:'当事者の声',evidence:'外部知見',alignment:'上位方針との整合',feasibility:'実行可能性',impact:'効果・リスク見通し'};
+      var ks=Object.keys(lab).sort(function(a,b){return sc[a]-sc[b];}).slice(0,2);
+      set('dhLowAxes','情報充足度が最も低い軸:'+ks.map(function(k){return lab[k]+'('+sc[k]+'点)';}).join('、'));
+    }
+  }catch(e){}
+});
+</script>
 </body>
 </html>

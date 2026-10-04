@@ -190,12 +190,36 @@ tr:last-child td{border-bottom:0}
 .poSection .poDone{color:var(--green);font-size:12px;margin:0;font-weight:700}
 .poSection .poNote{font-size:11.5px;color:var(--muted);margin:0}
 .poSection .poDraftText{white-space:pre-wrap;font-size:12.5px;line-height:1.6;background:var(--soft);border-radius:8px;padding:10px;margin:0}
+
+.dh{border:2px solid #1d4f7a;border-radius:12px;overflow:hidden;margin-top:14px;background:#fff}
+.dh>.dhHead{background:#1d4f7a;color:#fff;padding:10px 16px;font-size:14px;font-weight:800}
+.dh .dhSec{padding:14px 16px;border-bottom:1px solid var(--line)}
+.dh .dhSec:last-child{border-bottom:none}
+.dh .dhNum{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#1d4f7a;color:#fff;font-size:12px;font-weight:800;margin-right:8px}
+.dh .dhLabel{font-size:13px;font-weight:800;color:#1d4f7a;display:flex;align-items:center;margin-bottom:8px}
+.dh .dhTwo{display:grid;grid-template-columns:1fr 1fr;padding:0}
+.dh .dhTwo>.dhSec{border-bottom:none;border-right:1px solid var(--line)}
+.dh .dhTwo>.dhSec:last-child{border-right:none}
+.dh .dhNext{background:#eff6ff}
+.dh .decisionQ,.dh .decision{border:none;background:transparent;padding:0;margin:0;border-radius:0}
+.dh .hl{border:none;background:transparent;padding:0;margin:0}
+.dh .hl h4{display:none}
+.dh .tilt{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px;text-align:center;font-size:12px}
+.dh .tilt div{background:var(--soft);border-radius:6px;padding:6px}
+.dh .tilt b{display:block;font-size:16px}
+.dh .dhNote{font-size:11.5px;color:var(--muted);margin-top:6px}
+.dhChips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:12px}
+.dhChips span{background:#e5e7eb;color:#374151;font-weight:700;padding:3px 10px;border-radius:4px}
+.dhChips span.done{background:#dcfce7;color:#166534}
+details.bgDetails{margin-top:12px;border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:#fff}
+details.bgDetails>summary{cursor:pointer;font-weight:800;font-size:13px;color:#4b5563}
+@media(max-width:900px){.dh .dhTwo{grid-template-columns:1fr}.dh .dhTwo>.dhSec{border-right:none;border-bottom:1px solid var(--line)}}
 </style>
 </head>
 <body data-dashboard-slug="ieshima-ryugaku-model-dss" data-issue-page-id="3cb960a9-1e23-818c-9217-cf0fa224f120">
 <div class="layout">
-  <aside class="sidePanel left" id="leftPanel">
-    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▲</span></button>
+  <aside class="sidePanel left collapsed" id="leftPanel">
+    <button type="button" class="panelToggle" id="leftToggle">📥 資料投入エリア <span id="leftToggleIcon">▼</span></button>
     <div class="panelBody" id="leftBody">
       <div class="field">
         <label for="genTitle">論点のタイトル</label>
@@ -261,15 +285,10 @@ tr:last-child td{border-bottom:0}
   </div>
   <div class="title">空き家のサブリース収益で自走できる「離島留学モデル」をつくるには？</div>
   <div class="subtitle">家島(兵庫県姫路市・人口約2,000人)で、一般社団法人はりまのいばしょ／いえしまコンシェルジュ株式会社(中西和也さん)が提起したテーマです。多くの離島留学が自治体の予算・補助金頼みで持続性に課題を抱える中、空き家のサブリース(転貸)収益でコーディネーターの活動費を賄い、自走する仕組みを目指しています。</div>
-  <div class="kidBox">
-    <b>🌱 かんたんに言うと</b>
-    <p data-cell-id="kidbox-explanation">島には使われていない空き家がたくさんあります。一方で、都会には「島みたいな少人数の学校で過ごしたい」という子どもや家族がいます。この2つをつなげるために、まず団体が空き家を借りて直し、住みたい家族に貸します。そのときの家賃の差額で、島と家族をつなぐ「コーディネーター」のお給料をまかなえば、国や町からの補助金がなくても続けられる仕組みになる、というアイデアです。</p>
-  </div>
-  <div class="decision">
-    <span class="badge">📝 現在のステータス：論点提起(共創ワークショップ進行中)</span>
-    <p data-cell-id="decision-status">本論点は「未来のシマ共創会議2026」テーマオーナー案件として、2026年8月に提起されました。9/5・9/6の事前会議、9/10のオンライン第1回ワークショップを経て、10/1オンライン・10/23対面のワークショップへと議論が進んでいます。このシートは特定の案を推奨するものではなく、テーマオーナー・中西さんの発言と事前会議・ワークショップでの議事メモをもとに論点と選択肢を整理し、議論の土台として作成したものです。</p>
-  </div>
-  <div class="decisionQ">
+  <div class="dhChips"><span class="done">第1回ワークショップ(9/24)実施済み</span><span>次回:第2回(10/15 オンライン)</span><span>方向性を仮決め:10/23 対面セッション</span></div>
+  <div class="dh">
+<div class="dhHead">判断に必要な情報 (この枠だけで、決めること・選択肢・現状・次の一手が分かります)</div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">1</span>決めること</div><div class="decisionQ">
     <b>🎯 今回、決めるべき問いは何か</b>
     <p data-cell-id="decisionq-text" style="margin:8px 0 0;font-size:13px">「離島留学モデルを、まず家島単独で深めるか(案A)／近隣地域と共同運営するか(案B)／全国展開できる『型』として整備するか(案C)」— 共創ワークショップで検討する3つの方向性のうち、どれを軸に議論を深めるか。</p>
     <div class="metaRow">
@@ -278,21 +297,88 @@ tr:last-child td{border-bottom:0}
       <div><em>不可逆性</em><span data-cell-id="decisionq-reversibility">低(ワークショップでの議論の出発点。後から修正可能)</span></div>
       <div><em>影響範囲</em><span data-cell-id="decisionq-scope">家島の空き家所有者・学校・保護者、将来の横展開先</span></div>
     </div>
+  </div></div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">2</span>選択肢の比較(たたき台)</div><p style="font-size:12px;color:var(--muted);margin:0 0 8px">強み・弱み・着手しやすさは、下の「提案と評価」タブの記述をもとにした定性的な目安です。共創ワークショップでの議論を経て更新します。詳しい短中期長期の見通しは「提案と評価」タブをご覧ください。</p><div class="opts">
+    <div class="opt A">
+      <span class="tag">案A</span>
+      <h4>家島単独でモデルの実証を深める</h4>
+      <p data-cell-id="opt-a-summary">まずは家島内で、サブリースの件数を増やし、保護者の就労支援や地域・学校の負担軽減など、残る課題を一つずつ検証する案。</p>
+      <ul>
+        <li data-cell-id="opt-a-strength">強み：着手しやすく、実例(移住15件・短期5件)を積み上げやすい</li>
+        <li data-cell-id="opt-a-weakness">弱み：家島単独では対応できる家族数に限りがある</li>
+        <li data-cell-id="opt-a-ease">着手しやすさ：<span class="pill pgreen">◎</span></li>
+      </ul>
+    </div>
+    <div class="opt B">
+      <span class="tag">案B</span>
+      <h4>近隣地域と共同でモデルを運営する</h4>
+      <p data-cell-id="opt-b-summary">相生市・たつの市などのコーディネーターと連携し、複数地域で仕組みを共同運営する案。</p>
+      <ul>
+        <li data-cell-id="opt-b-strength">強み：受け入れ可能な家族数を増やせる</li>
+        <li data-cell-id="opt-b-weakness">弱み：連携先との役割分担・調整に時間がかかる</li>
+        <li data-cell-id="opt-b-ease">着手しやすさ：<span class="pill porange">△</span></li>
+      </ul>
+    </div>
+    <div class="opt C">
+      <span class="tag">案C</span>
+      <h4>全国展開を見据えて型化する</h4>
+      <p data-cell-id="opt-c-summary">サブリースの契約設計・コーディネーターの役割・学校との連携方法をマニュアル化し、他の離島・中山間地域に展開できる形にする案。</p>
+      <ul>
+        <li data-cell-id="opt-c-strength">強み：全国の同様の課題を抱える地域への波及効果が期待できる</li>
+        <li data-cell-id="opt-c-weakness">弱み：型化の作業に時間とコストがかかる</li>
+        <li data-cell-id="opt-c-ease">着手しやすさ：<span class="pill pred">✕(時間要)</span></li>
+      </ul>
+    </div>
+  </div></div>
+<div class="dhTwo">
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">3</span>今の傾き</div><div class="decision">
+    <span class="badge">📝 現在のステータス：論点提起(共創ワークショップ進行中)</span>
+    <p data-cell-id="decision-status">本論点は「未来のシマ共創会議2026」テーマオーナー案件として、2026年8月に提起されました。9/5・9/6の事前会議、9/10のオンライン第1回ワークショップを経て、10/1オンライン・10/23対面のワークショップへと議論が進んでいます。このシートは特定の案を推奨するものではなく、テーマオーナー・中西さんの発言と事前会議・ワークショップでの議事メモをもとに論点と選択肢を整理し、議論の土台として作成したものです。</p>
   </div>
-  <div class="kpis">
+<div class="tilt"><div>賛成<b id="dhTiltSupport">-</b></div><div>保留<b id="dhTiltPending">-</b></div><div>少数意見・懸念<b id="dhTiltMinor">-</b></div></div>
+<div class="dhNote">「③ステークホルダーの意見」に掲載中の意見の件数です。正式な立場表明の集計ではありません。</div></div>
+<div class="dhSec"><div class="dhLabel"><span class="dhNum">4</span>決めるのに足りない情報</div><div class="hl orange">
+      <h4>📈 将来予測ハイライト</h4>
+      <ul>
+        <li data-cell-id="mini-forecast-1">家島本島の人口は国勢調査ベースで2015年2,693人→2020年2,137人(▲20.6%)</li>
+        <li data-cell-id="mini-forecast-2"><span class="pill porange">PoC概算</span> 未来30年分の推計はまだ簡易延長のみで<b>要精査</b></li>
+        <li data-cell-id="mini-forecast-3">サブリース収益の経済効果(転貸差額の総額等)は基礎データ不足のため<b>未算出</b></li>
+      </ul>
+    </div>
+<div class="dhNote" id="dhLowAxes"></div></div>
+</div>
+<div class="dhSec dhNext"><div class="dhLabel"><span class="dhNum">5</span>次の一手</div><div class="hl gray">
+      <h4>✅ 現時点の結論・次の一手</h4>
+      <ul>
+        <li data-cell-id="mini-conclusion-1">案A/B/Cのどれを軸にするかはまだ決まっていないが、家島単独での実証(サブリース収支・改修着手)は動き始めている</li>
+        <li data-cell-id="mini-conclusion-2">次の一手：①空室時の緊急連絡・管理体制の検討、②受け入れ家庭向け相談窓口の叩き台作成、③所有者向け説明会の時期調整</li>
+        <li data-cell-id="mini-conclusion-3">9/5・9/6の事前会議で6名分のPositionRecordを登録済み。10/1・10/23のワークショップでさらに収集を進める</li>
+      </ul>
+    </div>
+<div class="dhNote">担当・期日は未設定です。次回の議論で決めます。</div></div>
+</div>
+<details class="bgDetails"><summary>背景データ・補足(かんたん説明/主要数値/北極星指標)を開く</summary>
+<div class="kidBox">
+    <b>🌱 かんたんに言うと</b>
+    <p data-cell-id="kidbox-explanation">島には使われていない空き家がたくさんあります。一方で、都会には「島みたいな少人数の学校で過ごしたい」という子どもや家族がいます。この2つをつなげるために、まず団体が空き家を借りて直し、住みたい家族に貸します。そのときの家賃の差額で、島と家族をつなぐ「コーディネーター」のお給料をまかなえば、国や町からの補助金がなくても続けられる仕組みになる、というアイデアです。</p>
+  </div><div class="kpis">
     <div class="kpi"><b>約2,000人</b><span>家島の人口(かつては約8,000人)</span></div>
     <div class="kpi"><b>30人弱</b><span>家島小学校の児童数(来年度、小中統合予定)</span></div>
     <div class="kpi"><b>15〜20人</b><span>家島中学校の生徒数</span></div>
     <div class="kpi"><b>移住15件・短期5件</b><span>サブリースでの受け入れ実績(現在の貸出6件)</span></div>
-  </div>
-  <div class="northStar">
+  </div><div class="northStar">
     <b>🌟 北極星指標：コーディネーター活動費の自走達成率</b>
     <p data-cell-id="northstar-status-hero" style="margin:6px 0 0">サブリース差額(転貸収益)で、コーディネーターの活動費をどれだけ賄えているかを表す指標です。9/6の事前会議で収支は現行賃料で成立見込みと確認できましたが、指標としての正式算出はまだ前です。詳しい内訳・レーダーチャート・「今日議論すべきこと」は「🌟 北極星指標」タブをご覧ください。</p>
-  </div>
-  <div class="callout warn" style="margin-top:14px">
+  </div><div class="callout warn" style="margin-top:14px">
     <b>📎 この論点の位置づけについて</b>
     <p style="margin-top:6px">本論点は屋久島町・渡名喜村のような、しまてつだいが直接関わる自治体の論点ではなく、りとけいが主催する「未来のシマ共創会議2026」のテーマオーナー案件(全国の島々から公募)です。りとけい分室のページに、他のテーマオーナー案件と合わせて掲載しています。また本ページは、意思決定支援ダッシュボード作成エージェント3(6タブ・シンプル構成版)を適用して作り直したものです(2026-09-22)。</p>
-  </div>
+  </div></details>
+  
+  
+  
+  
+  
+  
 </div>
 
 
@@ -327,14 +413,7 @@ tr:last-child td{border-bottom:0}
         <li data-cell-id="mini-options-3">案C：全国展開を見据えて、仕組みを「型」として整備する</li>
       </ul>
     </div>
-    <div class="hl orange">
-      <h4>📈 将来予測ハイライト</h4>
-      <ul>
-        <li data-cell-id="mini-forecast-1">家島本島の人口は国勢調査ベースで2015年2,693人→2020年2,137人(▲20.6%)</li>
-        <li data-cell-id="mini-forecast-2"><span class="pill porange">PoC概算</span> 未来30年分の推計はまだ簡易延長のみで<b>要精査</b></li>
-        <li data-cell-id="mini-forecast-3">サブリース収益の経済効果(転貸差額の総額等)は基礎データ不足のため<b>未算出</b></li>
-      </ul>
-    </div>
+    
     <div class="hl purple">
       <h4>🗣️ 現時点で分かっている声</h4>
       <ul>
@@ -350,50 +429,9 @@ tr:last-child td{border-bottom:0}
         <li data-cell-id="mini-cases-2"><span class="pill porange">要検証</span> 空き家バンク＋移住コーディネーター制度を持つ他地域の取り組み</li>
       </ul>
     </div>
-    <div class="hl gray">
-      <h4>✅ 現時点の結論・次の一手</h4>
-      <ul>
-        <li data-cell-id="mini-conclusion-1">案A/B/Cのどれを軸にするかはまだ決まっていないが、家島単独での実証(サブリース収支・改修着手)は動き始めている</li>
-        <li data-cell-id="mini-conclusion-2">次の一手：①空室時の緊急連絡・管理体制の検討、②受け入れ家庭向け相談窓口の叩き台作成、③所有者向け説明会の時期調整</li>
-        <li data-cell-id="mini-conclusion-3">9/5・9/6の事前会議で6名分のPositionRecordを登録済み。10/1・10/23のワークショップでさらに収集を進める</li>
-      </ul>
-    </div>
+    
   </div>
-
-  <h3 style="margin-top:20px">②案のトレードオフ比較(たたき台)</h3>
-  <p style="font-size:12px;color:var(--muted);margin:0 0 8px">強み・弱み・着手しやすさは、下の「提案と評価」タブの記述をもとにした定性的な目安です。共創ワークショップでの議論を経て更新します。詳しい短中期長期の見通しは「提案と評価」タブをご覧ください。</p>
-  <div class="opts">
-    <div class="opt A">
-      <span class="tag">案A</span>
-      <h4>家島単独でモデルの実証を深める</h4>
-      <p data-cell-id="opt-a-summary">まずは家島内で、サブリースの件数を増やし、保護者の就労支援や地域・学校の負担軽減など、残る課題を一つずつ検証する案。</p>
-      <ul>
-        <li data-cell-id="opt-a-strength">強み：着手しやすく、実例(移住15件・短期5件)を積み上げやすい</li>
-        <li data-cell-id="opt-a-weakness">弱み：家島単独では対応できる家族数に限りがある</li>
-        <li data-cell-id="opt-a-ease">着手しやすさ：<span class="pill pgreen">◎</span></li>
-      </ul>
-    </div>
-    <div class="opt B">
-      <span class="tag">案B</span>
-      <h4>近隣地域と共同でモデルを運営する</h4>
-      <p data-cell-id="opt-b-summary">相生市・たつの市などのコーディネーターと連携し、複数地域で仕組みを共同運営する案。</p>
-      <ul>
-        <li data-cell-id="opt-b-strength">強み：受け入れ可能な家族数を増やせる</li>
-        <li data-cell-id="opt-b-weakness">弱み：連携先との役割分担・調整に時間がかかる</li>
-        <li data-cell-id="opt-b-ease">着手しやすさ：<span class="pill porange">△</span></li>
-      </ul>
-    </div>
-    <div class="opt C">
-      <span class="tag">案C</span>
-      <h4>全国展開を見据えて型化する</h4>
-      <p data-cell-id="opt-c-summary">サブリースの契約設計・コーディネーターの役割・学校との連携方法をマニュアル化し、他の離島・中山間地域に展開できる形にする案。</p>
-      <ul>
-        <li data-cell-id="opt-c-strength">強み：全国の同様の課題を抱える地域への波及効果が期待できる</li>
-        <li data-cell-id="opt-c-weakness">弱み：型化の作業に時間とコストがかかる</li>
-        <li data-cell-id="opt-c-ease">着手しやすさ：<span class="pill pred">✕(時間要)</span></li>
-      </ul>
-    </div>
-  </div>
+  
 
   <h3 style="margin-top:20px">③ステークホルダーの意見について</h3>
   <p style="font-size:12px;color:var(--muted);margin:0 0 8px" data-cell-id="voices-caveat">以下は、共創ワークショップ本番(9〜10月)に先立つ2回の事前会議(9/5・9/6)での発言をもとにした6名分の立場です。まだ非公式な会議段階での発言であり、ワークショップ本番を経てさらに変化・追加される見込みです。</p>
@@ -776,7 +814,7 @@ function renderRadar(svgId, scores){
   }).join('');
   svg.innerHTML = rings + '<polygon points="'+dataPts+'" fill="#7A5CCF55" stroke="#7A5CCF" stroke-width="2"/>' + labels;
 }
-renderRadar('radarChart', {legitimacy:55, evidence:25, alignment:55, feasibility:50, impact:20});
+renderRadar('radarChart', window.__radarScores = {legitimacy:55, evidence:25, alignment:55, feasibility:50, impact:20});
 
 // --- 左右パネルの折りたたみ ---
 (function(){
@@ -1069,5 +1107,20 @@ renderRadar('radarChart', {legitimacy:55, evidence:25, alignment:55, feasibility
 })();
 </script>
 <script src="/js/dashboard-cell-editor.js"></script>
+<script>
+window.addEventListener('load',function(){
+  try{
+    var n=function(c){return document.querySelectorAll('#panel-summary .voices .voice.'+c).length;};
+    var set=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
+    set('dhTiltSupport',n('support'));set('dhTiltPending',n('pending'));set('dhTiltMinor',n('minority'));
+    var sc=window.__radarScores;
+    if(sc){
+      var lab={legitimacy:'当事者の声',evidence:'外部知見',alignment:'上位方針との整合',feasibility:'実行可能性',impact:'効果・リスク見通し'};
+      var ks=Object.keys(lab).sort(function(a,b){return sc[a]-sc[b];}).slice(0,2);
+      set('dhLowAxes','情報充足度が最も低い軸:'+ks.map(function(k){return lab[k]+'('+sc[k]+'点)';}).join('、'));
+    }
+  }catch(e){}
+});
+</script>
 </body>
 </html>
