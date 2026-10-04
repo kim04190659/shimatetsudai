@@ -226,7 +226,7 @@ details.bgDetails>summary{cursor:pointer;font-weight:800;font-size:13px;color:#4
         <input type="text" id="genTitle" value="大規模災害時の復旧復興に「必要な機能」を官民連携で備えるには？">
       </div>
       <div class="field">
-        <label for="genNotes">議事録・ヒアリングメモなど(貼り付け)</label>
+        <label for="genNotes">議事録・資料の本文(貼り付け)</label>
         <textarea id="genNotes" rows="8" placeholder="共創ワークショップの議事録やメモをここに貼り付けてください"></textarea>
       </div>
       <div class="field">
@@ -234,7 +234,8 @@ details.bgDetails>summary{cursor:pointer;font-weight:800;font-size:13px;color:#4
         <input type="file" id="genFile" accept=".txt,.md,.pdf,text/plain,text/markdown,application/pdf">
         <p class="errMsg" id="genFileStatus" style="display:none;color:var(--muted)"></p>
       </div>
-      <button type="button" class="primaryBtn" id="genSubmit">この内容をダッシュボードに反映する</button>
+      <div id="genPlanMount"></div>
+      <button type="button" class="primaryBtn" id="genSubmit" style="background:#fff;color:var(--ink);border:1px solid var(--line)">A3下書きだけ作る(議事録タブに表示)</button>
       <p class="errMsg" id="genErr" style="display:none">生成中にエラーが発生しました。時間をおいて再度お試しください。</p>
     </div>
 
@@ -952,7 +953,7 @@ renderRadar('radarChart', window.__radarScores = {legitimacy:15, evidence:20, al
     if (!sourceNotes) return;
     errEl.style.display = 'none';
     submitBtn.disabled = true;
-    submitBtn.textContent = '反映中…(30秒ほど)';
+    submitBtn.textContent = '下書きを作成中…(30秒ほど)';
     try {
       var res = await fetch('/api/issue-summary', {
         method: 'POST',
@@ -968,7 +969,7 @@ renderRadar('radarChart', window.__radarScores = {legitimacy:15, evidence:20, al
       errEl.style.display = 'block';
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = 'この内容をダッシュボードに反映する';
+      submitBtn.textContent = 'A3下書きだけ作る(議事録タブに表示)';
     }
   });
 })();
@@ -1144,6 +1145,7 @@ renderRadar('radarChart', window.__radarScores = {legitimacy:15, evidence:20, al
 })();
 </script>
 <script src="/js/dashboard-cell-editor.js"></script>
+<script src="/js/dashboard-left-menu.js"></script>
 <script>
 window.addEventListener('load',function(){
   try{

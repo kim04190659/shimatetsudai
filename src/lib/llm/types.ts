@@ -16,7 +16,9 @@ export type SummaryInput = {
   // "dashboardChat" は、生成済みダッシュボードの内容について、利用者からの質問にAIが答える(質問チャットエリア用)。
   // "curriculumRevise" は、高専の先生が「ここをこう変更したい」と入力した内容をもとに、
   // カリキュラム案・教育充実度指標の該当セルを構造化JSONで更新する(2026-09-27 角田先生の依頼で追加)。
-  mode?: "a3" | "letterDraft" | "dashboardChat" | "curriculumRevise";
+  // "dashboardUpdate" は、議事録・資料の本文と、ダッシュボードの現在のセル一覧(JSON)を渡し、
+  // 「どのセルをどう書き換えるか」の更新案を構造化JSONで返す(左メニュー「反映案を作る」用。2026-10-04〜)。
+  mode?: "a3" | "letterDraft" | "dashboardChat" | "curriculumRevise" | "dashboardUpdate";
   // mode: "dashboardChat" のときの利用者からの質問文。
   // mode: "curriculumRevise" のときは、先生からの変更依頼の原文として使う。
   question?: string;

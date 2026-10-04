@@ -61,12 +61,16 @@ export const SELECTABLE_CHAT_PROVIDERS: { id: string; label: string }[] = [
 //   2. input.mode === "dashboardChat" (ダッシュボードの質問チャット欄でのユーザー選択向け。
 //      2026-09-23〜。選べる値は上のSELECTABLE_CHAT_PROVIDERSに限られ、PROVIDERSにない
 //      名前はresolveProviderName()にフォールバックするため、任意の値を渡されても安全)
+//   3. input.mode === "dashboardUpdate" (左メニュー「反映案を作る」でのモデル選択。2026-10-04〜。
+//      呼び出し元のAPI(/api/dashboard-update)が SELECTABLE_CHAT_PROVIDERS で値を検証済み)
 export async function summarizeIssueWithFallback(
   input: SummaryInput,
   overrideProviderName?: string
 ): Promise<SummaryOutput> {
   const overrideAllowed =
-    process.env.SUMMARY_LLM_ALLOW_OVERRIDE === "true" || input.mode === "dashboardChat";
+    process.env.SUMMARY_LLM_ALLOW_OVERRIDE === "true" ||
+    input.mode === "dashboardChat" ||
+    input.mode === "dashboardUpdate";
   const primaryName =
     overrideAllowed && overrideProviderName && overrideProviderName in PROVIDERS
       ? overrideProviderName

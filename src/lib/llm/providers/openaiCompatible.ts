@@ -32,7 +32,7 @@ export function createOpenAiCompatibleProvider(config: OpenAiCompatibleConfig): 
           },
           body: JSON.stringify({
             model: config.model,
-            max_tokens: 1024,
+            max_tokens: input.mode === "dashboardUpdate" ? 4096 : 1024,
             messages: [
               { role: "system", content: getSystemPrompt(input.mode) },
               { role: "user", content: buildSummaryUserPrompt(input) },

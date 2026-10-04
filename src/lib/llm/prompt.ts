@@ -85,6 +85,42 @@ export const CURRICULUM_REVISE_SYSTEM_PROMPT = `あなたは、高専向けカ�
 - weakNotesは、更新後のradarScoresで50未満の軸についてのみ残し、スコアが50以上に上がった軸のメモは削除する。
 - 専門用語は避け、先生・学生が読んでも分かる言葉で書く。`;
 
+// 左メニュー「議事録・資料をダッシュボードに反映する」用(2026-10-04 鯨本さんの依頼)。
+// LLMには「既存セルの文言をどう更新するか」だけを出させる。HTML構造の変更・新規セルの追加はさせない。
+// 出力は必ずJSONのみ。反映は人が差分を確認し、選んだものだけを行う(自動で本番に書き込まない)。
+export const DASHBOARD_UPDATE_SYSTEM_PROMPT = `あなたは、地域の意思決定支援ダッシュボードに、新しい議事録・資料の内容を反映するアシスタントです。
+
+# 入力として渡されるもの
+- ダッシュボードのタイトル
+- ダッシュボードの現在のセル一覧(JSON配列。各要素は { "id": セルID, "text": 現在の文言 })
+- 新しい議事録または資料の本文
+- 入力の種類(議事録/資料)
+
+# 出力ルール(最重要)
+- 出力は次の形のJSONオブジェクトのみ。説明文・コードフェンス・前置きは一切付けない。
+  { "summary": "今回の資料から分かったことと、更新案の概要(100字以内)",
+    "updates": [ { "cellId": "セル一覧にあるid", "newText": "更新後の文言", "reason": "根拠(資料のどの記述によるか。40字以内)" } ] }
+- cellIdは、必ずセル一覧に存在するidだけを使う。新しいidを作らない。
+- 資料に書かれている内容だけを根拠にする。資料に無い数字・日付・人名・発言を作らない。不明なことは「未確認」「未実施」と書く。
+- 資料と関係の無いセルは、updatesに含めない(無理に更新しない)。更新案は多くても10件まで。
+- 更新するセルは、元の文言の書き方・長さ・文体をなるべく保ち、変更すべき部分だけを直す。
+- 発言は、資料に実際にある発言だけを使う。発言者が資料から分からない場合は発言者を書かない。
+- 専門用語は避け、自治体職員や住民が読んでも分かる日本語で書く。
+- 更新案が1つも無い場合は、updatesを空配列にして、summaryにその理由を書く。`;
+
+function buildDashboardUpdateUserPrompt(input: SummaryInput): string {
+  return `# ダッシュボードのタイトル
+${input.issueTitle || "(タイトル未設定)"}
+
+# ダッシュボードの現在のセル一覧(JSON)
+${input.question ?? "[]"}
+
+# 入力の種類と本文
+${input.sourceNotes}
+
+上記の内容をもとに、出力ルールの通りJSONのみで更新案を返してください。`;
+}
+
 function buildCurriculumReviseUserPrompt(input: SummaryInput): string {
   return `# 現在のダッシュボードの内容(JSON)
 ${input.sourceNotes}
@@ -128,6 +164,9 @@ export function buildSummaryUserPrompt(input: SummaryInput): string {
   if (input.mode === "curriculumRevise") {
     return buildCurriculumReviseUserPrompt(input);
   }
+  if (input.mode === "dashboardUpdate") {
+    return buildDashboardUpdateUserPrompt(input);
+  }
   const indicators =
     input.relatedIndicators && input.relatedIndicators.length > 0
       ? input.relatedIndicators.join("、")
@@ -149,5 +188,6 @@ export function getSystemPrompt(mode: SummaryInput["mode"]): string {
   if (mode === "letterDraft") return LETTER_DRAFT_SYSTEM_PROMPT;
   if (mode === "dashboardChat") return DASHBOARD_CHAT_SYSTEM_PROMPT;
   if (mode === "curriculumRevise") return CURRICULUM_REVISE_SYSTEM_PROMPT;
+  if (mode === "dashboardUpdate") return DASHBOARD_UPDATE_SYSTEM_PROMPT;
   return SUMMARY_SYSTEM_PROMPT;
 }
