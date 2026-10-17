@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
         source: "/case-studies/yakushima-nyuikiryo-earmarking-dss.html",
         destination: "/case-studies/yakushima-nyuikiryo-earmarking-dss-protected",
       },
+      {
+        source: "/case-studies/yakushima-nyuikiryo-earmarking-dss-onepager.html",
+        destination: "/case-studies/yakushima-nyuikiryo-earmarking-dss-onepager-protected",
+      },
     ];
   },
 };
