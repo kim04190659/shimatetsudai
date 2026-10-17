@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>縄文杉の入域料を、どこまで島全体のために使えるようにするか｜決める人のページ</title>
+<style>:root{--ink:#2C2C2B;--muted:#7D7A75;--line:#E6E5E3;--soft:#F9F8F7;--blue:#2783DE;--blueSoft:#E5F2FC;--green:#46A171;--greenSoft:#E8F1EC;--orange:#D5803B;--orangeSoft:#FBEBDE;--red:#E56458;--redSoft:#FCE9E7;--yellow:#C9A227;--yellowSoft:#FBF4D9;--purple:#7A5CC7;--purpleSoft:#EFEAFB}
+*{box-sizing:border-box}
+body{margin:0;background:#eee;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.6;font-size:14px}
+.app{max-width:1180px;margin:0 auto;background:#fff;min-height:100vh}
+.topBar{background:#2C2C2B;color:#fff;font-size:12px;padding:8px 28px;display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap}
+.topBar a{color:#9cd0ff}
+.wrap{padding:22px 28px 40px}
+.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:800}
+h1{font-size:26px;margin:4px 0 6px;font-weight:900}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 0}
+.chip{display:inline-block;border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:4px 11px;font-size:12px;font-weight:700}
+.chip.hot{background:var(--orangeSoft);border-color:#efc9a5;color:#93501a}
+.sec{margin-top:22px}
+.secH{display:flex;align-items:center;gap:10px;margin:0 0 8px;flex-wrap:wrap}
+.num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-weight:900;font-size:13px;flex:none}
+.secH h2{font-size:17px;margin:0}
+.secH .hint{font-size:12px;color:var(--muted)}
+.simple{border:2px solid #9ac9ef;background:#fbfdff;border-radius:14px;padding:14px 16px;font-size:15px}
+.simple p{margin:0 0 6px}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+.fact{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff}
+.fact b{display:block;font-size:18px}
+.fact span{font-size:11.5px;color:var(--muted);display:block;line-height:1.4}
+.north{border:2px solid var(--purple);background:var(--purpleSoft);border-radius:14px;padding:12px 16px}
+.north .t{font-size:17px;font-weight:900;margin:4px 0}
+.north select{width:100%;margin-top:6px;font:inherit;font-size:13px;border:1px solid #c9bdea;border-radius:8px;padding:6px 8px;background:#fff}
+.pill{display:inline-block;border-radius:999px;padding:2px 9px;font-size:11px;font-weight:800;white-space:nowrap}
+.pAI{background:var(--blueSoft);color:#165c9d}
+.pHuman{background:var(--purpleSoft);color:#4b3494}
+.small{font-size:11.5px;color:var(--muted)}
+.opts{display:grid;gap:12px}
+.opts.n3{grid-template-columns:repeat(3,1fr)}
+.opts.n2{grid-template-columns:repeat(2,1fr)}
+.opt{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff;display:flex;flex-direction:column;gap:8px}
+.opt h3{margin:0;font-size:16px}
+.opt .say{background:var(--soft);border-radius:8px;padding:8px 10px;font-size:13px}
+.opt .lab{font-size:11.5px;font-weight:900;color:var(--muted);letter-spacing:.04em;margin-bottom:2px}
+.opt ul{margin:0;padding-left:18px;font-size:13px}
+.good{color:#1f6b46}
+.bad{color:#a13327}
+.feas{width:100%;border-collapse:collapse;font-size:12.5px}
+.feas td{border-bottom:1px solid var(--line);padding:5px 4px;vertical-align:top}
+.feas td:first-child{width:46%;color:var(--muted)}
+.feas tr:last-child td{border-bottom:0}
+.opt select{font:inherit;font-size:12.5px;border:1px solid var(--line);border-radius:8px;padding:5px 8px;width:100%}
+.voice{font-size:12px;background:var(--yellowSoft);border-radius:8px;padding:7px 9px}
+.hub{position:relative;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,auto);gap:14px;padding:6px 0}
+.hub svg{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.hub svg line{stroke:#c9c7c3;stroke-width:2;stroke-dasharray:5 4;vector-effect:non-scaling-stroke}
+.spoke,.core{position:relative;z-index:1;border-radius:12px;padding:10px 12px;background:#fff;border:2px solid var(--line);font-size:12.5px}
+.spoke b{display:block;font-size:13.5px;margin-bottom:2px}
+.spoke select{margin-top:6px;font:inherit;font-size:12px;border:1px solid var(--line);border-radius:8px;padding:4px 6px;width:100%;background:#fff;font-weight:800}
+.s-ok{border-color:#9fd0b4;background:var(--greenSoft)}
+.s-part{border-color:#e6d28a;background:var(--yellowSoft)}
+.s-check{border-color:#efc09a;background:var(--orangeSoft)}
+.s-none{border-color:#f1a9a2;background:var(--redSoft)}
+.s-base{border-color:#b9c4d6;background:#eef2f8}
+.core{display:flex;flex-direction:column;justify-content:center;text-align:center;border:3px solid var(--purple);background:var(--purpleSoft)}
+.core b{font-size:14px}
+.tally{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px;font-size:12px}
+.tally span{border-radius:999px;padding:3px 10px;font-weight:800}
+.tl{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:6px}
+.tl .n{position:relative;padding:34px 8px 0;font-size:12px;text-align:center}
+.tl .n::before{content:"";position:absolute;top:13px;left:0;right:0;height:4px;background:#cfd6e2}
+.tl .n::after{content:"";position:absolute;top:6px;left:calc(50% - 9px);width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid var(--blue)}
+.tl .n.now::after{border-color:var(--orange);background:var(--orange)}
+.tl .n.dec::after{border-color:var(--purple);background:var(--purple)}
+.tl .n b{display:block;font-size:12.5px}
+.warnbar{margin-top:10px;border-left:5px solid var(--red);background:var(--redSoft);border-radius:8px;padding:9px 12px;font-size:12.5px}
+.warnbar.premise{border-left-color:var(--orange);background:var(--orangeSoft)}
+.foot{margin-top:18px;font-size:11.5px;color:var(--muted)}
+@media(max-width:900px){.wrap{padding:16px}.opts.n3,.opts.n2,.facts{grid-template-columns:1fr}.hub{grid-template-columns:1fr;grid-template-rows:none}.hub svg{display:none}.tl{grid-template-columns:1fr}.tl .n{text-align:left;padding:4px 0 10px 30px}.tl .n::before{top:0;bottom:0;left:8px;right:auto;width:4px;height:auto}.tl .n::after{top:6px;left:0}}
+@media print{@page{size:A3 landscape;margin:10mm}body{background:#fff}.topBar{display:none}.app{max-width:none}.wrap{padding:0}select{appearance:none;border:0}}</style>
+</head>
+<body>
+<div class="app">
+<div class="topBar"><span>決める人のための1枚ページ（AI下書き・内容は議論で更新されます）</span><a href="yakushima-nyuikiryo-earmarking-dss.html">議論のダッシュボードへ →</a></div>
+<div class="wrap">
+  <div class="eyebrow">屋久島観光協会 ／ 決める人のページ</div>
+  <h1>縄文杉の入域料を、どこまで島全体のために使えるようにするか</h1>
+  <div class="meta">
+    <span class="chip hot">決める日：未設定（要確認）。目安は2026年内に国との相談を始めること</span>
+    <span class="chip">決める人：屋久島観光協会（荒木会長）＋屋久島町。制度の相談先は環境省・総務省（ダッシュボード記載・要確認）</span>
+    <span class="chip">後戻りのしやすさ：中〜高（条例や制度は、一度決めると変えるのに手間がかかる）</span>
+  </div>
+
+  <div class="sec">
+    <div class="secH"><span class="num">1</span><h2>何を決めるのか（住民向けのことば）</h2></div>
+    <div class="simple"><p>縄文杉を国の「特定自然観光資源」に指定すると、そこで集めたお金の使い道が、<b>縄文杉のまわりだけ</b>に限られてしまうかもしれません。一方、屋久島にはすでに、山に登る人に協力をお願いして島全体の登山道やトイレを直す仕組みがあります。</p><p>この2つをどう組み合わせるかを決めます。世界の国立公園にも同じ悩みがあり、いくつかの解き方があります。<b>「どの解き方を軸に、国との相談を進めるか」</b>が、いま決めることです。</p></div>
+    <div class="facts"><div class="fact"><b>約6,000万円</b><span>いまの入山協力金（年間）。条例にもとづく任意のお願い</span></div><div class="fact"><b>約5万人</b><span>年間の協力者数。集まる割合（収納率）は約8割</span></div><div class="fact"><b>7カ国8事例</b><span>ダッシュボードで整理した、世界の似た事例</span></div><div class="fact"><b>約3,000万円</b><span>2024年に発覚した元職員の横領事件。お金の管理を強くする必要がある</span></div></div>
+  </div>
+
+  <div class="sec">
+    <div class="secH"><span class="num">2</span><h2>めざす姿（北極星）</h2><span class="hint">どの案も、これに近づくかで見ます</span></div>
+    <div class="north">
+      <span class="pill pHuman">👤 決める人が選ぶ</span> <span class="small">仮置きです。決定の前に、関係者で文言を合意します。上位ゴール（町・協会）は未設定</span>
+      <div class="t" id="northText"></div>
+      <select id="northSel" aria-label="北極星の候補を選ぶ"><option value="0">縄文杉のまわりの保全にも、島全体の保全にも、必要なお金が安定して届いている</option><option value="1">島の事業者・住民・訪れる人が納得できる負担の仕組みで、続けて運用できている</option><option value="2">お金の使い道が見えて信頼され、管理の不正を構造的に防げている</option></select>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="secH"><span class="num">3</span><h2>出ている3つの案</h2><span class="hint">メリット・デメリット・実現可能性（◎とても良い ○良い △難しい ✕かなり難しい）</span></div>
+    <div class="opts n3">
+<div class="opt">
+  <h3>案1　島全体の財源にする（宮島モデル）</h3>
+  <div class="say">新しい税（広島県宮島の「訪問税」のような法定外普通税）をつくり、使い道を島全体の観光の仕事に広くとる。</div>
+  <div><div class="lab good">メリット</div><ul><li>使い道の自由度が、3案の中でいちばん高い</li></ul></div>
+  <div><div class="lab bad">デメリット</div><ul><li>国の同意など制度づくりに1〜2年かかる</li><li>お金を集める手間が大きい</li></ul></div>
+  <div><div class="lab">実現可能性</div><table class="feas"><tr><td>動き出しやすさ</td><td><b>△</b>（制度づくりに時間）</td></tr><tr><td>お金の見通し</td><td><b></b>未算出</td></tr><tr><td>合意のしやすさ</td><td><b>○</b></td></tr></table></div>
+  <div><div class="lab">住民にとって <span class="pill pAI">🤖 下書き</span></div><div class="small" style="font-size:12.5px">島全体の道路・トイレ・防災などに使える可能性。ただし新しい負担が増えるかもしれず、説明が必要。</div></div>
+  <div class="voice">これまでの声：屋久島の住民（9/12・Webの投稿）「案1で島全体の財源にすべき」</div>
+  <div><div class="lab">北極星に近づくか <span class="pill pHuman">👤</span></div><select class="contrib" aria-label="北極星に近づくか"><option>未評価</option><option>あまり</option><option>ある程度</option><option>大きく</option></select></div>
+</div>
+<div class="opt">
+  <h3>案2　使い道の割合をルールで決める（アメリカの国立公園方式）</h3>
+  <div class="say">縄文杉で集めたお金のうち、「何割は縄文杉のエリア内、何割はほかの登山道など」と、条例で割合を決める。</div>
+  <div><div class="lab good">メリット</div><ul><li>条例の見直しだけで始められる可能性があり、3案でいちばん早い</li></ul></div>
+  <div><div class="lab bad">デメリット</div><ul><li>使い道を広げてよいかは、法律の読み方しだいで不確実</li></ul></div>
+  <div><div class="lab">実現可能性</div><table class="feas"><tr><td>動き出しやすさ</td><td><b>◎</b></td></tr><tr><td>お金の見通し</td><td><b></b>未算出</td></tr><tr><td>合意のしやすさ</td><td><b>○</b></td></tr></table></div>
+  <div><div class="lab">住民にとって <span class="pill pAI">🤖 下書き</span></div><div class="small" style="font-size:12.5px">縄文杉以外の登山道にもお金が回る可能性。割合の決め方で納得感が変わる。</div></div>
+  <div class="voice">これまでの声：（この案への直接の声は未記録）</div>
+  <div><div class="lab">北極星に近づくか <span class="pill pHuman">👤</span></div><select class="contrib" aria-label="北極星に近づくか"><option>未評価</option><option>あまり</option><option>ある程度</option><option>大きく</option></select></div>
+</div>
+<div class="opt">
+  <h3>案3　1つの基金にまとめて配る（コスタリカ・ケニア方式）</h3>
+  <div class="say">いまの協力金・白谷の森の協力金・新しい入域料などを、1つの「屋久島自然保全基金」にまとめ、理事会が毎年配り方を決める。</div>
+  <div><div class="lab good">メリット</div><ul><li>お金の管理を強くしやすく、横領のような問題を構造的に減らせる</li></ul></div>
+  <div><div class="lab bad">デメリット</div><ul><li>法人づくりに2〜3年かかる</li><li>3案の中でいちばん慎重な見方</li></ul></div>
+  <div><div class="lab">実現可能性</div><table class="feas"><tr><td>動き出しやすさ</td><td><b>△</b>（法人設立に2〜3年）</td></tr><tr><td>お金の見通し</td><td><b></b>未算出</td></tr><tr><td>合意のしやすさ</td><td><b>△</b></td></tr></table></div>
+  <div><div class="lab">住民にとって <span class="pill pAI">🤖 下書き</span></div><div class="small" style="font-size:12.5px">お金の流れが見えやすくなる可能性。新しい組織づくりの手間とお金がかかる。</div></div>
+  <div class="voice">これまでの声：（この案への直接の声は未記録）</div>
+  <div><div class="lab">北極星に近づくか <span class="pill pHuman">👤</span></div><select class="contrib" aria-label="北極星に近づくか"><option>未評価</option><option>あまり</option><option>ある程度</option><option>大きく</option></select></div>
+</div>
+    </div>
+    <div class="warnbar premise"><b>いま実際に動いている前提（暫定）：</b>屋久島町の検討会（9/30・第14回）は、まず<b>大株歩道の立入承認の基準や流れ</b>を話し合っています。手数料と今の協力金の整合は、別の「協力金意見交換会」で扱う予定です。荒木会長は「指定に向けて検討を進めるべきだが、慎重に制度設計したい。協力金の収納額は山岳部の環境保全費に足りず、手数料を新しく集めるのは非常にハードルが高い」と話しています。上の3案への賛否は、議事録からは分かりません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="secH"><span class="num">4</span><h2>決める前に、忘れてはいけないこと</h2><span class="hint">8つの確認。色は「どこまで分かっているか」。プルダウンで更新できます（議論が進んだら更新します）</span></div>
+    <div class="tally" id="tally"></div>
+    <div class="hub" id="hub">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="50" y1="50" x2="16.7" y2="16.7"/><line x1="50" y1="50" x2="50" y2="16.7"/><line x1="50" y1="50" x2="83.3" y2="16.7"/><line x1="50" y1="50" x2="16.7" y2="50"/><line x1="50" y1="50" x2="83.3" y2="50"/><line x1="50" y1="50" x2="16.7" y2="83.3"/><line x1="50" y1="50" x2="50" y2="83.3"/><line x1="50" y1="50" x2="83.3" y2="83.3"/></svg>
+      <div class="spoke s-none"><b>① お金</b><div>3案それぞれの、屋久島での財政への影響は未算出。いまの協力金（約6,000万円）で保全費に足りていないとの発言あり（荒木会長 9/30）。</div><select aria-label="状態"><option value="ok">確認済み</option><option value="part">一部わかっている</option><option value="check">要確認</option><option value="none" selected>まだ未確認</option><option value="base">前提（動かせない）</option></select></div>
+      <div class="spoke s-check"><b>② 制度・補助・ルール</b><div>手数料の使い道をどこまで広げられるか、環境省・総務省への法的な確認が未着手。</div><select aria-label="状態"><option value="ok">確認済み</option><option value="part">一部わかっている</option><option value="check" selected>要確認</option><option value="none">まだ未確認</option><option value="base">前提（動かせない）</option></select></div>
+      <div class="spoke s-none"><b>③ 必要なもの（場所・設備・手段）</b><div>お金を集める窓口・システム。承認システムの試作を次回検討会で見せられるか、荒木委員が確認する（議事録）。</div><select aria-label="状態"><option value="ok">確認済み</option><option value="part">一部わかっている</option><option value="check">要確認</option><option value="none" selected>まだ未確認</option><option value="base">前提（動かせない）</option></select></div>
+      <div class="spoke s-base"><b>⑧ 後戻りのしやすさ</b><div>条例や制度は、一度決めると変えるのに手間がかかる。見直す条件を決定時に書いておく。</div><select aria-label="状態"><option value="ok">確認済み</option><option value="part">一部わかっている</option><option value="check">要確認</option><option value="none">まだ未確認</option><option value="base" selected>前提（動かせない）</option></select></div>
+      <div class="core"><b>🌟 北極星</b><span class="small" id="coreText"></span><span class="small" style="margin-top:6px">まわりの8つを確認してから決める</span></div>
+      <div class="spoke s-none"><b>④ 担い手（人）</b><div>窓口や徴収を担う人・組織は未確認。ガイド人数は公認約80名・登録約30名（議事録）。</div><select aria-label="状態"><option value="ok">確認済み</option><option value="part">一部わかっている</option><option value="check">要確認</option><option value="none" selected>まだ未確認</option><option value="base">前提（動かせない）</option></select></div>
+      <div class="spoke s-base"><b>⑦ 時間</b><div>案2は最短、案1は1〜2年、案3は2〜3年が目安（ダッシュボードの見立て・要確認）。</div><select aria-label="状態"><option value="ok">確認済み</option><option value="part">一部わかっている</option><option value="check">要確認</option><option value="none">まだ未確認</option><option value="base" selected>前提（動かせない）</option></select></div>
+      <div class="spoke s-part"><b>⑥ 住民・関係者の声</b><div>住民の声は1件のみ（案1に賛成）。9/30の検討会で町事務局・県・財団の発言あり（賛否は不明）。観光協会・町への正式なヒアリングは未実施。</div><select aria-label="状態"><option value="ok">確認済み</option><option value="part" selected>一部わかっている</option><option value="check">要確認</option><option value="none">まだ未確認</option><option value="base">前提（動かせない）</option></select></div>
+      <div class="spoke s-check"><b>⑤ うまくいかない時の備え</b><div>2024年の横領事件を受け、管理の強化が必要。具体策は未確認。</div><select aria-label="状態"><option value="ok">確認済み</option><option value="part">一部わかっている</option><option value="check" selected>要確認</option><option value="none">まだ未確認</option><option value="base">前提（動かせない）</option></select></div>
+    </div>
+    <div class="secH" style="margin-top:18px"><h2 style="font-size:15px">時間の流れ（待ってくれないもの）</h2></div>
+    <div class="tl"><div class="n now"><b>今（10/17）</b>9/30の検討会議事録を反映。正式なヒアリングは未実施</div><div class="n"><b>10月</b>次回検討会。協力金意見交換会で手数料と協力金の整合を話し合う予定（時期は要確認）</div><div class="n dec"><b>決める</b>どの解き方を軸に国と相談するか。日付は未設定</div><div class="n"><b>2026年内（目安）</b>案2の使い道の広げ方について、環境省・総務省と相談を始める</div><div class="n"><b>2027年以降</b>案1・案3の検討と、財政への影響の試算（時期は未確認）</div></div>
+    <div class="warnbar"><b>決める前に、足りない情報があります。</b>国との法的な確認、観光協会・町への正式なヒアリング、3案の財政への影響の試算は、まだどれも始まっていません。この1枚は、決めるための材料の整理であり、特定の案をすすめるものではありません。</div>
+  </div>
+
+  <div class="foot">🤖 は AI の下書き、👤 は人が決める欄です。AIは整理と下書きまで。北極星の文言と、案の評価は人が行います。決定そのものは、別の議論の場で進めます。入力内容は保存されません。<br>
+  根拠：屋久島観光協会「入域料の使途限定（earmarking）」ダッシュボード v3（2026-10-17）、屋久島町エコツーリズム推進協議会 特定自然観光資源検討グループ 第14回検討会議事録（2026-09-30。議事録の内容は暫定扱い）。案1〜3の◎○△は定性的な目安で、点数ではありません。このページは非公開ダッシュボードの内容を含みます。</div>
+</div>
+</div>
+<script>(function(){
+var $=function(s){return document.querySelector(s)};var $$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+var ns=$('#northSel');
+function north(){var t=ns.options[ns.selectedIndex].text;$('#northText').textContent=t;var c=$('#coreText');if(c)c.textContent=t;}
+ns.addEventListener('change',north);north();
+var ST={ok:['確認済み','s-ok','#E8F1EC'],part:['一部わかっている','s-part','#FBF4D9'],check:['要確認','s-check','#FBEBDE'],none:['まだ未確認','s-none','#FCE9E7'],base:['前提（動かせない）','s-base','#eef2f8']};
+function tally(){var c={ok:0,part:0,check:0,none:0,base:0};$$('.spoke').forEach(function(el){c[el.querySelector('select').value]++});
+$('#tally').innerHTML=Object.keys(ST).map(function(k){return '<span style="background:'+ST[k][2]+'">'+ST[k][0]+' '+c[k]+'</span>'}).join('');}
+$('#hub').addEventListener('change',function(e){var el=e.target.closest('.spoke');if(!el)return;el.className='spoke '+ST[e.target.value][1];tally();});
+tally();
+})();</script>
+</body>
+</html>
