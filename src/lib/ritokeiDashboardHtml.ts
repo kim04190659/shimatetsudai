@@ -1,4 +1,4 @@
-// りとけいライブダッシュボードのHTMLを組み立てる。
+// リトケイライブダッシュボードのHTMLを組み立てる。
 // v6/v7(静的HTML)と見た目・CSS・タブ構成を完全にそろえたうえで、
 // 「議論まとめ」と「国産LLM下書き」タブだけを、Notionからのライブ取得データで置き換える。
 // premise/proposal/cases/funding/raw の各タブは、v7時点の内容をそのまま静的に保持する
@@ -159,7 +159,7 @@ export function renderRitokeiDashboardHtml(data: RitokeiDashboardResult): string
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>りとけい 意思決定支援ダッシュボード(ライブ版) ｜ 420島への取材・支援リソース配分</title>
+<title>リトケイ 意思決定支援ダッシュボード(ライブ版) ｜ 420島への取材・支援リソース配分</title>
 <style>${DASHBOARD_CSS}</style>
 </head>
 <body>
@@ -183,7 +183,7 @@ export function renderRitokeiDashboardHtml(data: RitokeiDashboardResult): string
   <div class="subtitle">国内約420の有人離島(人口約100万人)を対象に情報発信を行う認定NPO法人が、限られた人員・予算の中で、取材・支援の優先順位をどう決めるかを検討する事例です。</div>
   <div class="kidBox">
     <b>🌱 かんたんに言うと</b>
-    <p>日本には、人が住んでいる島が全部で約420もあります。りとけいは、その全部の島を取材したり応援したりしたいと思っていますが、スタッフの人数もお金も限られています。この資料は、限られた力をどう使えば、できるだけ多くの島に届けられるかを考えるためのものです。</p>
+    <p>日本には、人が住んでいる島が全部で約420もあります。リトケイは、その全部の島を取材したり応援したりしたいと思っていますが、スタッフの人数もお金も限られています。この資料は、限られた力をどう使えば、できるだけ多くの島に届けられるかを考えるためのものです。</p>
   </div>
   <div class="decision">
     <span class="badge">今日の意思決定</span>
@@ -366,7 +366,7 @@ export function renderRitokeiDashboardHtml(data: RitokeiDashboardResult): string
         <tbody>
           <tr><td><b>1</b></td><td>財政基盤が弱く、活動資金が不足</td><td>リソース配分以前に事業が継続しない</td><td><span class="pill ppurple">自治体委託</span> <span class="pill ppurple">国費連動</span> <span class="pill porange">企業版ふるさと納税</span></td><td>財源の70%</td></tr>
           <tr><td><b>2</b></td><td>全島を同一密度で取材できない</td><td>基準なしでは不公平感と説明不足が出る</td><td><span class="pill pblue">島カルテ</span> <span class="pill pblue">優先順位スコア</span> <span class="pill pgreen">四半期説明</span></td><td>重点40%</td></tr>
-          <tr><td><b>3</b></td><td>小規模・未取材島の情報空白が固定化</td><td>りとけいの公共性とミッションに反する</td><td><span class="pill pgreen">最低接点保障</span> <span class="pill pgreen">島だより投稿枠</span> <span class="pill pblue">オンライン確認</span></td><td>25%</td></tr>
+          <tr><td><b>3</b></td><td>小規模・未取材島の情報空白が固定化</td><td>リトケイの公共性とミッションに反する</td><td><span class="pill pgreen">最低接点保障</span> <span class="pill pgreen">島だより投稿枠</span> <span class="pill pblue">オンライン確認</span></td><td>25%</td></tr>
           <tr><td><b>4</b></td><td>移動コストと編集工程が重い</td><td>現地取材の質を守りつつ効率化が必要</td><td><span class="pill ppurple">AI取材デスク</span> <span class="pill pblue">資料整理</span> <span class="pill pblue">ファクトチェック支援</span></td><td>15%</td></tr>
           <tr><td><b>5</b></td><td>専任スタッフだけでは担い手不足</td><td>関係人口目標を達成できない</td><td><span class="pill pgreen">地域ライター育成</span> <span class="pill pgreen">インターン</span> <span class="pill pgreen">協力隊連携</span></td><td>20%</td></tr>
         </tbody>
@@ -401,7 +401,7 @@ export function renderRitokeiDashboardHtml(data: RitokeiDashboardResult): string
             <td><b>関係人口創出・拡大の推進(地域未来戦略本部関連施策)</b><br><span class="pill pblue">自治体向け</span></td>
             <td>総務省／地域未来戦略本部事務局</td>
             <td>地域と多様に関わる「関係人口」(全国で1,800万人超と推計)の創出・拡大に向けた自治体の取組を支援。</td>
-            <td>りとけいの「関係人口創出100万人」という目標値そのものと合致する国の重点施策。自治体との協業事業を国の関係人口施策の一環として位置づけて申請できる可能性がある。</td>
+            <td>リトケイの「関係人口創出100万人」という目標値そのものと合致する国の重点施策。自治体との協業事業を国の関係人口施策の一環として位置づけて申請できる可能性がある。</td>
           </tr>
           <tr>
             <td><b>地域公共交通確保維持改善事業(離島航路・航空路補助)</b><br><span class="pill porange">自治体向け</span></td>

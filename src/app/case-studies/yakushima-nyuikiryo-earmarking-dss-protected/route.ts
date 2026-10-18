@@ -5,7 +5,7 @@
 //
 // 認証の仕組みは/branches/[slug]のパスワード保護(src/lib/tenantAuth.ts)と同じ
 // HMAC署名付きCookieを流用しているが、React側のレイアウトを経由しない「生のHTML」を
-// 返す必要があるため、Route Handlerとして実装している(りとけいライブダッシュボードの
+// 返す必要があるため、Route Handlerとして実装している(リトケイライブダッシュボードの
 // src/app/case-studies/ritokei-resource-dss/route.ts と同じ考え方)。
 import { cookies } from "next/headers";
 import { verifySessionToken, tenantCookieName } from "@/lib/tenantAuth";
