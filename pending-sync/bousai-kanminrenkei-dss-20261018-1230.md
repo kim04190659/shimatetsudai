@@ -1,7 +1,7 @@
 ---
 slug: bousai-kanminrenkei-dss
 created: 2026-10-18 12:30
-sync_status: pending
+sync_status: synced
 source: Miro PDF書き出し 防災 第1回(問い・現状)／第2回(アイデア・赤丸=賛成)
 ---
 ## 反映したタブ
@@ -32,3 +32,6 @@ source: Miro PDF書き出し 防災 第1回(問い・現状)／第2回(アイデ
 
 ## 素材の原文(要点)
 生データタブの2カードに転記済み。
+
+## 同期結果
+- 2026-10-18 Notion同期完了: Evidence2・Position1・Goal1を登録(Issue relation設定済)、Issueの過去ダッシュボード履歴を更新。Agreementなし。
