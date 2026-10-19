@@ -89,8 +89,11 @@ function sakuraProvider(providerName: string, model: string): LlmProvider {
 // 国産・オープンなMoEモデル。無償プランでの実証における第一候補。
 export const SakuraLlmJpProvider = sakuraProvider("sakura-llmjp", "llm-jp-3.1-8x13b-instruct4");
 
+// 【現在は未使用(index.tsのPROVIDERSに登録していない)】提供元の審査・申請が必要なため、契約が整うまで外している。
 // 久地井先生が挙げていたNEC cotomi。さくらのAI Engine経由なら自前ホスティング不要で試せる。
 export const SakuraCotomiProvider = sakuraProvider("sakura-cotomi", "cotomi v3");
 
+// 【現在は未使用】PLaMo 2.0-31B は2026-10-12にさくら側で提供終了。後継は「PLaMo 3.0 Prime」(有償・クローズド)。
+// 再開するときはモデル名を新しいものに直してからPROVIDERSに登録すること。
 // Preferred NetworksのPLaMo。比較用の3つ目の選択肢として。
 export const SakuraPlamoProvider = sakuraProvider("sakura-plamo", "PLaMo 2.0-31B");

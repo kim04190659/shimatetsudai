@@ -4,8 +4,13 @@
 //   環境変数 SUMMARY_LLM_PROVIDER で使うモデルを指定する(未設定なら "anthropic")
 //     SUMMARY_LLM_PROVIDER=anthropic     … これまで通りClaude(既定・最も安定)
 //     SUMMARY_LLM_PROVIDER=sakura-llmjp  … さくらのAI Engine経由のLLM-jp(国産・オープン・無償プラン第一候補)
-//     SUMMARY_LLM_PROVIDER=sakura-cotomi … さくらのAI Engine経由のNEC cotomi v3(国産)
-//     SUMMARY_LLM_PROVIDER=sakura-plamo  … さくらのAI Engine経由のPLaMo 2.0-31B(国産)
+//
+//   2026-10-19: 国産LLMは LLM-jp の1種類に絞った。cotomi v3(NEC)は提供元の審査・申請が必要、
+//   PLaMoは 2.0-31B が2026-10-12にさくら側で提供終了(後継は PLaMo 3.0 Prime・有償)のため、
+//   契約が整うまで選択肢から外している。再開するときは、providers/openaiCompatible.ts の
+//   SakuraCotomiProvider / SakuraPlamoProvider を PROVIDERS と SELECTABLE_CHAT_PROVIDERS に戻す
+//   (PLaMoは新しいモデル名に直すこと)。画面側(各ダッシュボードHTMLの #chatProvider の<option>、
+//   public/js/dashboard-left-menu.js、public/kosen/*.html)にも同じ選択肢がある。
 //
 // いずれの sakura-* も、環境変数 SAKURA_AI_ENGINE_API_TOKEN(コントロールパネルで発行するアカウントトークン)
 // さえ設定すれば、自前でGPUをホスティングせずに試せる。
@@ -16,18 +21,12 @@
 // フォールバックさせずに失敗を明示的に見たい場合は SUMMARY_LLM_FALLBACK=false にする。
 
 import { AnthropicProvider } from "./providers/anthropic";
-import {
-  SakuraLlmJpProvider,
-  SakuraCotomiProvider,
-  SakuraPlamoProvider,
-} from "./providers/openaiCompatible";
+import { SakuraLlmJpProvider } from "./providers/openaiCompatible";
 import { LlmProviderError, type LlmProvider, type SummaryInput, type SummaryOutput } from "./types";
 
 const PROVIDERS: Record<string, LlmProvider> = {
   anthropic: new AnthropicProvider(),
   "sakura-llmjp": SakuraLlmJpProvider,
-  "sakura-cotomi": SakuraCotomiProvider,
-  "sakura-plamo": SakuraPlamoProvider,
 };
 
 function resolveProviderName(): string {
@@ -46,8 +45,6 @@ function resolveProviderName(): string {
 export const SELECTABLE_CHAT_PROVIDERS: { id: string; label: string }[] = [
   { id: "anthropic", label: "Claude(既定・安定)" },
   { id: "sakura-llmjp", label: "LLM-jp(さくら・国産)" },
-  { id: "sakura-cotomi", label: "NEC cotomi v3(さくら・国産)" },
-  { id: "sakura-plamo", label: "PLaMo 2.0-31B(さくら・国産)" },
 ];
 
 // アプリ側から呼び出す、実際のエントリーポイント。
