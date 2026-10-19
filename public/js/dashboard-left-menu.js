@@ -88,6 +88,7 @@
   var selField = el("div", { class: "field" });
   selField.appendChild(el("label", { for: "genProvider" }, "反映案を作るAI"));
   selField.appendChild(sel);
+  if (window.llmLicenseNoteAttach) window.llmLicenseNoteAttach(sel); // LLM-jp選択時にライセンス表示
   selField.appendChild(el("p", { class: "gpNote" },
     "国産LLMで作れなかった場合は、Claudeで自動的にやり直し、結果に明記します。PDFは先にClaudeで文字に起こします。"));
 
