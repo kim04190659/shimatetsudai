@@ -13,6 +13,10 @@
         ["Apache 2.0", "https://www.apache.org/licenses/LICENSE-2.0"],
         ["利用上の表示", "/legal/third-party-notices.html"]
       ]
+    },
+    "nec-cotomi": {
+      text: "cotomi(NEC)を、NEC Agentic AI Cloud の無償貸出(評価・検証目的・2026年11月30日まで)で利用しています。商用案件には使いません。期間を過ぎた場合や接続できない場合は、Claudeで自動的に作り直し、画面に明記します。",
+      links: [["利用上の表示", "/legal/third-party-notices.html"]]
     }
   };
 

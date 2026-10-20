@@ -82,7 +82,7 @@
       sel.appendChild(el("option", { value: o.value }, o.textContent));
     });
   } else {
-    [["anthropic", "Claude(既定・安定)"], ["sakura-llmjp", "LLM-jp(さくら・国産)"]]
+    [["anthropic", "Claude(既定・安定)"], ["sakura-llmjp", "LLM-jp(さくら・国産)"], ["nec-cotomi", "cotomi(NEC・国産・評価用〜11/30)"]]
       .forEach(function (o) { sel.appendChild(el("option", { value: o[0] }, o[1])); });
   }
   var selField = el("div", { class: "field" });
