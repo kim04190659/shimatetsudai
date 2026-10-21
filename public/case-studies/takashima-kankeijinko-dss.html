@@ -775,10 +775,10 @@ details.bgDetails>summary{cursor:pointer;font-weight:800;font-size:13px;color:#4
       </div>
       <div class="chatProviderRow">
         <label for="chatProvider">回答モデル</label>
-        <select id="chatProvider" title="回答に使うAIモデルを選べます(未選択時はClaude)">
-          <option value="anthropic">Claude(既定・安定)</option>
+        <select id="chatProvider" title="回答に使うAIモデルを選べます(既定はcotomi。失敗時はClaudeで回答)">
+          <option value="nec-cotomi" selected>cotomi(NEC・国産)</option>
           <option value="sakura-llmjp">LLM-jp(さくら・国産)</option>
-          <option value="nec-cotomi">cotomi(NEC・国産)</option>
+          <option value="anthropic">Claude(安定)</option>
         </select>
       </div>
       <div class="chatRow">

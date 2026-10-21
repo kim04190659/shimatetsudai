@@ -74,7 +74,7 @@
     });
   });
 
-  // 使うAI(質問チャットのプルダウンと同じ一覧を使う。なければ既定の4択)
+  // 使うAI(質問チャットのプルダウンと同じ一覧を使う。なければ既定の3択(cotomiが先頭=既定))
   var chatSel = document.getElementById("chatProvider");
   var sel = el("select", { id: "genProvider", style: "width:100%;border:1px solid var(--line);border-radius:8px;padding:7px;font-size:12px;background:#fff" });
   if (chatSel && chatSel.options.length) {
@@ -82,7 +82,7 @@
       sel.appendChild(el("option", { value: o.value }, o.textContent));
     });
   } else {
-    [["anthropic", "Claude(既定・安定)"], ["sakura-llmjp", "LLM-jp(さくら・国産)"], ["nec-cotomi", "cotomi(NEC・国産)"]]
+    [["nec-cotomi", "cotomi(NEC・国産)"], ["sakura-llmjp", "LLM-jp(さくら・国産)"], ["anthropic", "Claude(安定)"]]
       .forEach(function (o) { sel.appendChild(el("option", { value: o[0] }, o[1])); });
   }
   var selField = el("div", { class: "field" });
@@ -90,7 +90,7 @@
   selField.appendChild(sel);
   if (window.llmLicenseNoteAttach) window.llmLicenseNoteAttach(sel); // LLM-jp選択時にライセンス表示
   selField.appendChild(el("p", { class: "gpNote" },
-    "国産LLMで作れなかった場合は、Claudeで自動的にやり直し、結果に明記します。PDFは先にClaudeで文字に起こします。"));
+    "cotomiなど国産LLMで作れなかった場合は、Claudeで自動的にやり直し、結果に明記します。PDFは先にClaudeで文字に起こします。"));
 
   var planBtn = el("button", { type: "button", class: "primaryBtn", id: "genPlan" }, "反映案を作る(まだ書き換えません)");
   var msg = el("p", { class: "gpMsg", style: "display:none" });

@@ -49,9 +49,9 @@ function resolveProviderName(): string {
 // 全ダッシュボードの質問チャットUIにこの一覧をプルダウンで埋め込む(2026-09-23〜)。
 // 新しいプロバイダーをPROVIDERSに追加したら、ここにも追加すること。
 export const SELECTABLE_CHAT_PROVIDERS: { id: string; label: string }[] = [
-  { id: "anthropic", label: "Claude(既定・安定)" },
+  { id: "nec-cotomi", label: "cotomi(NEC・国産)" }, // 画面の先頭=既定(2026-10-21〜)
   { id: "sakura-llmjp", label: "LLM-jp(さくら・国産)" },
-  { id: "nec-cotomi", label: "cotomi(NEC・国産)" },
+  { id: "anthropic", label: "Claude(安定)" }, // cotomi/LLM-jpが失敗したときのフォールバック先でもある
 ];
 
 // アプリ側から呼び出す、実際のエントリーポイント。
