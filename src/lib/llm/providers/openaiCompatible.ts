@@ -102,27 +102,68 @@ export const SakuraPlamoProvider = sakuraProvider("sakura-plamo", "PLaMo 2.0-31B
 // 2026-10-20〜 NECから無償貸出(テナントRP000013、期間 2026/10/20〜2026/11/30、評価・検証目的のみ)。
 // 仕様(マニュアル「Chat Completions API」): POST https://<FQDN>/aa-oai-api/v1/chat/completions、認証は Bearer。
 // 必要な環境変数(Vercel):
-//   NEC_AGENTIC_AI_BASE_URL … 管理ポータルのAPI画面に表示されるエンドポイント。"/chat/completions" の手前まで
-//                              (例: https://<FQDN>/aa-oai-api/v1)
+//   NEC_AGENTIC_AI_BASE_URL … 管理ポータルのAPI画面に表示されるURL(…/aa-api/v1/responses/ でも可。下のNecCotomiProviderが候補を補って試す)
+//                              Chat Completions の正式な形は https://<FQDN>/aa-oai-api/v1/chat/completions
 //   NEC_AGENTIC_AI_API_KEY  … 管理ポータルで確認するAPIキー
 //   NEC_AGENTIC_AI_MODEL    … 使うcotomiのモデルID。管理ポータル/マニュアルで確認(未設定時はマニュアル例の cotomi-fast-v2.0)
 //   NEC_COTOMI_VALID_UNTIL  … 利用期限(YYYY-MM-DD)。未設定なら 2026-11-30。過ぎたら呼ばずに失敗させ、Claudeへ自動で切り替える
 // 無償貸出の条件: 商用案件では使わない / 大量・同時リクエストをしない / 月間コスト上限の目安5万円 / 期間後は環境が削除される。
 // cotomi v4 は temperature 1.0 推奨で、ガイド記載外のパラメータ指定は禁止のため、本プロバイダーはtemperatureを送らない。
-// 接続先URLの書き方の揺れ(管理ポータルの表示をそのまま貼る・/v1 の有無など)で404にならないよう、
-// 候補を順に試す。404のときだけ次の候補へ進み、成功・失敗のどちらもパス部分をログに残す(キーは出さない)。
+// 接続先URLの書き方の揺れで404にならないよう、候補を順に試す。
+// 管理ポータルには Responses API のURL(…/aa-api/v1/responses/)が表示されるが、
+// マニュアル上の Chat Completions のURLは …/aa-oai-api/v1/chat/completions と別系統のため、
+//   1) 表示されたURLから末尾の /responses や /chat/completions を外し、aa-api → aa-oai-api に読み替えた候補
+//   2) 外しただけの候補、/v1 や /aa-oai-api/v1 を補った候補
+// を Chat Completions で試し、すべて404なら、設定されたURLそのままで Responses API として呼ぶ。
+// 404のときだけ次の候補へ進み、成功・失敗のどちらもパス部分をログに残す(キーは出さない)。
 function necBaseCandidates(raw: string): string[] {
-  let base = raw.trim().replace(/\/+$/, "").replace(/\/chat\/completions$/, "").replace(/\/+$/, "");
-  if (!base) return [];
-  const out = [base];
+  const given = raw.trim().replace(/\/+$/, "");
+  if (!given) return [];
+  const base = given.replace(/\/(responses|chat\/completions)$/, "").replace(/\/+$/, "");
+  const out: string[] = [];
+  if (base.includes("/aa-api/")) out.push(base.replace("/aa-api/", "/aa-oai-api/"));
+  out.push(base);
   let path = "";
   try { path = new URL(base).pathname; } catch { return out; }
   if (!/\/v\d+$/.test(path)) out.push(`${base}/v1`);
-  if (!path.includes("aa-oai-api")) out.push(`${base}/aa-oai-api/v1`);
+  if (!path.includes("aa-oai-api") && !path.includes("aa-api")) out.push(`${base}/aa-oai-api/v1`);
   return Array.from(new Set(out));
 }
 function pathOf(u: string): string {
   try { const x = new URL(u); return `${x.host}${x.pathname}`; } catch { return "(URL不正)"; }
+}
+
+// Responses API(POST …/responses)で呼ぶ。Chat Completions がすべて404のときの代替。
+async function callResponsesApi(url: string, apiKey: string, model: string, input: SummaryInput): Promise<SummaryOutput> {
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      method: "POST",
+      headers: { "content-type": "application/json", authorization: `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        model,
+        instructions: getSystemPrompt(input.mode),
+        input: buildSummaryUserPrompt(input),
+      }),
+      signal: AbortSignal.timeout(60_000),
+    });
+  } catch (err) {
+    throw new LlmProviderError("nec-cotomi", "Responses APIへの接続に失敗しました", err);
+  }
+  if (!res.ok) {
+    throw new LlmProviderError("nec-cotomi", `Responses APIエラー(${res.status}): ${await res.text()}`);
+  }
+  const data = await res.json();
+  let text: string | undefined = typeof data.output_text === "string" ? data.output_text : undefined;
+  if (!text && Array.isArray(data.output)) {
+    text = data.output
+      .flatMap((o: { content?: { type?: string; text?: string }[] }) => o.content ?? [])
+      .filter((c: { type?: string; text?: string }) => typeof c.text === "string")
+      .map((c: { text?: string }) => c.text)
+      .join("");
+  }
+  if (!text) throw new LlmProviderError("nec-cotomi", "Responses APIの応答からテキストを取得できませんでした");
+  return { draft: text, provider: "nec-cotomi", model };
 }
 
 export const NecCotomiProvider: LlmProvider = {
@@ -132,30 +173,39 @@ export const NecCotomiProvider: LlmProvider = {
     if (Date.now() > new Date(`${until}T23:59:59+09:00`).getTime()) {
       throw new LlmProviderError("nec-cotomi", `無償貸出の利用期限(${until})を過ぎたため呼び出しません`);
     }
-    if (!process.env.NEC_AGENTIC_AI_API_KEY) {
+    const apiKey = process.env.NEC_AGENTIC_AI_API_KEY;
+    if (!apiKey) {
       throw new LlmProviderError("nec-cotomi", "NEC_AGENTIC_AI_API_KEY が未設定です");
     }
     const model = process.env.NEC_AGENTIC_AI_MODEL ?? "cotomi-fast-v2.0";
-    const candidates = necBaseCandidates(process.env.NEC_AGENTIC_AI_BASE_URL ?? "");
+    const given = (process.env.NEC_AGENTIC_AI_BASE_URL ?? "").trim();
+    const candidates = necBaseCandidates(given);
     if (candidates.length === 0) {
       throw new LlmProviderError("nec-cotomi", "NEC_AGENTIC_AI_BASE_URL が未設定です");
     }
     let lastErr: unknown;
     for (const baseUrl of candidates) {
       try {
-        const r = await createOpenAiCompatibleProvider({
-          providerName: "nec-cotomi",
-          baseUrl,
-          apiKey: process.env.NEC_AGENTIC_AI_API_KEY,
-          model,
-        }).summarizeIssue(input);
-        console.info(`nec-cotomi: 応答OK model=${model} path=${pathOf(baseUrl)}/chat/completions`);
+        const r = await createOpenAiCompatibleProvider({ providerName: "nec-cotomi", baseUrl, apiKey, model }).summarizeIssue(input);
+        console.info(`nec-cotomi: 応答OK(chat/completions) model=${model} path=${pathOf(baseUrl)}/chat/completions`);
         return r;
       } catch (err) {
         lastErr = err;
         const is404 = err instanceof LlmProviderError && err.message.includes("APIエラー(404)");
         console.warn(`nec-cotomi: 失敗 model=${model} path=${pathOf(baseUrl)}/chat/completions ${is404 ? "(404・次の候補を試します)" : ""}`);
         if (!is404) throw err;
+      }
+    }
+    // Chat Completions がすべて404 → 設定されたURLが Responses API ならそのまま呼ぶ
+    const responsesUrl = /\/responses$/.test(given.replace(/\/+$/, "")) ? given.replace(/\/+$/, "") : "";
+    if (responsesUrl) {
+      try {
+        const r = await callResponsesApi(responsesUrl, apiKey, model, input);
+        console.info(`nec-cotomi: 応答OK(responses) model=${model} path=${pathOf(responsesUrl)}`);
+        return r;
+      } catch (err) {
+        console.warn(`nec-cotomi: 失敗(responses) model=${model} path=${pathOf(responsesUrl)}`);
+        lastErr = err;
       }
     }
     throw lastErr;
