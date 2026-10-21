@@ -51,7 +51,7 @@ function resolveProviderName(): string {
 export const SELECTABLE_CHAT_PROVIDERS: { id: string; label: string }[] = [
   { id: "anthropic", label: "Claude(既定・安定)" },
   { id: "sakura-llmjp", label: "LLM-jp(さくら・国産)" },
-  { id: "nec-cotomi", label: "cotomi(NEC・国産・評価用〜11/30)" },
+  { id: "nec-cotomi", label: "cotomi(NEC・国産)" },
 ];
 
 // アプリ側から呼び出す、実際のエントリーポイント。

@@ -109,6 +109,22 @@ export const SakuraPlamoProvider = sakuraProvider("sakura-plamo", "PLaMo 2.0-31B
 //   NEC_COTOMI_VALID_UNTIL  … 利用期限(YYYY-MM-DD)。未設定なら 2026-11-30。過ぎたら呼ばずに失敗させ、Claudeへ自動で切り替える
 // 無償貸出の条件: 商用案件では使わない / 大量・同時リクエストをしない / 月間コスト上限の目安5万円 / 期間後は環境が削除される。
 // cotomi v4 は temperature 1.0 推奨で、ガイド記載外のパラメータ指定は禁止のため、本プロバイダーはtemperatureを送らない。
+// 接続先URLの書き方の揺れ(管理ポータルの表示をそのまま貼る・/v1 の有無など)で404にならないよう、
+// 候補を順に試す。404のときだけ次の候補へ進み、成功・失敗のどちらもパス部分をログに残す(キーは出さない)。
+function necBaseCandidates(raw: string): string[] {
+  let base = raw.trim().replace(/\/+$/, "").replace(/\/chat\/completions$/, "").replace(/\/+$/, "");
+  if (!base) return [];
+  const out = [base];
+  let path = "";
+  try { path = new URL(base).pathname; } catch { return out; }
+  if (!/\/v\d+$/.test(path)) out.push(`${base}/v1`);
+  if (!path.includes("aa-oai-api")) out.push(`${base}/aa-oai-api/v1`);
+  return Array.from(new Set(out));
+}
+function pathOf(u: string): string {
+  try { const x = new URL(u); return `${x.host}${x.pathname}`; } catch { return "(URL不正)"; }
+}
+
 export const NecCotomiProvider: LlmProvider = {
   name: "nec-cotomi",
   async summarizeIssue(input: SummaryInput): Promise<SummaryOutput> {
@@ -119,11 +135,29 @@ export const NecCotomiProvider: LlmProvider = {
     if (!process.env.NEC_AGENTIC_AI_API_KEY) {
       throw new LlmProviderError("nec-cotomi", "NEC_AGENTIC_AI_API_KEY が未設定です");
     }
-    return createOpenAiCompatibleProvider({
-      providerName: "nec-cotomi",
-      baseUrl: process.env.NEC_AGENTIC_AI_BASE_URL ?? "",
-      apiKey: process.env.NEC_AGENTIC_AI_API_KEY,
-      model: process.env.NEC_AGENTIC_AI_MODEL ?? "cotomi-fast-v2.0",
-    }).summarizeIssue(input);
+    const model = process.env.NEC_AGENTIC_AI_MODEL ?? "cotomi-fast-v2.0";
+    const candidates = necBaseCandidates(process.env.NEC_AGENTIC_AI_BASE_URL ?? "");
+    if (candidates.length === 0) {
+      throw new LlmProviderError("nec-cotomi", "NEC_AGENTIC_AI_BASE_URL が未設定です");
+    }
+    let lastErr: unknown;
+    for (const baseUrl of candidates) {
+      try {
+        const r = await createOpenAiCompatibleProvider({
+          providerName: "nec-cotomi",
+          baseUrl,
+          apiKey: process.env.NEC_AGENTIC_AI_API_KEY,
+          model,
+        }).summarizeIssue(input);
+        console.info(`nec-cotomi: 応答OK model=${model} path=${pathOf(baseUrl)}/chat/completions`);
+        return r;
+      } catch (err) {
+        lastErr = err;
+        const is404 = err instanceof LlmProviderError && err.message.includes("APIエラー(404)");
+        console.warn(`nec-cotomi: 失敗 model=${model} path=${pathOf(baseUrl)}/chat/completions ${is404 ? "(404・次の候補を試します)" : ""}`);
+        if (!is404) throw err;
+      }
+    }
+    throw lastErr;
   },
 };

@@ -758,7 +758,7 @@ details.bgDetails>summary{cursor:pointer;font-weight:800;font-size:13px;color:#4
         <select id="chatProvider" title="回答に使うAIモデルを選べます(未選択時はClaude)">
           <option value="anthropic">Claude(既定・安定)</option>
           <option value="sakura-llmjp">LLM-jp(さくら・国産)</option>
-          <option value="nec-cotomi">cotomi(NEC・国産・評価用〜11/30)</option>
+          <option value="nec-cotomi">cotomi(NEC・国産)</option>
         </select>
       </div>
       <div class="chatRow">
@@ -997,7 +997,7 @@ renderRadar('radarChart', window.__radarScores = {legitimacy:20, evidence:20, al
       });
       if (!res.ok) throw new Error('request failed');
       var data = await res.json();
-      var modelNote = (data.provider && data.provider !== 'anthropic') ? ('\n\n(回答モデル: ' + data.provider + ')') : '';
+      var __ml = {'anthropic':'Claude','sakura-llmjp':'LLM-jp','nec-cotomi':'cotomi'}; var __sel = providerSelect ? providerSelect.value : ''; var modelNote = data.provider ? ('\n\n(回答モデル: ' + (__ml[data.provider] || data.provider) + ((__sel && __sel !== data.provider) ? '。選んだ' + (__ml[__sel] || __sel) + 'では回答できなかったため、Claudeで回答しました' : '') + ')') : '';
       appendMsg('ai', data.draft + modelNote);
     } catch (e) {
       errEl.style.display = 'block';
