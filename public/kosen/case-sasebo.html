@@ -537,7 +537,7 @@ window.__kosenApplyWeakNotes = function(notes){
   function appendMsg(role, text){
     var div = document.createElement('div');
     div.className = 'chatMsg ' + role;
-    div.textContent = text;
+    if (role === 'ai' && window.chatRenderMarkdown) { window.chatRenderMarkdown(div, text); } else { div.textContent = text; }
     log.appendChild(div);
     log.scrollTop = log.scrollHeight;
   }
@@ -583,5 +583,6 @@ window.__kosenApplyWeakNotes = function(notes){
 </script>
 <script src="/js/kosen-cell-editor.js"></script>
 <script src="/js/llm-license-note.js"></script>
+<script src="/js/chat-markdown.js"></script>
 </body>
 </html>

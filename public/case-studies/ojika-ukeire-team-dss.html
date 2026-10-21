@@ -1034,7 +1034,7 @@ renderRadar('radarChart', window.__radarScores = {legitimacy:30, evidence:20, al
   function appendMsg(role, text){
     var div = document.createElement('div');
     div.className = 'chatMsg ' + role;
-    div.textContent = text;
+    if (role === 'ai' && window.chatRenderMarkdown) { window.chatRenderMarkdown(div, text); } else { div.textContent = text; }
     log.appendChild(div);
     log.scrollTop = log.scrollHeight;
   }
@@ -1194,6 +1194,7 @@ renderRadar('radarChart', window.__radarScores = {legitimacy:30, evidence:20, al
 </script>
 <script src="/js/dashboard-cell-editor.js"></script>
 <script src="/js/llm-license-note.js"></script>
+<script src="/js/chat-markdown.js"></script>
 <script src="/js/dashboard-left-menu.js"></script>
 <script>
 window.addEventListener('load',function(){
